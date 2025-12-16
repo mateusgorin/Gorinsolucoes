@@ -6,32 +6,32 @@ import { Layout, Smartphone, Search, Gauge, Globe } from 'lucide-react';
 const services = [
   {
     icon: Layout,
-    title: "WEB_DESIGN",
-    desc: "Interfaces exclusivas focadas em identidade visual de alta tecnologia.",
+    title: "CRIAÇÃO_DE_SITES",
+    desc: "Sites institucionais e profissionais com design exclusivo que fortalecem sua marca.",
     cols: "md:col-span-2"
   },
   {
     icon: Smartphone,
-    title: "RESPONSIVIDADE",
-    desc: "Adaptação fluida para todos os dispositivos e resoluções.",
+    title: "SITES_RESPONSIVOS",
+    desc: "Layouts que funcionam perfeitamente em celulares, tablets e desktops.",
     cols: "md:col-span-1"
   },
   {
     icon: Search,
     title: "OTIMIZAÇÃO_SEO",
-    desc: "Protocolos avançados para indexação e visibilidade máxima.",
+    desc: "Estratégias para colocar seu site na primeira página do Google e atrair clientes.",
     cols: "md:col-span-2"
   },
   {
     icon: Gauge,
-    title: "PERFORMANCE",
-    desc: "Velocidade de processamento extrema para retenção de usuários.",
+    title: "SITES_RÁPIDOS",
+    desc: "Performance extrema para garantir que seu cliente não abandone a página.",
     cols: "md:col-span-1"
   },
   {
     icon: Globe,
     title: "LANDING_PAGES",
-    desc: "Páginas de conversão tática para objetivos específicos.",
+    desc: "Páginas de alta conversão focadas em vendas e captura de leads.",
     cols: "md:col-span-3"
   }
 ];
@@ -42,7 +42,7 @@ export const Services: React.FC = () => {
       <div className="absolute inset-0 bg-cyber-grid bg-[length:20px_20px] opacity-10" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading title="MÓDULOS_DO_SISTEMA" subtitle="CAPACIDADES" />
+        <SectionHeading title="NOSSAS_SOLUÇÕES" subtitle="SERVIÇOS" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {services.map((service, idx) => (
@@ -59,7 +59,7 @@ export const Services: React.FC = () => {
                 <div className="p-3 bg-cyber-primary/10 border border-cyber-primary/30 text-cyber-primary group-hover:bg-cyber-primary group-hover:text-black transition-colors">
                   <service.icon size={24} />
                 </div>
-                <div className="text-cyber-secondary/50 font-mono text-xs">MOD_0{idx + 1}</div>
+                <div className="text-cyber-secondary/50 font-mono text-xs">SRV_0{idx + 1}</div>
               </div>
               
               <h3 className="text-xl font-mono font-bold text-white mb-3 tracking-wide group-hover:text-cyber-primary transition-colors">

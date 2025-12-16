@@ -14,21 +14,21 @@ interface ProjectData {
 const projects: ProjectData[] = [
   {
     title: "MÃOS_DE_LEIDE",
-    category: "INSTITUCIONAL",
-    tags: ["REACT", "DESIGN", "UI/UX"],
-    // Imagem removida para ativar o fallback "Em Construção" (Porquinho)
-    link: "#" 
+    category: "SITE_INSTITUCIONAL",
+    tags: ["REACT", "DESIGN", "SEO"],
+    link: "https://www.maosdeleide.com.br",
+    image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
   },
   {
     title: "GRID_SYSTEM",
     category: "WEB_APP",
-    tags: ["TYPESCRIPT", "API", "CLOUD"],
+    tags: ["TYPESCRIPT", "API", "DASHBOARD"],
     link: "#"
   },
   {
     title: "ARCH_MODERN",
-    category: "INSTITUCIONAL",
-    tags: ["GATSBY", "MOTION", "3D"],
+    category: "LANDING_PAGE",
+    tags: ["PERFORMANCE", "MOTION", "3D"],
     link: "#"
   }
 ];
@@ -57,7 +57,7 @@ export const Projects: React.FC = () => {
       <div className="absolute left-0 top-1/2 w-full h-[1px] bg-cyber-primary/10" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading title="BANCO_DE_DADOS_PROJETOS" subtitle="LOGS_RECENTES" />
+        <SectionHeading title="PORTFÓLIO_RECENTE" subtitle="PROJETOS_ENTREGUES" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, idx) => (
@@ -175,11 +175,11 @@ export const Projects: React.FC = () => {
                          rel="noopener noreferrer" 
                          className="flex items-center gap-2 text-sm font-mono text-white hover:text-cyber-primary transition-colors cursor-pointer"
                        >
-                         <ExternalLink size={16} /> VER_ONLINE
+                         <ExternalLink size={16} /> VISITAR_SITE
                        </a>
                      ) : (
                        <span className="flex items-center gap-2 text-sm font-mono text-gray-500 cursor-not-allowed">
-                         <ExternalLink size={16} /> OFFLINE
+                         <ExternalLink size={16} /> EM_BREVE
                        </span>
                      )}
                   </div>
@@ -195,7 +195,7 @@ export const Projects: React.FC = () => {
             onClick={handleScrollToContact}
             className="inline-block text-cyber-primary font-mono text-sm border-b border-cyber-primary/30 pb-1 hover:border-cyber-primary hover:shadow-[0_2px_10px_rgba(0,240,255,0.3)] transition-all cursor-pointer"
           >
-            ACESSAR_ARQUIVO_COMPLETO -{'>'}
+            SOLICITAR_MEU_PROJETO -{'>'}
           </a>
         </div>
       </div>

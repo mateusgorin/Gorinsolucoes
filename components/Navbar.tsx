@@ -14,12 +14,13 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleWindowScroll);
   }, []);
 
+  // Links renomeados para clareza e SEO
   const navLinks = [
-    { name: 'INÍCIO_SISTEMA', href: '#home' },
-    { name: 'DADOS_SOBRE', href: '#about' },
-    { name: 'SERVIÇOS_CORE', href: '#services' },
-    { name: 'LOGS_PROJETOS', href: '#projects' },
-    { name: 'COMUNICAÇÃO', href: '#contact' },
+    { name: 'INÍCIO', href: '#home' },
+    { name: 'SOBRE A GORIN', href: '#about' },
+    { name: 'SERVIÇOS', href: '#services' },
+    { name: 'PORTFÓLIO', href: '#projects' },
+    { name: 'CONTATO', href: '#contact' },
   ];
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -87,7 +88,7 @@ export const Navbar: React.FC = () => {
               onClick={(e) => handleScroll(e, '#contact')}
               className="ml-4 px-6 py-2 border border-cyber-primary/50 text-cyber-primary font-mono text-xs hover:bg-cyber-primary hover:text-black transition-all clip-corner-sm cursor-pointer"
             >
-              INICIAR_CONTATO
+              SOLICITAR ORÇAMENTO
             </a>
           </div>
 
@@ -128,7 +129,7 @@ export const Navbar: React.FC = () => {
                 onClick={(e) => handleScroll(e, '#contact')}
                 className="block mt-6 text-center w-full py-3 bg-cyber-primary/10 border border-cyber-primary text-cyber-primary font-mono text-sm clip-corner-sm hover:bg-cyber-primary hover:text-black transition-colors cursor-pointer"
               >
-                EXECUTAR_CONTATO
+                SOLICITAR ORÇAMENTO
               </a>
             </div>
           </motion.div>

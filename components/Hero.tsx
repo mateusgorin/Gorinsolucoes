@@ -5,14 +5,13 @@ import { ChevronDown, Zap } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   // Configuração da animação de contagem
-  // Adicionando <HTMLDivElement> para corrigir erro de tipagem estrita
   const statsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(statsRef, { once: true, margin: "-100px" });
   const [count, setCount] = useState(20);
 
   useEffect(() => {
     if (isInView) {
-      const duration = 2500; // Aumentado para 2.5s para ser mais suave (antes 1.5s)
+      const duration = 2500; 
       const steps = 100 - 20;
       const intervalTime = duration / steps;
       
@@ -51,26 +50,25 @@ export const Hero: React.FC = () => {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm">
               <span className="w-2 h-2 bg-green-500 animate-ping" />
-              <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Status do Sistema: Online</span>
+              <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-white mb-6 leading-none">
-              FUTURO DO <br />
+              CRIAÇÃO DE <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">
-                WEB_DEV
+                SITES_WEB
               </span>
             </h1>
             
             <p className="font-mono text-gray-400 text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4">
-              <span className="text-cyber-primary">{">>>"}</span> Inicializando soluções digitais inovadoras...
+              <span className="text-cyber-primary">{">>>"}</span> Desenvolvimento Web de Alta Performance.
               <br/>
-              Transformando conceitos em estruturas cibernéticas de alta performance.
-              Estética avançada. Funcionalidade crítica.
+              Ajudamos empresas e profissionais a aumentarem suas vendas com sites rápidos, modernos e otimizados para o Google.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-              <Button href="#contact" icon variant="primary">INICIAR_PROJETO</Button>
-              <Button href="#projects" variant="outline">VER_PROJETOS</Button>
+              <Button href="#contact" icon variant="primary">SOLICITAR_ORÇAMENTO</Button>
+              <Button href="#projects" variant="outline">VER_PORTFÓLIO</Button>
             </div>
           </motion.div>
 
@@ -99,7 +97,7 @@ export const Hero: React.FC = () => {
                    <div className="font-mono text-4xl font-bold text-white tracking-widest tabular-nums">
                      {count}%
                    </div>
-                   <div className="font-mono text-xs text-cyber-secondary uppercase">Performance Otimizada</div>
+                   <div className="font-mono text-xs text-cyber-secondary uppercase">Performance SEO</div>
                    
                    {/* Loading Bar */}
                    <div className="w-32 h-1 bg-cyber-slate mx-auto mt-2 overflow-hidden rounded-full">
