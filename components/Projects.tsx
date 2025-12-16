@@ -16,8 +16,8 @@ const projects: ProjectData[] = [
     title: "MÃOS_DE_LEIDE",
     category: "INSTITUCIONAL",
     tags: ["REACT", "DESIGN", "UI/UX"],
-    image: "https://i.ibb.co/nsBxHwzv/Screenshot-20251215-144807-Chrome.jpg",
-    link: "https://maosdeleide.netlify.app/"
+    // Imagem removida para ativar o fallback "Em Construção" (Porquinho)
+    link: "#" 
   },
   {
     title: "GRID_SYSTEM",
@@ -168,14 +168,20 @@ export const Projects: React.FC = () => {
                   </div>
 
                   <div className="flex gap-4 pt-4 border-t border-white/5 mt-auto">
-                     <a 
-                       href={project.link}
-                       target="_blank"
-                       rel="noopener noreferrer" 
-                       className="flex items-center gap-2 text-sm font-mono text-white hover:text-cyber-primary transition-colors cursor-pointer"
-                     >
-                       <ExternalLink size={16} /> VER_ONLINE
-                     </a>
+                     {project.link !== "#" ? (
+                       <a 
+                         href={project.link}
+                         target="_blank"
+                         rel="noopener noreferrer" 
+                         className="flex items-center gap-2 text-sm font-mono text-white hover:text-cyber-primary transition-colors cursor-pointer"
+                       >
+                         <ExternalLink size={16} /> VER_ONLINE
+                       </a>
+                     ) : (
+                       <span className="flex items-center gap-2 text-sm font-mono text-gray-500 cursor-not-allowed">
+                         <ExternalLink size={16} /> OFFLINE
+                       </span>
+                     )}
                   </div>
                 </div>
               </div>

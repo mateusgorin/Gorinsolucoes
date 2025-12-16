@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SectionHeading } from './ui/SectionHeading';
-import { Instagram, MessageSquare, MapPin, Radio } from 'lucide-react';
+import { Instagram, MapPin, Radio } from 'lucide-react';
 import { Button } from './ui/Button';
 
 export const Contact: React.FC = () => {
@@ -12,12 +12,6 @@ export const Contact: React.FC = () => {
 
   // Número para contato atualizado
   const phoneNumber = "5561981290099"; 
-  const displayPhone = "(61) 98129-0099";
-
-  const handleWhatsAppDirect = () => {
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Olá! Gostaria de solicitar um orçamento.")}`;
-    window.open(url, '_blank');
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,16 +59,6 @@ export const Contact: React.FC = () => {
                     <span className="font-mono text-gray-400 group-hover:text-cyber-primary transition-colors">@mateusgorin</span>
                   </a>
                   
-                  <button onClick={handleWhatsAppDirect} className="flex items-center gap-4 group w-full text-left">
-                    <div className="w-12 h-12 bg-cyber-slate border border-cyber-primary/20 flex items-center justify-center group-hover:bg-cyber-primary group-hover:text-black transition-all clip-corner-sm">
-                      <MessageSquare size={20} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-mono text-gray-400 group-hover:text-cyber-primary transition-colors">{displayPhone}</span>
-                      <span className="text-xs text-gray-600 group-hover:text-cyber-primary/70">WhatsApp / Celular</span>
-                    </div>
-                  </button>
-
                   <div className="flex items-center gap-4 group">
                     <div className="w-12 h-12 bg-cyber-slate border border-cyber-primary/20 flex items-center justify-center">
                       <MapPin size={20} className="text-cyber-secondary" />
