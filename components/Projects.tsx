@@ -18,18 +18,6 @@ const projects: ProjectData[] = [
     tags: ["REACT", "DESIGN", "SEO"],
     link: "https://www.maosdeleide.com.br",
     image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
-  },
-  {
-    title: "GRID_SYSTEM",
-    category: "WEB_APP",
-    tags: ["TYPESCRIPT", "API", "DASHBOARD"],
-    link: "#"
-  },
-  {
-    title: "ARCH_MODERN",
-    category: "LANDING_PAGE",
-    tags: ["PERFORMANCE", "MOTION", "3D"],
-    link: "#"
   }
 ];
 

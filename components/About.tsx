@@ -6,7 +6,7 @@ import { Terminal } from 'lucide-react';
 export const About: React.FC = () => {
   const stats = [
     { label: 'ANOS_MERCADO', value: '01' },
-    { label: 'PROJETOS_ENTREGUES', value: '03' },
+    { label: 'PROJETOS_ENTREGUES', value: '01' },
     { label: 'SATISFAÇÃO', value: '100%' },
   ];
 
