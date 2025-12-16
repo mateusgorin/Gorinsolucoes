@@ -44,9 +44,32 @@ export const Button: React.FC<ButtonProps> = ({
     </>
   );
 
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href?.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.replace('#', '');
+      const element = document.getElementById(targetId);
+      
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
+
   if (href) {
     return (
-      <a href={href} className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`}>
+      <a 
+        href={href} 
+        onClick={handleSmoothScroll}
+        className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`}
+      >
         {content}
       </a>
     );

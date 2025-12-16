@@ -23,10 +23,10 @@ export const Navbar: React.FC = () => {
   ];
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault(); // Previne comportamento padrão que pode falhar
-    setIsOpen(false); // Fecha o menu imediatamente
+    e.preventDefault();
+    setIsOpen(false);
     
-    // Pequeno timeout para garantir que o menu feche visualmente antes/durante o scroll
+    // Pequeno timeout para garantir que o menu mobile feche antes de calcular a posição
     setTimeout(() => {
       const targetId = href.replace('#', '');
       const element = document.getElementById(targetId);
