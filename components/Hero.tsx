@@ -53,7 +53,7 @@ export const Hero: React.FC = () => {
               <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-white mb-6 leading-none">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-white mb-6 leading-tight">
               CRIAÇÃO DE <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">
                 SITES_WEB
@@ -63,12 +63,12 @@ export const Hero: React.FC = () => {
             <p className="font-mono text-gray-400 text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4">
               <span className="text-cyber-primary">{">>>"}</span> Desenvolvimento Web de Alta Performance.
               <br/>
-              Ajudamos empresas e profissionais a aumentarem suas vendas com sites rápidos, modernos e otimizados para o Google.
+              Ajudamos empresas e profissionais a fortalecer sua presença digital com sites rápidos, modernos, com design exclusivo e otimizados para o Google.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
-              <Button href="#contact" icon variant="primary">SOLICITAR_ORÇAMENTO</Button>
-              <Button href="#projects" variant="outline">VER_PORTFÓLIO</Button>
+              <Button href="#contact" icon variant="primary">SOLICITAR ORÇAMENTO</Button>
+              <Button href="#projects" variant="outline">VER PORTFÓLIO</Button>
             </div>
           </motion.div>
 
@@ -97,7 +97,7 @@ export const Hero: React.FC = () => {
                    <div className="font-mono text-4xl font-bold text-white tracking-widest tabular-nums">
                      {count}%
                    </div>
-                   <div className="font-mono text-xs text-cyber-secondary uppercase">Performance SEO</div>
+                   <div className="font-mono text-xs text-cyber-secondary uppercase">Performance Otimizada</div>
                    
                    {/* Loading Bar */}
                    <div className="w-32 h-1 bg-cyber-slate mx-auto mt-2 overflow-hidden rounded-full">
@@ -120,7 +120,7 @@ export const Hero: React.FC = () => {
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <a href="#about" className="text-cyber-primary/50 hover:text-cyber-primary transition-colors">
+        <a href="#about" className="text-cyber-primary/50 hover:text-cyber-primary transition-colors" aria-label="Rolar para baixo">
           <ChevronDown size={32} />
         </a>
       </div>

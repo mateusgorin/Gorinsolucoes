@@ -6,7 +6,7 @@ import { Terminal } from 'lucide-react';
 export const About: React.FC = () => {
   const stats = [
     { label: 'ANOS_MERCADO', value: '01' },
-    { label: 'PROJETOS_ENTREGUES', value: '01' },
+    { label: 'PROJETOS_ENTREGUES', value: '02' },
     { label: 'SATISFAÇÃO', value: '100%' },
   ];
 
@@ -40,7 +40,7 @@ export const About: React.FC = () => {
                  
                  {/* Tech Overlay */}
                  <div className="absolute bottom-6 right-6 bg-black/90 border border-cyber-primary/50 p-2 font-mono text-xs text-cyber-primary flex items-center gap-2 backdrop-blur-md shadow-lg z-10">
-                   LOCAL: BRASÍLIA/DF
+                   LOCALIZAÇÃO: BRASÍLIA/DF
                  </div>
                </div>
              </div>
@@ -55,10 +55,10 @@ export const About: React.FC = () => {
             
             <div className="space-y-6 text-gray-400 text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
               <p>
-                <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> A Gorin Soluções é uma agência de tecnologia focada em criar experiências digitais que geram resultados.
+                <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> A <strong>Gorin Soluções</strong> é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
               </p>
               <p>
-                Sediados em Brasília, desenvolvemos <strong>sites, landing pages e sistemas web</strong> com foco em design moderno e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
+                Sediados em <strong>Brasília</strong>, desenvolvemos sites, landing pages e sistemas web com foco em design moderno, usabilidade e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
               </p>
             </div>
 
@@ -72,7 +72,7 @@ export const About: React.FC = () => {
             </div>
 
             <div className="mt-10 flex flex-wrap gap-3">
-               {["Web_Design", "Sites_Responsivos", "SEO_Google", "Sistemas_Web"].map((tag, i) => (
+               {["CRIAÇÃO DE SITES", "RESPONSIVIDADE", "SEO TÉCNICO", "PERFORMANCE"].map((tag, i) => (
                  <span key={i} className="px-3 py-1 bg-cyber-primary/5 border border-cyber-primary/30 text-xs font-mono text-cyber-primary flex items-center gap-2 clip-corner-sm hover:bg-cyber-primary/20 transition-colors cursor-crosshair">
                    <Terminal size={12} />
                    {tag}

@@ -13,11 +13,25 @@ interface ProjectData {
 
 const projects: ProjectData[] = [
   {
-    title: "MÃOS_DE_LEIDE",
-    category: "SITE_INSTITUCIONAL",
-    tags: ["REACT", "DESIGN", "SEO"],
+    title: "MÃOS DE LEIDE",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "DESIGN UI", "SEO"],
     link: "https://www.maosdeleide.com.br",
     image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
+  },
+  {
+    title: "AMORIM ERGONOMIA",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "PERFORMANCE", "UI/UX"],
+    link: "https://amorim-ergonomia.vercel.app/",
+    image: "https://i.ibb.co/kgFcqbrg/Captura-de-tela-2025-12-18-143656.jpg"
+  },
+  {
+    title: "EM BREVE",
+    category: "LANDING PAGE",
+    tags: ["REACT", "PERFORMANCE", "ANIMATIONS"],
+    link: "#",
+    image: ""
   }
 ];
 
@@ -45,7 +59,7 @@ export const Projects: React.FC = () => {
       <div className="absolute left-0 top-1/2 w-full h-[1px] bg-cyber-primary/10" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading title="PORTFÓLIO_RECENTE" subtitle="PROJETOS_ENTREGUES" />
+        <SectionHeading title="PROJETOS RECENTES" subtitle="PORTFÓLIO" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, idx) => (
@@ -126,7 +140,7 @@ export const Projects: React.FC = () => {
                         <div className="border-2 border-white/20 px-4 py-2 bg-black/50 backdrop-blur-sm rounded-sm">
                            <span className="text-white font-mono font-bold uppercase tracking-widest text-sm flex items-center gap-2">
                              <span className="w-2 h-2 bg-cyber-primary rounded-full animate-pulse" />
-                             Em Construção
+                             EM DESENVOLVIMENTO
                            </span>
                         </div>
                       </div>
@@ -163,11 +177,11 @@ export const Projects: React.FC = () => {
                          rel="noopener noreferrer" 
                          className="flex items-center gap-2 text-sm font-mono text-white hover:text-cyber-primary transition-colors cursor-pointer"
                        >
-                         <ExternalLink size={16} /> VISITAR_SITE
+                         <ExternalLink size={16} /> VISITAR SITE
                        </a>
                      ) : (
                        <span className="flex items-center gap-2 text-sm font-mono text-gray-500 cursor-not-allowed">
-                         <ExternalLink size={16} /> EM_BREVE
+                         <ExternalLink size={16} /> EM BREVE
                        </span>
                      )}
                   </div>
@@ -183,7 +197,7 @@ export const Projects: React.FC = () => {
             onClick={handleScrollToContact}
             className="inline-block text-cyber-primary font-mono text-sm border-b border-cyber-primary/30 pb-1 hover:border-cyber-primary hover:shadow-[0_2px_10px_rgba(0,240,255,0.3)] transition-all cursor-pointer"
           >
-            SOLICITAR_MEU_PROJETO -{'>'}
+            INICIAR MEU PROJETO -{'>'}
           </a>
         </div>
       </div>
