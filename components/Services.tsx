@@ -261,7 +261,7 @@ export const Services: React.FC = () => {
             href="#contact" 
             className="inline-flex items-center gap-2 px-10 py-4 bg-cyber-primary text-black font-mono font-bold uppercase tracking-widest clip-corner hover:bg-white hover:scale-105 transition-all relative z-10"
           >
-            SOLICITAR CONSULTORIA <Zap size={18} />
+            CONTATO <Zap size={18} />
           </a>
         </m.div>
       </div>

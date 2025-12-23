@@ -86,7 +86,7 @@ export const Hero: React.FC = () => {
               transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6"
             >
-              <Button href="#contact" icon variant="primary">SOLICITAR ORÇAMENTO</Button>
+              <Button href="#contact" icon variant="primary">CONTATO</Button>
               <Button href="#projects" variant="outline">VER PORTFÓLIO</Button>
             </m.div>
           </m.div>
