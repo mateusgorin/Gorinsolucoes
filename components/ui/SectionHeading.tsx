@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -8,9 +9,12 @@ interface SectionHeadingProps {
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle, align = 'center' }) => {
+  // Fix: Use casted motion to bypass environment-specific type errors
+  const m = motion as any;
+
   return (
     <div className={`mb-16 ${align === 'center' ? 'text-center' : 'text-left'}`}>
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
@@ -19,9 +23,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         <span className="w-2 h-2 bg-cyber-primary animate-pulse" />
         {subtitle}
         <span className="w-8 h-[1px] bg-cyber-primary/50" />
-      </motion.div>
+      </m.div>
       
-      <motion.h2 
+      <m.h2 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -29,9 +33,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white uppercase tracking-tighter text-glow"
       >
         {title}
-      </motion.h2>
+      </m.h2>
       
-      <motion.div 
+      <m.div 
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}

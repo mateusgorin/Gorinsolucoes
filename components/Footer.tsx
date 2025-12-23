@@ -1,11 +1,22 @@
+
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export const Footer: React.FC = () => {
+  // Fix: Use casted motion to bypass environment-specific type errors
+  const m = motion as any;
+
   return (
-    <footer className="py-8 border-t border-cyber-primary/20 bg-cyber-black text-center relative">
+    <footer className="py-8 border-t border-cyber-primary/20 bg-cyber-black text-center relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyber-primary to-transparent opacity-50" />
       
-      <div className="container mx-auto px-4">
+      <m.div 
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="container mx-auto px-4"
+      >
         <div className="flex flex-col items-center justify-center gap-4 mb-4">
            {/* Logo Section - Matching Navbar Style */}
            <div className="relative group cursor-pointer">
@@ -33,7 +44,7 @@ export const Footer: React.FC = () => {
         <p className="text-gray-500 text-xs mt-2 font-mono">
           © {new Date().getFullYear()} TODOS OS DIREITOS RESERVADOS.
         </p>
-      </div>
+      </m.div>
     </footer>
   );
 };

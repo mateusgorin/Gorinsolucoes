@@ -64,6 +64,7 @@
               'glitch': 'glitch 1s linear infinite',
               'scan': 'scan 4s linear infinite',
               'float': 'float 6s ease-in-out infinite',
+              'float-slow': 'float-y 8s ease-in-out infinite',
             },
             keyframes: {
               glitch: {
@@ -78,6 +79,10 @@
               float: {
                 '0%, 100%': { transform: 'translateY(0)' },
                 '50%': { transform: 'translateY(-10px)' },
+              },
+              'float-y': {
+                '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                '50%': { transform: 'translateY(-15px) rotate(1deg)' },
               }
             }
           }
@@ -152,6 +157,18 @@
       
       .box-glow {
         box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+          animation-delay: -1ms !important;
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          background-attachment: initial !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0s !important;
+          transition-delay: 0s !important;
+        }
       }
     </style>
 <script type="importmap">

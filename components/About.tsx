@@ -1,9 +1,13 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
 import { Terminal } from 'lucide-react';
 
 export const About: React.FC = () => {
+  // Fix: Use casted motion to bypass environment-specific type errors
+  const m = motion as any;
+
   const stats = [
     { label: 'ANOS_MERCADO', value: '01' },
     { label: 'PROJETOS_ENTREGUES', value: '02' },
@@ -15,7 +19,7 @@ export const About: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -44,7 +48,7 @@ export const About: React.FC = () => {
                  </div>
                </div>
              </div>
-          </motion.div>
+          </m.div>
 
           <div className="order-1 lg:order-2">
             <SectionHeading 

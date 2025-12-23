@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
@@ -36,6 +37,8 @@ const projects: ProjectData[] = [
 ];
 
 export const Projects: React.FC = () => {
+  // Fix: Use casted motion to bypass environment-specific type errors
+  const m = motion as any;
   
   const handleScrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -63,7 +66,7 @@ export const Projects: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -93,7 +96,7 @@ export const Projects: React.FC = () => {
                       
                       <div className="relative z-10 flex flex-col items-center justify-center gap-4">
                         <div className="flex items-end justify-center relative">
-                          <motion.div
+                          <m.div
                             className="absolute -right-8 -top-2 z-20"
                             animate={{ 
                               rotate: [0, -45, 0],
@@ -108,9 +111,9 @@ export const Projects: React.FC = () => {
                             style={{ originX: 0, originY: 1 }}
                           >
                              <Hammer size={28} className="text-cyber-primary" strokeWidth={2} />
-                          </motion.div>
+                          </m.div>
 
-                          <motion.div
+                          <m.div
                             className="relative z-10"
                             animate={{ 
                               scale: [1, 0.95, 1],
@@ -125,16 +128,16 @@ export const Projects: React.FC = () => {
                             }}
                           >
                             <PiggyBank size={64} className="text-white" strokeWidth={1.5} />
-                          </motion.div>
+                          </m.div>
                           
-                          <motion.div
+                          <m.div
                              className="absolute -top-4 right-0 flex gap-1"
                              animate={{ opacity: [0, 1, 0], y: [0, -10, -15] }}
                              transition={{ duration: 0.6, repeat: Infinity, delay: 0.3 }}
                           >
                             <div className="w-1 h-1 bg-cyber-primary rounded-full" />
                             <div className="w-1 h-1 bg-white rounded-full" />
-                          </motion.div>
+                          </m.div>
                         </div>
 
                         <div className="border-2 border-white/20 px-4 py-2 bg-black/50 backdrop-blur-sm rounded-sm">
@@ -187,7 +190,7 @@ export const Projects: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
         

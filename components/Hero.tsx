@@ -1,9 +1,13 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Button } from './ui/Button';
 import { ChevronDown, Zap } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  // Fix: Use casted motion to bypass environment-specific type errors
+  const m = motion as any;
+
   // Configuração da animação de contagem
   const statsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(statsRef, { once: true, margin: "-100px" });
@@ -42,16 +46,21 @@ export const Hero: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
           {/* Text Content */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             className="flex-1 text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm">
+            <m.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
+            >
               <span className="w-2 h-2 bg-green-500 animate-ping" />
               <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
-            </div>
+            </m.div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-white mb-6 leading-tight">
               CRIAÇÃO DE <br />
@@ -60,25 +69,35 @@ export const Hero: React.FC = () => {
               </span>
             </h1>
             
-            <p className="font-mono text-gray-400 text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4">
+            <m.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="font-mono text-gray-400 text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4"
+            >
               <span className="text-cyber-primary">{">>>"}</span> Desenvolvimento Web de Alta Performance.
               <br/>
               Ajudamos empresas e profissionais a fortalecer sua presença digital com sites rápidos, modernos, com design exclusivo e otimizados para o Google.
-            </p>
+            </m.p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+            <m.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6"
+            >
               <Button href="#contact" icon variant="primary">SOLICITAR ORÇAMENTO</Button>
               <Button href="#projects" variant="outline">VER PORTFÓLIO</Button>
-            </div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
           {/* Visual Element / HUD */}
-          <motion.div 
+          <m.div 
             ref={statsRef}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-1 w-full max-w-lg relative"
+            className="flex-1 w-full max-w-lg relative animate-float-slow"
           >
             <div className="relative aspect-square border border-cyber-primary/20 bg-cyber-slate/50 clip-corner p-8 backdrop-blur-sm box-glow">
               {/* HUD Decorations */}
@@ -101,7 +120,7 @@ export const Hero: React.FC = () => {
                    
                    {/* Loading Bar */}
                    <div className="w-32 h-1 bg-cyber-slate mx-auto mt-2 overflow-hidden rounded-full">
-                     <motion.div 
+                     <m.div 
                        className="h-full bg-cyber-primary box-glow"
                        initial={{ width: "20%" }}
                        animate={{ width: `${count}%` }}
@@ -114,7 +133,7 @@ export const Hero: React.FC = () => {
             
             {/* Background geometric shapes */}
             <div className="absolute -z-10 top-10 -right-10 w-full h-full border border-cyber-secondary/20 clip-corner bg-cyber-secondary/5" />
-          </motion.div>
+          </m.div>
 
         </div>
       </div>
