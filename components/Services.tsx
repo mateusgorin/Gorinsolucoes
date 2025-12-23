@@ -11,7 +11,6 @@ import {
   Instagram, 
   Globe, 
   Star, 
-  Cpu, 
   ShieldCheck, 
   PenTool,
   BarChart3,
