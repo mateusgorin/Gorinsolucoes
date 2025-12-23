@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SectionHeading } from './ui/SectionHeading';
 import { Instagram, MapPin, Radio } from 'lucide-react';
@@ -96,21 +97,29 @@ export const Contact: React.FC = () => {
                 </div>
 
                 {/* Mapa do Brasil Estilizado */}
-                <div className="mt-auto pt-6 relative w-full h-48 sm:h-64 opacity-90">
-                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_10px_rgba(0,240,255,0.2)] overflow-visible">
-                      {/* Grid sutil de fundo apenas na área do mapa */}
+                <div className="mt-auto pt-6 relative w-full h-48 sm:h-64 opacity-95">
+                   <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(0,240,255,0.1)] overflow-visible">
                       <defs>
                         <pattern id="grid-map" width="10" height="10" patternUnits="userSpaceOnUse">
-                          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0, 240, 255, 0.05)" strokeWidth="0.5"/>
+                          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0, 240, 255, 0.1)" strokeWidth="0.5"/>
                         </pattern>
+                        {/* Keyframes para o piscar aleatório mais intenso */}
+                        <style>{`
+                          @keyframes map-flicker-vivid {
+                            0%, 100% { opacity: 0.6; filter: blur(0px) brightness(1); }
+                            50% { opacity: 1; filter: blur(1.5px) brightness(1.5); }
+                          }
+                          .animate-flicker-vivid {
+                            animation: map-flicker-vivid linear infinite;
+                          }
+                        `}</style>
                       </defs>
-                      <path d="M 35 5 L 90 25 L 50 95 L 5 35 Z" fill="url(#grid-map)" opacity="0.5" />
+                      <path d="M 35 5 L 90 25 L 50 95 L 5 35 Z" fill="url(#grid-map)" opacity="0.6" />
 
                       {/* Conexões (linhas) para efeito de rede */}
-                      <g stroke="rgba(0, 240, 255, 0.1)" strokeWidth="0.2">
+                      <g stroke="rgba(0, 240, 255, 0.15)" strokeWidth="0.3">
                         {mapPoints.map((p, i) => {
                           if (i < mapPoints.length - 1) {
-                             // Conecta pontos próximos para efeito visual
                              const next = mapPoints[i+1];
                              if (Math.abs(p.x - next.x) < 30 && Math.abs(p.y - next.y) < 30) {
                                return <line key={`l-${i}`} x1={p.x} y1={p.y} x2={next.x} y2={next.y} />;
@@ -118,36 +127,65 @@ export const Contact: React.FC = () => {
                           }
                           return null;
                         })}
-                        {/* Linhas explícitas para o DF */}
                         {mapPoints.map((p) => {
-                           if(p.id !== 'DF') return <line key={`ldf-${p.x}`} x1={55} y1={53} x2={p.x} y2={p.y} stroke="rgba(112, 0, 255, 0.1)" />;
+                           if(p.id !== 'DF') return <line key={`ldf-${p.x}`} x1={55} y1={53} x2={p.x} y2={p.y} stroke="rgba(112, 0, 255, 0.15)" />;
                            return null;
                         })}
                       </g>
 
-                      {/* Pontos dos Estados */}
-                      {mapPoints.map((p, i) => (
-                         <g key={i}>
-                           {p.id === 'DF' ? (
-                             <>
-                               {/* Efeito Pulsante para o DF */}
-                               <circle cx={p.x} cy={p.y} r="8" className="fill-cyber-secondary/20 animate-ping origin-center" />
-                               <circle cx={p.x} cy={p.y} r="3" className="fill-cyber-secondary drop-shadow-[0_0_8px_rgba(112,0,255,1)]" />
-                               <circle cx={p.x} cy={p.y} r="1" className="fill-white" />
-                             </>
-                           ) : (
-                             <circle
-                               cx={p.x}
-                               cy={p.y}
-                               r="1.5"
-                               className="fill-cyber-primary/80 transition-all duration-500 hover:r-2 hover:fill-white"
-                             />
-                           )}
-                         </g>
-                      ))}
+                      {/* Pontos dos Estados com brilho evidenciado */}
+                      {mapPoints.map((p, i) => {
+                         const randomDelay = (i * 0.21).toFixed(2);
+                         const randomDuration = (1.2 + (i % 4) * 0.3).toFixed(2);
+                         
+                         return (
+                           <g key={i}>
+                             {p.id === 'DF' ? (
+                               <>
+                                 <circle 
+                                   cx={p.x} cy={p.y} r="8" 
+                                   className="fill-cyber-secondary/40 animate-ping origin-center" 
+                                 />
+                                 <circle 
+                                   cx={p.x} cy={p.y} r="4.5" 
+                                   className="fill-cyber-secondary/50 blur-[2px]"
+                                 />
+                                 <circle 
+                                   cx={p.x} cy={p.y} r="3.5" 
+                                   className="fill-cyber-secondary drop-shadow-[0_0_15px_rgba(112,0,255,1)]" 
+                                   style={{ animation: `map-flicker-vivid 0.8s infinite alternate` }}
+                                 />
+                                 <circle cx={p.x} cy={p.y} r="1.2" className="fill-white" />
+                               </>
+                             ) : (
+                               <>
+                                 {/* Glow fixo mais forte */}
+                                 <circle
+                                   cx={p.x}
+                                   cy={p.y}
+                                   r="4"
+                                   className="fill-cyber-primary/30 blur-[1px]"
+                                 />
+                                 {/* Ponto principal piscante e maior */}
+                                 <circle
+                                   cx={p.x}
+                                   cy={p.y}
+                                   r="2"
+                                   className="fill-cyber-primary animate-flicker-vivid drop-shadow-[0_0_8px_rgba(0,240,255,1)]"
+                                   style={{ 
+                                     animationDelay: `${randomDelay}s`,
+                                     animationDuration: `${randomDuration}s`
+                                   }}
+                                 />
+                                 <circle cx={p.x} cy={p.y} r="0.6" className="fill-white opacity-80" />
+                               </>
+                             )}
+                           </g>
+                         );
+                      })}
                    </svg>
-                   <div className="absolute bottom-0 right-0 text-[10px] font-mono text-cyber-primary/30">
-                     BRA_NET_COVERAGE_100%
+                   <div className="absolute bottom-0 right-0 text-[10px] font-mono text-cyber-primary/40 bg-cyber-black/50 px-2 py-1 backdrop-blur-sm">
+                     BRA_NET_ACTIVE_NODES: {mapPoints.length}
                    </div>
                 </div>
               </div>

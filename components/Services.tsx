@@ -82,7 +82,7 @@ const services = [
   {
     icon: Globe,
     title: "CONEXÃO GOOGLE",
-    desc: "Configuração completa de Google Meu Negócio, Analytics e Search Console no seu projeto.",
+    desc: "Configuração completa e otimizada do Google Meu Negócio para o seu projeto.",
     category: "TOOLS"
   },
   {

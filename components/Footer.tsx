@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
            </div>
            
           <span className="font-mono font-bold text-xl tracking-tighter text-white">
-            GORIN<span className="text-cyber-primary">_SOLUÇÕES</span>
+            GORIN <span className="text-cyber-primary">SOLUÇÕES</span>
           </span>
         </div>
         
