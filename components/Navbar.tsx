@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { MoreVertical, X, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -80,7 +79,7 @@ export const Navbar: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             href="#home"
-            onClick={(e: any) => handleNavClick(e, '#home')}
+            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#home')}
             className="group flex items-center gap-3 cursor-pointer" 
           >
             <div className="relative w-10 h-10 flex items-center justify-center bg-cyber-primary/10 border border-cyber-primary/40 clip-corner-sm group-hover:bg-cyber-primary/20 transition-all p-1">
@@ -102,7 +101,7 @@ export const Navbar: React.FC = () => {
               <a 
                 key={link.name} 
                 href={link.href}
-                onClick={(e: any) => handleNavClick(e, link.href)}
+                onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
                 className="font-mono text-[11px] text-gray-400 hover:text-cyber-primary tracking-widest uppercase transition-colors relative group cursor-pointer"
               >
                 <span className="text-cyber-secondary opacity-0 group-hover:opacity-100 transition-opacity mr-1">&gt;</span>
@@ -111,7 +110,7 @@ export const Navbar: React.FC = () => {
             ))}
             <a 
               href="#contact"
-              onClick={(e: any) => handleNavClick(e, '#contact')}
+              onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
               className="px-5 py-2 bg-cyber-primary/10 border border-cyber-primary/50 text-cyber-primary font-mono text-[11px] hover:bg-cyber-primary hover:text-black transition-all clip-corner-sm font-bold tracking-widest"
             >
               CONTATO
@@ -159,7 +158,7 @@ export const Navbar: React.FC = () => {
                     key={link.name}
                     variants={itemVariants}
                     href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
                     className="flex items-center justify-between font-mono text-sm text-gray-400 hover:text-white py-4 border-b border-white/5 transition-all group"
                   >
                     <div className="flex items-center gap-3">
@@ -173,7 +172,7 @@ export const Navbar: React.FC = () => {
                 <m.div variants={itemVariants} className="pt-6">
                   <a 
                     href="#contact"
-                    onClick={(e) => handleNavClick(e, '#contact')}
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
                     className="block w-full text-center py-4 bg-cyber-primary text-black font-mono font-bold text-xs clip-corner tracking-[0.2em] uppercase hover:bg-white transition-colors shadow-[0_0_15px_rgba(0,240,255,0.2)]"
                   >
                     SOLICITAR ORÇAMENTO
