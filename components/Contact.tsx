@@ -29,7 +29,7 @@ export const Contact: React.FC = () => {
   };
 
   // Coordenadas aproximadas para formar o mapa do Brasil (0-100 grid)
-  const mapPoints = [
+  const mapPoints: { x: number; y: number; id?: string }[] = [
     { x: 35, y: 5 },  // RR
     { x: 50, y: 10 }, // AP
     { x: 20, y: 20 }, // AM (Manaus)
