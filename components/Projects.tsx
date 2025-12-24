@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
@@ -28,11 +27,32 @@ const projects: ProjectData[] = [
     image: "https://i.ibb.co/kgFcqbrg/Captura-de-tela-2025-12-18-143656.jpg"
   },
   {
-    title: "EM BREVE",
+    title: "ADVOGADO PALOMA",
     category: "LANDING PAGE",
-    tags: ["REACT", "PERFORMANCE", "ANIMATIONS"],
+    tags: ["REACT", "SEO", "CONVERSÃO"],
+    link: "https://advogadopaloma.vercel.app/",
+    image: "https://i.ibb.co/7xx3zpS2/Captura-de-tela-2025-12-24-142350.jpg"
+  },
+  {
+    title: "RUSSNER AUDIO",
+    category: "LANDING PAGE",
+    tags: ["REACT", "AUDIO", "DESIGN"],
+    link: "https://russneraudio.vercel.app/",
+    image: "https://i.ibb.co/1YTZh9ZR/Captura-de-tela-2025-12-24-143238.jpg"
+  },
+  {
+    title: "GLOBAL LOGISTICS",
+    category: "SISTEMA WEB",
+    tags: ["DASHBOARD", "API", "REACT"],
     link: "#",
-    image: ""
+    // image: undefined - Ativa o modo "Em construção"
+  },
+  {
+    title: "TECH INNOVATION",
+    category: "SITE CORPORATIVO",
+    tags: ["ANIMATIONS", "3D", "UI/UX"],
+    link: "#",
+    // image: undefined - Ativa o modo "Em construção"
   }
 ];
 
