@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { SectionHeading } from './ui/SectionHeading';
 import { Instagram, MapPin, Radio } from 'lucide-react';
@@ -185,7 +184,7 @@ export const Contact: React.FC = () => {
                       })}
                    </svg>
                    <div className="absolute bottom-0 right-0 text-[10px] font-mono text-cyber-primary/40 bg-cyber-black/50 px-2 py-1 backdrop-blur-sm">
-                     BRA_NET_ACTIVE_NODES: {mapPoints.length}
+                     BRA_NET_ACTIVE
                    </div>
                 </div>
               </div>
