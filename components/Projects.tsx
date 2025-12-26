@@ -13,6 +13,13 @@ interface ProjectData {
 
 const projects: ProjectData[] = [
   {
+    title: "BRINCA MÓVEL OFICIAL",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "E-COMMERCE UI", "SEO"],
+    link: "https://brincamovel.vercel.app/",
+    image: "https://i.postimg.cc/DyTbPrhZ/Captura-de-tela-2025-12-26-131258.jpg"
+  },
+  {
     title: "MÃOS DE LEIDE",
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "DESIGN UI", "SEO"],
@@ -41,16 +48,9 @@ const projects: ProjectData[] = [
     image: "https://i.ibb.co/1YTZh9ZR/Captura-de-tela-2025-12-24-143238.jpg"
   },
   {
-    title: "GLOBAL LOGISTICS",
+    title: "EM BREVE",
     category: "SISTEMA WEB",
     tags: ["DASHBOARD", "API", "REACT"],
-    link: "#",
-    // image: undefined - Ativa o modo "Em construção"
-  },
-  {
-    title: "TECH INNOVATION",
-    category: "SITE CORPORATIVO",
-    tags: ["ANIMATIONS", "3D", "UI/UX"],
     link: "#",
     // image: undefined - Ativa o modo "Em construção"
   }
