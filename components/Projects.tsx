@@ -13,7 +13,7 @@ interface ProjectData {
 
 const projects: ProjectData[] = [
   {
-    title: "BRINCA MÓVEL OFICIAL",
+    title: "BRINCA MÓVEL",
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "E-COMMERCE UI", "SEO"],
     link: "https://brincamovel.vercel.app/",
