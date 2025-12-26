@@ -16,7 +16,7 @@ const projects: ProjectData[] = [
     title: "BRINCA MÓVEL",
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "E-COMMERCE UI", "SEO"],
-    link: "https://brincamovel.vercel.app/",
+    link: "https://www.brincamoveloficial.com.br",
     image: "https://i.postimg.cc/DyTbPrhZ/Captura-de-tela-2025-12-26-131258.jpg"
   },
   {
