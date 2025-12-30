@@ -27,27 +27,6 @@ const projects: ProjectData[] = [
     image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
   },
   {
-    title: "AMORIM ERGONOMIA",
-    category: "SITE INSTITUCIONAL",
-    tags: ["REACT", "PERFORMANCE", "UI/UX"],
-    link: "https://amorim-ergonomia.vercel.app/",
-    image: "https://i.ibb.co/kgFcqbrg/Captura-de-tela-2025-12-18-143656.jpg"
-  },
-  {
-    title: "ADVOGADO PALOMA",
-    category: "LANDING PAGE",
-    tags: ["REACT", "SEO", "CONVERSÃO"],
-    link: "https://advogadopaloma.vercel.app/",
-    image: "https://i.ibb.co/7xx3zpS2/Captura-de-tela-2025-12-24-142350.jpg"
-  },
-  {
-    title: "RUSSNER AUDIO",
-    category: "LANDING PAGE",
-    tags: ["REACT", "AUDIO", "DESIGN"],
-    link: "https://russneraudio.vercel.app/",
-    image: "https://i.ibb.co/1YTZh9ZR/Captura-de-tela-2025-12-24-143238.jpg"
-  },
-  {
     title: "EM BREVE",
     category: "SISTEMA WEB",
     tags: ["DASHBOARD", "API", "REACT"],
