@@ -27,6 +27,13 @@ const projects: ProjectData[] = [
     image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
   },
   {
+    title: "AMORIM ERGONOMIA",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "PERFORMANCE", "UI/UX"],
+    link: "https://www.amorimergonomia.com.br",
+    image: "https://i.ibb.co/kgFcqbrg/Captura-de-tela-2025-12-18-143656.jpg"
+  },
+  {
     title: "EM BREVE",
     category: "SISTEMA WEB",
     tags: ["DASHBOARD", "API", "REACT"],
