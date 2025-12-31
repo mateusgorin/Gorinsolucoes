@@ -16,14 +16,13 @@ const testimonials: Testimonial[] = [
     name: "LAÍS",
     role: "Proprietária",
     project: "Proprietária Brinca Móvel",
-    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível, extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada com muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Trouxe ideias, sugestões estratégicas e sempre buscou entregar o melhor. É raro encontrar um profissional tão comprometido. Você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados!"
+    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível, extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada com muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir le nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Trouxe ideias, sugerões estratégicas e sempre buscou entregar le melhor. É raro encontrar um profissional tão comprometido. Você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados!"
   },
   {
     name: "VANESSA",
     role: "Proprietária",
     project: "Proprietária Amorim Ergonomia",
-    content: "RELATO_EM_BREVE...",
-    isLocked: true
+    content: "Procurei a Gorin Soluções para criação do site, tinha uma ideia de como ficaria mas ao longo da criação o Mateus foi alinhando junto comigo as ideias, o site ficou perfeito, rápido e visualmente impecável. O trabalho foi feito com atenção aos detalhes e muita dedicação. Após a criação do site obtive bastante resultados e muitos clientes. Recomendo de olhos fechados."
   },
   {
     name: "LEIDE",
