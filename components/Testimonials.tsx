@@ -15,20 +15,20 @@ const testimonials: Testimonial[] = [
   {
     name: "LAÍS",
     role: "Proprietária",
-    project: "Brinca Móvel",
+    project: "Proprietária Brinca Móvel",
     content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível, extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada com muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Trouxe ideias, sugestões estratégicas e sempre buscou entregar o melhor. É raro encontrar um profissional tão comprometido. Você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados!"
   },
   {
     name: "VANESSA",
     role: "Proprietária",
-    project: "Amorim Ergonomia",
+    project: "Proprietária Amorim Ergonomia",
     content: "RELATO_EM_BREVE...",
     isLocked: true
   },
   {
     name: "LEIDE",
     role: "Proprietária",
-    project: "Mãos de Leide",
+    project: "Proprietária Mãos de Leide",
     content: "RELATO_EM_BREVE...",
     isLocked: true
   }
