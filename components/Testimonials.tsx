@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     name: "LAÍS",
     role: "Proprietária",
     project: "Proprietária Brinca Móvel",
-    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível, extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada com muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir le nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Trouxe ideias, sugerões estratégicas e sempre buscou entregar le melhor. É raro encontrar um profissional tão comprometido. Você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados!"
+    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada with muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Em nenhum momento fez algo “no automático”. Pelo contrário, trouxe ideias, sugestões, dicas estratégicas e sempre buscou entregar o melhor, não apenas o combinado. É raro encontrar um profissional tão comprometido. Dá pra ver que você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados."
   },
   {
     name: "VANESSA",
@@ -28,8 +28,7 @@ const testimonials: Testimonial[] = [
     name: "LEIDE",
     role: "Proprietária",
     project: "Proprietária Mãos de Leide",
-    content: "RELATO_EM_BREVE...",
-    isLocked: true
+    content: "O Mateus me procurou inicialmente para uma sessão de massagem relaxante, devido a uma dor lombar. Durante nosso atendimento, ele compartilhou que trabalhava com criação de sites, e acabei comentando meu desejo de ter um, embora não soubesse nem por onde começar. Confiei no seu trabalho e fui surpreendida! O site ficou acolhedor, bem organizado, com informações claras e uma navegação super intuitiva. Ele conseguiu traduzir perfeitamente a essência da massagem: cuidado, bem-estar e leveza. Sou muito grata pelo resultado. Excelente profissional!"
   }
 ];
 
