@@ -34,6 +34,13 @@ const projects: ProjectData[] = [
     image: "https://i.ibb.co/kgFcqbrg/Captura-de-tela-2025-12-18-143656.jpg"
   },
   {
+    title: "BRITO OLIVEIRA ASSESSORIA",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "DESIGN", "SEO"],
+    link: "#",
+    image: "https://i.postimg.cc/XN9JHhq7/Captura-de-tela-2026-01-16-140757.jpg"
+  },
+  {
     title: "EM BREVE",
     category: "SISTEMA WEB",
     tags: ["DASHBOARD", "API", "REACT"],
