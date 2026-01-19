@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'export';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
 import { ExternalLink, Database, PiggyBank, Hammer } from 'lucide-react';
@@ -37,7 +37,7 @@ const projects: ProjectData[] = [
     title: "BRITO OLIVEIRA ASSESSORIA",
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "DESIGN", "SEO"],
-    link: "#",
+    link: "https://britooliveira.com.br",
     image: "https://i.postimg.cc/XN9JHhq7/Captura-de-tela-2026-01-16-140757.jpg"
   },
   {
