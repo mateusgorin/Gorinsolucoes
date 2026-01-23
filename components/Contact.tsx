@@ -57,24 +57,24 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="py-24 bg-cyber-black relative scroll-mt-24">
+    <section id="contact" className="py-24 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
        {/* Circuit Pattern Background */}
        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f1016_1px,transparent_1px),linear-gradient(to_bottom,#0f1016_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading title="ENTRE EM CONTATO" subtitle="SOLICITE UM ORÇAMENTO" />
 
-        <div className="max-w-5xl mx-auto border border-cyber-primary/30 bg-cyber-dark/80 backdrop-blur-md clip-corner p-1">
+        <div className="max-w-5xl mx-auto border border-cyber-primary/30 bg-cyber-dark/80 backdrop-blur-md clip-corner p-1 transition-colors duration-300">
           <div className="p-8 lg:p-12 border border-cyber-primary/10">
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div className="space-y-8 flex flex-col">
                 <div>
-                  <h3 className="text-2xl font-mono font-bold text-white mb-2 flex items-center gap-3">
+                  <h3 className="text-2xl font-mono font-bold text-cyber-white mb-2 flex items-center gap-3">
                     <Radio className="text-cyber-accent animate-pulse" />
                     GORIN SOLUÇÕES
                   </h3>
-                  <p className="text-gray-400 font-sans">
+                  <p className="text-cyber-gray font-sans">
                     Transformamos ideias em negócios digitais. Entre em contato para discutir seu projeto ou tirar dúvidas.
                   </p>
                 </div>
@@ -84,14 +84,14 @@ export const Contact: React.FC = () => {
                     <div className="w-12 h-12 bg-cyber-slate border border-cyber-primary/20 flex items-center justify-center group-hover:bg-cyber-primary group-hover:text-black transition-all clip-corner-sm">
                       <Instagram size={20} />
                     </div>
-                    <span className="font-mono text-gray-400 group-hover:text-cyber-primary transition-colors">@mateusgorin</span>
+                    <span className="font-mono text-cyber-gray group-hover:text-cyber-primary transition-colors">@mateusgorin</span>
                   </a>
                   
                   <div className="flex items-center gap-4 group">
                     <div className="w-12 h-12 bg-cyber-slate border border-cyber-primary/20 flex items-center justify-center">
                       <MapPin size={20} className="text-cyber-secondary" />
                     </div>
-                    <span className="font-mono text-gray-400">Brasília, DF - Atendimento Nacional</span>
+                    <span className="font-mono text-cyber-gray">Brasília, DF - Atendimento Nacional</span>
                   </div>
                 </div>
 
@@ -191,7 +191,7 @@ export const Contact: React.FC = () => {
 
               <div className="relative">
                 <div className="absolute inset-0 bg-cyber-primary/5 clip-corner transform translate-x-4 translate-y-4" />
-                <form onSubmit={handleSubmit} className="relative bg-cyber-black border border-cyber-primary/20 p-6 space-y-4 clip-corner">
+                <form onSubmit={handleSubmit} className="relative bg-cyber-black border border-cyber-primary/20 p-6 space-y-4 clip-corner transition-colors duration-300">
                   <div>
                     <label className="block text-xs font-mono text-cyber-primary mb-1">SEU NOME</label>
                     <input 
@@ -200,7 +200,7 @@ export const Contact: React.FC = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-white outline-none transition-colors font-mono text-sm" 
+                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-cyber-white outline-none transition-colors font-mono text-sm" 
                       placeholder="Como podemos te chamar?" 
                     />
                   </div>
@@ -212,7 +212,7 @@ export const Contact: React.FC = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-white outline-none transition-colors font-mono text-sm" 
+                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-cyber-white outline-none transition-colors font-mono text-sm" 
                       placeholder="seuemail@empresa.com" 
                     />
                   </div>
@@ -224,7 +224,7 @@ export const Contact: React.FC = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-white outline-none transition-colors font-mono text-sm" 
+                      className="w-full bg-cyber-dark border border-gray-800 focus:border-cyber-primary p-3 text-cyber-white outline-none transition-colors font-mono text-sm" 
                       placeholder="Descreva o que você precisa..."
                     ></textarea>
                   </div>

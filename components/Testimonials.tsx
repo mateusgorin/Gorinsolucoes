@@ -36,7 +36,7 @@ export const Testimonials: React.FC = () => {
   const m = motion as any;
 
   return (
-    <section id="testimonials" className="py-24 relative overflow-hidden bg-cyber-dark scroll-mt-24">
+    <section id="testimonials" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
       {/* Grid background adjustment */}
       <div className="absolute inset-0 bg-cyber-grid bg-[size:30px_30px] opacity-5 z-0" />
       
@@ -58,12 +58,12 @@ export const Testimonials: React.FC = () => {
             >
               <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
                 testimonial.isLocked 
-                  ? 'bg-cyber-black/40 border-white/5 grayscale opacity-60' 
+                  ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
                   : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
               }`}>
                 
                 {/* Quote Icon */}
-                <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
+                <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
                   <Quote size={48} />
                 </div>
 
@@ -88,16 +88,16 @@ export const Testimonials: React.FC = () => {
                        <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
                     </div>
                   ) : (
-                    <p className="text-gray-300 italic mb-8 leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
+                    <p className="text-cyber-gray italic mb-8 leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
                       "{testimonial.content}"
                     </p>
                   )}
                 </div>
 
                 {/* Footer */}
-                <div className={`flex items-center justify-between border-t pt-6 ${testimonial.isLocked ? 'border-white/5' : 'border-cyber-primary/10'}`}>
+                <div className={`flex items-center justify-between border-t pt-6 ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
                   <div>
-                    <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-white'}`}>{testimonial.name}</h4>
+                    <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
                     <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
                       {testimonial.project}
                     </p>

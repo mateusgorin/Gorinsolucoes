@@ -38,6 +38,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -46,13 +47,15 @@
             },
             colors: {
               cyber: {
-                black: '#020005',
-                dark: '#050508',
-                slate: '#0f1016',
-                primary: '#00f0ff', // Cyan
-                secondary: '#7000ff', // Purple
+                black: 'var(--bg-black)',
+                dark: 'var(--bg-dark)',
+                slate: 'var(--bg-slate)',
+                primary: 'var(--primary)',
+                secondary: 'var(--secondary)', 
                 accent: '#ff003c', // Red/Pink
                 dim: 'rgba(0, 240, 255, 0.1)',
+                white: 'var(--text-white)', // Dynamic White (Black in light mode)
+                gray: 'var(--text-gray)',   // Dynamic Gray
               }
             },
             backgroundImage: {
@@ -90,15 +93,38 @@
       }
     </script>
     <style>
+      :root {
+        /* Dark Theme (Default) */
+        --bg-black: #020005;
+        --bg-dark: #050508;
+        --bg-slate: #0f1016;
+        --text-white: #ffffff;
+        --text-gray: #9ca3af; /* gray-400 */
+        --primary: #00f0ff;
+        --secondary: #7000ff;
+      }
+
+      .light-mode {
+        /* Light Theme */
+        --bg-black: #ffffff;
+        --bg-dark: #f0f4f8;
+        --bg-slate: #e2e8f0;
+        --text-white: #0f172a; /* Dark text for light background */
+        --text-gray: #475569; /* Slate 600 */
+        --primary: #0097a7; /* Darker Cyan for contrast on white */
+        --secondary: #6200ea; /* Slightly darker purple */
+      }
+
       html {
         scroll-behavior: smooth;
-        scroll-padding-top: 80px; /* Garante que o scroll pare antes do header fixo */
+        scroll-padding-top: 80px;
       }
 
       body {
-        background-color: #020005;
-        color: #e0e0e0;
+        background-color: var(--bg-black);
+        color: var(--text-main);
         overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
       
       /* Scrollbar */
@@ -106,16 +132,16 @@
         width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #050508;
+        background: var(--bg-dark);
       }
       ::-webkit-scrollbar-thumb {
-        background: #00f0ff;
+        background: var(--primary);
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #7000ff;
+        background: var(--secondary);
       }
 
-      /* Scanlines Effect */
+      /* Scanlines Effect - Inverted for light mode */
       .scanlines {
         position: fixed;
         top: 0;
@@ -133,6 +159,16 @@
         background-size: 100% 4px;
         z-index: 9999;
         opacity: 0.15;
+      }
+      
+      .light-mode .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(0,0,0,0),
+          rgba(0,0,0,0) 50%,
+          rgba(0,0,0,0.05) 50%,
+          rgba(0,0,0,0.05)
+        );
       }
 
       .clip-corner {
@@ -154,9 +190,15 @@
       .text-glow {
         text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
       }
+      .light-mode .text-glow {
+        text-shadow: none; /* Remove glow in light mode for better readability */
+      }
       
       .box-glow {
         box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+      }
+      .light-mode .box-glow {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       }
 
       @media (prefers-reduced-motion: reduce) {

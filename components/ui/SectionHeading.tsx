@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -30,7 +29,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
-        className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white uppercase tracking-tighter text-glow"
+        className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-cyber-white uppercase tracking-tighter text-glow"
       >
         {title}
       </m.h2>

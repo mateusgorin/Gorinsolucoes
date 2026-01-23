@@ -7,22 +7,25 @@ import { Projects } from './components/Projects';
 import { Testimonials } from './components/Testimonials';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { ThemeProvider } from './context/ThemeContext';
 
 const App: React.FC = () => {
   return (
-    <div className="bg-cyber-black min-h-screen text-gray-300 font-sans selection:bg-cyber-primary selection:text-black">
-      <div className="scanlines" />
-      <Navbar />
-      <main className="relative z-10">
-        <Hero />
-        <About />
-        <Services />
-        <Projects />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="bg-cyber-black min-h-screen text-cyber-gray font-sans selection:bg-cyber-primary selection:text-black transition-colors duration-300">
+        <div className="scanlines" />
+        <Navbar />
+        <main className="relative z-10">
+          <Hero />
+          <About />
+          <Services />
+          <Projects />
+          <Testimonials />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Button } from './ui/Button';
@@ -33,7 +32,7 @@ export const Hero: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Cyber Grid & Background */}
-      <div className="absolute inset-0 z-0 bg-cyber-black">
+      <div className="absolute inset-0 z-0 bg-cyber-black transition-colors duration-300">
         <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-20 perspective-1000 transform-gpu" />
         <div className="absolute inset-0 bg-gradient-to-t from-cyber-black via-transparent to-transparent" />
         
@@ -42,8 +41,8 @@ export const Hero: React.FC = () => {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-secondary/20 rounded-full blur-[100px] animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12 max-w-6xl w-full">
           
           {/* Text Content */}
           <m.div 
@@ -56,13 +55,13 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
+              className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
             >
               <span className="w-2 h-2 bg-green-500 animate-ping" />
               <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
             </m.div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-cyber-white mb-4 leading-tight">
               CRIAÇÃO DE <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">
                 SITES_WEB
@@ -73,7 +72,7 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="font-mono text-gray-400 text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4"
+              className="font-mono text-cyber-gray text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-6 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4"
             >
               <span className="text-cyber-primary">{">>>"}</span> Desenvolvimento Web de Alta Performance.
               <br/>
@@ -113,7 +112,7 @@ export const Hero: React.FC = () => {
                  
                  <div className="text-center z-10 space-y-2">
                    <Zap className={`w-16 h-16 text-cyber-primary mx-auto transition-all duration-300 ${isInView ? 'animate-pulse drop-shadow-[0_0_15px_rgba(0,240,255,0.8)]' : ''}`} />
-                   <div className="font-mono text-4xl font-bold text-white tracking-widest tabular-nums">
+                   <div className="font-mono text-4xl font-bold text-cyber-white tracking-widest tabular-nums">
                      {count}%
                    </div>
                    <div className="font-mono text-xs text-cyber-secondary uppercase">Performance Otimizada</div>

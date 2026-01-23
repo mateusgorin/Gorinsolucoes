@@ -70,7 +70,7 @@ export const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden bg-cyber-dark scroll-mt-24">
+    <section id="projects" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
       {/* Decorative lines */}
       <div className="absolute left-0 top-1/2 w-full h-[1px] bg-cyber-primary/10" />
       
@@ -172,26 +172,26 @@ export const Projects: React.FC = () => {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <p className="text-cyber-secondary text-xs font-mono mb-1">{project.category}</p>
-                      <h3 className="text-xl font-bold text-white font-sans tracking-wide">{project.title}</h3>
+                      <h3 className="text-xl font-bold text-cyber-white font-sans tracking-wide">{project.title}</h3>
                     </div>
                     <Database size={16} className="text-cyber-primary/50" />
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.map(tag => (
-                      <span key={tag} className="text-[10px] font-mono border border-white/10 text-gray-400 px-2 py-1 uppercase hover:border-cyber-primary hover:text-cyber-primary transition-colors">
+                      <span key={tag} className="text-[10px] font-mono border border-cyber-white/10 text-cyber-gray px-2 py-1 uppercase hover:border-cyber-primary hover:text-cyber-primary transition-colors">
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex gap-4 pt-4 border-t border-white/5 mt-auto">
+                  <div className="flex gap-4 pt-4 border-t border-cyber-white/5 mt-auto">
                      {project.link !== "#" ? (
                        <a 
                          href={project.link}
                          target="_blank"
                          rel="noopener noreferrer" 
-                         className="flex items-center gap-2 text-sm font-mono text-white hover:text-cyber-primary transition-colors cursor-pointer"
+                         className="flex items-center gap-2 text-sm font-mono text-cyber-white hover:text-cyber-primary transition-colors cursor-pointer"
                        >
                          <ExternalLink size={16} /> VISITAR SITE
                        </a>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
@@ -132,7 +131,7 @@ export const Services: React.FC = () => {
   const m = motion as any;
 
   return (
-    <section id="services" className="py-24 bg-cyber-black relative scroll-mt-24">
+    <section id="services" className="py-24 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
       <div className="absolute inset-0 bg-cyber-grid bg-[size:40px_40px] opacity-10 pointer-events-none" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -156,8 +155,8 @@ export const Services: React.FC = () => {
                 <pillar.icon className="w-12 h-12 text-cyber-primary group-hover:scale-110 transition-transform" />
                 <span className="font-mono text-cyber-secondary font-bold text-lg">{pillar.stat}</span>
               </div>
-              <h3 className="text-xl font-mono font-bold text-white mb-4 tracking-tighter">{pillar.title}</h3>
-              <p className="text-gray-300 text-base leading-relaxed">{pillar.desc}</p>
+              <h3 className="text-xl font-mono font-bold text-cyber-white mb-4 tracking-tighter">{pillar.title}</h3>
+              <p className="text-cyber-gray text-base leading-relaxed">{pillar.desc}</p>
             </m.div>
           ))}
         </div>
@@ -166,7 +165,7 @@ export const Services: React.FC = () => {
         <div className="mb-24">
           <div className="flex items-center gap-4 mb-10">
             <Layers className="text-cyber-secondary" />
-            <h3 className="font-mono text-white tracking-widest uppercase border-b border-cyber-secondary/30 pb-2">
+            <h3 className="font-mono text-cyber-white tracking-widest uppercase border-b border-cyber-secondary/30 pb-2">
               RECURSOS_TECNOLÓGICOS_INCLUSOS
             </h3>
           </div>
@@ -190,11 +189,11 @@ export const Services: React.FC = () => {
                   </span>
                 </div>
                 
-                <h4 className="text-base font-mono font-bold text-white mb-3 tracking-wide group-hover:text-cyber-primary transition-colors">
+                <h4 className="text-base font-mono font-bold text-cyber-white mb-3 tracking-wide group-hover:text-cyber-primary transition-colors">
                   {service.title}
                 </h4>
                 
-                <p className="text-gray-300 text-sm font-sans leading-relaxed opacity-90 group-hover:opacity-100">
+                <p className="text-cyber-gray text-sm font-sans leading-relaxed opacity-90 group-hover:opacity-100">
                   {service.desc}
                 </p>
                 
@@ -228,8 +227,8 @@ export const Services: React.FC = () => {
                     <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
                   )}
                 </div>
-                <h4 className="font-mono font-bold text-white mb-2 tracking-widest">{step.title}</h4>
-                <p className="text-gray-400 text-sm leading-snug">{step.desc}</p>
+                <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest">{step.title}</h4>
+                <p className="text-cyber-gray text-sm leading-snug">{step.desc}</p>
               </m.div>
             ))}
           </div>
@@ -253,13 +252,13 @@ export const Services: React.FC = () => {
           className="mt-20 p-10 border border-cyber-primary/30 bg-cyber-primary/5 text-center max-w-4xl mx-auto clip-corner relative group overflow-hidden"
         >
           <div className="absolute inset-0 bg-cyber-grid bg-[size:20px_20px] opacity-10 group-hover:opacity-20 transition-opacity" />
-          <h3 className="text-3xl font-mono font-bold text-white mb-4 relative z-10 uppercase tracking-tighter">PRONTO PARA EVOLUIR SUA PRESENÇA DIGITAL?</h3>
-          <p className="font-sans text-gray-300 text-lg mb-8 max-w-2xl mx-auto relative z-10 leading-relaxed">
+          <h3 className="text-3xl font-mono font-bold text-cyber-white mb-4 relative z-10 uppercase tracking-tighter">PRONTO PARA EVOLUIR SUA PRESENÇA DIGITAL?</h3>
+          <p className="font-sans text-cyber-gray text-lg mb-8 max-w-2xl mx-auto relative z-10 leading-relaxed">
             Criamos soluções digitais completas, unindo design, tecnologia e performance para estruturar negócios no ambiente digital com segurança e eficiência.
           </p>
           <a 
             href="#contact" 
-            className="inline-flex items-center gap-2 px-10 py-4 bg-cyber-primary text-black font-mono font-bold uppercase tracking-widest clip-corner hover:bg-white hover:scale-105 transition-all relative z-10"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-cyber-primary text-black font-mono font-bold uppercase tracking-widest clip-corner hover:bg-cyber-white hover:scale-105 transition-all relative z-10"
           >
             CONTATO <Zap size={18} />
           </a>

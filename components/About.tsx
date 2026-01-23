@@ -14,7 +14,7 @@ export const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 relative bg-cyber-dark scroll-mt-24">
+    <section id="about" className="py-24 relative bg-cyber-dark transition-colors duration-300 scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
@@ -27,7 +27,7 @@ export const About: React.FC = () => {
              {/* Cyber Frame for Image */}
              <div className="relative max-w-md mx-auto">
                <div className="absolute -inset-4 bg-gradient-to-r from-cyber-primary to-cyber-secondary opacity-30 blur-lg" />
-               <div className="relative border border-cyber-primary/30 bg-cyber-black clip-corner p-2">
+               <div className="relative border border-cyber-primary/30 bg-cyber-black clip-corner p-2 transition-colors duration-300">
                  {/* Decorative Lines */}
                  <div className="absolute top-4 left-0 w-full h-[1px] bg-cyber-primary/20" />
                  <div className="absolute bottom-4 left-0 w-full h-[1px] bg-cyber-primary/20" />
@@ -42,7 +42,7 @@ export const About: React.FC = () => {
                  </div>
                  
                  {/* Tech Overlay */}
-                 <div className="absolute bottom-6 right-6 bg-black/90 border border-cyber-primary/50 p-2 font-mono text-xs text-cyber-primary flex items-center gap-2 backdrop-blur-md shadow-lg z-10">
+                 <div className="absolute bottom-6 right-6 bg-cyber-black/90 border border-cyber-primary/50 p-2 font-mono text-xs text-cyber-primary flex items-center gap-2 backdrop-blur-md shadow-lg z-10">
                    LOCALIZAÇÃO: BRASÍLIA/DF
                  </div>
                </div>
@@ -56,7 +56,7 @@ export const About: React.FC = () => {
               align="left"
             />
             
-            <div className="space-y-6 text-gray-400 text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
+            <div className="space-y-6 text-cyber-gray text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
               <p>
                 <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> A <strong>Gorin Soluções</strong> é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
               </p>
@@ -68,7 +68,7 @@ export const About: React.FC = () => {
             <div className="grid grid-cols-3 gap-6 mt-12 border-t border-cyber-primary/20 pt-8">
               {stats.map((stat, idx) => (
                 <div key={idx}>
-                  <p className="text-3xl lg:text-4xl font-mono font-bold text-white mb-1 text-glow">{stat.value}</p>
+                  <p className="text-3xl lg:text-4xl font-mono font-bold text-cyber-white mb-1 text-glow">{stat.value}</p>
                   <p className="text-[10px] md:text-xs text-cyber-secondary font-mono tracking-widest">{stat.label}</p>
                 </div>
               ))}

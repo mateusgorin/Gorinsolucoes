@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -7,7 +6,7 @@ export const Footer: React.FC = () => {
   const m = motion as any;
 
   return (
-    <footer className="py-8 border-t border-cyber-primary/20 bg-cyber-black text-center relative overflow-hidden">
+    <footer className="py-8 border-t border-cyber-primary/20 bg-cyber-black text-center relative overflow-hidden transition-colors duration-300">
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyber-primary to-transparent opacity-50" />
       
       <m.div 
@@ -30,12 +29,12 @@ export const Footer: React.FC = () => {
               </div>
            </div>
            
-          <span className="font-mono font-bold text-xl tracking-tighter text-white">
+          <span className="font-mono font-bold text-xl tracking-tighter text-cyber-white">
             GORIN <span className="text-cyber-primary">SOLUÇÕES</span>
           </span>
         </div>
         
-        <div className="flex justify-center items-center gap-4 text-xs font-mono text-gray-600 mb-4">
+        <div className="flex justify-center items-center gap-4 text-xs font-mono text-cyber-gray mb-4">
           <span>VER.SIS.2.0</span>
           <span>//</span>
           <span>CONEXÃO_SEGURA</span>
