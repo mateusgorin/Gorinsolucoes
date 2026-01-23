@@ -19,6 +19,12 @@ const testimonials: Testimonial[] = [
     content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada with muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Em nenhum momento fez algo “no automático”. Pelo contrário, trouxe ideias, sugestões, dicas estratégicas e sempre buscou entregar o melhor, não apenas o combinado. É raro encontrar um profissional tão comprometido. Dá pra ver que você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados."
   },
   {
+    name: "THIAGO E JÉSSICA",
+    role: "Proprietários",
+    project: "Proprietários Brito Oliveira",
+    content: "Quero agradecer pelo excelente trabalho no meu site! Ficou simples, rápido e exatamente como eu precisava. Profissional, ágil e muito competente. Recomendo demais!"
+  },
+  {
     name: "VANESSA",
     role: "Proprietária",
     project: "Proprietária Amorim Ergonomia",
