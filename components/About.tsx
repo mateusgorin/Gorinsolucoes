@@ -9,7 +9,7 @@ export const About: React.FC = () => {
 
   const stats = [
     { label: 'ANOS_MERCADO', value: '01' },
-    { label: 'PROJETOS_ENTREGUES', value: '04' },
+    { label: 'PROJETOS_ENTREGUES', value: '05' },
     { label: 'SATISFAÇÃO', value: '100%' },
   ];
 

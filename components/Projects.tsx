@@ -24,7 +24,7 @@ const projects: ProjectData[] = [
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "DESIGN UI", "SEO"],
     link: "https://www.maosdeleide.com.br",
-    image: "https://i.ibb.co/xKpHzBYY/Captura-de-tela-2025-12-16-125349.jpg"
+    image: "https://i.postimg.cc/W4jt5qVD/Captura-de-tela-2026-02-24-131001.jpg"
   },
   {
     title: "AMORIM ERGONOMIA",
@@ -39,6 +39,13 @@ const projects: ProjectData[] = [
     tags: ["REACT", "DESIGN", "SEO"],
     link: "https://www.britooliveira.com.br/",
     image: "https://i.postimg.cc/XN9JHhq7/Captura-de-tela-2026-01-16-140757.jpg"
+  },
+  {
+    title: "MARMITARIA VENTURA",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "DESIGN UI", "SEO"],
+    link: "https://www.marmitariaventura.com.br",
+    image: "https://i.postimg.cc/d0vD5ZFJ/Captura-de-tela-2026-02-24-130921.jpg"
   },
   {
     title: "EM BREVE",
