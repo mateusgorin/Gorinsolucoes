@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <p className="text-gray-500 text-xs mt-2 font-mono">
-          © {new Date().getFullYear()} TODOS OS DIREITOS RESERVADOS.
+          © 2025 TODOS OS DIREITOS RESERVADOS.
         </p>
       </m.div>
     </footer>

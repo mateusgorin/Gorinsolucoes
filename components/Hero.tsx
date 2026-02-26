@@ -30,7 +30,7 @@ export const Hero: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-24">
       {/* Cyber Grid & Background */}
       <div className="absolute inset-0 z-0 bg-cyber-black transition-colors duration-300">
         <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-20 perspective-1000 transform-gpu" />
@@ -61,10 +61,10 @@ export const Hero: React.FC = () => {
               <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
             </m.div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-sans font-bold tracking-tighter text-cyber-white mb-4 leading-tight">
-              CRIAÇÃO DE <br />
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tighter text-cyber-white mb-4 leading-tight">
+              ESPECIALISTAS EM <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">
-                SITES_WEB
+                SOLUÇÕES DIGITAIS E CRIAÇÃO DE SITES DE ALTA CONVERSÃO
               </span>
             </h1>
             
@@ -85,8 +85,21 @@ export const Hero: React.FC = () => {
               transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6"
             >
-              <Button href="#contact" icon variant="primary">CONTATO</Button>
-              <Button href="#projects" variant="outline">VER PORTFÓLIO</Button>
+              <Button 
+                href="#contact" 
+                icon 
+                variant="primary"
+                className="px-6 py-3 text-sm md:text-base"
+              >
+                SOLICITAR ORÇAMENTO GRÁTIS
+              </Button>
+              <Button 
+                href="#contact" 
+                variant="outline"
+                className="px-6 py-3 text-sm md:text-base"
+              >
+                FALAR COM UM ESPECIALISTA AGORA
+              </Button>
             </m.div>
           </m.div>
 

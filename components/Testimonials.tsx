@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
-import { Star, Quote, ShieldCheck, Lock, Loader2 } from 'lucide-react';
+import { Star, Quote, ShieldCheck, Lock, Loader2, BookOpen, ChevronUp } from 'lucide-react';
 
 interface Testimonial {
   name: string;
@@ -16,30 +16,33 @@ const testimonials: Testimonial[] = [
     name: "LAÍS",
     role: "Proprietária",
     project: "Proprietária Brinca Móvel",
-    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada with muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Em nenhum momento fez algo “no automático”. Pelo contrário, trouxe ideias, sugestões, dicas estratégicas e sempre buscou entregar o melhor, não apenas o combinado. É raro encontrar um profissional tão comprometido. Dá pra ver que você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados."
+    content: "Mateus Gorin, preciso deixar registrado o quanto fiquei impressionada com o seu trabalho. O site da BrincaMóvel ficou simplesmente incrível extremamente profissional, completo, cheio de detalhes e com uma estética impecável. Cada funcionalidade foi pensada with muito cuidado, desde os efeitos visuais até a experiência de quem navega pelo site. Dá pra sentir o nível de excelência em cada parte.\n\nAlém do resultado final, quero destacar o seu atendimento: você foi muito atencioso do início ao fim, sempre aberto a ouvir, perguntar, ajustar e melhorar. Em nenhum momento fez algo “no automático”. Pelo contrário, trouxe ideias, sugestões, dicas estratégicas e sempre buscou entregar o melhor, não apenas o combinado. É raro encontrar um profissional tão comprometido. Dá pra ve que você não cria sites, você constrói experiências. Indico seu trabalho de olhos fechados."
   },
   {
     name: "THIAGO E JÉSSICA",
     role: "Proprietários",
     project: "Proprietários Brito Oliveira",
-    content: "Quero agradecer pelo excelente trabalho no meu site! Ficou simples, rápido e exatamente como eu precisava. Profissional, ágil e muito competente. Recomendo demais!"
-  },
-  {
-    name: "VANESSA",
-    role: "Proprietária",
-    project: "Proprietária Amorim Ergonomia",
-    content: "Procurei a Gorin Soluções para criação do site, tinha uma ideia de como ficaria mas ao longo da criação o Mateus foi alinhando junto comigo as ideias, o site ficou perfeito, rápido e visualmente impecável. O trabalho foi feito com atenção aos detalhes e muita dedicação. Após a criação do site obtive bastante resultados e muitos clientes. Recomendo de olhos fechados."
+    content: "Quero agradecer pelo excelente trabalho no desenvolvimento do meu site. Desde o início, o atendimento foi muito profissional e atencioso, sempre entendendo exatamente o que eu precisava. O site ficou rápido e funcional, do jeito que eu imaginava, sem complicação desnecessária.\n\nA comunicação foi clara durante todo o processo e qualquer ajuste que pedi foi feito com agilidade. Dá pra perceber o cuidado e o conhecimento no que faz. Fiquei muito satisfeito com o resultado final e com certeza recomendo para quem precisa de um site bem feito e profissional."
   },
   {
     name: "LEIDE",
     role: "Proprietária",
     project: "Proprietária Mãos de Leide",
     content: "O Mateus me procurou inicialmente para uma sessão de massagem relaxante, devido a uma dor lombar. Durante nosso atendimento, ele compartilhou que trabalhava com criação de sites, e acabei comentando meu desejo de ter um, embora não soubesse nem por onde começar. Confiei no seu trabalho e fui surpreendida! O site ficou acolhedor, bem organizado, com informações claras e uma navegação super intuitiva. Ele conseguiu traduzir perfeitamente a essência da massagem: cuidado, bem-estar e leveza. Sou muito grata pelo resultado. Excelente profissional!"
+  },
+  {
+    name: "VANESSA",
+    role: "Proprietária",
+    project: "Proprietária Amorim Ergonomia",
+    content: "Procurei a Gorin Soluções para criação do site, tinha uma ideia de como ficaria mas ao longo da criação o Mateus foi alinhando junto comigo as ideias, o site ficou perfeito, rápido e visualmente impecável. O trabalho foi feito com atenção aos detalhes e muita dedicação. Após a criação do site obtive bastante resultados e muitos clientes. Recomendo de olhos fechados."
   }
 ];
 
 export const Testimonials: React.FC = () => {
   const m = motion as any;
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, 3);
 
   return (
     <section id="testimonials" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
@@ -53,73 +56,90 @@ export const Testimonials: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, idx) => (
-            <m.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.2 }}
-              className="group h-full"
-            >
-              <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
-                testimonial.isLocked 
-                  ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
-                  : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
-              }`}>
-                
-                {/* Quote Icon */}
-                <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
-                  <Quote size={48} />
-                </div>
-
-                {/* Stars/Status */}
-                <div className="flex gap-1 mb-6">
-                  {testimonial.isLocked ? (
-                    <div className="flex items-center gap-2 font-mono text-[10px] text-gray-500">
-                      <Loader2 size={14} className="animate-spin" /> STATUS: AGUARDANDO_DADOS
-                    </div>
-                  ) : (
-                    [...Array(5)].map((_, i) => (
-                      <Star key={i} size={16} className="fill-cyber-primary text-cyber-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-                    ))
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="flex-grow">
-                  {testimonial.isLocked ? (
-                    <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
-                       <Lock size={32} />
-                       <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
-                    </div>
-                  ) : (
-                    <p className="text-cyber-gray italic mb-8 leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
-                      "{testimonial.content}"
-                    </p>
-                  )}
-                </div>
-
-                {/* Footer */}
-                <div className={`flex items-center justify-between border-t pt-6 ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
-                  <div>
-                    <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
-                    <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
-                      {testimonial.project}
-                    </p>
-                  </div>
+          <AnimatePresence mode="popLayout">
+            {visibleTestimonials.map((testimonial, idx) => (
+              <m.div
+                key={testimonial.name}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
+                className="group h-full"
+              >
+                <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
+                  testimonial.isLocked 
+                    ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
+                    : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
+                }`}>
                   
-                  {!testimonial.isLocked && (
-                    <div className="flex items-center gap-1 text-[9px] font-mono text-green-400 bg-green-400/5 px-2 py-0.5 border border-green-400/20">
-                      <ShieldCheck size={10} />
-                      FEEDBACK_REAL
+                  {/* Quote Icon */}
+                  <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
+                    <Quote size={48} />
+                  </div>
+
+                  {/* Stars/Status */}
+                  <div className="flex gap-1 mb-6">
+                    {testimonial.isLocked ? (
+                      <div className="flex items-center gap-2 font-mono text-[10px] text-gray-500">
+                        <Loader2 size={14} className="animate-spin" /> STATUS: AGUARDANDO_DADOS
+                      </div>
+                    ) : (
+                      [...Array(5)].map((_, i) => (
+                        <Star key={i} size={16} className="fill-cyber-primary text-cyber-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+                      ))
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-grow">
+                    {testimonial.isLocked ? (
+                      <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
+                         <Lock size={32} />
+                         <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
+                      </div>
+                    ) : (
+                      <p className="text-cyber-gray italic mb-8 leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
+                        "{testimonial.content}"
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Footer */}
+                  <div className={`flex items-center justify-between border-t pt-6 ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
+                    <div>
+                      <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
+                      <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
+                        {testimonial.project}
+                      </p>
                     </div>
-                  )}
+                    
+                    {!testimonial.isLocked && (
+                      <div className="flex items-center gap-1 text-[9px] font-mono text-green-400 bg-green-400/5 px-2 py-0.5 border border-green-400/20">
+                        <ShieldCheck size={10} />
+                        FEEDBACK_REAL
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </m.div>
-          ))}
+              </m.div>
+            ))}
+          </AnimatePresence>
         </div>
+
+        {testimonials.length > 3 && (
+          <div className="mt-12 text-center">
+            <button 
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-3 border border-cyber-primary/30 text-cyber-primary font-mono text-sm hover:bg-cyber-primary hover:text-black transition-all clip-corner-sm"
+            >
+              {showAll ? (
+                <>VER MENOS <ChevronUp size={18} /></>
+              ) : (
+                <> <BookOpen size={18} /> VER TODOS OS DEPOIMENTOS</>
+              )}
+            </button>
+          </div>
+        )}
 
         {/* Floating elements */}
         <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-cyber-primary/5 rounded-full blur-[80px] pointer-events-none" />

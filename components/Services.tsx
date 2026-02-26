@@ -260,7 +260,7 @@ export const Services: React.FC = () => {
             href="#contact" 
             className="inline-flex items-center gap-2 px-10 py-4 bg-cyber-primary text-black font-mono font-bold uppercase tracking-widest clip-corner hover:bg-cyber-white hover:scale-105 transition-all relative z-10"
           >
-            CONTATO <Zap size={18} />
+            SOLICITAR ORÇAMENTO GRÁTIS <Zap size={18} />
           </a>
         </m.div>
       </div>

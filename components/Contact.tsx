@@ -126,8 +126,8 @@ export const Contact: React.FC = () => {
                           }
                           return null;
                         })}
-                        {mapPoints.map((p) => {
-                           if(p.id !== 'DF') return <line key={`ldf-${p.x}`} x1={55} y1={53} x2={p.x} y2={p.y} stroke="rgba(112, 0, 255, 0.15)" />;
+                        {mapPoints.map((p, i) => {
+                           if(p.id !== 'DF') return <line key={`ldf-${i}-${p.x}-${p.y}`} x1={55} y1={53} x2={p.x} y2={p.y} stroke="rgba(112, 0, 255, 0.15)" />;
                            return null;
                         })}
                       </g>
@@ -229,7 +229,7 @@ export const Contact: React.FC = () => {
                     ></textarea>
                   </div>
                   <Button type="submit" fullWidth variant="whatsapp" className="mt-2" icon>
-                    ENVIAR MENSAGEM
+                    SOLICITAR ORÇAMENTO GRÁTIS AGORA
                   </Button>
                 </form>
               </div>

@@ -6,6 +6,9 @@ import { Services } from './components/Services';
 import { Projects } from './components/Projects';
 import { Testimonials } from './components/Testimonials';
 import { Contact } from './components/Contact';
+import { Blog } from './components/Blog';
+import { LeadMagnet } from './components/LeadMagnet';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { Footer } from './components/Footer';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -19,10 +22,13 @@ const App: React.FC = () => {
           <Hero />
           <About />
           <Services />
+          <LeadMagnet />
           <Projects />
           <Testimonials />
+          <Blog />
           <Contact />
         </main>
+        <WhatsAppButton />
         <Footer />
       </div>
     </ThemeProvider>
