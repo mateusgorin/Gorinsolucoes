@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = "relative inline-flex items-center justify-center px-8 py-4 font-mono font-bold uppercase tracking-widest transition-all duration-200 group clip-corner focus:outline-none";
   
   const variants = {
-    primary: "bg-cyber-primary text-black hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.6)]",
+    primary: "bg-cyber-primary text-black hover:bg-cyber-secondary hover:text-white hover:shadow-[0_0_20px_rgba(112,0,255,0.6)]",
     secondary: "bg-cyber-secondary text-white hover:bg-purple-600 hover:shadow-[0_0_20px_rgba(112,0,255,0.6)]",
     outline: "bg-transparent border border-cyber-primary text-cyber-primary hover:bg-cyber-primary/10 hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]",
     glitch: "bg-cyber-accent text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,0,60,0.6)]",

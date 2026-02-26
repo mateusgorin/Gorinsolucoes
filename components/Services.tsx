@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
+import { Button } from './ui/Button';
 import { 
   Layout, 
   Smartphone, 
@@ -256,12 +257,13 @@ export const Services: React.FC = () => {
           <p className="font-sans text-cyber-gray text-lg mb-8 max-w-2xl mx-auto relative z-10 leading-relaxed">
             Criamos soluções digitais completas, unindo design, tecnologia e performance para estruturar negócios no ambiente digital com segurança e eficiência.
           </p>
-          <a 
+          <Button 
             href="#contact" 
-            className="inline-flex items-center gap-2 px-10 py-4 bg-cyber-primary text-black font-mono font-bold uppercase tracking-widest clip-corner hover:bg-cyber-white hover:scale-105 transition-all relative z-10"
+            variant="primary"
+            className="px-10 py-4 relative z-10"
           >
-            SOLICITAR ORÇAMENTO GRÁTIS <Zap size={18} />
-          </a>
+            SOLICITAR ORÇAMENTO GRÁTIS <Zap size={18} className="ml-2" />
+          </Button>
         </m.div>
       </div>
 
