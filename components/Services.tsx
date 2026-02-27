@@ -236,10 +236,10 @@ export const Services: React.FC = () => {
         </div>
 
         {/* 4. Tech Stack Ticker */}
-        <div className="mt-16 overflow-hidden py-4 border-b border-cyber-primary/10 relative">
-          <div className="flex whitespace-nowrap animate-[scroll_30s_linear_infinite]">
+        <div className="overflow-hidden py-10 border-b border-cyber-primary/10 relative bg-cyber-primary/5">
+          <div className="flex items-center whitespace-nowrap animate-[scroll_30s_linear_infinite]">
              {[...techStack, ...techStack].map((tech, i) => (
-               <span key={i} className="mx-8 font-mono text-xs text-cyber-primary/40 hover:text-cyber-primary transition-colors cursor-default">
+               <span key={i} className="mx-8 font-mono text-[10px] md:text-xs text-cyber-primary/40 hover:text-cyber-primary transition-colors cursor-default tracking-[0.2em] leading-none">
                  {tech}
                </span>
              ))}
