@@ -10,47 +10,42 @@ const articles = [
     fullContent: "Muitos empresários acreditam que basta ter um site para as vendas acontecerem. No entanto, existem erros invisíveis que matam a conversão. \n\n1. Falta de clareza na proposta de valor: O cliente não entende o que você faz em 5 segundos.\n2. Velocidade de carregamento lenta: Cada segundo de espera reduz sua conversão em 7%.\n3. Ausência de CTAs claros: O visitante não sabe qual o próximo passo deve dar.\n4. Design não responsivo: Se o site é ruim no celular, você perde 60% do tráfego.\n5. Falta de prova social: Sem depoimentos, o cliente não confia no seu serviço.\n\nCorrigir esses pontos é o primeiro passo para transformar seu site em uma máquina de vendas real.",
     date: "24 FEV, 2025",
     category: "ESTRATÉGIA",
-    readTime: "5 min"
+    readTime: "1 min"
   },
   {
     title: "O poder da velocidade no Google",
     excerpt: "Como o tempo de carregamento influencia diretamente no seu ranking e por que milissegundos valem ouro.",
     fullContent: "O Google prioriza a experiência do usuário acima de tudo. Se seu site demora mais de 3 segundos para carregar, você está perdendo mais de 50% dos seus visitantes antes mesmo deles verem sua oferta. \n\nSites rápidos têm taxas de rejeição menores e conversões significativamente maiores. No mercado atual, velocidade não é mais um diferencial, é um requisito básico de sobrevivência. Utilizamos tecnologias de ponta como Vite, React e compressão de imagens inteligente para garantir que seu site carregue de forma instantânea, garantindo a melhor posição possível nos motores de busca.",
-    date: "20 FEV, 2025",
     category: "SEO",
-    readTime: "4 min"
+    readTime: "1 min"
   },
   {
     title: "Design que converte: Guia Prático",
     excerpt: "Aprenda a usar a psicologia das cores e o layout estratégico para guiar seu cliente até o botão de compra.",
     fullContent: "Design não é apenas sobre estética; é sobre psicologia aplicada ao consumo. O uso correto de cores, espaços em branco e hierarquia visual guia o olhar do usuário de forma subconsciente.\n\nUm botão de destaque deve ter uma cor contrastante que 'salte' aos olhos. O texto deve ser escaneável, com títulos fortes e parágrafos curtos. Cada elemento visual deve ter um único propósito: levar o usuário à ação desejada (CTA). Quando o design é estratégico, a venda acontece de forma natural e fluida.",
-    date: "15 FEV, 2025",
     category: "DESIGN",
-    readTime: "6 min"
+    readTime: "1 min"
   },
   {
     title: "Quanto custa um site profissional?",
     excerpt: "Quebre o mito de “site caro”, explique o que influencia no preço e mostre por que o barato sai caro. Esse artigo atrai gente quase pronta para comprar.",
     fullContent: "O preço de um site varia conforme a complexidade, funcionalidades e o nível de personalização exigido. Um site 'barato' feito com templates genéricos pode custar muito caro a longo prazo devido à falta de performance, bugs constantes e ausência de SEO.\n\nUm site profissional é um investimento estratégico que se paga através da autoridade de marca e geração constante de leads qualificados. Ao investir em um projeto exclusivo, você garante segurança, escalabilidade e uma ferramenta que realmente trabalha para o seu negócio 24 horas por dia.",
-    date: "26 FEV, 2025",
     category: "SEO",
-    readTime: "5 min"
+    readTime: "1 min"
   },
   {
     title: "Site bonito ou site que vende? Entenda a diferença",
     excerpt: "Mostre que estética sem estratégia não gera resultado e que conversão vem de decisão, não só de design. Excelente para educar e posicionar você como especialista.",
     fullContent: "Um site bonito pode ser apenas uma obra de arte digital sem utilidade comercial. Um site que vende foca inteiramente na jornada do cliente e na resolução de problemas.\n\nEle responde às dúvidas do visitante antes mesmo delas serem formuladas, quebra objeções com provas sociais e facilita o contato imediato. A beleza deve servir à estratégia de conversão, não o contrário. Se o seu site é lindo mas o telefone não toca, você tem um portfólio, não uma ferramenta de vendas.",
-    date: "26 FEV, 2025",
     category: "ESTRATÉGIA",
-    readTime: "4 min"
+    readTime: "1 min"
   },
   {
     title: "Botão de WhatsApp realmente aumenta vendas?",
     excerpt: "Explique, com exemplos práticos, como o WhatsApp reduz atrito, aumenta contatos e por que é essencial no mercado brasileiro.",
     fullContent: "No Brasil, o WhatsApp é a ferramenta de comunicação número um. Ter um botão de contato rápido reduz drasticamente o atrito entre o interesse inicial do cliente e a conversão final.\n\nEle humaniza o atendimento, gera confiança imediata e permite fechar vendas complexas em tempo real através de uma conversa direta. Diferente de formulários estáticos que podem demorar horas para serem respondidos, o WhatsApp oferece a gratificação instantânea que o consumidor moderno exige. É, sem dúvida, o recurso com maior ROI (Retorno sobre Investimento) para sites de serviços.",
-    date: "26 FEV, 2025",
     category: "CONVERSÃO",
-    readTime: "3 min"
+    readTime: "1 min"
   }
 ];
 
@@ -98,7 +93,6 @@ export const Blog: React.FC = () => {
                   <span className="text-[10px] font-mono text-cyber-primary border border-cyber-primary/30 px-2 py-1 uppercase tracking-widest">
                     {article.category}
                   </span>
-                  <span className="text-[10px] font-mono text-cyber-gray">{article.date}</span>
                 </div>
                 
                 <h3 className="text-xl font-bold text-cyber-white mb-4 group-hover:text-cyber-primary transition-colors leading-tight">
@@ -137,7 +131,7 @@ export const Blog: React.FC = () => {
       {/* Modal de Leitura do Artigo */}
       <AnimatePresence>
         {selectedArticle && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+          <div className="fixed inset-0 z-[150] flex items-start justify-center p-4 sm:p-6 lg:p-8 pt-20 sm:pt-24">
             <m.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -160,7 +154,7 @@ export const Blog: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Leitura Completa</h4>
-                    <p className="text-[10px] text-cyber-gray font-mono uppercase">{selectedArticle.category} // {selectedArticle.date}</p>
+                    <p className="text-[10px] text-cyber-gray font-mono uppercase">{selectedArticle.category}</p>
                   </div>
                 </div>
                 <button 

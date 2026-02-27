@@ -48,7 +48,7 @@ export const LeadMagnet: React.FC = () => {
               <Button 
                 href="#contact" 
                 variant="secondary" 
-                className="hover:bg-cyber-secondary hover:scale-105 hover:shadow-[0_0_20px_rgba(112,0,255,0.6)] active:scale-95" 
+                className="hover:scale-105 hover:shadow-[0_0_20px_rgba(112,0,255,0.6)] active:scale-95" 
                 icon
               >
                 QUERO MINHA CONSULTORIA GRÁTIS

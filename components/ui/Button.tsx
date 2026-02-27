@@ -22,7 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
   
   const variants = {
     primary: "bg-cyber-primary text-black hover:bg-cyber-secondary hover:text-white hover:shadow-[0_0_20px_rgba(112,0,255,0.6)]",
-    secondary: "bg-cyber-secondary text-white hover:bg-purple-600 hover:shadow-[0_0_20px_rgba(112,0,255,0.6)]",
+    secondary: "bg-cyber-secondary text-white hover:shadow-[0_0_20px_rgba(112,0,255,0.6)]",
     outline: "bg-transparent border border-cyber-primary text-cyber-primary hover:bg-cyber-primary/10 hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]",
     glitch: "bg-cyber-accent text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,0,60,0.6)]",
     whatsapp: "bg-[#25D366] text-white hover:bg-[#128C7E] hover:shadow-[0_0_20px_rgba(37,211,102,0.6)]"

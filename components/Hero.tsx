@@ -93,13 +93,6 @@ export const Hero: React.FC = () => {
               >
                 SOLICITAR ORÇAMENTO GRÁTIS
               </Button>
-              <Button 
-                href="#contact" 
-                variant="outline"
-                className="px-6 py-3 text-sm md:text-base"
-              >
-                FALAR COM UM ESPECIALISTA AGORA
-              </Button>
             </m.div>
           </m.div>
 
