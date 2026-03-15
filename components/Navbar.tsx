@@ -98,13 +98,13 @@ export const Navbar: React.FC = () => {
           </m.a>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
                 onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
-                className="font-mono text-[11px] text-cyber-gray hover:text-cyber-primary tracking-widest uppercase transition-colors relative group cursor-pointer"
+                className="font-mono text-[10px] lg:text-[11px] text-cyber-gray hover:text-cyber-primary tracking-widest uppercase transition-colors relative group cursor-pointer whitespace-nowrap"
               >
                 <span className="text-cyber-secondary opacity-0 group-hover:opacity-100 transition-opacity mr-1">&gt;</span>
                 {link.name}
