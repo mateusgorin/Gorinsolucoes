@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SectionHeading } from './ui/SectionHeading';
-import { Instagram, MapPin, Radio } from 'lucide-react';
+import { Instagram, MapPin, Radio, MessageCircle } from 'lucide-react';
 import { Button } from './ui/Button';
 
 export const Contact: React.FC = () => {
@@ -92,6 +92,13 @@ export const Contact: React.FC = () => {
                       <MapPin size={20} className="text-cyber-secondary" />
                     </div>
                     <span className="font-mono text-cyber-gray">Brasília, DF - Atendimento Nacional</span>
+                  </div>
+
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-12 h-12 bg-cyber-slate border border-cyber-primary/20 flex items-center justify-center">
+                      <MessageCircle size={20} className="text-cyber-primary" />
+                    </div>
+                    <span className="font-mono text-cyber-gray">WhatsApp: (61) 98129-0099</span>
                   </div>
                 </div>
 

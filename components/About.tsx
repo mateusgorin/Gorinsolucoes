@@ -8,9 +8,9 @@ export const About: React.FC = () => {
   const m = motion as any;
 
   const stats = [
-    { label: 'ANOS_MERCADO', value: '01' },
-    { label: 'PROJETOS_ENTREGUES', value: '05' },
-    { label: 'SATISFAÇÃO', value: '100%' },
+    { label: 'PROJETOS_ENTREGUES', value: '7+' },
+    { label: 'SATISFAÇÃO_GARANTIDA', value: '100%' },
+    { label: 'BRASÍLIA_DF', value: 'BSB' },
   ];
 
   return (

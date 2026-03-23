@@ -23,20 +23,20 @@ import {
 
 const mainPillars = [
   {
-    title: "ALTA PERFORMANCE",
-    desc: "Sites que carregam em milissegundos. Velocidade é o fator principal para converter visitantes em clientes e ranquear no Google.",
+    title: "VELOCIDADE QUE CONVERTE",
+    desc: "Um site lento perde cliente antes mesmo de ele ler a primeira linha. Entregamos sites que carregam instantaneamente e ranqueiam melhor no Google.",
     icon: Zap,
     stat: "99/100"
   },
   {
-    title: "DESIGN ESTRATÉGICO",
-    desc: "Não apenas bonito, mas funcional. Criamos interfaces intuitivas que guiam o olhar do usuário diretamente para a conversão.",
+    title: "DESIGN QUE GUIA O CLIENTE",
+    desc: "Cada botão, cor e espaço tem um propósito: levar seu visitante até o contato. Não é só estética — é estratégia visual.",
     icon: Layout,
     stat: "UX/UI"
   },
   {
-    title: "INTELIGÊNCIA ARTIFICIAL",
-    desc: "Integramos modelos avançados de IA para automação, chatbots inteligentes e personalização dinâmica de conteúdo.",
+    title: "SEU SITE TRABALHA POR VOCÊ",
+    desc: "Integramos IA para responder clientes, qualificar leads e personalizar conteúdo — mesmo quando você está offline.",
     icon: Bot,
     stat: "FUTURE"
   }
@@ -45,74 +45,74 @@ const mainPillars = [
 const services = [
   {
     icon: Layout,
-    title: "DESIGN EXCLUSIVO",
-    desc: "Interfaces únicas criadas do zero, sem templates prontos, focadas na identidade da sua marca.",
+    title: "IDENTIDADE VISUAL",
+    desc: "Interface criada do zero, sem templates. Seu site vai parecer único e diferente de qualquer concorrente.",
     category: "UI/UX"
   },
   {
     icon: Smartphone,
-    title: "100% RESPONSIVO",
-    desc: "Experiência perfeita em smartphones, tablets e desktops com adaptação fluida.",
+    title: "FUNCIONA EM TODO DISPOSITIVO",
+    desc: "Seu site vai funcionar perfeitamente no celular, tablet e computador — onde seu cliente estiver.",
     category: "MOBILE"
   },
   {
     icon: BarChart3,
-    title: "SEO COMPLETO",
-    desc: "Otimização on-page e técnica para garantir que seu site apareça nas primeiras páginas.",
+    title: "APAREÇA NO GOOGLE",
+    desc: "Otimização técnica para que seu negócio apareça nas primeiras buscas quando alguém procurar pelo que você oferece.",
     category: "RANKING"
   },
   {
     icon: Zap,
-    title: "OTIMIZAÇÃO DE CACHE",
-    desc: "Uso de tecnologias de ponta para compressão de imagens e carregamento instantâneo.",
+    title: "CARREGAMENTO INSTANTÂNEO",
+    desc: "Sites lentos perdem clientes. O seu vai carregar em segundos, em qualquer conexão.",
     category: "SPEED"
   },
   {
     icon: MessageSquare,
-    title: "WHATSAPP INTEGRADO",
-    desc: "Botões flutuantes e fluxos de atendimento direto para converter leads em tempo real.",
+    title: "BOTÃO DE WHATSAPP DIRETO",
+    desc: "Seu cliente clica e já cai no seu WhatsApp. Simples, direto e eficiente para fechar negócio.",
     category: "VENDAS"
   },
   {
     icon: Instagram,
-    title: "FEED SOCIAL",
-    desc: "Integração direta com Instagram para aumentar autoridade e converter visitantes em seguidores.",
+    title: "INSTAGRAM CONECTADO",
+    desc: "Seu feed do Instagram aparece direto no site, mostrando que seu negócio é ativo e real.",
     category: "SOCIAL"
   },
   {
     icon: Globe,
-    title: "CONEXÃO GOOGLE",
-    desc: "Configuração completa e otimizada do Google Meu Negócio para o seu projeto.",
+    title: "GOOGLE MEU NEGÓCIO",
+    desc: "Configuramos seu perfil no Google para que você apareça no mapa e nas buscas da sua cidade.",
     category: "TOOLS"
   },
   {
     icon: Star,
-    title: "REVIEWS & TRUST",
-    desc: "Exibição de avaliações reais para gerar confiança e autoridade imediata no mercado.",
+    title: "AVALIAÇÕES EM DESTAQUE",
+    desc: "Exibimos suas avaliações reais do Google direto no site para gerar confiança imediata em novos clientes.",
     category: "TRUST"
   },
   {
     icon: Bot,
-    title: "IA GENERATIVA",
-    desc: "Implementação de IA para auxílio em vendas, suporte e personalização de conteúdo.",
+    title: "ATENDIMENTO COM INTELIGÊNCIA ARTIFICIAL",
+    desc: "Chatbot inteligente que responde dúvidas, qualifica leads e atende seu cliente mesmo quando você está ocupado.",
     category: "FUTURE"
   },
   {
     icon: ShieldCheck,
-    title: "SEGURANÇA SSL",
-    desc: "Proteção contra malwares e criptografia de dados com certificados de segurança inclusos.",
+    title: "SITE SEGURO E PROTEGIDO",
+    desc: "Certificado de segurança incluso. Seu site exibe o cadeado no navegador, transmitindo confiança total.",
     category: "SAFETY"
   },
   {
     icon: PenTool,
-    title: "COPY PERSUASIVO",
-    desc: "Textos focados em vendas escritos para prender a atenção e converter o seu público.",
+    title: "TEXTOS QUE VENDEM",
+    desc: "Escrevemos todos os textos do site focados em convencer e converter — não apenas informar.",
     category: "CONTENT"
   },
   {
     icon: Search,
-    title: "CÓDIGO LIMPO",
-    desc: "Desenvolvimento sem 'lixo digital', facilitando a leitura do Google e a manutenção futura.",
+    title: "TECNOLOGIA DE ALTO NÍVEL",
+    desc: "Desenvolvido com as mesmas tecnologias usadas por grandes empresas. Rápido, estável e fácil de evoluir.",
     category: "TECH"
   }
 ];
