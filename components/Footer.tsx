@@ -20,11 +20,11 @@ export const Footer: React.FC = () => {
            {/* Logo Section - Matching Navbar Style */}
            <div className="relative group cursor-pointer">
               <div className="absolute inset-0 bg-cyber-primary blur opacity-20 group-hover:opacity-40 transition-opacity" />
-              <div className="relative border border-cyber-primary/50 p-2 bg-cyber-black clip-corner-sm transition-colors hover:border-cyber-primary">
+              <div className="relative border border-cyber-primary/50 p-4 bg-cyber-black clip-corner transition-colors hover:border-cyber-primary">
                 <img 
                   src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
                   alt="Gorin Logo" 
-                  className="w-10 h-10 object-contain" 
+                  className="h-32 md:h-36 w-auto object-contain drop-shadow-[0_0_10px_rgba(0,240,255,0.2)]" 
                 />
               </div>
            </div>
