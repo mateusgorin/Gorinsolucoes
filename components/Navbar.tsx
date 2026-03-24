@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { MoreVertical, X, ChevronRight, Sun, Moon } from 'lucide-react';
+import { MoreVertical, X, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   
   const m = motion as any;
 
@@ -111,15 +109,6 @@ export const Navbar: React.FC = () => {
               </a>
             ))}
 
-            {/* Theme Toggle Desktop */}
-            <button
-              onClick={toggleTheme}
-              className="text-cyber-primary hover:text-cyber-white transition-colors p-2 rounded-full hover:bg-cyber-primary/10"
-              aria-label="Alternar Tema"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-
             <a 
               href="#contact"
               onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
@@ -181,25 +170,6 @@ export const Navbar: React.FC = () => {
                   </m.a>
                 ))}
 
-                {/* Theme Toggle Mobile */}
-                <m.button
-                  variants={itemVariants}
-                  onClick={toggleTheme}
-                  className="flex items-center justify-between font-mono text-sm text-cyber-gray hover:text-cyber-white py-4 border-b border-cyber-white/5 transition-all group w-full"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="w-1.5 h-1.5 bg-cyber-primary/30 rounded-full group-hover:bg-cyber-primary group-hover:animate-pulse" />
-                    <span className="tracking-[0.2em]">
-                      {theme === 'dark' ? 'MODO CLARO' : 'MODO ESCURO'}
-                    </span>
-                  </div>
-                  {theme === 'dark' ? (
-                     <Sun size={16} className="text-cyber-primary group-hover:text-yellow-400 transition-colors" />
-                  ) : (
-                     <Moon size={16} className="text-cyber-primary group-hover:text-blue-400 transition-colors" />
-                  )}
-                </m.button>
-                
                 <m.div variants={itemVariants} className="pt-6">
                   <a 
                     href="#contact"

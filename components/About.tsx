@@ -34,7 +34,7 @@ export const About: React.FC = () => {
                  <div className="relative w-full h-full rounded-full p-[3px] bg-gradient-to-r from-[#8B00FF] to-[#00FFFF] shadow-[0_0_30px_rgba(0,255,255,0.2)] overflow-hidden transition-transform duration-500 group-hover:scale-105">
                    <div className="w-full h-full rounded-full bg-cyber-black overflow-hidden">
                      <img 
-                       src="https://i.postimg.cc/Kj4ZF055/Picsart-26-03-23-20-44-43-747.png" 
+                       src="https://i.postimg.cc/wjRnzCYs/IMG-20260323-WA0090.jpg" 
                        alt="Mateus Gorin" 
                        className="w-full h-full object-cover"
                        referrerPolicy="no-referrer"
