@@ -147,7 +147,7 @@ export const Hero: React.FC = () => {
               <div className="relative w-full h-full flex items-center justify-center p-8 z-10">
                 <div className="text-center flex flex-col items-center justify-center">
                   {/* Logo Container */}
-                  <div className="relative w-[140px] h-[140px] mb-4 flex items-center justify-center">
+                  <div className="relative w-[161px] h-[161px] mb-4 flex items-center justify-center">
                     {/* Initial Light Point */}
                     {phase === 'initial' && (
                       <m.div 
