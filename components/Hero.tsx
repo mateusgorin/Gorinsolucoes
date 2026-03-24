@@ -172,7 +172,7 @@ export const Hero: React.FC = () => {
                         opacity: { duration: 0.2 },
                         scale: phase === 'complete' ? { duration: 2, repeat: Infinity } : { duration: 0.5 }
                       }}
-                      className={`w-full h-full object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
+                      className={`w-[115%] h-[115%] object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
                     />
                   </div>
 
