@@ -1,33 +1,49 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Button } from './ui/Button';
-import { ChevronDown, Zap } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
 
-  // Configuração da animação de contagem
+  // Configuração da animação de carregamento futurista
   const statsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(statsRef, { once: true, margin: "-100px" });
-  const [count, setCount] = useState(20);
+  const [count, setCount] = useState(0);
+  const [phase, setPhase] = useState<'initial' | 'loading' | 'complete'>('initial');
 
   useEffect(() => {
     if (isInView) {
-      const duration = 2500; 
-      const steps = 100 - 20;
-      const intervalTime = duration / steps;
-      
-      let start = 20;
-      const timer = setInterval(() => {
-        start += 1;
-        setCount(start);
-        if (start >= 100) clearInterval(timer);
-      }, intervalTime);
+      // Fase 1: Início (Circuitos e Ponto de Luz) - 1s
+      const phase1Timeout = setTimeout(() => {
+        setPhase('loading');
+      }, 1000);
 
-      return () => clearInterval(timer);
+      // Fase 2: Carregamento (0 a 100%) - 4s
+      const duration = 4000; 
+      const startTime = Date.now();
+      
+      const timer = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(Math.round((elapsed / duration) * 100), 100);
+        
+        setCount(progress);
+        
+        if (progress >= 100) {
+          clearInterval(timer);
+          setPhase('complete');
+        }
+      }, 30);
+
+      return () => {
+        clearTimeout(phase1Timeout);
+        clearInterval(timer);
+      };
     }
   }, [isInView]);
+
+  const logoUrl = "https://i.postimg.cc/K8CZPX21/Picsart-26-03-23-23-16-05-033.png";
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24">
@@ -93,48 +109,105 @@ export const Hero: React.FC = () => {
             </m.div>
           </m.div>
 
-          {/* Visual Element / HUD */}
+          {/* Visual Element / HUD - Futuristic Loading Animation */}
           <m.div 
             ref={statsRef}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-1 w-full max-w-lg relative animate-float-slow"
+            initial={{ opacity: 0, scale: 0.8, y: 0 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              y: [0, -15, 0]
+            }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 0.2,
+              y: {
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
+            className="flex-1 w-full max-w-lg relative"
           >
-            <div className="relative aspect-square border border-cyber-primary/20 bg-cyber-slate/50 clip-corner p-8 backdrop-blur-sm box-glow">
-              {/* HUD Decorations */}
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyber-primary" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyber-primary" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyber-primary" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyber-primary" />
+            <div className="relative aspect-square">
+              {/* Rotating Square (Border & Background) */}
+              <m.div 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 border border-cyber-primary/20 bg-cyber-slate/50 clip-corner backdrop-blur-sm box-glow overflow-hidden"
+              >
+                {/* HUD Decorations */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyber-primary" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyber-primary" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyber-primary" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyber-primary" />
+              </m.div>
 
-              {/* Animated Center Content */}
-              <div className="w-full h-full flex items-center justify-center relative">
-                 <div className="absolute inset-0 border border-cyber-secondary/20 rounded-full animate-[spin_10s_linear_infinite]" />
-                 <div className="absolute inset-4 border border-cyber-primary/20 rounded-full animate-[spin_8s_linear_infinite_reverse]" />
-                 
-                 <div className="text-center z-10 space-y-2">
-                   <Zap className={`w-16 h-16 text-cyber-primary mx-auto transition-all duration-300 ${isInView ? 'animate-pulse drop-shadow-[0_0_15px_rgba(0,240,255,0.8)]' : ''}`} />
-                   <div className="font-mono text-4xl font-bold text-cyber-white tracking-widest tabular-nums">
-                     {count}%
-                   </div>
-                   <div className="font-mono text-xs text-cyber-secondary uppercase">Performance Otimizada</div>
-                   
-                   {/* Loading Bar */}
-                   <div className="w-32 h-1 bg-cyber-slate mx-auto mt-2 overflow-hidden rounded-full">
-                     <m.div 
-                       className="h-full bg-cyber-primary box-glow"
-                       initial={{ width: "20%" }}
-                       animate={{ width: `${count}%` }}
-                       transition={{ duration: 0.1 }}
-                     />
-                   </div>
-                 </div>
+              {/* Static Center Content */}
+              <div className="relative w-full h-full flex items-center justify-center p-8 z-10">
+                <div className="text-center flex flex-col items-center justify-center">
+                  {/* Logo Container */}
+                  <div className="relative w-[140px] h-[140px] mb-4 flex items-center justify-center">
+                    {/* Initial Light Point */}
+                    {phase === 'initial' && (
+                      <m.div 
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: [0, 1.5, 1], opacity: [0, 1, 0.8] }}
+                        className="absolute w-4 h-4 bg-cyber-primary rounded-full blur-md"
+                      />
+                    )}
+
+                    {/* The Pig Logo */}
+                    <m.img 
+                      src={logoUrl}
+                      alt="Gorin Logo"
+                      referrerPolicy="no-referrer"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ 
+                        opacity: Math.max(0, (count - 30) / 70),
+                        scale: phase === 'complete' ? [1, 1.05, 1] : 1,
+                        filter: `drop-shadow(0 0 ${count / 5}px rgba(0, 240, 255, ${count / 100}))`
+                      }}
+                      transition={{ 
+                        opacity: { duration: 0.2 },
+                        scale: phase === 'complete' ? { duration: 2, repeat: Infinity } : { duration: 0.5 }
+                      }}
+                      className={`w-full h-full object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
+                    />
+                  </div>
+
+                  {/* Stats Text */}
+                  <div className="font-mono text-3xl font-bold text-cyber-white tracking-widest tabular-nums">
+                    {count}%
+                  </div>
+                  
+                  <m.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: phase === 'complete' ? 1 : 0.6 }}
+                    className="font-mono text-[11px] md:text-xs text-cyber-secondary uppercase tracking-[0.2em] mt-1"
+                  >
+                    {phase === 'complete' ? 'Performance Otimizada' : 'Sincronizando Sistemas...'}
+                  </m.div>
+                  
+                  {/* Progress Bar (Bottom) */}
+                  <div className="w-32 h-3 bg-cyber-slate/30 mx-auto mt-4 overflow-hidden">
+                    <m.div 
+                      className="h-full bg-cyber-primary box-glow"
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${count}%` }}
+                      transition={{ duration: 0.1 }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             
-            {/* Background geometric shapes */}
-            <div className="absolute -z-10 top-10 -right-10 w-full h-full border border-cyber-secondary/20 clip-corner bg-cyber-secondary/5" />
+            {/* HUD Scanning Line */}
+            {phase === 'loading' && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden clip-corner">
+                <div className="w-full h-[2px] bg-cyber-primary/30 shadow-[0_0_15px_rgba(0,240,255,0.5)] animate-scan" />
+              </div>
+            )}
           </m.div>
 
         </div>
