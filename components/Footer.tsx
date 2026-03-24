@@ -18,12 +18,15 @@ export const Footer: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center gap-4 mb-4">
            {/* Logo Section - Matching Navbar Style */}
-            <img 
-              src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
-              alt="Gorin Logo" 
-              className="h-32 md:h-36 w-auto object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-transform duration-500 hover:scale-110 !bg-transparent !bg-none !border-none !p-0 !m-0 cursor-pointer" 
-              referrerPolicy="no-referrer"
-            />
+           <div className="relative group cursor-pointer">
+              <div className="relative border border-cyber-primary/30 p-4 bg-transparent clip-corner transition-colors hover:border-cyber-primary">
+                <img 
+                  src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
+                  alt="Gorin Logo" 
+                  className="h-32 md:h-36 w-auto object-contain" 
+                />
+              </div>
+           </div>
            
           <span className="font-mono font-bold text-xl tracking-tighter text-cyber-white">
             GORIN <span className="text-cyber-primary">SOLUÇÕES</span>
