@@ -66,7 +66,7 @@ export const Testimonials: React.FC = () => {
                 transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
                 className="group h-full"
               >
-                <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
+                <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col min-h-[480px] ${
                   testimonial.isLocked 
                     ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
                     : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
@@ -91,21 +91,21 @@ export const Testimonials: React.FC = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="flex-grow">
+                  <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar mb-8">
                     {testimonial.isLocked ? (
                       <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
                          <Lock size={32} />
                          <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
                       </div>
                     ) : (
-                      <p className="text-cyber-gray italic mb-8 leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
+                      <p className="text-cyber-gray italic leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
                         "{testimonial.content}"
                       </p>
                     )}
                   </div>
 
                   {/* Footer */}
-                  <div className={`flex items-center justify-between border-t pt-6 ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
+                  <div className={`flex items-center justify-between border-t pt-6 mt-auto ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
                     <div>
                       <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
                       <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">

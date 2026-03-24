@@ -132,7 +132,7 @@ export const Services: React.FC = () => {
   const m = motion as any;
 
   return (
-    <section id="services" className="py-24 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
+    <section id="services" className="pt-24 pb-12 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
       <div className="absolute inset-0 bg-cyber-grid bg-[size:40px_40px] opacity-10 pointer-events-none" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

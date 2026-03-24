@@ -7,7 +7,7 @@ export const LeadMagnet: React.FC = () => {
   const m = motion as any;
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="pt-12 pb-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-cyber-secondary/5 skew-y-3 transform origin-right" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
