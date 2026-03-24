@@ -41,8 +41,34 @@ const testimonials: Testimonial[] = [
 export const Testimonials: React.FC = () => {
   const m = motion as any;
   const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(3);
 
-  const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, 3);
+  React.useEffect(() => {
+    const updateCount = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isPortrait = height > width;
+
+      if (width < 768) {
+        setVisibleCount(2); // Mobile
+      } else if (width < 1024) {
+        // Tablet range
+        if (isPortrait) {
+          setVisibleCount(4); // Tablet Portrait
+        } else {
+          setVisibleCount(3); // Tablet Landscape
+        }
+      } else {
+        setVisibleCount(3); // Desktop
+      }
+    };
+
+    updateCount();
+    window.addEventListener('resize', updateCount);
+    return () => window.removeEventListener('resize', updateCount);
+  }, []);
+
+  const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, visibleCount);
 
   return (
     <section id="testimonials" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
@@ -64,9 +90,9 @@ export const Testimonials: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
-                className="group h-full"
+                className="group h-full flex flex-col"
               >
-                <div className={`h-full border p-8 clip-corner relative transition-all duration-500 flex flex-col min-h-[480px] ${
+                <div className={`flex-1 border p-8 clip-corner relative transition-all duration-500 flex flex-col h-[420px] ${
                   testimonial.isLocked 
                     ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
                     : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
@@ -126,7 +152,7 @@ export const Testimonials: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        {testimonials.length > 3 && (
+        {testimonials.length > visibleCount && (
           <div className="mt-12 text-center">
             <button 
               onClick={() => setShowAll(!showAll)}
