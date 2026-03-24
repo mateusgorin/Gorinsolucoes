@@ -148,15 +148,6 @@ export const Hero: React.FC = () => {
                 <div className="text-center flex flex-col items-center justify-center">
                   {/* Logo Container */}
                   <div className="relative w-[161px] h-[161px] mb-4 flex items-center justify-center">
-                    {/* Initial Light Point */}
-                    {phase === 'initial' && (
-                      <m.div 
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: [0, 1.5, 1], opacity: [0, 1, 0.8] }}
-                        className="absolute w-4 h-4 bg-cyber-primary rounded-full blur-md"
-                      />
-                    )}
-
                     {/* The Pig Logo */}
                     <m.img 
                       src={logoUrl}
