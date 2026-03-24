@@ -162,17 +162,17 @@ export const Hero: React.FC = () => {
                       src={logoUrl}
                       alt="Gorin Logo"
                       referrerPolicy="no-referrer"
-                      initial={{ opacity: 0, scale: 0.9 }}
+                      initial={{ opacity: 0, scale: 1.4 }}
                       animate={{ 
                         opacity: Math.max(0, (count - 30) / 70),
-                        scale: phase === 'complete' ? [1, 1.05, 1] : 1,
+                        scale: phase === 'complete' ? [1.4, 1.45, 1.4] : 1.4,
                         filter: `drop-shadow(0 0 ${count / 5}px rgba(0, 240, 255, ${count / 100}))`
                       }}
                       transition={{ 
                         opacity: { duration: 0.2 },
                         scale: phase === 'complete' ? { duration: 2, repeat: Infinity } : { duration: 0.5 }
                       }}
-                      className={`w-[115%] h-[115%] object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
+                      className={`w-full h-full object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
                     />
                   </div>
 
