@@ -67,18 +67,17 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
   );
 
   return (
-    <div className="relative w-full h-screen bg-[#0a0a0a] flex items-center justify-center overflow-hidden font-mono text-[#00D4FF] selection:bg-[#7B2FBE] selection:text-white">
-      {/* Background Grid */}
-      <div 
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `linear-gradient(${primary} 1px, transparent 1px), linear-gradient(90deg, ${primary} 1px, transparent 1px)`,
-          backgroundSize: '40px 40px'
-        }}
-      />
-
+    <div className="relative w-full h-full flex items-center justify-center font-mono text-[#00D4FF] selection:bg-[#7B2FBE] selection:text-white">
       {/* Main HUD Container */}
-      <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center p-8">
+      <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center p-8 overflow-hidden border border-[#00D4FF11]">
+        {/* Background Grid - Moved inside and scoped to HUD */}
+        <div 
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(${primary} 1px, transparent 1px), linear-gradient(90deg, ${primary} 1px, transparent 1px)`,
+            backgroundSize: '40px 40px'
+          }}
+        />
         
         {/* Scanner Corners [ ] */}
         <div className="absolute inset-0 pointer-events-none">
@@ -165,7 +164,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
               <motion.div 
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="absolute top-6 left-6"
+                className="absolute top-3 left-6"
               >
                 SYS_STATUS: <span className="text-green-400">ONLINE</span>
               </motion.div>
@@ -173,7 +172,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="absolute top-6 right-6 text-right"
+                className="absolute top-3 right-6 text-right"
               >
                 PERF: <span className="text-white">99/100</span>
               </motion.div>
@@ -181,7 +180,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="absolute bottom-12 left-6"
+                className="absolute bottom-16 left-6"
               >
                 SEO: <span className="text-white">ATIVO</span>
               </motion.div>
@@ -189,7 +188,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="absolute bottom-12 right-6 text-right"
+                className="absolute bottom-16 right-6 text-right"
               >
                 VER.SIS: <span className="text-white">2.0</span>
               </motion.div>
@@ -199,7 +198,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Mascot Centerpiece */}
         <motion.div 
-          className="relative w-32 h-32 md:w-48 md:h-48 z-20"
+          className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-4"
           animate={{ 
             scale: [1, 1.02, 1],
             filter: glitch 
@@ -235,7 +234,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Terminal Text */}
         <motion.div 
-          className="absolute bottom-16 w-full text-center text-[10px] md:text-xs tracking-[0.3em] uppercase"
+          className="absolute bottom-20 w-full text-center text-[10px] md:text-xs tracking-[0.3em] uppercase"
           animate={{ opacity: [1, 0.4, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
@@ -248,7 +247,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
             <span>Performance</span>
             <span>100%</span>
           </div>
-          <div className="h-1 w-full bg-[#00D4FF11] rounded-full overflow-hidden border border-[#00D4FF22]">
+          <div className="h-2 w-full bg-[#00D4FF11] rounded-full overflow-hidden border border-[#00D4FF22]">
             <motion.div 
               className="h-full bg-gradient-to-r from-[#7B2FBE] to-[#00D4FF]"
               initial={{ width: 0 }}
@@ -260,15 +259,6 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
       </div>
 
-      {/* Decorative HUD Elements outside main container */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-10 left-10 opacity-20 text-[8px] leading-tight">
-          {`> LOAD_MODULE: CORE_AI\n> STATUS: OPTIMIZED\n> ENCRYPTION: AES-256`}
-        </div>
-        <div className="absolute bottom-10 right-10 opacity-20 text-[8px] text-right leading-tight">
-          {`LATENCY: 12ms\nREGION: BR-DF\nUPTIME: 99.9%`}
-        </div>
-      </div>
     </div>
   );
 };
