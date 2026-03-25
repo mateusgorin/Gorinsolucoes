@@ -12,7 +12,10 @@ import {
   Rocket,
   MousePointer2,
   Bot,
-  Code2
+  Code2,
+  FileCheck,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const mainPillars = [
@@ -68,7 +71,7 @@ const services = [
     category: "SAFE"
   },
   {
-    icon: Bot,
+    icon: Code2,
     title: "TECNOLOGIA DE PONTA",
     desc: "Desenvolvido com React, TypeScript e Vite — as mesmas tecnologias usadas por grandes empresas. Rápido, estável e fácil de evoluir.",
     category: "FUTURO"
@@ -77,13 +80,71 @@ const services = [
 
 const processSteps = [
   { step: "01", title: "BRIEFING", icon: MessageSquare, desc: "Análise profunda do seu negócio e objetivos." },
-  { step: "02", title: "DESIGN", icon: MousePointer2, desc: "Prototipagem da interface focada em UX/UI." },
-  { step: "03", title: "BUILD", icon: Code2, desc: "Codificação limpa com tecnologias de elite." },
-  { step: "04", title: "LAUNCH", icon: Rocket, desc: "Otimização final e publicação do seu projeto." }
+  { step: "02", title: "PROPOSTA", icon: FileCheck, desc: "Escopo, prazo e investimento definidos com clareza." },
+  { step: "03", title: "DESIGN", icon: MousePointer2, desc: "Prototipagem da interface focada em UX/UI." },
+  { step: "04", title: "BUILD", icon: Code2, desc: "Codificação limpa com tecnologias de elite." },
+  { step: "05", title: "TESTES", icon: ShieldCheck, desc: "Validação completa de performance, SEO e responsividade antes de publicar." },
+  { step: "06", title: "ENTREGA & TREINAMENTO", icon: Rocket, desc: "Publicação do projeto + você aprende a gerenciar seu site com autonomia." }
 ];
 
 export const Services: React.FC = () => {
   const m = motion as any;
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [itemsPerPage, setItemsPerPage] = React.useState(4);
+  const [isPaused, setIsPaused] = React.useState(false);
+  const pauseTimerRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerPage(1);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerPage(2);
+      } else {
+        setItemsPerPage(4);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const nextSlide = React.useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % processSteps.length);
+  }, []);
+
+  const prevSlide = React.useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + processSteps.length) % processSteps.length);
+  }, []);
+
+  const startAutoPause = () => {
+    setIsPaused(true);
+    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 8000);
+  };
+
+  const handleManualNext = () => {
+    nextSlide();
+    startAutoPause();
+  };
+
+  const handleManualPrev = () => {
+    prevSlide();
+    startAutoPause();
+  };
+
+  React.useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(nextSlide, 4000);
+    return () => clearInterval(timer);
+  }, [nextSlide, isPaused]);
+
+  // Calculate visible steps for the carousel
+  // For a smooth infinite-like feel or just clamping
+  // Let's use a simple translation based on currentIndex
 
   return (
     <section id="services" className="pt-24 pb-12 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
@@ -158,34 +219,68 @@ export const Services: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Fluxo de Processo */}
-        <div className="py-24 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-8 clip-corner relative overflow-hidden">
+        {/* 3. Fluxo de Processo (Carousel) */}
+        <div className="pt-24 pb-12 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-4 sm:px-16 clip-corner relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20">PROCESS_TRACKER_V2</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {processSteps.map((step, idx) => (
+          
+          <div 
+            className="relative group/carousel"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => {
+              if (!pauseTimerRef.current) setIsPaused(false);
+            }}
+          >
+            {/* Navigation Arrows - Positioned outside the cards area */}
+            <button 
+              onClick={handleManualPrev}
+              className="absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyber-black/80 border border-cyber-primary/30 text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:block"
+              aria-label="Previous step"
+            >
+              <ChevronLeft size={28} />
+            </button>
+            <button 
+              onClick={handleManualNext}
+              className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyber-black/80 border border-cyber-primary/30 text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:block"
+              aria-label="Next step"
+            >
+              <ChevronRight size={28} />
+            </button>
+
+            <div className="overflow-hidden py-6 -my-6">
               <m.div 
-                key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.2 }}
-                className="relative flex flex-col items-center text-center group"
+                className="flex"
+                animate={{ x: `-${currentIndex * (100 / itemsPerPage)}%` }}
+                transition={{ 
+                  duration: 0.6, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
               >
-                <div className="mb-6 relative">
-                  <div className="w-16 h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary transition-colors z-10 relative">
-                    <step.icon className="w-8 h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
+                {processSteps.map((step, idx) => (
+                  <div 
+                    key={idx}
+                    className="flex-shrink-0 px-4"
+                    style={{ width: `${100 / itemsPerPage}%` }}
+                  >
+                    <div className="relative flex flex-col items-center text-center group h-[220px] justify-start">
+                      <div className="mb-6 relative">
+                        <div className="w-16 h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary transition-colors z-10 relative">
+                          <step.icon className="w-8 h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
+                        </div>
+                        <div className="absolute -top-2 -right-2 bg-cyber-primary text-black font-mono text-xs font-bold px-1.5 py-0.5">
+                          {step.step}
+                        </div>
+                        {/* Connector line - only show if not the last item in the full list */}
+                        {idx < processSteps.length - 1 && (
+                          <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
+                        )}
+                      </div>
+                      <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-sm sm:text-base">{step.title}</h4>
+                      <p className="text-cyber-gray text-xs sm:text-sm leading-snug max-w-[200px]">{step.desc}</p>
+                    </div>
                   </div>
-                  <div className="absolute -top-2 -right-2 bg-cyber-primary text-black font-mono text-xs font-bold px-1.5 py-0.5">
-                    {step.step}
-                  </div>
-                  {idx < 3 && (
-                    <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
-                  )}
-                </div>
-                <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest">{step.title}</h4>
-                <p className="text-cyber-gray text-sm leading-snug">{step.desc}</p>
+                ))}
               </m.div>
-            ))}
+            </div>
           </div>
         </div>
 

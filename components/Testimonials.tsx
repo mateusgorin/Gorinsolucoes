@@ -38,8 +38,93 @@ const testimonials: Testimonial[] = [
   }
 ];
 
+const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimonial; idx: number; showAll: boolean }>(({ testimonial, idx, showAll }, ref) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  
+  // Vanessa's testimonial is the shortest (~388 chars). We'll use ~380 as reference.
+  const maxLength = 380;
+  const isLong = testimonial.content.length > maxLength;
+  const displayContent = isExpanded ? testimonial.content : testimonial.content.slice(0, maxLength);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
+      className="group h-full flex flex-col"
+    >
+      <div className={`flex-1 border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
+        isExpanded ? 'h-auto min-h-[420px]' : 'h-[420px]'
+      } ${
+        testimonial.isLocked 
+          ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
+          : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
+      }`}>
+        
+        {/* Quote Icon */}
+        <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
+          <Quote size={48} />
+        </div>
+
+        {/* Stars/Status */}
+        <div className="flex gap-1 mb-6">
+          {testimonial.isLocked ? (
+            <div className="flex items-center gap-2 font-mono text-[10px] text-gray-500">
+              <Loader2 size={14} className="animate-spin" /> STATUS: AGUARDANDO_DADOS
+            </div>
+          ) : (
+            [...Array(5)].map((_, i) => (
+              <Star key={i} size={16} className="fill-cyber-primary text-cyber-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
+            ))
+          )}
+        </div>
+
+        {/* Content */}
+        <div className={`flex-grow ${isExpanded ? '' : 'overflow-hidden'} mb-8`}>
+          {testimonial.isLocked ? (
+            <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
+               <Lock size={32} />
+               <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
+            </div>
+          ) : (
+            <p className="text-cyber-gray italic leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
+              "{displayContent}{!isExpanded && isLong ? '...' : ''}"
+              {isLong && (
+                <button 
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-[#00D4FF] ml-1 hover:underline cursor-pointer inline-flex items-center font-sans text-sm md:text-base"
+                >
+                  {isExpanded ? 'ver menos ↑' : 'ver mais →'}
+                </button>
+              )}
+            </p>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className={`flex items-center justify-between border-t pt-6 mt-auto ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
+          <div>
+            <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
+            <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
+              {testimonial.project}
+            </p>
+          </div>
+          
+          {!testimonial.isLocked && (
+            <div className="flex items-center gap-1 text-[9px] font-mono text-green-400 bg-green-400/5 px-2 py-0.5 border border-green-400/20">
+              <ShieldCheck size={10} />
+              FEEDBACK_REAL
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+});
+
 export const Testimonials: React.FC = () => {
-  const m = motion as any;
   const [showAll, setShowAll] = useState(false);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -84,70 +169,12 @@ export const Testimonials: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {visibleTestimonials.map((testimonial, idx) => (
-              <m.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
-                className="group h-full flex flex-col"
-              >
-                <div className={`flex-1 border p-8 clip-corner relative transition-all duration-500 flex flex-col h-[420px] ${
-                  testimonial.isLocked 
-                    ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
-                    : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
-                }`}>
-                  
-                  {/* Quote Icon */}
-                  <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
-                    <Quote size={48} />
-                  </div>
-
-                  {/* Stars/Status */}
-                  <div className="flex gap-1 mb-6">
-                    {testimonial.isLocked ? (
-                      <div className="flex items-center gap-2 font-mono text-[10px] text-gray-500">
-                        <Loader2 size={14} className="animate-spin" /> STATUS: AGUARDANDO_DADOS
-                      </div>
-                    ) : (
-                      [...Array(5)].map((_, i) => (
-                        <Star key={i} size={16} className="fill-cyber-primary text-cyber-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-                      ))
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar mb-8">
-                    {testimonial.isLocked ? (
-                      <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
-                         <Lock size={32} />
-                         <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
-                      </div>
-                    ) : (
-                      <p className="text-cyber-gray italic leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
-                        "{testimonial.content}"
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Footer */}
-                  <div className={`flex items-center justify-between border-t pt-6 mt-auto ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
-                    <div>
-                      <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
-                      <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
-                        {testimonial.project}
-                      </p>
-                    </div>
-                    
-                    {!testimonial.isLocked && (
-                      <div className="flex items-center gap-1 text-[9px] font-mono text-green-400 bg-green-400/5 px-2 py-0.5 border border-green-400/20">
-                        <ShieldCheck size={10} />
-                        FEEDBACK_REAL
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </m.div>
+              <TestimonialCard 
+                key={testimonial.name} 
+                testimonial={testimonial} 
+                idx={idx} 
+                showAll={showAll} 
+              />
             ))}
           </AnimatePresence>
         </div>
