@@ -198,7 +198,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Mascot Centerpiece */}
         <motion.div 
-          className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-10"
+          className="relative w-20 h-20 md:w-28 md:h-28 z-20 -translate-y-10"
           animate={{ 
             scale: [1, 1.02, 1],
             filter: glitch 

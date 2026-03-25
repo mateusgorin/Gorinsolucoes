@@ -23,13 +23,13 @@ export const Footer: React.FC = () => {
                 <img 
                   src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
                   alt="Gorin Logo" 
-                  className="h-32 md:h-36 w-auto object-contain" 
+                  className="h-16 md:h-18 w-auto object-contain" 
                 />
               </div>
            </div>
            
           <span className="font-mono font-bold text-xl tracking-tighter text-cyber-white">
-            GORIN <span className="text-cyber-primary">SOLUÇÕES</span>
+            GORIN <span className="text-cyber-secondary">SOLUÇÕES</span>
           </span>
         </div>
         
