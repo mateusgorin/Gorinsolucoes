@@ -198,7 +198,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Mascot Centerpiece */}
         <motion.div 
-          className="relative w-20 h-20 md:w-28 md:h-28 z-20 -translate-y-10"
+          className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-10"
           animate={{ 
             scale: [1, 1.02, 1],
             filter: glitch 
@@ -235,8 +235,14 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
         {/* Terminal Text */}
         <motion.div 
           className="absolute bottom-[115px] w-full text-center text-[10px] md:text-xs tracking-[0.3em] uppercase"
-          animate={{ opacity: [1, 0.4, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.4, 1] }}
+          transition={{ 
+            delay: 4, 
+            duration: 1.5, 
+            repeat: Infinity,
+            times: [0, 0.33, 0.66, 1]
+          }}
         >
           SISTEMA INICIALIZADO
         </motion.div>
@@ -252,7 +258,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
               className="h-full bg-gradient-to-r from-[#7B2FBE] to-[#00D4FF]"
               initial={{ width: 0 }}
               animate={{ width: '100%' }}
-              transition={{ duration: 2, ease: "easeOut" }}
+              transition={{ duration: 4, ease: "easeOut" }}
             />
           </div>
         </div>
