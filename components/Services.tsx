@@ -82,10 +82,6 @@ const processSteps = [
   { step: "04", title: "LAUNCH", icon: Rocket, desc: "Otimização final e publicação do seu projeto." }
 ];
 
-const techStack = [
-  "REACT", "TYPESCRIPT", "TAILWIND CSS", "FRAMER MOTION", "GEMINI AI", "NODE.JS", "VITE", "SEO PRO", "GOOGLE CLOUD"
-];
-
 export const Services: React.FC = () => {
   const m = motion as any;
 
@@ -193,17 +189,6 @@ export const Services: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. Tech Stack Ticker */}
-        <div className="overflow-hidden py-10 border-b border-cyber-primary/10 relative bg-cyber-primary/5">
-          <div className="flex items-center whitespace-nowrap animate-[scroll_30s_linear_infinite]">
-             {[...techStack, ...techStack].map((tech, i) => (
-               <span key={i} className="mx-8 font-mono text-[10px] md:text-xs text-cyber-primary/40 hover:text-cyber-primary transition-colors cursor-default tracking-[0.2em] leading-none">
-                 {tech}
-               </span>
-             ))}
-          </div>
-        </div>
-
         {/* CTA Section */}
         <m.div 
           initial={{ opacity: 0, scale: 0.9 }}
@@ -224,13 +209,6 @@ export const Services: React.FC = () => {
           </Button>
         </m.div>
       </div>
-
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </section>
   );
 };
