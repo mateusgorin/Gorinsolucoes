@@ -69,8 +69,8 @@ const services = [
   },
   {
     icon: Bot,
-    title: "TECNOLOGIA DE PONTA",
-    desc: "Desenvolvido com React, TypeScript e Vite — as mesmas tecnologias usadas por grandes empresas. Rápido, estável e fácil de evoluir.",
+    title: "Inteligência Artificial Avançada",
+    desc: "Chatbot com IA + textos persuasivos que vendem + tecnologia moderna (React, TypeScript, Gemini).",
     category: "FUTURO"
   }
 ];

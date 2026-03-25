@@ -225,15 +225,15 @@
 
       /* Cyberpunk Animations Refined from Video */
       @keyframes rotate-rhombus-1 {
-        0% { transform: perspective(1200px) rotateZ(0deg) rotateX(20deg) rotateY(10deg) translateZ(50px); }
-        50% { transform: perspective(1200px) rotateZ(180deg) rotateX(-20deg) rotateY(-10deg) translateZ(80px); }
-        100% { transform: perspective(1200px) rotateZ(360deg) rotateX(20deg) rotateY(10deg) translateZ(50px); }
+        0% { transform: perspective(1000px) rotateZ(0deg) rotateX(30deg) rotateY(15deg) scale(1); }
+        50% { transform: perspective(1000px) rotateZ(180deg) rotateX(-30deg) rotateY(-15deg) scale(1.1); }
+        100% { transform: perspective(1000px) rotateZ(360deg) rotateX(30deg) rotateY(15deg) scale(1); }
       }
 
       @keyframes rotate-rhombus-2 {
-        0% { transform: perspective(1200px) rotateZ(360deg) rotateX(-15deg) rotateY(-20deg) translateZ(-30px); }
-        50% { transform: perspective(1200px) rotateZ(180deg) rotateX(15deg) rotateY(20deg) translateZ(-60px); }
-        100% { transform: perspective(1200px) rotateZ(0deg) rotateX(-15deg) rotateY(-20deg) translateZ(-30px); }
+        0% { transform: perspective(1000px) rotateZ(360deg) rotateX(-25deg) rotateY(-30deg) scale(1.1); }
+        50% { transform: perspective(1000px) rotateZ(180deg) rotateX(25deg) rotateY(30deg) scale(1); }
+        100% { transform: perspective(1000px) rotateZ(0deg) rotateX(-25deg) rotateY(-30deg) scale(1.1); }
       }
 
       @keyframes crosshair-pulse {
@@ -259,16 +259,9 @@
       }
 
       @keyframes frame-orbit-3d {
-        0% { transform: perspective(1500px) rotateY(0deg) rotateX(45deg) rotateZ(0deg) translateZ(100px); }
-        25% { transform: perspective(1500px) rotateY(90deg) rotateX(0deg) rotateZ(45deg) translateZ(150px); }
-        50% { transform: perspective(1500px) rotateY(180deg) rotateX(-45deg) rotateZ(0deg) translateZ(100px); }
-        75% { transform: perspective(1500px) rotateY(270deg) rotateX(0deg) rotateZ(-45deg) translateZ(150px); }
-        100% { transform: perspective(1500px) rotateY(360deg) rotateX(45deg) rotateZ(0deg) translateZ(100px); }
-      }
-
-      @keyframes glow-pulse-3d {
-        0%, 100% { transform: scale(0.8) translateZ(-100px); opacity: 0.1; }
-        50% { transform: scale(1.2) translateZ(-50px); opacity: 0.3; }
+        0% { transform: perspective(1200px) rotateY(0deg) rotateX(25deg) rotateZ(0deg); }
+        50% { transform: perspective(1200px) rotateY(180deg) rotateX(-25deg) rotateZ(10deg); }
+        100% { transform: perspective(1200px) rotateY(360deg) rotateX(25deg) rotateZ(0deg); }
       }
 
       .animate-3d-frame {
