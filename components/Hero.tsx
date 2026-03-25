@@ -2,27 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from './ui/Button';
 import { ChevronDown } from 'lucide-react';
+import GorinHeroAnimation from './GorinHeroAnimation';
 
 export const Hero: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
 
-  const logoUrl = "https://i.postimg.cc/K8CZPX21/Picsart-26-03-23-23-16-05-033.png";
-
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24">
+    <section 
+      id="home" 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24 bg-[#0a0a0a]"
+    >
       {/* Cyber Grid & Background */}
-      <div className="absolute inset-0 z-0 bg-cyber-black transition-colors duration-300">
-        <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-20 perspective-1000 transform-gpu" />
-        <div className="absolute inset-0 bg-gradient-to-t from-cyber-black via-transparent to-transparent" />
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-10 perspective-1000 transform-gpu" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
         
         {/* Animated Glow Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyber-primary/20 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-secondary/20 rounded-full blur-[100px] animate-pulse delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#00D4FF]/5 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7B2FBE]/5 rounded-full blur-[100px] animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12 max-w-6xl w-full">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto">
           
           {/* Text Content */}
           <m.div 
@@ -73,88 +75,28 @@ export const Hero: React.FC = () => {
             </m.div>
           </m.div>
 
-          {/* Visual Element / Cyberpunk Animated Container */}
+          {/* Visual Element - The New Cyber HUD Animation */}
           <m.div 
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex-1 w-full max-w-lg relative flex items-center justify-center"
+            transition={{ duration: 1 }}
+            className="flex-1 w-full max-w-2xl relative"
           >
-            <m.div 
-              className="relative w-full max-w-[480px] aspect-square flex items-center justify-center" 
-              style={{ transformStyle: 'preserve-3d', perspective: '1200px' }}
-              animate={{
-                rotateX: [2, -2, 2],
-                rotateY: [-2, 2, -2],
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            >
-              
-              {/* 3D Depth Glow Floor */}
-              <div className="absolute w-[120%] h-[120%] rounded-full bg-cyber-primary/20 blur-[100px] pointer-events-none" 
-                   style={{ animation: 'glow-pulse-3d 8s ease-in-out infinite', transformStyle: 'preserve-3d' }} />
-
-              {/* Binary Rain Background (Contained) */}
-              <div className="absolute w-[60%] h-[60%] overflow-hidden opacity-10 pointer-events-none z-10">
-                {[...Array(8)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className="binary-rain-column animate-rain"
-                    style={{ 
-                      left: `${i * 12.5 + 6}%`, 
-                      animationDuration: `${2 + Math.random() * 3}s`, 
-                      animationDelay: `${Math.random() * 2}s` 
-                    }}
-                  >
-                    {"0101101001010110100101011010010101101001".split('').join('\n')}
-                  </div>
-                ))}
-              </div>
-
-              {/* Rotating Rhombus 1 (Purple - Largest) */}
-              <div className="absolute w-[82%] h-[82%] neon-border-purple cyber-cut-corners animate-rotate-1" />
-              
-              {/* Rotating Rhombus 2 (White - Innermost) */}
-              <div className="absolute w-[72%] h-[72%] neon-border-white cyber-cut-corners animate-rotate-2" />
-
-              {/* Central Logo Container */}
-              <div className="relative w-[58%] h-[58%] flex items-center justify-center z-20" style={{ transformStyle: 'preserve-3d' }}>
-                
-                {/* 3D Rotating Square Frame (Orbiting) - Cyan with cut corners */}
-                <div className="absolute w-[110%] h-[110%] neon-border-cyan cyber-cut-corners bg-cyber-black/20 backdrop-blur-md animate-3d-frame" />
-
-                {/* Logo (Static position, independent animation) */}
-                <m.img 
-                  src={logoUrl}
-                  alt="Gorin Logo"
-                  referrerPolicy="no-referrer"
-                  className="w-[75%] h-[75%] object-contain drop-shadow-[0_0_15px_rgba(0,240,255,0.4)] relative z-30"
-                  animate={{ 
-                    scale: [1, 1.05, 1],
-                    rotateY: [-5, 5, -5],
-                    rotateX: [5, -5, 5],
-                    z: 20,
-                    filter: [
-                      'drop-shadow(0 0 10px rgba(0,240,255,0.3))',
-                      'drop-shadow(0 0 20px rgba(0,240,255,0.5))',
-                      'drop-shadow(0 0 10px rgba(0,240,255,0.3))'
-                    ]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </div>
-
-            </m.div>
+            <div className="relative aspect-square w-full">
+              <GorinHeroAnimation mascotSrc="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png" />
+            </div>
           </m.div>
 
         </div>
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <a href="#about" className="text-cyber-primary/50 hover:text-cyber-primary transition-colors" aria-label="Rolar para baixo">
+        <a href="#about" className="text-[#00D4FF]/50 hover:text-[#00D4FF] transition-colors" aria-label="Rolar para baixo">
           <ChevronDown size={32} />
         </a>
       </div>
     </section>
   );
 };
+
+export default Hero;

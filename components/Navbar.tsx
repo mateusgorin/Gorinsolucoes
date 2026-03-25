@@ -82,11 +82,19 @@ export const Navbar: React.FC = () => {
             onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#home')}
             className="group flex items-center gap-3 cursor-pointer" 
           >
-            <div className="relative w-10 h-10 flex items-center justify-center bg-cyber-primary/10 border border-cyber-primary/40 clip-corner-sm group-hover:bg-cyber-primary/20 transition-all p-1">
+            <div className="relative w-10 h-10 flex items-center justify-center bg-cyber-primary/10 border border-cyber-primary/40 clip-corner-sm group-hover:bg-cyber-primary/20 transition-all p-1 overflow-hidden">
+               {/* Scanning Line */}
+               <m.div 
+                 className="absolute left-0 w-full h-[1px] bg-cyber-primary/60 z-10"
+                 animate={{ top: ['0%', '100%', '0%'] }}
+                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+               />
+               
                <img 
-                 src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
+                 src="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png" 
                  alt="Logo Gorin" 
-                 className="w-full h-full object-contain"
+                 referrerPolicy="no-referrer"
+                 className="w-full h-full object-contain relative z-0"
                />
             </div>
             
