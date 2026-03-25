@@ -80,8 +80,20 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex-1 w-full max-w-lg relative flex items-center justify-center"
           >
-            <div className="relative w-full max-w-[480px] aspect-square flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+            <m.div 
+              className="relative w-full max-w-[480px] aspect-square flex items-center justify-center" 
+              style={{ transformStyle: 'preserve-3d', perspective: '1200px' }}
+              animate={{
+                rotateX: [2, -2, 2],
+                rotateY: [-2, 2, -2],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            >
               
+              {/* 3D Depth Glow Floor */}
+              <div className="absolute w-[120%] h-[120%] rounded-full bg-cyber-primary/20 blur-[100px] pointer-events-none" 
+                   style={{ animation: 'glow-pulse-3d 8s ease-in-out infinite', transformStyle: 'preserve-3d' }} />
+
               {/* Binary Rain Background (Contained) */}
               <div className="absolute w-[60%] h-[60%] overflow-hidden opacity-10 pointer-events-none z-10">
                 {[...Array(8)].map((_, i) => (
@@ -119,7 +131,9 @@ export const Hero: React.FC = () => {
                   className="w-[75%] h-[75%] object-contain drop-shadow-[0_0_15px_rgba(0,240,255,0.4)] relative z-30"
                   animate={{ 
                     scale: [1, 1.05, 1],
-                    z: 0,
+                    rotateY: [-5, 5, -5],
+                    rotateX: [5, -5, 5],
+                    z: 20,
                     filter: [
                       'drop-shadow(0 0 10px rgba(0,240,255,0.3))',
                       'drop-shadow(0 0 20px rgba(0,240,255,0.5))',
@@ -130,7 +144,7 @@ export const Hero: React.FC = () => {
                 />
               </div>
 
-            </div>
+            </m.div>
           </m.div>
 
         </div>
