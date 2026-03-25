@@ -4,21 +4,15 @@ import { SectionHeading } from './ui/SectionHeading';
 import { Button } from './ui/Button';
 import { 
   Layout, 
-  Smartphone, 
   Search, 
   Zap, 
   MessageSquare, 
-  Instagram, 
-  Globe, 
-  Star, 
   ShieldCheck, 
-  PenTool,
-  BarChart3,
-  Code2,
   Layers,
   Rocket,
   MousePointer2,
-  Bot
+  Bot,
+  Code2
 } from 'lucide-react';
 
 const mainPillars = [
@@ -45,75 +39,39 @@ const mainPillars = [
 const services = [
   {
     icon: Layout,
-    title: "IDENTIDADE VISUAL",
-    desc: "Interface criada do zero, sem templates. Seu site vai parecer único e diferente de qualquer concorrente.",
-    category: "UI/UX"
-  },
-  {
-    icon: Smartphone,
-    title: "FUNCIONA EM TODO DISPOSITIVO",
-    desc: "Seu site vai funcionar perfeitamente no celular, tablet e computador — onde seu cliente estiver.",
-    category: "MOBILE"
-  },
-  {
-    icon: BarChart3,
-    title: "APAREÇA NO GOOGLE",
-    desc: "Otimização técnica para que seu negócio apareça nas primeiras buscas quando alguém procurar pelo que você oferece.",
-    category: "RANKING"
+    title: "Design Único & Responsivo",
+    desc: "Interface criada do zero com identidade visual exclusiva e que funciona perfeitamente em celular, tablet e desktop.",
+    category: "INCLUSO"
   },
   {
     icon: Zap,
-    title: "CARREGAMENTO INSTANTÂNEO",
-    desc: "Sites lentos perdem clientes. O seu vai carregar em segundos, em qualquer conexão.",
-    category: "SPEED"
-  },
-  {
-    icon: MessageSquare,
-    title: "BOTÃO DE WHATSAPP DIRETO",
-    desc: "Seu cliente clica e já cai no seu WhatsApp. Simples, direto e eficiente para fechar negócio.",
-    category: "VENDAS"
-  },
-  {
-    icon: Instagram,
-    title: "INSTAGRAM CONECTADO",
-    desc: "Seu feed do Instagram aparece direto no site, mostrando que seu negócio é ativo e real.",
-    category: "SOCIAL"
-  },
-  {
-    icon: Globe,
-    title: "GOOGLE MEU NEGÓCIO",
-    desc: "Configuramos seu perfil no Google para que você apareça no mapa e nas buscas da sua cidade.",
-    category: "TOOLS"
-  },
-  {
-    icon: Star,
-    title: "AVALIAÇÕES EM DESTAQUE",
-    desc: "Exibimos suas avaliações reais do Google direto no site para gerar confiança imediata em novos clientes.",
-    category: "TRUST"
-  },
-  {
-    icon: Bot,
-    title: "ATENDIMENTO COM INTELIGÊNCIA ARTIFICIAL",
-    desc: "Chatbot inteligente que responde dúvidas, qualifica leads e atende seu cliente mesmo quando você está ocupado.",
-    category: "FUTURE"
-  },
-  {
-    icon: ShieldCheck,
-    title: "SITE SEGURO E PROTEGIDO",
-    desc: "Certificado de segurança incluso. Seu site exibe o cadeado no navegador, transmitindo confiança total.",
-    category: "SAFETY"
-  },
-  {
-    icon: PenTool,
-    title: "TEXTOS QUE VENDEM",
-    desc: "Escrevemos todos os textos do site focados em convencer e converter — não apenas informar.",
-    category: "CONTENT"
+    title: "Carregamento Instantâneo",
+    desc: "Seu site carrega em frações de segundo, sem travamentos, mesmo com animações e imagens.",
+    category: "VELOZ"
   },
   {
     icon: Search,
-    title: "TECNOLOGIA DE ALTO NÍVEL",
-    desc: "Desenvolvido com as mesmas tecnologias usadas por grandes empresas. Rápido, estável e fácil de evoluir.",
-    category: "TECH"
+    title: "Visibilidade no Google",
+    desc: "Otimizado para aparecer nas buscas do Google + integração completa com Google Meu Negócio.",
+    category: "RANQUEADO"
+  },
+  {
+    icon: MessageSquare,
+    title: "Contato Direto com Clientes",
+    desc: "Botão de WhatsApp direto + Instagram conectado para você responder e fechar negócios na hora.",
+    category: "RÁPIDO"
+  },
+  {
+    icon: ShieldCheck,
+    title: "Confiança e Proteção Total",
+    desc: "Avaliações reais em destaque + certificado SSL e proteção total de segurança.",
+    category: "SAFE"
+  },
+  {
+    icon: Bot,
+    title: "Inteligência Artificial Avançada",
+    desc: "Chatbot com IA + textos persuasivos que vendem + tecnologia moderna (React, TypeScript, Gemini).",
+    category: "FUTURO"
   }
 ];
 
@@ -167,7 +125,7 @@ export const Services: React.FC = () => {
           <div className="flex items-center gap-4 mb-10">
             <Layers className="text-cyber-secondary" />
             <h3 className="font-mono text-cyber-white tracking-widest uppercase border-b border-cyber-secondary/30 pb-2">
-              RECURSOS_TECNOLÓGICOS_INCLUSOS
+              Tudo que seu site já vem incluso
             </h3>
           </div>
           

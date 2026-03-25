@@ -10,7 +10,7 @@ export const About: React.FC = () => {
   const stats = [
     { label: 'PROJETOS_ENTREGUES', value: '7+' },
     { label: 'SATISFAÇÃO_GARANTIDA', value: '100%' },
-    { label: 'BRASÍLIA_DF', value: 'BSB' },
+    { label: 'DF', value: 'BSB' },
   ];
 
   return (

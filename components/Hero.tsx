@@ -1,47 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from './ui/Button';
 import { ChevronDown } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
-
-  // Configuração da animação de carregamento futurista
-  const statsRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(statsRef, { once: true, margin: "-100px" });
-  const [count, setCount] = useState(0);
-  const [phase, setPhase] = useState<'initial' | 'loading' | 'complete'>('initial');
-
-  useEffect(() => {
-    if (isInView) {
-      // Fase 1: Início (Circuitos e Ponto de Luz) - 1s
-      const phase1Timeout = setTimeout(() => {
-        setPhase('loading');
-      }, 1000);
-
-      // Fase 2: Carregamento (0 a 100%) - 4s
-      const duration = 4000; 
-      const startTime = Date.now();
-      
-      const timer = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(Math.round((elapsed / duration) * 100), 100);
-        
-        setCount(progress);
-        
-        if (progress >= 100) {
-          clearInterval(timer);
-          setPhase('complete');
-        }
-      }, 30);
-
-      return () => {
-        clearTimeout(phase1Timeout);
-        clearInterval(timer);
-      };
-    }
-  }, [isInView]);
 
   const logoUrl = "https://i.postimg.cc/K8CZPX21/Picsart-26-03-23-23-16-05-033.png";
 
@@ -109,96 +73,60 @@ export const Hero: React.FC = () => {
             </m.div>
           </m.div>
 
-          {/* Visual Element / HUD - Futuristic Loading Animation */}
+          {/* Visual Element / Cyberpunk Animated Container */}
           <m.div 
-            ref={statsRef}
-            initial={{ opacity: 0, scale: 0.8, y: 0 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1,
-              y: [0, -15, 0]
-            }}
-            transition={{ 
-              duration: 0.8, 
-              delay: 0.2,
-              y: {
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }
-            }}
-            className="flex-1 w-full max-w-lg relative"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex-1 w-full max-w-lg relative flex items-center justify-center"
           >
-            <div className="relative aspect-square">
-              {/* Rotating Square (Border & Background) */}
-              <m.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border border-cyber-primary/20 bg-cyber-slate/50 clip-corner backdrop-blur-sm box-glow overflow-hidden"
-              >
-                {/* HUD Decorations */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyber-primary" />
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyber-primary" />
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyber-primary" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyber-primary" />
-              </m.div>
-
-              {/* Static Center Content */}
-              <div className="relative w-full h-full flex items-center justify-center p-8 z-10">
-                <div className="text-center flex flex-col items-center justify-center">
-                  {/* Logo Container */}
-                  <div className="relative w-[161px] h-[161px] mb-4 flex items-center justify-center">
-                    {/* The Pig Logo */}
-                    <m.img 
-                      src={logoUrl}
-                      alt="Gorin Logo"
-                      referrerPolicy="no-referrer"
-                      initial={{ opacity: 0, scale: 1.4 }}
-                      animate={{ 
-                        opacity: Math.max(0, (count - 30) / 70),
-                        scale: phase === 'complete' ? [1.4, 1.45, 1.4] : 1.4,
-                        filter: `drop-shadow(0 0 ${count / 5}px rgba(0, 240, 255, ${count / 100}))`
-                      }}
-                      transition={{ 
-                        opacity: { duration: 0.2 },
-                        scale: phase === 'complete' ? { duration: 2, repeat: Infinity } : { duration: 0.5 }
-                      }}
-                      className={`w-full h-full object-contain relative z-20 ${phase === 'complete' ? 'animate-pulse' : ''}`}
-                    />
-                  </div>
-
-                  {/* Stats Text */}
-                  <div className="font-mono text-3xl font-bold text-cyber-white tracking-widest tabular-nums">
-                    {count}%
-                  </div>
-                  
-                  <m.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: phase === 'complete' ? 1 : 0.6 }}
-                    className="font-mono text-[11px] md:text-xs text-cyber-secondary uppercase tracking-[0.2em] mt-1"
+            <div className="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
+              
+              {/* Binary Rain Background (Contained) */}
+              <div className="absolute w-[60%] h-[60%] overflow-hidden opacity-10 pointer-events-none z-10">
+                {[...Array(8)].map((_, i) => (
+                  <div 
+                    key={i}
+                    className="binary-rain-column animate-rain"
+                    style={{ 
+                      left: `${i * 12.5 + 6}%`, 
+                      animationDuration: `${2 + Math.random() * 3}s`, 
+                      animationDelay: `${Math.random() * 2}s` 
+                    }}
                   >
-                    {phase === 'complete' ? 'Performance Otimizada' : 'Sincronizando Sistemas...'}
-                  </m.div>
-                  
-                  {/* Progress Bar (Bottom) */}
-                  <div className="w-32 h-3 bg-cyber-slate/30 mx-auto mt-4 overflow-hidden">
-                    <m.div 
-                      className="h-full bg-cyber-primary box-glow"
-                      initial={{ width: "0%" }}
-                      animate={{ width: `${count}%` }}
-                      transition={{ duration: 0.1 }}
-                    />
+                    {"0101101001010110100101011010010101101001".split('').join('\n')}
                   </div>
-                </div>
+                ))}
               </div>
+
+              {/* Rotating Rhombus 1 (Purple) */}
+              <div className="absolute w-[82%] h-[82%] neon-border-purple rounded-[2.5rem] animate-rotate-1" />
+              
+              {/* Rotating Rhombus 2 (Cyan) */}
+              <div className="absolute w-[72%] h-[72%] neon-border-cyan rounded-[2.5rem] animate-rotate-2" />
+
+              {/* Central Square Container (Cube Effect) */}
+              <div className="relative w-[58%] h-[58%] neon-border-cyan rounded-xl bg-cyber-black/60 backdrop-blur-md flex items-center justify-center overflow-hidden z-20 animate-cube">
+                
+                {/* Logo */}
+                <m.img 
+                  src={logoUrl}
+                  alt="Gorin Logo"
+                  referrerPolicy="no-referrer"
+                  className="w-[75%] h-[75%] object-contain drop-shadow-[0_0_25px_rgba(0,240,255,1)] relative z-30"
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    filter: [
+                      'drop-shadow(0 0 15px rgba(0,240,255,0.7))',
+                      'drop-shadow(0 0 35px rgba(0,240,255,1))',
+                      'drop-shadow(0 0 15px rgba(0,240,255,0.7))'
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+
             </div>
-            
-            {/* HUD Scanning Line */}
-            {phase === 'loading' && (
-              <div className="absolute inset-0 pointer-events-none overflow-hidden clip-corner">
-                <div className="w-full h-[2px] bg-cyber-primary/30 shadow-[0_0_15px_rgba(0,240,255,0.5)] animate-scan" />
-              </div>
-            )}
           </m.div>
 
         </div>
