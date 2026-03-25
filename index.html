@@ -101,7 +101,9 @@
         --text-white: #ffffff;
         --text-gray: #9ca3af; /* gray-400 */
         --primary: #00f0ff;
+        --primary-rgb: 0, 240, 255;
         --secondary: #7000ff;
+        --secondary-rgb: 112, 0, 255;
       }
 
       .light-mode {
@@ -112,7 +114,9 @@
         --text-white: #0f172a; /* Dark text for light background */
         --text-gray: #475569; /* Slate 600 */
         --primary: #0097a7; /* Darker Cyan for contrast on white */
+        --primary-rgb: 0, 151, 167;
         --secondary: #6200ea; /* Slightly darker purple */
+        --secondary-rgb: 98, 0, 234;
       }
 
       html {
@@ -221,15 +225,15 @@
 
       /* Cyberpunk Animations Refined from Video */
       @keyframes rotate-rhombus-1 {
-        0% { transform: rotate(0deg) scale(1); }
-        50% { transform: rotate(180deg) scale(1.1); }
-        100% { transform: rotate(360deg) scale(1); }
+        0% { transform: perspective(1000px) rotateZ(0deg) rotateX(30deg) rotateY(15deg) scale(1); }
+        50% { transform: perspective(1000px) rotateZ(180deg) rotateX(-30deg) rotateY(-15deg) scale(1.1); }
+        100% { transform: perspective(1000px) rotateZ(360deg) rotateX(30deg) rotateY(15deg) scale(1); }
       }
 
       @keyframes rotate-rhombus-2 {
-        0% { transform: rotate(360deg) scale(1.1); }
-        50% { transform: rotate(180deg) scale(1); }
-        100% { transform: rotate(0deg) scale(1.1); }
+        0% { transform: perspective(1000px) rotateZ(360deg) rotateX(-25deg) rotateY(-30deg) scale(1.1); }
+        50% { transform: perspective(1000px) rotateZ(180deg) rotateX(25deg) rotateY(30deg) scale(1); }
+        100% { transform: perspective(1000px) rotateZ(0deg) rotateX(-25deg) rotateY(-30deg) scale(1.1); }
       }
 
       @keyframes crosshair-pulse {
@@ -245,32 +249,53 @@
       }
 
       .animate-rotate-1 {
-        animation: rotate-rhombus-1 12s linear infinite;
-      }
-
-      .animate-rotate-2 {
-        animation: rotate-rhombus-2 15s linear infinite;
-      }
-
-      @keyframes cube-rotate {
-        0% { transform: perspective(1000px) rotateY(-15deg) rotateX(5deg); }
-        50% { transform: perspective(1000px) rotateY(15deg) rotateX(-5deg); }
-        100% { transform: perspective(1000px) rotateY(-15deg) rotateX(5deg); }
-      }
-
-      .animate-cube {
-        animation: cube-rotate 6s ease-in-out infinite;
+        animation: rotate-rhombus-1 15s linear infinite;
         transform-style: preserve-3d;
       }
 
+      .animate-rotate-2 {
+        animation: rotate-rhombus-2 18s linear infinite;
+        transform-style: preserve-3d;
+      }
+
+      @keyframes frame-orbit-3d {
+        0% { transform: perspective(1200px) rotateY(0deg) rotateX(25deg) rotateZ(0deg); }
+        50% { transform: perspective(1200px) rotateY(180deg) rotateX(-25deg) rotateZ(10deg); }
+        100% { transform: perspective(1200px) rotateY(360deg) rotateX(25deg) rotateZ(0deg); }
+      }
+
+      .animate-3d-frame {
+        animation: frame-orbit-3d 10s linear infinite;
+        transform-style: preserve-3d;
+        backface-visibility: visible;
+      }
+
       .neon-border-cyan {
-        border: 2px solid #00f0ff;
-        box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), inset 0 0 10px rgba(0, 240, 255, 0.3);
+        border: 2px solid var(--primary);
+        box-shadow: 
+          0 0 5px rgba(var(--primary-rgb), 0.5),
+          0 0 15px rgba(var(--primary-rgb), 0.3),
+          inset 0 0 10px rgba(var(--primary-rgb), 0.2);
       }
 
       .neon-border-purple {
-        border: 2px solid #7000ff;
-        box-shadow: 0 0 20px rgba(112, 0, 255, 0.5), inset 0 0 10px rgba(112, 0, 255, 0.3);
+        border: 2px solid var(--secondary);
+        box-shadow: 
+          0 0 5px rgba(var(--secondary-rgb), 0.5),
+          0 0 15px rgba(var(--secondary-rgb), 0.3),
+          inset 0 0 10px rgba(var(--secondary-rgb), 0.2);
+      }
+
+      .neon-border-white {
+        border: 2px solid #ffffff;
+        box-shadow: 
+          0 0 5px rgba(255, 255, 255, 0.5),
+          0 0 15px rgba(255, 255, 255, 0.3),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      .cyber-cut-corners {
+        clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%);
       }
 
       .binary-rain-column {

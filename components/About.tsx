@@ -51,17 +51,17 @@ export const About: React.FC = () => {
 
           <div className="order-1 lg:order-2">
             <SectionHeading 
-              title="SOBRE A GORIN" 
+              title="SOBRE O GORIN" 
               subtitle="QUEM_SOMOS" 
               align="left"
             />
             
             <div className="space-y-6 text-cyber-gray text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
               <p>
-                <span className="text-cyber-primary font-mono">&lt;Visão&gt;</span> A <strong>Gorin Soluções</strong> nasceu para transformar a presença digital de empresas que buscam excelência. Somos especialistas em Web Design de alta performance e UX Estratégico, focados em converter visitantes em clientes reais.
+                <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> Gorin Soluções é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
               </p>
               <p>
-                Diretamente de <strong>Brasília</strong> para o mundo, construímos ecossistemas digitais — de Landing Pages a Sistemas Web complexos — utilizando tecnologias de elite como React e TypeScript. Nosso compromisso é entregar velocidade extrema, segurança absoluta e um design que posiciona sua marca no futuro.
+                Sediados em Brasília, desenvolvemos sites, landing pages e sistemas web com foco em design moderno, usabilidade e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
               </p>
             </div>
 

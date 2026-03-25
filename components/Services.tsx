@@ -96,7 +96,7 @@ export const Services: React.FC = () => {
         />
 
         {/* 1. Pilares de Destaque */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
           {mainPillars.map((pillar, idx) => (
             <m.div
               key={idx}
@@ -159,7 +159,7 @@ export const Services: React.FC = () => {
         </div>
 
         {/* 3. Fluxo de Processo */}
-        <div className="py-20 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-8 clip-corner relative overflow-hidden">
+        <div className="py-24 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-8 clip-corner relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20">PROCESS_TRACKER_V2</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             {processSteps.map((step, idx) => (
@@ -193,7 +193,7 @@ export const Services: React.FC = () => {
         <m.div 
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          className="mt-20 p-10 border border-cyber-primary/30 bg-cyber-primary/5 text-center max-w-4xl mx-auto clip-corner relative group overflow-hidden"
+          className="mt-24 p-10 border border-cyber-primary/30 bg-cyber-primary/5 text-center max-w-4xl mx-auto clip-corner relative group overflow-hidden"
         >
           <div className="absolute inset-0 bg-cyber-grid bg-[size:20px_20px] opacity-10 group-hover:opacity-20 transition-opacity" />
           <h3 className="text-3xl font-mono font-bold text-cyber-white mb-4 relative z-10 uppercase tracking-tighter">PRONTO PARA EVOLUIR SUA PRESENÇA DIGITAL?</h3>

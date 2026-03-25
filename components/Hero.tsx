@@ -80,7 +80,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex-1 w-full max-w-lg relative flex items-center justify-center"
           >
-            <div className="relative w-full max-w-[480px] aspect-square flex items-center justify-center">
+            <div className="relative w-full max-w-[480px] aspect-square flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
               
               {/* Binary Rain Background (Contained) */}
               <div className="absolute w-[60%] h-[60%] overflow-hidden opacity-10 pointer-events-none z-10">
@@ -99,27 +99,31 @@ export const Hero: React.FC = () => {
                 ))}
               </div>
 
-              {/* Rotating Rhombus 1 (Purple) */}
-              <div className="absolute w-[82%] h-[82%] neon-border-purple rounded-[2.5rem] animate-rotate-1" />
+              {/* Rotating Rhombus 1 (Purple - Largest) */}
+              <div className="absolute w-[82%] h-[82%] neon-border-purple cyber-cut-corners animate-rotate-1" />
               
-              {/* Rotating Rhombus 2 (Cyan) */}
-              <div className="absolute w-[72%] h-[72%] neon-border-cyan rounded-[2.5rem] animate-rotate-2" />
+              {/* Rotating Rhombus 2 (White - Innermost) */}
+              <div className="absolute w-[72%] h-[72%] neon-border-white cyber-cut-corners animate-rotate-2" />
 
-              {/* Central Square Container (Cube Effect) */}
-              <div className="relative w-[58%] h-[58%] neon-border-cyan rounded-xl bg-cyber-black/60 backdrop-blur-md flex items-center justify-center overflow-hidden z-20 animate-cube">
+              {/* Central Logo Container */}
+              <div className="relative w-[58%] h-[58%] flex items-center justify-center z-20" style={{ transformStyle: 'preserve-3d' }}>
                 
-                {/* Logo */}
+                {/* 3D Rotating Square Frame (Orbiting) - Cyan with cut corners */}
+                <div className="absolute w-[110%] h-[110%] neon-border-cyan cyber-cut-corners bg-cyber-black/20 backdrop-blur-md animate-3d-frame" />
+
+                {/* Logo (Static position, independent animation) */}
                 <m.img 
                   src={logoUrl}
                   alt="Gorin Logo"
                   referrerPolicy="no-referrer"
-                  className="w-[75%] h-[75%] object-contain drop-shadow-[0_0_25px_rgba(0,240,255,1)] relative z-30"
+                  className="w-[75%] h-[75%] object-contain drop-shadow-[0_0_15px_rgba(0,240,255,0.4)] relative z-30"
                   animate={{ 
                     scale: [1, 1.05, 1],
+                    z: 0,
                     filter: [
-                      'drop-shadow(0 0 15px rgba(0,240,255,0.7))',
-                      'drop-shadow(0 0 35px rgba(0,240,255,1))',
-                      'drop-shadow(0 0 15px rgba(0,240,255,0.7))'
+                      'drop-shadow(0 0 10px rgba(0,240,255,0.3))',
+                      'drop-shadow(0 0 20px rgba(0,240,255,0.5))',
+                      'drop-shadow(0 0 10px rgba(0,240,255,0.3))'
                     ]
                   }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
