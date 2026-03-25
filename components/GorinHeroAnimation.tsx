@@ -180,7 +180,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="absolute bottom-16 left-6"
+                className="absolute bottom-[12px] left-6"
               >
                 SEO: <span className="text-white">ATIVO</span>
               </motion.div>
@@ -188,7 +188,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="absolute bottom-16 right-6 text-right"
+                className="absolute bottom-[12px] right-6 text-right"
               >
                 VER.SIS: <span className="text-white">2.0</span>
               </motion.div>
@@ -198,7 +198,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Mascot Centerpiece */}
         <motion.div 
-          className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-4"
+          className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-10"
           animate={{ 
             scale: [1, 1.02, 1],
             filter: glitch 
@@ -234,7 +234,7 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
 
         {/* Terminal Text */}
         <motion.div 
-          className="absolute bottom-20 w-full text-center text-[10px] md:text-xs tracking-[0.3em] uppercase"
+          className="absolute bottom-[115px] w-full text-center text-[10px] md:text-xs tracking-[0.3em] uppercase"
           animate={{ opacity: [1, 0.4, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
@@ -242,12 +242,12 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
         </motion.div>
 
         {/* Progress Bar */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[80%] max-w-[300px]">
+        <div className="absolute bottom-[45px] left-1/2 -translate-x-1/2 w-[80%] max-w-[300px]">
           <div className="flex justify-between text-[8px] mb-1 uppercase tracking-widest">
             <span>Performance</span>
             <span>100%</span>
           </div>
-          <div className="h-2 w-full bg-[#00D4FF11] rounded-full overflow-hidden border border-[#00D4FF22]">
+          <div className="h-4 w-full bg-[#00D4FF11] rounded-full overflow-hidden border border-[#00D4FF22]">
             <motion.div 
               className="h-full bg-gradient-to-r from-[#7B2FBE] to-[#00D4FF]"
               initial={{ width: 0 }}
