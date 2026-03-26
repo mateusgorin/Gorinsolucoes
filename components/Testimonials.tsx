@@ -35,6 +35,12 @@ const testimonials: Testimonial[] = [
     role: "Proprietária",
     project: "Proprietária Amorim Ergonomia",
     content: "Procurei a Gorin Soluções para criação do site, tinha uma ideia de como ficaria mas ao longo da criação o Mateus foi alinhando junto comigo as ideias, o site ficou perfeito, rápido e visualmente impecável. O trabalho foi feito com atenção aos detalhes e muita dedicação. Após a criação do site obtive bastante resultados e muitos clientes. Recomendo de olhos fechados."
+  },
+  {
+    name: "LARISSA",
+    role: "Proprietária",
+    project: "Proprietária Marmoraria Ventura",
+    content: "Quero deixar aqui meu agradecimento e reconhecimento pelo trabalho incrível que o Mateus Gorin fez no site da nossa marmitaria.\n\nO site ficou simplesmente perfeito: moderno, organizado e, principalmente, muito funcional. Ele conseguiu traduzir exatamente o que precisávamos — um espaço onde o cliente encontra tudo de forma rápida, como acesso ao WhatsApp, pedidos, Instagram e localização.\n\nAlém disso, o site transmite profissionalismo e confiança, o que faz toda a diferença para quem está conhecendo nosso negócio pela primeira vez.\n\nO Gorin foi extremamente atencioso, paciente e cuidadoso em cada detalhe. O projeto foi feito com carinho e com uma qualidade de trabalho de alto nível.\n\nCom certeza recomendo o trabalho dele para qualquer empresa que queira se posicionar melhor no digital e ter uma presença online bonita e eficiente.\n\nMuito obrigada por tudo!!! 🫶🏼"
   }
 ];
 
