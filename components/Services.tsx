@@ -13,9 +13,7 @@ import {
   MousePointer2,
   Bot,
   Code2,
-  FileCheck,
-  ChevronLeft,
-  ChevronRight
+  FileCheck
 } from 'lucide-react';
 
 const mainPillars = [
@@ -89,62 +87,6 @@ const processSteps = [
 
 export const Services: React.FC = () => {
   const m = motion as any;
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [itemsPerPage, setItemsPerPage] = React.useState(4);
-  const [isPaused, setIsPaused] = React.useState(false);
-  const pauseTimerRef = React.useRef<any>(null);
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerPage(1);
-      } else if (window.innerWidth < 1024) {
-        setItemsPerPage(2);
-      } else {
-        setItemsPerPage(4);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const nextSlide = React.useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % processSteps.length);
-  }, []);
-
-  const prevSlide = React.useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + processSteps.length) % processSteps.length);
-  }, []);
-
-  const startAutoPause = () => {
-    setIsPaused(true);
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-    pauseTimerRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 8000);
-  };
-
-  const handleManualNext = () => {
-    nextSlide();
-    startAutoPause();
-  };
-
-  const handleManualPrev = () => {
-    prevSlide();
-    startAutoPause();
-  };
-
-  React.useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(nextSlide, 4000);
-    return () => clearInterval(timer);
-  }, [nextSlide, isPaused]);
-
-  // Calculate visible steps for the carousel
-  // For a smooth infinite-like feel or just clamping
-  // Let's use a simple translation based on currentIndex
 
   return (
     <section id="services" className="pt-24 pb-12 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
@@ -219,68 +161,42 @@ export const Services: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Fluxo de Processo (Carousel) */}
+        {/* 3. Fluxo de Processo (Marquee) */}
         <div className="pt-24 pb-12 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-4 sm:px-16 clip-corner relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20">PROCESS_TRACKER_V2</div>
           
-          <div 
-            className="relative group/carousel"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => {
-              if (!pauseTimerRef.current) setIsPaused(false);
-            }}
-          >
-            {/* Navigation Arrows - Positioned outside the cards area */}
-            <button 
-              onClick={handleManualPrev}
-              className="absolute -left-4 sm:-left-12 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyber-black/80 border border-cyber-primary/30 text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:block"
-              aria-label="Previous step"
+          <div className="relative overflow-hidden">
+            <m.div 
+              className="flex"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ 
+                duration: 30, 
+                ease: "linear", 
+                repeat: Infinity 
+              }}
             >
-              <ChevronLeft size={28} />
-            </button>
-            <button 
-              onClick={handleManualNext}
-              className="absolute -right-4 sm:-right-12 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyber-black/80 border border-cyber-primary/30 text-cyber-primary hover:bg-cyber-primary hover:text-black transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:block"
-              aria-label="Next step"
-            >
-              <ChevronRight size={28} />
-            </button>
-
-            <div className="overflow-hidden py-6 -my-6">
-              <m.div 
-                className="flex"
-                animate={{ x: `-${currentIndex * (100 / itemsPerPage)}%` }}
-                transition={{ 
-                  duration: 0.6, 
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-              >
-                {processSteps.map((step, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex-shrink-0 px-4"
-                    style={{ width: `${100 / itemsPerPage}%` }}
-                  >
-                    <div className="relative flex flex-col items-center text-center group h-[220px] justify-start">
-                      <div className="mb-6 relative">
-                        <div className="w-16 h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary transition-colors z-10 relative">
-                          <step.icon className="w-8 h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
-                        </div>
-                        <div className="absolute -top-2 -right-2 bg-cyber-primary text-black font-mono text-xs font-bold px-1.5 py-0.5">
-                          {step.step}
-                        </div>
-                        {/* Connector line - only show if not the last item in the full list */}
-                        {idx < processSteps.length - 1 && (
-                          <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
-                        )}
+              {[...processSteps, ...processSteps].map((step, idx) => (
+                <div 
+                  key={idx}
+                  className="flex-shrink-0 px-4 w-[280px] sm:w-[320px]"
+                >
+                  <div className="relative flex flex-col items-center text-center group h-[220px] justify-start">
+                    <div className="mb-6 relative">
+                      <div className="w-16 h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary transition-colors z-10 relative">
+                        <step.icon className="w-8 h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
                       </div>
-                      <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-sm sm:text-base">{step.title}</h4>
-                      <p className="text-cyber-gray text-xs sm:text-sm leading-snug max-w-[200px]">{step.desc}</p>
+                      <div className="absolute -top-2 -right-2 bg-cyber-primary text-black font-mono text-xs font-bold px-1.5 py-0.5">
+                        {step.step}
+                      </div>
+                      {/* Connector line - only show if not the last item in the full list */}
+                      <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
                     </div>
+                    <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-sm sm:text-base">{step.title}</h4>
+                    <p className="text-cyber-gray text-xs sm:text-sm leading-snug max-w-[200px]">{step.desc}</p>
                   </div>
-                ))}
-              </m.div>
-            </div>
+                </div>
+              ))}
+            </m.div>
           </div>
         </div>
 

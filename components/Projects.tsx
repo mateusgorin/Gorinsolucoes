@@ -46,6 +46,13 @@ const sites: ProjectData[] = [
     tags: ["REACT", "DESIGN UI", "SEO"],
     link: "https://www.marmitariaventura.com.br",
     image: "https://i.postimg.cc/d0vD5ZFJ/Captura-de-tela-2026-02-24-130921.jpg"
+  },
+  {
+    title: "MAJESTOSA ARTE",
+    category: "E-COMMERCE",
+    tags: ["ARTESANATO", "E-COMMERCE", "REACT"],
+    link: "#",
+    image: "https://i.postimg.cc/02sGvChM/IMG-20260404-WA0163.jpg"
   }
 ];
 
