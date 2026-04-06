@@ -162,39 +162,68 @@ export const Services: React.FC = () => {
         </div>
 
         {/* 3. Fluxo de Processo (Marquee) */}
-        <div className="pt-24 pb-12 border-y border-cyber-primary/10 bg-cyber-dark/40 backdrop-blur-sm px-4 sm:px-16 clip-corner relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20">PROCESS_TRACKER_V2</div>
+        <div className="py-10 bg-cyber-dark/40 backdrop-blur-sm clip-corner relative overflow-hidden group/marquee">
+          <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20 z-20">PROCESS_TRACKER_V2</div>
           
-          <div className="relative overflow-hidden">
+          {/* Fading edges for better look */}
+          <div className="absolute inset-y-0 left-0 w-12 sm:w-32 bg-gradient-to-r from-cyber-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-12 sm:w-32 bg-gradient-to-l from-cyber-black to-transparent z-10 pointer-events-none" />
+
+          <div className="relative overflow-hidden pt-8 pb-4">
             <m.div 
-              className="flex"
+              className="flex w-fit items-center"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ 
-                duration: 30, 
+                duration: 25, 
                 ease: "linear", 
                 repeat: Infinity 
               }}
+              style={{ display: 'flex' }}
             >
-              {[...processSteps, ...processSteps].map((step, idx) => (
-                <div 
-                  key={idx}
-                  className="flex-shrink-0 px-4 w-[280px] sm:w-[320px]"
-                >
-                  <div className="relative flex flex-col items-center text-center group h-[220px] justify-start">
-                    <div className="mb-6 relative">
-                      <div className="w-16 h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary transition-colors z-10 relative">
-                        <step.icon className="w-8 h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
+              {[1, 2].map((iteration) => (
+                <React.Fragment key={iteration}>
+                  {processSteps.map((step, idx) => (
+                    <div 
+                      key={`${iteration}-${idx}`}
+                      className="flex-shrink-0 px-3 sm:px-6 w-[240px] sm:w-[300px] md:w-[340px]"
+                    >
+                      <div className="relative flex flex-col items-center text-center group h-full min-h-[220px] justify-start p-6 bg-cyber-slate/10 border border-cyber-primary/5 hover:border-cyber-primary/30 transition-all duration-500 clip-corner-sm">
+                        <div className="mb-6 relative">
+                          {/* Icon Container */}
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary group-hover:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all duration-500 z-10 relative">
+                            <step.icon className="w-6 h-6 sm:w-8 sm:h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
+                          </div>
+                          
+                          {/* Number badge */}
+                          <div className="absolute -top-1 -right-1 bg-cyber-primary text-black font-mono text-[10px] font-bold px-2 py-0.5 leading-none z-20 shadow-lg">
+                            {step.step}
+                          </div>
+                          
+                          {/* Decorative spinning ring on hover */}
+                          <m.div 
+                            className="absolute -inset-2 border border-cyber-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                          />
+                        </div>
+                        
+                        <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-xs sm:text-sm md:text-base group-hover:text-cyber-primary transition-colors">
+                          {step.title}
+                        </h4>
+                        
+                        <p className="text-cyber-gray text-[10px] sm:text-xs md:text-sm leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity max-w-[220px]">
+                          {step.desc}
+                        </p>
                       </div>
-                      <div className="absolute -top-2 -right-2 bg-cyber-primary text-black font-mono text-xs font-bold px-1.5 py-0.5">
-                        {step.step}
-                      </div>
-                      {/* Connector line - only show if not the last item in the full list */}
-                      <div className="hidden lg:block absolute top-1/2 left-full w-full h-[2px] bg-gradient-to-r from-cyber-secondary/30 to-transparent -translate-y-1/2 z-0" />
                     </div>
-                    <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-sm sm:text-base">{step.title}</h4>
-                    <p className="text-cyber-gray text-xs sm:text-sm leading-snug max-w-[200px]">{step.desc}</p>
+                  ))}
+                  {/* Separator between iterations */}
+                  <div className="flex-shrink-0 flex flex-col items-center justify-center px-12 sm:px-20 opacity-30">
+                    <div className="h-24 w-[1px] bg-gradient-to-b from-transparent via-cyber-primary to-transparent" />
+                    <span className="font-mono text-[10px] text-cyber-primary tracking-[0.3em] uppercase mt-4 whitespace-nowrap">REINICIANDO CICLO</span>
+                    <div className="h-24 w-[1px] bg-gradient-to-b from-transparent via-cyber-primary to-transparent mt-4" />
                   </div>
-                </div>
+                </React.Fragment>
               ))}
             </m.div>
           </div>
