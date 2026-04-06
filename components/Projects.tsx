@@ -112,15 +112,14 @@ export const Projects: React.FC = () => {
               {sites.map((project, idx) => (
                 <m.div
                   key={idx}
-                  initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-                  whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
-                  className="group relative perspective-1000 transform-gpu"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group relative"
                 >
                   {/* Card Container */}
-                  <div className="border border-cyber-primary/20 bg-cyber-black clip-corner overflow-hidden transition-all duration-300 group-hover:border-cyber-primary group-hover:shadow-[0_20px_40px_-10px_rgba(0,240,255,0.3)] h-full flex flex-col">
+                  <div className="border border-cyber-primary/20 bg-cyber-black clip-corner overflow-hidden transition-all duration-300 group-hover:border-cyber-primary group-hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] h-full flex flex-col">
                     
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-black flex flex-col items-center justify-center group-hover:bg-zinc-900 transition-colors">
@@ -195,15 +194,14 @@ export const Projects: React.FC = () => {
               {systems.map((project, idx) => (
                 <m.div
                   key={idx}
-                  initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-                  whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
-                  className="group relative perspective-1000 transform-gpu"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group relative"
                 >
                   {/* Card Container */}
-                  <div className="border border-cyber-primary/20 bg-cyber-black clip-corner overflow-hidden transition-all duration-300 group-hover:border-cyber-primary group-hover:shadow-[0_20px_40px_-10px_rgba(0,240,255,0.3)] h-full flex flex-col">
+                  <div className="border border-cyber-primary/20 bg-cyber-black clip-corner overflow-hidden transition-all duration-300 group-hover:border-cyber-primary group-hover:shadow-[0_0_20px_rgba(0,240,255,0.15)] h-full flex flex-col">
                     
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-black flex flex-col items-center justify-center group-hover:bg-zinc-900 transition-colors">

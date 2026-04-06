@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowRight, Cpu } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'glitch' | 'whatsapp';
@@ -18,7 +17,6 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props 
 }) => {
-  const m = motion as any;
   // Base styles for the cyber button
   const baseStyles = "relative inline-flex items-center justify-center px-8 py-4 font-mono font-bold uppercase tracking-widest transition-all duration-200 group clip-corner focus:outline-none";
   
@@ -67,26 +65,19 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      <m.a 
+      <a 
         href={href} 
         onClick={handleSmoothScroll}
         className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
       >
         {content}
-      </m.a>
+      </a>
     );
   }
 
   return (
-    <m.button 
-      className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`} 
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      {...props}
-    >
+    <button className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`} {...props}>
       {content}
-    </m.button>
+    </button>
   );
 };

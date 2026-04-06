@@ -128,16 +128,15 @@ export const Services: React.FC = () => {
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 perspective-1000">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {services.map((service, idx) => (
               <m.div
                 key={idx}
-                initial={{ opacity: 0, x: 30, rotateY: -15, rotateX: 10, translateZ: -50 }}
-                whileInView={{ opacity: 1, x: 0, rotateY: 0, rotateX: 0, translateZ: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: idx * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ scale: 1.02, y: -5, boxShadow: "0 10px 30px -10px rgba(0, 240, 255, 0.3)" }}
-                className="group relative bg-cyber-slate/20 border border-cyber-primary/10 p-6 clip-corner-sm hover:border-cyber-primary/60 transition-all duration-300 h-full flex flex-col transform-gpu"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05 }}
+                className="group relative bg-cyber-slate/20 border border-cyber-primary/10 p-6 clip-corner-sm hover:border-cyber-primary/60 transition-all duration-300 h-full flex flex-col"
               >
                 <div className="flex justify-between items-center mb-5">
                   <div className="p-2.5 bg-cyber-primary/10 text-cyber-primary group-hover:bg-cyber-primary group-hover:text-black transition-all">
