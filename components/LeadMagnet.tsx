@@ -63,7 +63,7 @@ export const LeadMagnet: React.FC = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-cyber-secondary/20 blur-[60px] rounded-full animate-pulse" />
+              <div className="absolute inset-0 bg-cyber-secondary/20 blur-[60px] rounded-full opacity-20" />
               <div className="relative border-2 border-cyber-secondary/30 p-10 clip-corner bg-cyber-slate/20 backdrop-blur-sm text-center">
                 <Zap size={80} className="text-cyber-secondary mx-auto mb-6 animate-bounce" />
                 <div className="text-5xl font-bold text-cyber-white mb-2 font-mono">100%</div>

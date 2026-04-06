@@ -82,21 +82,12 @@ export const About: React.FC = () => {
             
             {/* Scan Reveal Container */}
             <m.div 
-              initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
-              whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: customEasing }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               className="relative"
             >
-              {/* Scan Line Effect */}
-              <m.div
-                initial={{ top: '0%', opacity: 1 }}
-                whileInView={{ top: '100%', opacity: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1.2, ease: customEasing }}
-                className="absolute left-0 right-0 h-[2px] bg-cyber-primary shadow-[0_0_15px_var(--primary)] z-10"
-              />
-
               <div className="space-y-6 text-cyber-gray text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
                 <p>
                   <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> Gorin Soluções é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.

@@ -27,7 +27,6 @@ const App: React.FC = () => {
           className="fixed top-0 left-0 right-0 h-1 bg-cyber-primary z-[9999] origin-left shadow-[0_0_10px_var(--primary)]" 
           style={{ scaleX }} 
         />
-        <div className="scanlines" />
         <Navbar />
         <main className="relative z-10">
           <Hero />

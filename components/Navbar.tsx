@@ -171,7 +171,7 @@ export const Navbar: React.FC = () => {
                     className="flex items-center justify-between font-mono text-sm text-cyber-gray hover:text-cyber-white py-4 border-b border-cyber-white/5 transition-all group"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 bg-cyber-primary/30 rounded-full group-hover:bg-cyber-primary group-hover:animate-pulse" />
+                      <span className="w-1.5 h-1.5 bg-cyber-primary/30 rounded-full group-hover:bg-cyber-primary" />
                       <span className="tracking-[0.2em]">{link.name}</span>
                     </div>
                     <ChevronRight size={14} className="text-cyber-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
@@ -191,7 +191,7 @@ export const Navbar: React.FC = () => {
               
               <div className="mt-auto p-8 font-mono space-y-4">
                 <div className="flex items-center gap-2">
-                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                   <div className="w-2 h-2 bg-green-500 rounded-full opacity-80" />
                    <span className="text-[10px] text-gray-500 uppercase tracking-widest">Servidores Online</span>
                 </div>
                 <div className="text-[10px] text-cyber-primary/30 leading-none">

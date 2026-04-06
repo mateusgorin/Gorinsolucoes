@@ -109,16 +109,6 @@ export const Contact: React.FC = () => {
                         <pattern id="grid-map" width="10" height="10" patternUnits="userSpaceOnUse">
                           <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0, 240, 255, 0.1)" strokeWidth="0.5"/>
                         </pattern>
-                        {/* Keyframes para o piscar aleatório mais intenso */}
-                        <style>{`
-                          @keyframes map-flicker-vivid {
-                            0%, 100% { opacity: 0.6; filter: blur(0px) brightness(1); }
-                            50% { opacity: 1; filter: blur(1.5px) brightness(1.5); }
-                          }
-                          .animate-flicker-vivid {
-                            animation: map-flicker-vivid linear infinite;
-                          }
-                        `}</style>
                       </defs>
                       <path d="M 35 5 L 90 25 L 50 95 L 5 35 Z" fill="url(#grid-map)" opacity="0.6" />
 
@@ -150,7 +140,7 @@ export const Contact: React.FC = () => {
                                <>
                                  <circle 
                                    cx={p.x} cy={p.y} r="8" 
-                                   className="fill-cyber-secondary/40 animate-ping origin-center" 
+                                   className="fill-cyber-secondary/40 opacity-40 origin-center" 
                                  />
                                  <circle 
                                    cx={p.x} cy={p.y} r="4.5" 
@@ -159,7 +149,6 @@ export const Contact: React.FC = () => {
                                  <circle 
                                    cx={p.x} cy={p.y} r="3.5" 
                                    className="fill-cyber-secondary drop-shadow-[0_0_15px_rgba(112,0,255,1)]" 
-                                   style={{ animation: `map-flicker-vivid 0.8s infinite alternate` }}
                                  />
                                  <circle cx={p.x} cy={p.y} r="1.2" className="fill-white" />
                                </>
@@ -177,7 +166,7 @@ export const Contact: React.FC = () => {
                                    cx={p.x}
                                    cy={p.y}
                                    r="2"
-                                   className="fill-cyber-primary animate-flicker-vivid drop-shadow-[0_0_8px_rgba(0,240,255,1)]"
+                                   className="fill-cyber-primary drop-shadow-[0_0_8px_rgba(0,240,255,1)]"
                                    style={{ 
                                      animationDelay: `${randomDelay}s`,
                                      animationDuration: `${randomDuration}s`
