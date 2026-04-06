@@ -59,8 +59,8 @@ export const Hero: React.FC = () => {
       <m.div 
         className="absolute inset-0 z-0"
         style={{ y: y1 }}
-        initial={{ scale: 1.2 }}
-        animate={{ scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1.5, ease: customEasing }}
       >
         <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-10 perspective-1000 transform-gpu" />
@@ -89,8 +89,8 @@ export const Hero: React.FC = () => {
           >
             <m.div 
               variants={{
-                hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: customEasing } }
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
               }}
               className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
             >
@@ -100,8 +100,8 @@ export const Hero: React.FC = () => {
             
             <m.h1 
               variants={{
-                hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: customEasing } }
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
               }}
               className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tighter text-cyber-white mb-6 leading-[1.1]"
             >
@@ -111,8 +111,8 @@ export const Hero: React.FC = () => {
             
             <m.p 
               variants={{
-                hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: customEasing } }
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
               }}
               className="font-mono text-cyber-gray text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-6 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4"
             >
@@ -123,8 +123,8 @@ export const Hero: React.FC = () => {
             
             <m.div 
               variants={{
-                hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: customEasing } }
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
               }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6"
             >
@@ -141,8 +141,8 @@ export const Hero: React.FC = () => {
 
           {/* Visual Element - The New Cyber HUD Animation */}
           <m.div 
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.5, ease: customEasing }}
             className="flex-1 w-full max-w-2xl relative"
           >
