@@ -45,7 +45,7 @@ const sites: ProjectData[] = [
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "DESIGN UI", "SEO"],
     link: "https://www.marmitariaventura.com.br",
-    image: "https://i.postimg.cc/d0vD5ZFJ/Captura-de-tela-2026-02-24-130921.jpg"
+    image: "https://i.postimg.cc/Rh930b09/Screenshot-2026-04-06-13-58-04-675-com-android-chrome.jpg"
   },
   {
     title: "MAJESTOSA ARTE",
