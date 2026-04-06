@@ -10,10 +10,10 @@ export const Footer: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyber-primary to-transparent opacity-50" />
       
       <m.div 
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50, filter: 'blur(5px)' }}
+        whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="container mx-auto px-4"
       >
         <div className="flex flex-col items-center justify-center gap-4 mb-4">
@@ -28,8 +28,9 @@ export const Footer: React.FC = () => {
               </div>
            </div>
            
-          <span className="font-mono font-bold text-xl tracking-tighter text-cyber-white">
+          <span className="font-mono font-bold text-xl tracking-tighter text-cyber-white relative group cursor-pointer">
             GORIN <span className="text-cyber-secondary">SOLUÇÕES</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-cyber-primary transition-all duration-300 group-hover:w-full" />
           </span>
         </div>
         
