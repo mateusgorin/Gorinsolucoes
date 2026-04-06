@@ -19,7 +19,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         viewport={{ once: true }}
         className={`inline-flex items-center gap-2 text-cyber-primary font-mono text-sm tracking-[0.2em] uppercase mb-2 ${align === 'center' ? 'justify-center' : ''}`}
       >
-        <span className="w-2 h-2 bg-cyber-primary animate-pulse" />
+        <span className="w-2 h-2 bg-cyber-primary opacity-80" />
         {subtitle}
         <span className="w-8 h-[1px] bg-cyber-primary/50" />
       </m.div>
