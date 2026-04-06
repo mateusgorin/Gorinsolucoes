@@ -132,11 +132,10 @@ export const Services: React.FC = () => {
             {services.map((service, idx) => (
               <m.div
                 key={idx}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.92 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: idx * 0.08, duration: 0.7, ease: "easeOut" }}
-                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                transition={{ delay: idx * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="group relative bg-cyber-slate/20 border border-cyber-primary/10 p-6 clip-corner-sm hover:border-cyber-primary/60 transition-all duration-300 h-full flex flex-col transform-gpu"
               >
                 <div className="flex justify-between items-center mb-5">
