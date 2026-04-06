@@ -1,11 +1,34 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
 import { Terminal } from 'lucide-react';
+
+const AnimatedCounter = ({ value }: { value: string }) => {
+  const numericValue = parseInt(value.replace(/\D/g, ''));
+  const suffix = value.replace(/\d/g, '');
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, Math.round);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (inView) {
+      animate(count, numericValue, { duration: 2, ease: [0.22, 1, 0.36, 1] });
+    }
+  }, [inView, count, numericValue]);
+
+  return (
+    <span ref={ref}>
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </span>
+  );
+};
 
 export const About: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
+  const customEasing = [0.22, 1, 0.36, 1];
 
   const stats = [
     { label: 'PROJETOS_ENTREGUES', value: '10+' },
@@ -19,9 +42,10 @@ export const About: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           <m.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+            whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: customEasing }}
             className="relative order-2 lg:order-1 flex flex-col items-center"
           >
              {/* Founder Profile */}
@@ -49,39 +73,72 @@ export const About: React.FC = () => {
              </div>
           </m.div>
 
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2 relative">
             <SectionHeading 
               title="SOBRE O GORIN" 
               subtitle="QUEM_SOMOS" 
               align="left"
             />
             
-            <div className="space-y-6 text-cyber-gray text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
-              <p>
-                <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> Gorin Soluções é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
-              </p>
-              <p>
-                Sediados em Brasília, desenvolvemos sites, landing pages e sistemas web com foco em design moderno, usabilidade e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
-              </p>
-            </div>
+            {/* Scan Reveal Container */}
+            <m.div 
+              initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
+              whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.2, ease: customEasing }}
+              className="relative"
+            >
+              {/* Scan Line Effect */}
+              <m.div
+                initial={{ top: '0%', opacity: 1 }}
+                whileInView={{ top: '100%', opacity: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 1.2, ease: customEasing }}
+                className="absolute left-0 right-0 h-[2px] bg-cyber-primary shadow-[0_0_15px_var(--primary)] z-10"
+              />
 
-            <div className="grid grid-cols-3 gap-6 mt-12 border-t border-cyber-primary/20 pt-8">
-              {stats.map((stat, idx) => (
-                <div key={idx}>
-                  <p className="text-3xl lg:text-4xl font-mono font-bold text-cyber-white mb-1 text-glow">{stat.value}</p>
-                  <p className="text-[10px] md:text-xs text-cyber-secondary font-mono tracking-widest">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+              <div className="space-y-6 text-cyber-gray text-lg leading-relaxed font-sans border-l border-cyber-primary/10 pl-6">
+                <p>
+                  <span className="text-cyber-primary font-mono">&lt;Missão&gt;</span> Gorin Soluções é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
+                </p>
+                <p>
+                  Sediados em Brasília, desenvolvemos sites, landing pages e sistemas web com foco em design moderno, usabilidade e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
+                </p>
+              </div>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-               {["CRIAÇÃO DE SITES", "RESPONSIVIDADE", "SEO TÉCNICO", "PERFORMANCE"].map((tag, i) => (
-                 <span key={i} className="px-3 py-1 bg-cyber-primary/5 border border-cyber-primary/30 text-xs font-mono text-cyber-primary flex items-center gap-2 clip-corner-sm hover:bg-cyber-primary/20 transition-colors cursor-crosshair">
-                   <Terminal size={12} />
-                   {tag}
-                 </span>
-               ))}
-            </div>
+              <div className="grid grid-cols-3 gap-6 mt-12 border-t border-cyber-primary/20 pt-8">
+                {stats.map((stat, idx) => (
+                  <m.div 
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + (idx * 0.1), duration: 0.5, ease: customEasing }}
+                  >
+                    <p className="text-3xl lg:text-4xl font-mono font-bold text-cyber-white mb-1 text-glow">
+                      {stat.value.match(/\d/) ? <AnimatedCounter value={stat.value} /> : stat.value}
+                    </p>
+                    <p className="text-[10px] md:text-xs text-cyber-secondary font-mono tracking-widest">{stat.label}</p>
+                  </m.div>
+                ))}
+              </div>
+
+              <div className="mt-10 flex flex-wrap gap-3">
+                 {["CRIAÇÃO DE SITES", "RESPONSIVIDADE", "SEO TÉCNICO", "PERFORMANCE"].map((tag, i) => (
+                   <m.span 
+                     key={i} 
+                     initial={{ opacity: 0, x: -20 }}
+                     whileInView={{ opacity: 1, x: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ delay: 0.8 + (i * 0.1), duration: 0.4 }}
+                     className="px-3 py-1 bg-cyber-primary/5 border border-cyber-primary/30 text-xs font-mono text-cyber-primary flex items-center gap-2 clip-corner-sm hover:bg-cyber-primary/20 transition-colors cursor-crosshair"
+                   >
+                     <Terminal size={12} />
+                     {tag}
+                   </m.span>
+                 ))}
+              </div>
+            </m.div>
           </div>
 
         </div>

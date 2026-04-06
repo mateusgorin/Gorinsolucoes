@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <p className="text-gray-500 text-xs mt-2 font-mono">
-          © 2025 TODOS OS DIREITOS RESERVADOS.
+          © 2026 TODOS OS DIREITOS RESERVADOS.
         </p>
       </m.div>
     </footer>
