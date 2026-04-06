@@ -1,47 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from './ui/Button';
 import { ChevronDown } from 'lucide-react';
 import GorinHeroAnimation from './GorinHeroAnimation';
-
-const DecryptionText = ({ text, className }: { text: string, className?: string }) => {
-  const [displayText, setDisplayText] = useState("");
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-  
-  useEffect(() => {
-    let iteration = 0;
-    let interval: any = null;
-    
-    const timeout = setTimeout(() => {
-      interval = setInterval(() => {
-        setDisplayText(
-          text
-            .split("")
-            .map((_, index) => {
-              if (index < iteration) {
-                return text[index];
-              }
-              return letters[Math.floor(Math.random() * letters.length)];
-            })
-            .join("")
-        );
-        
-        if (iteration >= text.length) {
-          clearInterval(interval);
-        }
-        
-        iteration += 1 / 3;
-      }, 30);
-    }, 300);
-    
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  }, [text]);
-
-  return <span className={className}>{displayText}</span>;
-};
 
 export const Hero: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
@@ -105,7 +66,7 @@ export const Hero: React.FC = () => {
               }}
               className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tighter text-cyber-white mb-6 leading-[1.1]"
             >
-              <DecryptionText text="ESPECIALISTAS EM " />
+              ESPECIALISTAS EM 
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">SOLUÇÕES DIGITAIS E CRIAÇÃO DE SITES DE ALTA CONVERSÃO</span>
             </m.h1>
             
@@ -141,8 +102,8 @@ export const Hero: React.FC = () => {
 
           {/* Visual Element - The New Cyber HUD Animation */}
           <m.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5, ease: customEasing }}
             className="flex-1 w-full max-w-2xl relative"
           >

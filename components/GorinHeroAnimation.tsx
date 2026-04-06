@@ -200,7 +200,6 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
         <motion.div 
           className="relative w-32 h-32 md:w-48 md:h-48 z-20 -translate-y-10"
           animate={{ 
-            scale: [1, 1.02, 1],
             filter: glitch 
               ? [
                   `drop-shadow(0 0 10px ${primary})`,
@@ -211,7 +210,6 @@ const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) =>
               : `drop-shadow(0 0 15px ${primary}44)`
           }}
           transition={{ 
-            scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
             filter: { duration: 0.3 }
           }}
         >
