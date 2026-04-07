@@ -55,7 +55,7 @@ export const Hero: React.FC = () => {
               }}
               className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
             >
-              <span className="w-2 h-2 bg-green-500 animate-ping" />
+              <span className="w-2 h-2 bg-green-500 opacity-80" />
               <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
             </m.div>
             
