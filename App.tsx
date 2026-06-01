@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -11,6 +11,7 @@ import { LeadMagnet } from './components/LeadMagnet';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { Footer } from './components/Footer';
 import { ThemeProvider } from './context/ThemeContext';
+import { BriefingPage } from './components/BriefingPage';
 
 const App: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -19,6 +20,20 @@ const App: React.FC = () => {
     damping: 30,
     restDelta: 0.001
   });
+
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
+  const isBriefingPath = path === '/projetos' || path === '/projetos/';
 
   return (
     <ThemeProvider>
@@ -29,13 +44,19 @@ const App: React.FC = () => {
         />
         <Navbar />
         <main className="relative z-10">
-          <Hero />
-          <About />
-          <Services />
-          <LeadMagnet />
-          <Projects />
-          <Testimonials />
-          <Contact />
+          {isBriefingPath ? (
+            <BriefingPage />
+          ) : (
+            <>
+              <Hero />
+              <About />
+              <Services />
+              <LeadMagnet />
+              <Projects />
+              <Testimonials />
+              <Contact />
+            </>
+          )}
         </main>
         <WhatsAppButton />
         <Footer />

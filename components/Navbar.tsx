@@ -43,6 +43,13 @@ export const Navbar: React.FC = () => {
     e.preventDefault();
     if (isOpen) setIsOpen(false);
 
+    const isProjetosPage = window.location.pathname === '/projetos' || window.location.pathname === '/projetos/';
+
+    if (isProjetosPage) {
+      window.location.href = '/' + href;
+      return;
+    }
+
     // Pequeno delay para permitir o início do fechamento da animação
     setTimeout(() => {
       scrollToSection(href);
