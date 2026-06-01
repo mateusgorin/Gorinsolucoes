@@ -77,22 +77,6 @@ export const Projects: React.FC = () => {
   // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
   
-  const handleScrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const element = document.getElementById('contact');
-    
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
-
   return (
     <section id="projects" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
       {/* Decorative lines */}
@@ -271,8 +255,13 @@ export const Projects: React.FC = () => {
         
         <div className="mt-16 text-center">
           <a 
-            href="#contact" 
-            onClick={handleScrollToContact}
+            href="/projetos" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/projetos');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+              window.scrollTo({ top: 0, behavior: 'auto' });
+            }}
             className="inline-block text-cyber-primary font-mono text-sm border-b border-cyber-primary/30 pb-1 hover:border-cyber-primary hover:shadow-[0_2px_10px_rgba(0,240,255,0.3)] transition-all cursor-pointer"
           >
             INICIAR MEU PROJETO -{'>'}
