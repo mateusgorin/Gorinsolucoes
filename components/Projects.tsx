@@ -45,7 +45,14 @@ const sites: ProjectData[] = [
     category: "SITE INSTITUCIONAL",
     tags: ["REACT", "DESIGN UI", "SEO"],
     link: "https://www.marmitariaventura.com.br",
-    image: "https://i.postimg.cc/Rh930b09/Screenshot-2026-04-06-13-58-04-675-com-android-chrome.jpg"
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1780747406/Captura_de_tela_2026-06-06_085821_dey6p8.webp"
+  },
+  {
+    title: "PC GASTRONOMIA",
+    category: "SITE INSTITUCIONAL",
+    tags: ["REACT", "DESIGN UI", "SEO"],
+    link: "https://www.pcgastronomia.com.br",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1780747407/Captura_de_tela_2026-06-06_085711_yjxu2j.webp"
   },
   {
     title: "MAJESTOSA ARTE",
