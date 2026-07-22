@@ -5,56 +5,66 @@ interface HeroAccentProps {
   mascotSrc?: string;
 }
 
-// Ambient background layer for the Hero — ~26 small elements (code symbols,
-// framed numbers, the mascot) scattered around, each fading in/out on its
-// own fast, staggered timeline. Delays are spread across ~30s total so the
-// mix keeps changing before any obvious repeat, but each individual fade is
-// quick and a bit larger/bolder than before, so the layer reads as busier.
+// Ambient background layer for the Hero — elements (code symbols, framed numbers,
+// mascot) emerge continuously from behind the central headline, bursting fast
+// from the center and then gliding smoothly/slowly toward the screen borders.
 const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc }) => {
   const primary = '#00D4FF';
   const secondary = '#7B2FBE';
 
   type Item =
-    | { type: 'text'; content: string; top: string; left: string; size: string; rotate?: number; color: string }
-    | { type: 'diamond'; content: string; top: string; left: string; rotate?: number }
-    | { type: 'mascot'; top: string; left: string };
+    | { type: 'text'; content: string; size: string; color: string; angle: number; dist: number; duration: number; delay: number; rotate?: number }
+    | { type: 'diamond'; content: string; angle: number; dist: number; duration: number; delay: number; rotate?: number }
+    | { type: 'mascot'; angle: number; dist: number; duration: number; delay: number };
 
   const items: Item[] = [
-    { type: 'text', content: '</>', top: '14%', left: '10%', size: 'text-3xl', color: primary },
-    { type: 'text', content: '{ }', top: '22%', left: '82%', size: 'text-2xl', color: secondary, rotate: -8 },
-    { type: 'text', content: 'const x =>', top: '68%', left: '6%', size: 'text-base', color: '#8b96a5' },
-    { type: 'text', content: 'npm run build', top: '78%', left: '72%', size: 'text-sm', color: '#8b96a5' },
-    { type: 'text', content: '99.9%', top: '10%', left: '58%', size: 'text-xl', color: primary },
-    { type: 'text', content: '[ ]', top: '40%', left: '92%', size: 'text-3xl', color: secondary },
-    { type: 'text', content: 'SEO++', top: '85%', left: '30%', size: 'text-base', color: primary, rotate: 4 },
-    { type: 'text', content: '<div>', top: '30%', left: '4%', size: 'text-base', color: '#8b96a5' },
-    { type: 'text', content: 'git push', top: '55%', left: '85%', size: 'text-sm', color: '#8b96a5', rotate: -4 },
-    { type: 'text', content: '#', top: '6%', left: '34%', size: 'text-4xl', color: secondary },
-    { type: 'text', content: 'API', top: '48%', left: '4%', size: 'text-xl', color: primary, rotate: 6 },
-    { type: 'text', content: 'deploy ✓', top: '88%', left: '55%', size: 'text-sm', color: '#8b96a5' },
-    { type: 'text', content: 'useState()', top: '5%', left: '80%', size: 'text-sm', color: '#8b96a5', rotate: -3 },
-    { type: 'text', content: 'GET /', top: '62%', left: '95%', size: 'text-lg', color: secondary },
-    { type: 'text', content: '.tsx', top: '92%', left: '12%', size: 'text-lg', color: primary, rotate: 8 },
-    { type: 'text', content: 'CI/CD', top: '35%', left: '48%', size: 'text-sm', color: '#8b96a5' },
-    { type: 'diamond', content: '200', top: '20%', left: '20%', rotate: 12 },
-    { type: 'diamond', content: '404', top: '72%', left: '88%', rotate: -10 },
-    { type: 'diamond', content: '{ }', top: '48%', left: '14%', rotate: 8 },
-    { type: 'diamond', content: 'ok', top: '15%', left: '72%', rotate: -6 },
-    { type: 'diamond', content: 'v2', top: '58%', left: '40%', rotate: 5 },
-    { type: 'diamond', content: '1.2s', top: '8%', left: '46%', rotate: -14 },
-    { type: 'diamond', content: '100%', top: '80%', left: '82%', rotate: 10 },
-    { type: 'mascot', top: '60%', left: '18%' },
-    { type: 'mascot', top: '25%', left: '88%' },
-    { type: 'mascot', top: '90%', left: '46%' },
+    // Top-left quad
+    { type: 'text', content: '</>', size: 'text-2xl md:text-3xl', color: primary, angle: 210, dist: 540, duration: 3.5, delay: 0 },
+    { type: 'diamond', content: '200', angle: 225, dist: 480, duration: 3.9, delay: 0.5, rotate: 12 },
+    { type: 'text', content: '<div>', size: 'text-base md:text-lg', color: '#8b96a5', angle: 195, dist: 600, duration: 3.3, delay: 1.1 },
+    { type: 'text', content: 'API', size: 'text-xl md:text-2xl', color: primary, angle: 180, dist: 620, duration: 3.8, delay: 1.7, rotate: 6 },
+    { type: 'mascot', angle: 240, dist: 520, duration: 4.1, delay: 2.3 },
+
+    // Top quad
+    { type: 'text', content: '99.9%', size: 'text-xl md:text-2xl', color: primary, angle: 270, dist: 440, duration: 3.4, delay: 0.3 },
+    { type: 'diamond', content: '1.2s', angle: 285, dist: 470, duration: 3.7, delay: 1.2, rotate: -14 },
+    { type: 'text', content: '#', size: 'text-3xl md:text-4xl', color: secondary, angle: 255, dist: 500, duration: 3.2, delay: 2.0 },
+    { type: 'text', content: 'useState()', size: 'text-sm md:text-base', color: '#8b96a5', angle: 300, dist: 540, duration: 4.0, delay: 2.7, rotate: -3 },
+
+    // Top-right quad
+    { type: 'text', content: '{ }', size: 'text-2xl md:text-3xl', color: secondary, angle: 315, dist: 560, duration: 3.3, delay: 0.2, rotate: -8 },
+    { type: 'diamond', content: 'ok', angle: 330, dist: 500, duration: 3.8, delay: 0.8, rotate: -6 },
+    { type: 'text', content: '[ ]', size: 'text-2xl md:text-3xl', color: secondary, angle: 345, dist: 600, duration: 3.5, delay: 1.4 },
+    { type: 'text', content: 'git push', size: 'text-sm md:text-base', color: '#8b96a5', angle: 15, dist: 640, duration: 4.2, delay: 2.1, rotate: -4 },
+    { type: 'mascot', angle: 350, dist: 530, duration: 3.7, delay: 3.0 },
+
+    // Bottom-right quad
+    { type: 'text', content: 'npm run build', size: 'text-sm md:text-base', color: '#8b96a5', angle: 30, dist: 580, duration: 3.4, delay: 0.6 },
+    { type: 'diamond', content: '404', angle: 45, dist: 520, duration: 4.0, delay: 1.5, rotate: -10 },
+    { type: 'text', content: 'GET /', size: 'text-lg md:text-xl', color: secondary, angle: 60, dist: 550, duration: 3.3, delay: 2.4 },
+    { type: 'diamond', content: '100%', angle: 75, dist: 500, duration: 3.8, delay: 1.0, rotate: 10 },
+
+    // Bottom quad
+    { type: 'text', content: 'SEO++', size: 'text-base md:text-lg', color: primary, angle: 90, dist: 460, duration: 3.5, delay: 0.4, rotate: 4 },
+    { type: 'text', content: 'deploy ✓', size: 'text-sm md:text-base', color: '#8b96a5', angle: 105, dist: 480, duration: 3.7, delay: 1.8 },
+    { type: 'mascot', angle: 120, dist: 490, duration: 4.0, delay: 1.3 },
+
+    // Bottom-left quad
+    { type: 'text', content: 'const x =>', size: 'text-base md:text-lg', color: '#8b96a5', angle: 135, dist: 560, duration: 3.4, delay: 0.5 },
+    { type: 'diamond', content: '{ }', angle: 150, dist: 510, duration: 3.8, delay: 1.3, rotate: 8 },
+    { type: 'text', content: '.tsx', size: 'text-lg md:text-xl', color: primary, angle: 165, dist: 590, duration: 3.2, delay: 2.2, rotate: 8 },
   ];
+
+  // 2-stage cubic bezier: starts with a rapid burst out from center, then heavily decelerates to glide to the outer edges
+  const twoStageEase = [0.08, 0.85, 0.15, 1.0] as const;
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Slow-rotating wireframe diamond, centered, very subtle */}
+      {/* Central rotating wireframe diamond */}
       <motion.div
-        className="absolute top-1/2 left-1/2 w-[420px] h-[420px] -translate-x-1/2 -translate-y-1/2 opacity-[0.06]"
+        className="absolute top-1/2 left-1/2 w-[420px] h-[420px] -translate-x-1/2 -translate-y-1/2 opacity-[0.08]"
         animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
       >
         <svg viewBox="0 0 100 100" className="w-full h-full">
           <rect x="20" y="20" width="60" height="60" stroke={primary} strokeWidth="0.5" fill="none" transform="rotate(45 50 50)" />
@@ -62,35 +72,30 @@ const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc }) => {
         </svg>
       </motion.div>
 
-      {/* Fine sparkle particles — a bit bigger and quicker */}
-      {[
-        { top: '18%', left: '12%' }, { top: '30%', left: '85%' }, { top: '68%', left: '8%' },
-        { top: '75%', left: '90%' }, { top: '12%', left: '55%' }, { top: '85%', left: '48%' },
-        { top: '50%', left: '25%' }, { top: '42%', left: '70%' },
-      ].map((p, i) => (
-        <motion.span
-          key={`spark-${i}`}
-          className="absolute rounded-full bg-cyber-primary"
-          style={{ top: p.top, left: p.left, width: 3, height: 3 }}
-          animate={{ opacity: [0.15, 0.6, 0.15] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
-        />
-      ))}
-
-      {/* Wandering symbols/numbers/mascot — quicker fades, staggered across ~30s */}
+      {/* Dynamic outward-flying elements from center behind headline out to screen edges */}
       {items.map((item, i) => {
-        const duration = 4 + (i % 4) * 0.7; // 4s..6.1s per item — snappier than before
-        const delay = i * 1.15; // 26 items * 1.15 ≈ 30s spread before the mix repeats
+        const rad = (item.angle * Math.PI) / 180;
+        const targetX = Math.cos(rad) * item.dist;
+        const targetY = Math.sin(rad) * item.dist;
         const rotate = 'rotate' in item ? item.rotate ?? 0 : 0;
 
         if (item.type === 'mascot') {
           return (
             <motion.div
               key={`mascot-${i}`}
-              className="absolute w-9 h-9"
-              style={{ top: item.top, left: item.left }}
-              animate={{ opacity: [0, 0.4, 0.4, 0], y: [0, -12, -12, -20] }}
-              transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 z-0"
+              animate={{
+                x: [0, targetX],
+                y: [0, targetY],
+                opacity: [0, 0.75, 0.6, 0],
+                scale: [0.4, 1, 1.1],
+              }}
+              transition={{
+                duration: item.duration,
+                delay: item.delay,
+                repeat: Infinity,
+                ease: twoStageEase,
+              }}
             >
               {mascotSrc ? (
                 <img src={mascotSrc} alt="" className="w-full h-full object-contain" />
@@ -105,10 +110,20 @@ const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc }) => {
           return (
             <motion.div
               key={`diamond-${i}`}
-              className="absolute w-12 h-12 border border-white/10 flex items-center justify-center font-mono text-[10px] text-cyber-gray"
-              style={{ top: item.top, left: item.left, transform: `rotate(${rotate}deg)` }}
-              animate={{ opacity: [0, 0.5, 0.5, 0] }}
-              transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 md:w-13 md:h-13 border border-white/15 flex items-center justify-center font-mono text-[10px] md:text-xs text-cyber-gray z-0"
+              style={{ transform: `rotate(${rotate}deg)` }}
+              animate={{
+                x: [0, targetX],
+                y: [0, targetY],
+                opacity: [0, 0.8, 0.6, 0],
+                scale: [0.4, 1, 1.05],
+              }}
+              transition={{
+                duration: item.duration,
+                delay: item.delay,
+                repeat: Infinity,
+                ease: twoStageEase,
+              }}
             >
               <span style={{ transform: `rotate(${-rotate}deg)` }}>{item.content}</span>
             </motion.div>
@@ -118,10 +133,20 @@ const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc }) => {
         return (
           <motion.span
             key={`text-${i}`}
-            className={`absolute font-mono ${item.size}`}
-            style={{ top: item.top, left: item.left, color: item.color, transform: `rotate(${rotate}deg)` }}
-            animate={{ opacity: [0, 0.6, 0.6, 0] }}
-            transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono ${item.size} whitespace-nowrap z-0`}
+            style={{ color: item.color, transform: `rotate(${rotate}deg)` }}
+            animate={{
+              x: [0, targetX],
+              y: [0, targetY],
+              opacity: [0, 0.85, 0.65, 0],
+              scale: [0.5, 1, 1.1],
+            }}
+            transition={{
+              duration: item.duration,
+              delay: item.delay,
+              repeat: Infinity,
+              ease: twoStageEase,
+            }}
           >
             {item.content}
           </motion.span>
