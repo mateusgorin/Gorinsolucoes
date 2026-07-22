@@ -1,129 +1,133 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Button } from './ui/Button';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import GorinHeroAnimation from './GorinHeroAnimation';
+import HeroAccent from './HeroAccent';
+import MagneticButton from './MagneticButton';
 
 export const Hero: React.FC = () => {
-  // Fix: Use casted motion to bypass environment-specific type errors
   const m = motion as any;
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
   const customEasing = [0.22, 1, 0.36, 1];
 
+  // Cursor-tracked spotlight behind the headline — motion values so the
+  // glow follows the mouse without re-rendering the component every frame.
+  const mouseX = useMotionValue(50);
+  const mouseY = useMotionValue(40);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}% ${mouseY}%, rgba(0,212,255,0.10), transparent 70%)`;
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mouseX.set(((e.clientX - rect.left) / rect.width) * 100);
+    mouseY.set(((e.clientY - rect.top) / rect.height) * 100);
+  };
+
+  // Each line is wrapped in an overflow-hidden mask; the inner span slides
+  // up from below on load — the "kinetic type reveal" from the reference.
+  const lines = [
+    { text: 'Especialistas em', gradient: false },
+    { text: 'soluções digitais e', gradient: true },
+    { text: 'criação de sites de', gradient: true },
+    { text: 'alta conversão', gradient: true },
+  ];
+
   return (
-    <section 
-      id="home" 
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24 bg-[#0a0a0a]"
+    <section
+      ref={sectionRef}
+      id="home"
+      onMouseMove={handleMouseMove}
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-16 bg-[#0a0a0a] text-center"
     >
-      {/* Cyber Grid & Background */}
-      <m.div 
-        className="absolute inset-0 z-0"
-        style={{ y: y1 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, ease: customEasing }}
-      >
-        <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-10 perspective-1000 transform-gpu" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-        
-        {/* Animated Glow Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#00D4FF]/5 rounded-full blur-[100px] opacity-30" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#7B2FBE]/5 rounded-full blur-[100px] opacity-30 delay-1000" />
-      </m.div>
-
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto">
-          
-          {/* Text Content */}
-          <m.div 
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.2, delayChildren: 0.1 }
-              }
-            }}
-            className="flex-1 text-center lg:text-left"
-          >
-            <m.div 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
-              }}
-              className="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-cyber-primary/30 bg-cyber-primary/5 rounded-none clip-corner-sm"
-            >
-              <span className="w-2 h-2 bg-green-500 opacity-80" />
-              <span className="font-mono text-xs text-cyber-primary uppercase tracking-widest">Disponível para Projetos</span>
-            </m.div>
-            
-            <m.h1 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
-              }}
-              className="text-4xl md:text-6xl lg:text-7xl font-sans font-bold tracking-tighter text-cyber-white mb-6 leading-[1.1]"
-            >
-              ESPECIALISTAS EM 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-primary to-cyber-secondary filter drop-shadow-[0_0_10px_rgba(0,240,255,0.3)]">SOLUÇÕES DIGITAIS E CRIAÇÃO DE SITES DE ALTA CONVERSÃO</span>
-            </m.h1>
-            
-            <m.p 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
-              }}
-              className="font-mono text-cyber-gray text-sm md:text-base max-w-xl mx-auto lg:mx-0 mb-6 leading-relaxed border-l-2 border-cyber-secondary/50 pl-4"
-            >
-              <span className="text-cyber-primary">{">>>"}</span> Desenvolvimento Web de Alta Performance.
-              <br/>
-              Ajudamos empresas e profissionais a fortalecer sua presença digital com sites rápidos, modernos, com design exclusivo e otimizados para o Google.
-            </m.p>
-            
-            <m.div 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: customEasing } }
-              }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6"
-            >
-              <Button 
-                href="#contact" 
-                icon 
-                variant="primary"
-                className="px-6 py-3 text-sm md:text-base"
-              >
-                SOLICITAR ORÇAMENTO GRÁTIS
-              </Button>
-            </m.div>
-          </m.div>
-
-          {/* Visual Element - The New Cyber HUD Animation */}
-          <m.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5, ease: customEasing }}
-            className="flex-1 w-full max-w-2xl relative"
-          >
-            <div className="relative aspect-square w-full">
-              <GorinHeroAnimation mascotSrc="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png" />
-            </div>
-          </m.div>
-
-        </div>
+      {/* Background layers */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-[0.05]" />
+        <div className="grain-overlay" />
+        <m.div className="absolute inset-0" style={{ background: spotlight }} />
+        <HeroAccent />
       </div>
 
-      <m.div 
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <m.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: customEasing }}
+          className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-cyber-primary/30 bg-cyber-primary/5 clip-corner-sm"
+        >
+          <span className="w-2 h-2 bg-green-500 rounded-full opacity-80" />
+          <span className="font-mono text-xs text-cyber-primary tracking-[0.2em] uppercase">Disponível para projetos</span>
+        </m.div>
+
+        <h1 className="font-sans font-bold tracking-tight text-4xl md:text-6xl lg:text-7xl leading-[1.05] mb-8">
+          {lines.map((line, i) => (
+            <span key={i} className="block overflow-hidden">
+              <motion.span
+                initial={{ y: '110%' }}
+                animate={{ y: '0%' }}
+                transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: customEasing }}
+                className={line.gradient
+                  ? 'block bg-clip-text text-transparent bg-gradient-to-r from-cyber-primary to-cyber-secondary'
+                  : 'block text-cyber-white'}
+              >
+                {line.text}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
+
+        <m.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6, ease: customEasing }}
+          className="font-mono text-cyber-gray text-sm md:text-base max-w-xl mx-auto mb-10 leading-relaxed"
+        >
+          <span className="text-cyber-primary">{'>>>'}</span> Desenvolvimento Web de Alta Performance.{' '}
+          Ajudamos empresas e profissionais a fortalecer sua presença digital com sites rápidos, modernos e otimizados para o Google.
+        </m.p>
+
+        <m.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.75, ease: customEasing }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <MagneticButton href="#contact">
+            Solicitar orçamento grátis
+          </MagneticButton>
+          <a
+            href="#projects"
+            className="px-8 py-3.5 rounded-lg font-sans font-semibold text-sm border border-white/15 text-cyber-white hover:border-cyber-primary/50 hover:bg-white/5 transition-colors"
+          >
+            Ver portfólio
+          </a>
+        </m.div>
+      </div>
+
+      {/* Mascot — quiet brand signature, corner of the section, not a scene */}
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
+        transition={{ duration: 1, delay: 1, ease: customEasing }}
+        className="absolute bottom-8 left-8 hidden md:block"
       >
-        <a href="#about" className="text-[#00D4FF]/50 hover:text-[#00D4FF] transition-colors" aria-label="Rolar para baixo">
-          <ChevronDown size={32} />
-        </a>
+        <motion.img
+          src="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png"
+          alt="Gorin Soluções"
+          className="w-12 h-12 object-contain opacity-70"
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </m.div>
+
+      {/* Scroll indicator, bottom-right — matches reference placement */}
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        className="absolute bottom-8 right-8 hidden md:flex items-center gap-2 font-mono text-xs text-cyber-gray"
+      >
+        Scroll para explorar
+        <ChevronDown size={14} className="text-cyber-primary" />
       </m.div>
     </section>
   );

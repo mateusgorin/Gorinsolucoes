@@ -17,11 +17,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        className={`inline-flex items-center gap-2 text-cyber-primary font-mono text-sm tracking-[0.2em] uppercase mb-2 ${align === 'center' ? 'justify-center' : ''}`}
+        className={`inline-flex items-center gap-2 text-cyber-primary font-mono text-xs tracking-[0.2em] uppercase mb-3 ${align === 'center' ? 'justify-center' : ''}`}
       >
-        <span className="w-2 h-2 bg-cyber-primary opacity-80" />
         {subtitle}
-        <span className="w-8 h-[1px] bg-cyber-primary/50" />
       </m.div>
       
       <m.h2 
@@ -29,7 +27,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({ title, subtitle,
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
-        className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-cyber-white uppercase tracking-tighter text-glow"
+        className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold text-cyber-white tracking-tight"
       >
         {title}
       </m.h2>
