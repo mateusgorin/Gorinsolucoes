@@ -98,7 +98,7 @@ export const Navbar: React.FC = () => {
                />
                
                <img 
-                 src="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png" 
+                 src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" 
                  alt="Logo Gorin" 
                  referrerPolicy="no-referrer"
                  className="w-full h-full object-contain relative z-0"

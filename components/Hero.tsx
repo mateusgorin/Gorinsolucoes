@@ -44,7 +44,7 @@ export const Hero: React.FC = () => {
         <div className="absolute inset-0 bg-cyber-grid bg-[length:40px_40px] opacity-[0.05]" />
         <div className="grain-overlay" />
         <m.div className="absolute inset-0" style={{ background: spotlight }} />
-        <HeroAccent />
+        <HeroAccent mascotSrc="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -102,22 +102,6 @@ export const Hero: React.FC = () => {
           </a>
         </m.div>
       </div>
-
-      {/* Mascot — quiet brand signature, corner of the section, not a scene */}
-      <m.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1, ease: customEasing }}
-        className="absolute bottom-8 left-8 hidden md:block"
-      >
-        <motion.img
-          src="https://i.postimg.cc/HxYDgcDC/Picsart-26-03-23-23-16-05-033.png"
-          alt="Gorin Soluções"
-          className="w-12 h-12 object-contain opacity-70"
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </m.div>
 
       {/* Scroll indicator, bottom-right — matches reference placement */}
       <m.div

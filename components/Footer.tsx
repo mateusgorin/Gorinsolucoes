@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
            <div className="relative group cursor-pointer">
               <div className="relative border border-cyber-primary/30 p-4 bg-transparent clip-corner transition-colors hover:border-cyber-primary">
                 <img 
-                  src="https://i.ibb.co/bjmD8HqG/file-000000004e8871f59ac147d0e448ca11.png" 
+                  src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030520/file-000000004e8871f59ac147d0e448ca11_fj6qzn.webp" 
                   alt="Gorin Logo" 
                   className="h-16 md:h-18 w-auto object-contain" 
                 />
