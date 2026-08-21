@@ -54,7 +54,10 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.7, ease: customEasing }}
           className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-cyber-primary/30 bg-cyber-primary/5 clip-corner-sm"
         >
-          <span className="w-2 h-2 bg-green-500 rounded-full opacity-80" />
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 animate-pulse" />
+          </span>
           <span className="font-mono text-xs text-cyber-primary tracking-[0.2em] uppercase">Disponível para projetos</span>
         </m.div>
 
