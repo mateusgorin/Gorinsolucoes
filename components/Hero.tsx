@@ -58,16 +58,18 @@ export const Hero: React.FC = () => {
           <span className="font-mono text-xs text-cyber-primary tracking-[0.2em] uppercase">Disponível para projetos</span>
         </m.div>
 
-        <h1 className="font-sans font-bold tracking-tight text-4xl md:text-6xl lg:text-7xl leading-[1.05] mb-8">
+        <h1 className="font-sans font-bold tracking-tight text-4xl md:text-6xl lg:text-7xl leading-[1.15] mb-8">
           {lines.map((line, i) => (
-            <span key={i} className="block overflow-hidden">
+            <span key={i} className="block overflow-hidden py-1">
               <motion.span
                 initial={{ y: '110%' }}
                 animate={{ y: '0%' }}
                 transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: customEasing }}
-                className={line.gradient
-                  ? 'block bg-clip-text text-transparent bg-gradient-to-r from-cyber-primary to-cyber-secondary'
-                  : 'block text-cyber-white'}
+                className={`block pb-1.5 ${
+                  line.gradient
+                    ? 'bg-clip-text text-transparent bg-gradient-to-r from-cyber-primary to-cyber-secondary'
+                    : 'text-cyber-white'
+                }`}
               >
                 {line.text}
               </motion.span>
