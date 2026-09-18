@@ -71,7 +71,11 @@ export const Hero: React.FC = () => {
               <motion.span
                 initial={{ y: '100%' }}
                 animate={{ y: '0%' }}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ 
+                  duration: isMobile ? 0.45 : 0.65, 
+                  delay: (isMobile ? 0.05 : 0.1) + i * (isMobile ? 0.06 : 0.08), 
+                  ease: [0.22, 1, 0.36, 1] 
+                }}
                 className={`block ${i === 3 ? 'text-[#0B0B0C]' : 'text-[#0B0B0C]'}`}
               >
                 {i === 3 ? (
@@ -91,7 +95,7 @@ export const Hero: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.3 : 0.5 }}
           className="font-mono text-[#71717A] text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           <span className="text-[#0B0B0C] font-semibold">{'>>>'}</span> Desenvolvimento Web de Alta Performance.{' '}
@@ -102,7 +106,7 @@ export const Hero: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.65 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.4 : 0.65 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <MagneticButton href="#contact">
@@ -111,7 +115,7 @@ export const Hero: React.FC = () => {
           
           <a
             href="#projects"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-[6px] font-archivo font-bold text-sm tracking-tight border border-black/15 text-[#0B0B0C] hover:border-black bg-transparent hover:bg-black/[0.02] transition-all"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-[6px] font-archivo font-bold text-sm tracking-tight border border-black/15 text-[#0B0B0C] hover:border-black bg-transparent hover:bg-black/[0.02] hover:scale-[1.025] active:scale-[0.98] transition-all cursor-pointer"
           >
             Ver portfólio
           </a>

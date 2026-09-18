@@ -45,14 +45,18 @@ export const Button: React.FC<ButtonProps> = ({
       const element = document.getElementById(targetId);
       
       if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        if ((window as any).__lenis) {
+          (window as any).__lenis.scrollTo(element, { offset: -80 });
+        } else {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
       }
     }
   };
@@ -63,7 +67,7 @@ export const Button: React.FC<ButtonProps> = ({
         href={href} 
         onClick={handleSmoothScroll}
         className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.025 }}
         whileTap={{ scale: 0.98 }}
       >
         {content}
@@ -74,7 +78,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <m.button 
       className={`${baseStyles} ${variants[variant]} ${widthClass} ${className}`} 
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.025 }}
       whileTap={{ scale: 0.98 }}
       {...props}
     >

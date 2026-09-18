@@ -41,7 +41,7 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({
     y.set(0);
   };
 
-  const baseClasses = `relative inline-flex items-center justify-center px-8 py-4 rounded-[6px] font-archivo font-bold text-sm tracking-tight bg-[#00D4FF] text-[#0B0B0C] transition-opacity hover:opacity-90 active:scale-[0.98] cursor-pointer ${className}`;
+  const baseClasses = `relative inline-flex items-center justify-center px-8 py-4 rounded-[6px] font-archivo font-bold text-sm tracking-tight bg-[#00D4FF] text-[#0B0B0C] transition-all duration-200 hover:opacity-95 hover:scale-[1.025] active:scale-[0.98] cursor-pointer ${className}`;
 
   if (href) {
     return (

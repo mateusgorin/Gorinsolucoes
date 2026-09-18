@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -12,6 +15,9 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import { Footer } from './components/Footer';
 import { ThemeProvider } from './context/ThemeContext';
 import { BriefingPage } from './components/BriefingPage';
+import { CustomCursor } from './components/CustomCursor';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -22,6 +28,35 @@ const App: React.FC = () => {
   });
 
   const [path, setPath] = useState(window.location.pathname);
+
+  // Initialize Lenis smooth scroll with GSAP ScrollTrigger ticker integration
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const lenis = new Lenis({
+      duration: isMobile ? 0.9 : 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: isMobile ? 1.0 : 1.2,
+      wheelMultiplier: 1,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(updateLenis);
+    gsap.ticker.lagSmoothing(0);
+
+    // Provide global access for anchor links
+    (window as any).__lenis = lenis;
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(updateLenis);
+    };
+  }, []);
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -38,6 +73,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <div className="bg-[#FAFAF9] min-h-screen text-[#0B0B0C] font-sans selection:bg-[#00D4FF] selection:text-[#0B0B0C]">
+        <CustomCursor />
         <motion.div 
           className="fixed top-0 left-0 right-0 h-[3px] bg-[#00D4FF] z-[9999] origin-left" 
           style={{ scaleX }} 

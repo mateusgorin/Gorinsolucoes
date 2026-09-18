@@ -60,7 +60,7 @@ const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimon
       transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.1 }}
       className="group h-full flex flex-col"
     >
-      <div className={`flex-1 border border-black/10 bg-white rounded-[6px] p-8 relative transition-all duration-300 flex flex-col hover:border-black/30 shadow-sm ${
+      <div className={`flex-1 border border-black/10 bg-white rounded-[6px] p-8 relative transition-all duration-300 ease-out flex flex-col hover:border-black/30 hover:scale-[1.02] hover:shadow-md cursor-pointer shadow-sm ${
         isExpanded ? 'h-auto min-h-[400px]' : 'h-[400px]'
       }`}>
         

@@ -202,7 +202,7 @@ export const Contact: React.FC = () => {
                 
                 <button 
                   type="submit" 
-                  className="w-full py-4 px-6 bg-[#00D4FF] text-[#0B0B0C] font-archivo font-black uppercase text-sm tracking-wider rounded-[4px] hover:bg-[#00D4FF]/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm active:translate-y-[1px]"
+                  className="w-full py-4 px-6 bg-[#00D4FF] text-[#0B0B0C] font-archivo font-black uppercase text-sm tracking-wider rounded-[4px] hover:bg-[#00D4FF]/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
                   <span>SOLICITAR ORÇAMENTO GRÁTIS AGORA</span>
                   <Send size={16} />

@@ -102,7 +102,7 @@ export const Services: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.08, duration: 0.5 }}
-              className="bg-white border border-black/10 p-8 rounded-[6px] flex flex-col justify-between hover:border-black/30 transition-colors"
+              className="bg-white border border-black/10 p-8 rounded-[6px] flex flex-col justify-between hover:border-black/30 transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-md cursor-pointer"
             >
               <div>
                 <div className="flex justify-between items-center mb-6">
@@ -144,7 +144,7 @@ export const Services: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.05, duration: 0.4 }}
-                className="bg-white border border-black/10 p-7 rounded-[6px] flex flex-col justify-between hover:border-black transition-colors"
+                className="bg-white border border-black/10 p-7 rounded-[6px] flex flex-col justify-between hover:border-black transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-sm cursor-pointer"
               >
                 <div>
                   <div className="flex justify-between items-center mb-5">

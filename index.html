@@ -128,6 +128,33 @@
         border-radius: 6px;
       }
 
+      /* Infinite marquee animation */
+      @keyframes marquee {
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translate3d(-33.333%, 0, 0);
+        }
+      }
+      .animate-marquee {
+        animation: marquee 30s linear infinite;
+      }
+
+      /* Lenis Smooth Scroll Configuration */
+      html.lenis, html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *, ::before, ::after {
           animation-delay: -1ms !important;
