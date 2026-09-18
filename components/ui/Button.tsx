@@ -20,13 +20,13 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const m = motion as any;
   // Base styles for the cyber button
-  const baseStyles = "relative inline-flex items-center justify-center px-8 py-3.5 font-sans font-semibold tracking-tight transition-all duration-200 group clip-corner focus:outline-none";
+  const baseStyles = "relative inline-flex items-center justify-center px-8 py-3.5 font-archivo font-bold uppercase text-xs tracking-wider transition-all duration-200 group rounded-[4px] focus:outline-none cursor-pointer";
 
   const variants = {
-    primary: "bg-cyber-primary text-black hover:opacity-90",
-    secondary: "bg-cyber-secondary text-white hover:opacity-90",
-    outline: "bg-transparent border border-white/15 text-cyber-white hover:border-cyber-primary/50 hover:bg-white/5",
-    whatsapp: "bg-[#25D366] text-white hover:opacity-90"
+    primary: "bg-[#00D4FF] text-[#0B0B0C] hover:bg-[#00D4FF]/90 shadow-sm",
+    secondary: "bg-[#0B0B0C] text-[#FAFAF9] hover:bg-[#0B0B0C]/90 shadow-sm",
+    outline: "bg-white border border-black/15 text-[#0B0B0C] hover:bg-black hover:text-white shadow-sm",
+    whatsapp: "bg-[#25D366] text-white hover:bg-[#25D366]/90 shadow-sm"
   };
 
   const widthClass = fullWidth ? "w-full" : "";

@@ -1,5 +1,6 @@
 {
   "name": "Gorin Soluções | Criação de Sites",
   "description": "Especialistas em criação de sites de alta performance, landing pages e soluções digitais em Brasília.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

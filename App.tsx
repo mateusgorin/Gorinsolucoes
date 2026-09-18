@@ -37,9 +37,9 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider>
-      <div className="bg-cyber-black min-h-screen text-cyber-gray font-sans selection:bg-cyber-primary selection:text-black transition-colors duration-300">
+      <div className="bg-[#FAFAF9] min-h-screen text-[#0B0B0C] font-sans selection:bg-[#00D4FF] selection:text-[#0B0B0C]">
         <motion.div 
-          className="fixed top-0 left-0 right-0 h-1 bg-cyber-primary z-[9999] origin-left shadow-[0_0_10px_var(--primary)]" 
+          className="fixed top-0 left-0 right-0 h-[3px] bg-[#00D4FF] z-[9999] origin-left" 
           style={{ scaleX }} 
         />
         <Navbar />

@@ -15,7 +15,7 @@ export const WhatsAppButton: React.FC = () => {
       aria-label="Falar no WhatsApp"
     >
       <MessageCircle size={28} />
-      <span className="absolute right-full mr-3 bg-white text-black px-3 py-1 rounded-md text-sm font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
+      <span className="absolute right-full mr-3 bg-[#0B0B0C] text-[#FAFAF9] px-3 py-1.5 rounded-[4px] text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-white/10">
         Falar com Especialista
       </span>
     </a>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
-import { Star, Quote, ShieldCheck, Lock, Loader2, BookOpen, ChevronUp } from 'lucide-react';
+import { Star, Quote, ShieldCheck, BookOpen, ChevronUp } from 'lucide-react';
 
 interface Testimonial {
   name: string;
@@ -47,7 +47,6 @@ const testimonials: Testimonial[] = [
 const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimonial; idx: number; showAll: boolean }>(({ testimonial, idx, showAll }, ref) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   
-  // Vanessa's testimonial is the shortest (~388 chars). We'll use ~380 as reference.
   const maxLength = 380;
   const isLong = testimonial.content.length > maxLength;
   const displayContent = isExpanded ? testimonial.content : testimonial.content.slice(0, maxLength);
@@ -55,75 +54,58 @@ const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimon
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.2 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.1 }}
       className="group h-full flex flex-col"
     >
-      <div className={`flex-1 border p-8 clip-corner relative transition-all duration-500 flex flex-col ${
-        isExpanded ? 'h-auto min-h-[420px]' : 'h-[420px]'
-      } ${
-        testimonial.isLocked 
-          ? 'bg-cyber-black/40 border-cyber-white/5 grayscale opacity-60' 
-          : 'bg-cyber-slate/30 border-cyber-primary/20 hover:border-cyber-primary hover:shadow-[0_0_30px_rgba(0,240,255,0.1)]'
+      <div className={`flex-1 border border-black/10 bg-white rounded-[6px] p-8 relative transition-all duration-300 flex flex-col hover:border-black/30 shadow-sm ${
+        isExpanded ? 'h-auto min-h-[400px]' : 'h-[400px]'
       }`}>
         
         {/* Quote Icon */}
-        <div className={`absolute top-4 right-4 ${testimonial.isLocked ? 'text-cyber-white/5' : 'text-cyber-primary/10 group-hover:text-cyber-primary/30'} transition-colors`}>
-          <Quote size={48} />
+        <div className="absolute top-6 right-6 text-black/5 pointer-events-none">
+          <Quote size={40} />
         </div>
 
-        {/* Stars/Status */}
-        <div className="flex gap-1 mb-6">
-          {testimonial.isLocked ? (
-            <div className="flex items-center gap-2 font-mono text-[10px] text-gray-500">
-              <Loader2 size={14} className="animate-spin" /> STATUS: AGUARDANDO_DADOS
-            </div>
-          ) : (
-            [...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className="fill-cyber-primary text-cyber-primary drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" />
-            ))
-          )}
+        {/* Stars */}
+        <div className="flex gap-1 mb-5">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} size={15} className="fill-[#00D4FF] text-[#00D4FF]" />
+          ))}
         </div>
 
         {/* Content */}
-        <div className={`flex-grow ${isExpanded ? '' : 'overflow-hidden'} mb-8`}>
-          {testimonial.isLocked ? (
-            <div className="flex flex-col items-center justify-center h-32 space-y-4 opacity-30">
-               <Lock size={32} />
-               <p className="font-mono text-xs tracking-widest uppercase">Conteúdo Bloqueado</p>
-            </div>
-          ) : (
-            <p className="text-cyber-gray italic leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
-              "{displayContent}{!isExpanded && isLong ? '...' : ''}"
-              {isLong && (
-                <button 
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="text-[#00D4FF] ml-1 hover:underline cursor-pointer inline-flex items-center font-sans text-sm md:text-base"
-                >
-                  {isExpanded ? 'ver menos ↑' : 'ver mais →'}
-                </button>
-              )}
-            </p>
-          )}
+        <div className={`flex-grow ${isExpanded ? '' : 'overflow-hidden'} mb-6`}>
+          <p className="text-[#3F3F46] leading-relaxed font-sans text-sm md:text-base whitespace-pre-line">
+            "{displayContent}{!isExpanded && isLong ? '...' : ''}"
+            {isLong && (
+              <button 
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="text-[#0B0B0C] font-semibold underline underline-offset-4 ml-1.5 hover:text-[#00D4FF] cursor-pointer inline-flex items-center text-xs font-mono"
+              >
+                {isExpanded ? 'ver menos ↑' : 'ver mais →'}
+              </button>
+            )}
+          </p>
         </div>
 
         {/* Footer */}
-        <div className={`flex items-center justify-between border-t pt-6 mt-auto ${testimonial.isLocked ? 'border-cyber-white/5' : 'border-cyber-primary/10'}`}>
+        <div className="flex items-center justify-between border-t border-black/10 pt-5 mt-auto">
           <div>
-            <h4 className={`font-mono font-bold tracking-wider ${testimonial.isLocked ? 'text-gray-500' : 'text-cyber-white'}`}>{testimonial.name}</h4>
-            <p className="text-cyber-secondary text-[10px] font-mono uppercase tracking-tighter">
+            <h4 className="font-archivo font-bold text-sm text-[#0B0B0C] uppercase tracking-tight">
+              {testimonial.name}
+            </h4>
+            <p className="text-[#71717A] text-[11px] font-mono uppercase tracking-wider">
               {testimonial.project}
             </p>
           </div>
           
-          {!testimonial.isLocked && (
-            <div className="flex items-center gap-1 text-[9px] font-mono text-green-400 bg-green-400/5 px-2 py-0.5 border border-green-400/20">
-              <ShieldCheck size={10} />
-              FEEDBACK_REAL
-            </div>
-          )}
+          <div className="flex items-center gap-1 text-[10px] font-mono text-[#0B0B0C] bg-[#FAFAF9] px-2.5 py-1 border border-black/10 rounded-[2px]">
+            <ShieldCheck size={12} className="text-[#00D4FF]" />
+            <span>VERIFICADO</span>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -143,14 +125,13 @@ export const Testimonials: React.FC = () => {
       if (width < 768) {
         setVisibleCount(2); // Mobile
       } else if (width < 1024) {
-        // Tablet range
         if (isPortrait) {
-          setVisibleCount(4); // Tablet Portrait
+          setVisibleCount(4);
         } else {
-          setVisibleCount(3); // Tablet Landscape
+          setVisibleCount(3);
         }
       } else {
-        setVisibleCount(3); // Desktop
+        setVisibleCount(3);
       }
     };
 
@@ -162,17 +143,14 @@ export const Testimonials: React.FC = () => {
   const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, visibleCount);
 
   return (
-    <section id="testimonials" className="py-24 relative overflow-hidden bg-cyber-dark transition-colors duration-300 scroll-mt-24">
-      {/* Grid background adjustment */}
-      <div className="absolute inset-0 bg-cyber-grid bg-[size:30px_30px] opacity-5 z-0" />
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="testimonials" className="py-24 md:py-32 bg-[#FAFAF9] border-t border-black/10 relative scroll-mt-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <SectionHeading 
           title="DEPOIMENTOS REAIS" 
-          subtitle="O QUE DIZEM MEUS CLIENTES" 
+          subtitle="04 — CLIENTES & FEEDBACK" 
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
             {visibleTestimonials.map((testimonial, idx) => (
               <TestimonialCard 
@@ -189,19 +167,16 @@ export const Testimonials: React.FC = () => {
           <div className="mt-12 text-center">
             <button 
               onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center gap-2 px-6 py-3 border border-cyber-primary/30 text-cyber-primary font-mono text-sm hover:bg-cyber-primary hover:text-black transition-all clip-corner-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-black/15 bg-white text-[#0B0B0C] font-mono text-xs font-bold uppercase tracking-wider rounded-[4px] hover:bg-[#0B0B0C] hover:text-white transition-all shadow-sm cursor-pointer"
             >
               {showAll ? (
-                <>VER MENOS <ChevronUp size={18} /></>
+                <>VER MENOS <ChevronUp size={16} /></>
               ) : (
-                <> <BookOpen size={18} /> VER TODOS OS DEPOIMENTOS</>
+                <><BookOpen size={16} /> VER TODOS OS DEPOIMENTOS</>
               )}
             </button>
           </div>
         )}
-
-        {/* Floating elements */}
-        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-cyber-primary/5 rounded-full blur-[80px] pointer-events-none" />
       </div>
     </section>
   );

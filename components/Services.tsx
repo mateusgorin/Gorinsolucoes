@@ -1,20 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
-import { Button } from './ui/Button';
 import { 
   Layout, 
   Search, 
   Zap, 
   MessageSquare, 
   ShieldCheck, 
-  Layers,
   Rocket,
   MousePointer2,
   Bot,
   Code2,
   FileCheck
 } from 'lucide-react';
+import MagneticButton from './MagneticButton';
 
 const mainPillars = [
   {
@@ -86,168 +85,149 @@ const processSteps = [
 ];
 
 export const Services: React.FC = () => {
-  const m = motion as any;
-
   return (
-    <section id="services" className="pt-24 pb-12 bg-cyber-black relative scroll-mt-24 transition-colors duration-300">
-      <div className="absolute inset-0 bg-cyber-grid bg-[size:40px_40px] opacity-10 pointer-events-none" />
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="services" className="py-24 md:py-32 bg-[#FAFAF9] border-t border-black/10 relative scroll-mt-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <SectionHeading 
           title="SOLUÇÕES COMPLETAS" 
-          subtitle="O QUE ENTREGAMOS" 
+          subtitle="02 — SERVIÇOS & ENTREGÁVEIS" 
         />
 
-        {/* 1. Pilares de Destaque */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
+        {/* 1. Pilares de Destaque - Editorial 1px hair dividers */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {mainPillars.map((pillar, idx) => (
-            <m.div
+            <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-cyber-slate/50 border-l-4 border-cyber-primary p-8 clip-corner shadow-[0_10px_30px_rgba(0,0,0,0.5)] group hover:bg-cyber-primary/10 transition-all"
+              transition={{ delay: idx * 0.08, duration: 0.5 }}
+              className="bg-white border border-black/10 p-8 rounded-[6px] flex flex-col justify-between hover:border-black/30 transition-colors"
             >
-              <div className="flex justify-between items-start mb-6">
-                <pillar.icon className="w-12 h-12 text-cyber-primary group-hover:scale-110 transition-transform" />
-                <span className="font-mono text-cyber-secondary font-bold text-lg">{pillar.stat}</span>
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <div className="w-10 h-10 rounded-[4px] bg-[#FAFAF9] border border-black/10 flex items-center justify-center text-[#0B0B0C]">
+                    <pillar.icon size={20} />
+                  </div>
+                  <span className="font-mono text-xs font-bold px-2.5 py-1 bg-[#00D4FF] text-[#0B0B0C] rounded-[2px]">
+                    {pillar.stat}
+                  </span>
+                </div>
+                <h3 className="font-archivo font-black text-xl text-[#0B0B0C] mb-3 uppercase tracking-tight">
+                  {pillar.title}
+                </h3>
+                <p className="text-[#52525B] text-sm leading-relaxed font-sans">
+                  {pillar.desc}
+                </p>
               </div>
-              <h3 className="text-xl font-mono font-bold text-cyber-white mb-4 tracking-tighter">{pillar.title}</h3>
-              <p className="text-cyber-gray text-base leading-relaxed">{pillar.desc}</p>
-            </m.div>
+              <div className="mt-6 pt-4 border-t border-black/5 font-mono text-[11px] text-[#71717A]">
+                0{idx + 1} // PILAR ESTRATÉGICO
+              </div>
+            </motion.div>
           ))}
         </div>
 
         {/* 2. Grade de Serviços Detalhada */}
         <div className="mb-24">
-          <div className="flex items-center gap-4 mb-10">
-            <Layers className="text-cyber-secondary" />
-            <h3 className="font-mono text-cyber-white tracking-widest uppercase border-b border-cyber-secondary/30 pb-2">
-              Tudo que seu site já vem incluso
+          <div className="flex items-center gap-3 mb-8 border-b border-black/10 pb-4">
+            <span className="w-2 h-2 bg-[#00D4FF]" />
+            <h3 className="font-mono text-xs text-[#0B0B0C] tracking-[0.2em] uppercase font-bold">
+              TUDO QUE SEU SITE JÁ VEM INCLUSO
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 perspective-1000">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, idx) => (
-              <m.div
+              <motion.div
                 key={idx}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: idx * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative bg-cyber-slate/20 border border-cyber-primary/10 p-6 clip-corner-sm hover:border-cyber-primary/60 transition-all duration-300 h-full flex flex-col transform-gpu"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.05, duration: 0.4 }}
+                className="bg-white border border-black/10 p-7 rounded-[6px] flex flex-col justify-between hover:border-black transition-colors"
               >
-                <div className="flex justify-between items-center mb-5">
-                  <div className="p-2.5 bg-cyber-primary/10 text-cyber-primary group-hover:bg-cyber-primary group-hover:text-black transition-all">
-                    <service.icon size={24} />
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <div className="p-2 bg-[#FAFAF9] text-[#0B0B0C] rounded-[4px] border border-black/5">
+                      <service.icon size={20} />
+                    </div>
+                    <span className="font-mono text-[10px] text-[#0B0B0C] font-semibold tracking-wider border border-black/10 px-2 py-0.5 rounded-[2px]">
+                      {service.category}
+                    </span>
                   </div>
-                  <span className="font-mono text-[10px] text-cyber-primary tracking-widest border border-cyber-primary/40 px-2.5 py-1 bg-cyber-primary/5">
-                    {service.category}
-                  </span>
+                  
+                  <h4 className="font-archivo font-bold text-base text-[#0B0B0C] mb-2.5 tracking-tight">
+                    {service.title}
+                  </h4>
+                  
+                  <p className="text-[#52525B] text-xs leading-relaxed font-sans">
+                    {service.desc}
+                  </p>
                 </div>
-                
-                <h4 className="text-base font-mono font-bold text-cyber-white mb-3 tracking-wide group-hover:text-cyber-primary transition-colors">
-                  {service.title}
-                </h4>
-                
-                <p className="text-cyber-gray text-sm font-sans leading-relaxed opacity-90 group-hover:opacity-100">
-                  {service.desc}
-                </p>
-                
-                <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cyber-primary/20 group-hover:border-cyber-primary transition-colors" />
-              </m.div>
+              </motion.div>
             ))}
           </div>
         </div>
 
-        {/* 3. Fluxo de Processo (Marquee) */}
-        <div className="py-10 bg-cyber-dark/40 backdrop-blur-sm clip-corner relative overflow-hidden group/marquee">
-          <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-cyber-primary/20 z-20">PROCESS_TRACKER_V2</div>
-          
-          {/* Fading edges for better look */}
-          <div className="absolute inset-y-0 left-0 w-12 sm:w-32 bg-gradient-to-r from-cyber-black to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-12 sm:w-32 bg-gradient-to-l from-cyber-black to-transparent z-10 pointer-events-none" />
+        {/* 3. Fluxo de Processo (Editorial Step Layout) */}
+        <div className="mb-24 bg-white border border-black/10 p-8 sm:p-10 rounded-[6px]">
+          <div className="flex items-center justify-between border-b border-black/10 pb-4 mb-8">
+            <div className="flex items-center gap-2 font-mono text-xs tracking-widest text-[#0B0B0C] uppercase font-bold">
+              <span className="w-2 h-2 bg-[#00D4FF]" />
+              <span>METODOLOGIA DE EXECUÇÃO EM 6 PASSOS</span>
+            </div>
+            <span className="font-mono text-[10px] text-[#71717A]">CICLO ÁGIL</span>
+          </div>
 
-          <div className="relative overflow-hidden pt-8 pb-4">
-            <m.div 
-              className="flex w-fit items-center"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ 
-                duration: 25, 
-                ease: "linear", 
-                repeat: Infinity 
-              }}
-              style={{ display: 'flex' }}
-            >
-              {[1, 2].map((iteration) => (
-                <React.Fragment key={iteration}>
-                  {processSteps.map((step, idx) => (
-                    <div 
-                      key={`${iteration}-${idx}`}
-                      className="flex-shrink-0 px-3 sm:px-6 w-[240px] sm:w-[300px] md:w-[340px]"
-                    >
-                      <div className="relative flex flex-col items-center text-center group h-full min-h-[220px] justify-start p-6 bg-cyber-slate/10 border border-cyber-primary/5 hover:border-cyber-primary/30 transition-all duration-500 clip-corner-sm">
-                        <div className="mb-6 relative">
-                          {/* Icon Container */}
-                          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-cyber-black border-2 border-cyber-secondary/30 rounded-full flex items-center justify-center group-hover:border-cyber-primary group-hover:shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all duration-500 z-10 relative">
-                            <step.icon className="w-6 h-6 sm:w-8 sm:h-8 text-cyber-secondary group-hover:text-cyber-primary transition-colors" />
-                          </div>
-                          
-                          {/* Number badge */}
-                          <div className="absolute -top-1 -right-1 bg-cyber-primary text-black font-mono text-[10px] font-bold px-2 py-0.5 leading-none z-20 shadow-lg">
-                            {step.step}
-                          </div>
-                          
-                          {/* Decorative spinning ring on hover */}
-                          <m.div 
-                            className="absolute -inset-2 border border-cyber-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                          />
-                        </div>
-                        
-                        <h4 className="font-mono font-bold text-cyber-white mb-2 tracking-widest uppercase text-xs sm:text-sm md:text-base group-hover:text-cyber-primary transition-colors">
-                          {step.title}
-                        </h4>
-                        
-                        <p className="text-cyber-gray text-[10px] sm:text-xs md:text-sm leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity max-w-[220px]">
-                          {step.desc}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  {/* Separator between iterations */}
-                  <div className="flex-shrink-0 flex flex-col items-center justify-center px-12 sm:px-20 opacity-30">
-                    <div className="h-24 w-[1px] bg-gradient-to-b from-transparent via-cyber-primary to-transparent" />
-                    <span className="font-mono text-[10px] text-cyber-primary tracking-[0.3em] uppercase mt-4 whitespace-nowrap">REINICIANDO CICLO</span>
-                    <div className="h-24 w-[1px] bg-gradient-to-b from-transparent via-cyber-primary to-transparent mt-4" />
-                  </div>
-                </React.Fragment>
-              ))}
-            </m.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {processSteps.map((step) => (
+              <div 
+                key={step.step}
+                className="border border-black/10 p-6 rounded-[4px] bg-[#FAFAF9] flex flex-col justify-between"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono font-bold text-sm bg-[#00D4FF] text-[#0B0B0C] px-2 py-0.5 rounded-[2px]">
+                    {step.step}
+                  </span>
+                  <step.icon size={18} className="text-[#71717A]" />
+                </div>
+                <h4 className="font-archivo font-bold text-sm uppercase tracking-tight text-[#0B0B0C] mb-2">
+                  {step.title}
+                </h4>
+                <p className="font-sans text-xs text-[#52525B] leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* CTA Section */}
-        <m.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="mt-24 p-10 border border-cyber-primary/30 bg-cyber-primary/5 text-center max-w-4xl mx-auto clip-corner relative group overflow-hidden"
+        {/* 4. CTA Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="p-10 md:p-14 border border-black/10 bg-white text-center max-w-4xl mx-auto rounded-[6px]"
         >
-          <div className="absolute inset-0 bg-cyber-grid bg-[size:20px_20px] opacity-10 group-hover:opacity-20 transition-opacity" />
-          <h3 className="text-3xl font-mono font-bold text-cyber-white mb-4 relative z-10 uppercase tracking-tighter">PRONTO PARA EVOLUIR SUA PRESENÇA DIGITAL?</h3>
-          <p className="font-sans text-cyber-gray text-lg mb-8 max-w-2xl mx-auto relative z-10 leading-relaxed">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-black/10 bg-[#FAFAF9] rounded-full">
+            <span className="w-2 h-2 bg-[#00D4FF]" />
+            <span className="font-mono text-[11px] text-[#0B0B0C] uppercase tracking-wider font-semibold">
+              PRÓXIMO PASSO
+            </span>
+          </div>
+
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-archivo font-black text-[#0B0B0C] mb-4 uppercase tracking-tight">
+            PRONTO PARA EVOLUIR SUA PRESENÇA DIGITAL?
+          </h3>
+          <p className="font-sans text-[#52525B] text-sm md:text-base mb-8 max-w-2xl mx-auto leading-relaxed">
             Criamos soluções digitais completas, unindo design, tecnologia e performance para estruturar negócios no ambiente digital com segurança e eficiência.
           </p>
-          <Button 
-            href="#contact" 
-            variant="primary"
-            className="px-10 py-4 relative z-10"
-          >
-            SOLICITAR ORÇAMENTO GRÁTIS <Zap size={18} className="ml-2" />
-          </Button>
-        </m.div>
+          <div className="flex justify-center">
+            <MagneticButton href="#contact">
+              SOLICITAR ORÇAMENTO GRÁTIS
+            </MagneticButton>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

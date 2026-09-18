@@ -1,26 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { MoreVertical, X, ChevronRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  
-  const m = motion as any;
+  const [isOverDark, setIsOverDark] = useState(false);
 
   useEffect(() => {
-    const handleWindowScroll = () => {
-      setScrolled(window.scrollY > 50);
+    // Detect if user has scrolled over the dark #contact section
+    const contactSection = document.getElementById('contact');
+    if (!contactSection) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsOverDark(entry.isIntersecting);
+      },
+      {
+        root: null,
+        // Trigger when the top of the viewport reaches contact section
+        rootMargin: '-10% 0px -70% 0px',
+        threshold: 0.05
+      }
+    );
+
+    observer.observe(contactSection);
+
+    // Fallback scroll listener in case IntersectionObserver has threshold delays
+    const handleScroll = () => {
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        const rect = contactEl.getBoundingClientRect();
+        // If the contact section is covering the top navbar area
+        if (rect.top <= 100 && rect.bottom >= 60) {
+          setIsOverDark(true);
+        } else if (rect.top > 100) {
+          setIsOverDark(false);
+        }
+      }
     };
-    window.addEventListener('scroll', handleWindowScroll);
-    return () => window.removeEventListener('scroll', handleWindowScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const navLinks = [
-    { name: 'INÍCIO', href: '#home' },
-    { name: 'SOBRE NÓS', href: '#about' },
-    { name: 'SERVIÇOS', href: '#services' },
-    { name: 'PORTFÓLIO', href: '#projects' }
+    { name: 'INÍCIO', href: '#home', number: '00' },
+    { name: 'SOBRE NÓS', href: '#about', number: '01' },
+    { name: 'SERVIÇOS', href: '#services', number: '02' },
+    { name: 'PORTFÓLIO', href: '#projects', number: '03' }
   ];
 
   const scrollToSection = (href: string) => {
@@ -28,7 +59,7 @@ export const Navbar: React.FC = () => {
     const element = document.getElementById(targetId);
     
     if (element) {
-      const headerOffset = 80;
+      const headerOffset = 90;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
@@ -50,166 +81,131 @@ export const Navbar: React.FC = () => {
       return;
     }
 
-    // Pequeno delay para permitir o início do fechamento da animação
     setTimeout(() => {
       scrollToSection(href);
-    }, 150);
-  };
-
-  // Variantes para animação em cascata dos itens do menu
-  const menuVariants = {
-    closed: { opacity: 0, x: '100%' },
-    open: { 
-      opacity: 1, 
-      x: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
-        staggerChildren: 0.07,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    closed: { opacity: 0, x: 20 },
-    open: { opacity: 1, x: 0 }
+    }, 100);
   };
 
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-500 border-b ${scrolled ? 'bg-cyber-black/90 backdrop-blur-md border-cyber-primary/20 py-3' : 'bg-transparent border-transparent py-6'}`}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-4 md:top-6 left-0 right-0 z-[100] px-4 pointer-events-none flex justify-center">
+      <nav 
+        className={`pointer-events-auto w-full max-w-4xl rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 backdrop-blur-md border ${
+          isOverDark 
+            ? 'bg-[#0B0B0C]/90 border-white/15 text-white shadow-[0_10px_30px_rgba(0,0,0,0.5)]' 
+            : 'bg-white/85 border-black/10 text-[#0B0B0C] shadow-[0_8px_30px_rgba(0,0,0,0.04)]'
+        }`}
+      >
         <div className="flex items-center justify-between">
-          
-          <m.a 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          {/* Brand Logo */}
+          <a 
             href="#home"
-            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#home')}
-            className="group flex items-center gap-3 cursor-pointer" 
+            onClick={(e) => handleNavClick(e, '#home')}
+            className="flex items-center gap-3 group cursor-pointer"
           >
-            <div className="relative w-10 h-10 flex items-center justify-center bg-cyber-primary/10 border border-cyber-primary/40 clip-corner-sm group-hover:bg-cyber-primary/20 transition-all p-1 overflow-hidden">
-               {/* Scanning Line */}
-               <m.div 
-                 className="absolute left-0 w-full h-[1px] bg-cyber-primary/60 z-10"
-                 animate={{ top: ['0%', '100%', '0%'] }}
-                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-               />
-               
-               <img 
-                 src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" 
-                 alt="Logo Gorin" 
-                 referrerPolicy="no-referrer"
-                 className="w-full h-full object-contain relative z-0"
-               />
+            <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center p-0.5 border border-black/10 bg-white">
+              <img 
+                src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" 
+                alt="Logo Gorin" 
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-contain"
+              />
             </div>
-            
-            <span className="font-mono font-bold text-cyber-white tracking-[0.15em] text-base group-hover:text-cyber-primary transition-colors">
-              GORIN <span className="text-cyber-secondary">SOLUÇÕES</span>
+            <span className="font-archivo font-extrabold tracking-tight text-sm uppercase">
+              GORIN <span className="font-normal opacity-60">SOLUÇÕES</span>
             </span>
-          </m.a>
+          </a>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
-                onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
-                className="font-mono text-[10px] lg:text-[11px] text-cyber-gray hover:text-cyber-primary tracking-widest uppercase transition-colors relative group cursor-pointer whitespace-nowrap"
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`font-mono text-xs tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  isOverDark 
+                    ? 'text-white/70 hover:text-white' 
+                    : 'text-[#0B0B0C]/70 hover:text-[#0B0B0C]'
+                }`}
               >
-                <span className="text-cyber-secondary opacity-0 group-hover:opacity-100 transition-opacity mr-1">&gt;</span>
-                {link.name}
+                <span className="text-[10px] text-[#00D4FF] font-semibold">{link.number}</span>
+                <span>{link.name}</span>
               </a>
             ))}
 
             <a 
               href="#contact"
-              onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
-              className="px-5 py-2 bg-cyber-primary/10 border border-cyber-primary/50 text-cyber-primary font-mono text-[11px] hover:bg-cyber-primary hover:text-black transition-all clip-corner-sm font-bold tracking-widest"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className="px-5 py-2 rounded-full bg-[#00D4FF] text-[#0B0B0C] font-archivo font-bold text-xs tracking-tight uppercase hover:opacity-90 transition-opacity"
             >
               CONTATO
             </a>
           </div>
 
-          {/* Mobile Menu Button - Styled */}
+          {/* Mobile Menu Toggle */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 text-cyber-primary border border-cyber-primary/20 bg-cyber-primary/5 hover:bg-cyber-primary/10 transition-colors z-[110] relative clip-corner-sm"
+            aria-label="Abrir menu"
+            className={`md:hidden flex items-center justify-center w-9 h-9 rounded-full border transition-colors ${
+              isOverDark 
+                ? 'border-white/20 text-white hover:bg-white/10' 
+                : 'border-black/10 text-[#0B0B0C] hover:bg-black/5'
+            }`}
           >
-            {isOpen ? <X size={20} /> : <MoreVertical size={20} />}
+            {isOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Menu Overlay - Refined design */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Dark Backdrop */}
-            <m.div 
+            <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[101] md:hidden"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[101] md:hidden pointer-events-auto"
             />
             
-            {/* Slide-in Menu Panel */}
-            <m.div
-              variants={menuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 w-[80%] max-w-sm h-screen bg-cyber-black border-l border-cyber-primary/20 z-[105] md:hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)] flex flex-col pt-24"
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="fixed top-20 inset-x-4 max-w-sm mx-auto bg-white border border-black/10 rounded-2xl p-6 shadow-2xl z-[105] md:hidden pointer-events-auto text-[#0B0B0C]"
             >
-              <div className="absolute top-0 right-0 p-4 opacity-5">
-                <div className="font-mono text-8xl text-cyber-primary select-none">GORIN</div>
-              </div>
-
-              <div className="flex flex-col px-6 space-y-2 relative z-10">
+              <div className="flex flex-col space-y-4">
                 {navLinks.map((link) => (
-                  <m.a
+                  <a
                     key={link.name}
-                    variants={itemVariants}
                     href={link.href}
-                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
-                    className="flex items-center justify-between font-mono text-sm text-cyber-gray hover:text-cyber-white py-4 border-b border-cyber-white/5 transition-all group"
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="flex items-center justify-between font-mono text-sm py-2.5 border-b border-black/5 text-[#0B0B0C] hover:text-[#00D4FF] transition-colors"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 bg-cyber-primary/30 rounded-full group-hover:bg-cyber-primary" />
-                      <span className="tracking-[0.2em]">{link.name}</span>
-                    </div>
-                    <ChevronRight size={14} className="text-cyber-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
-                  </m.a>
+                    <span className="flex items-center gap-2">
+                      <span className="text-xs text-[#00D4FF]">{link.number}</span>
+                      <span className="font-archivo font-bold tracking-tight">{link.name}</span>
+                    </span>
+                    <ArrowUpRight size={16} className="opacity-40" />
+                  </a>
                 ))}
 
-                <m.div variants={itemVariants} className="pt-6">
+                <div className="pt-2">
                   <a 
                     href="#contact"
-                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
-                    className="block w-full text-center py-4 bg-cyber-primary text-black font-mono font-bold text-xs clip-corner tracking-[0.2em] uppercase hover:bg-cyber-white transition-colors shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+                    onClick={(e) => handleNavClick(e, '#contact')}
+                    className="block w-full text-center py-3.5 rounded-lg bg-[#00D4FF] text-[#0B0B0C] font-archivo font-bold text-xs tracking-tight uppercase"
                   >
                     SOLICITAR ORÇAMENTO
                   </a>
-                </m.div>
-              </div>
-              
-              <div className="mt-auto p-8 font-mono space-y-4">
-                <div className="flex items-center gap-2">
-                   <div className="w-2 h-2 bg-green-500 rounded-full opacity-80" />
-                   <span className="text-[10px] text-gray-500 uppercase tracking-widest">Servidores Online</span>
-                </div>
-                <div className="text-[10px] text-cyber-primary/30 leading-none">
-                   AUTH_ID: GORIN-2025-BR<br/>
-                   ESTADO: BRASÍLIA/DF
                 </div>
               </div>
-            </m.div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };

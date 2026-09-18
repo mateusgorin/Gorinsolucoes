@@ -17,7 +17,7 @@
     <title>Gorin Soluções | Criação de Sites e Sistemas Web em Brasília</title>
     <meta name="description" content="Especialistas em criação de sites profissionais, landing pages de alta conversão e sistemas web em Brasília. Solicite seu orçamento com a Gorin Soluções." />
     <meta name="keywords" content="criação de sites Brasília DF, agência web Brasília, desenvolvimento web Brasília, criar site profissional Brasília, landing page alta conversão, sistema web Brasília, site para restaurante Brasília, site para pequenas empresas DF, desenvolvedor web Brasília, Gorin Soluções" />
-    <meta name="theme-color" content="#020005" />
+    <meta name="theme-color" content="#FAFAF9" />
     <link rel="canonical" href="https://www.gorinsolucoes.com.br/" />
     <meta name="geo.region" content="BR-DF" />
     <meta name="geo.placename" content="Brasília, Distrito Federal" />
@@ -43,46 +43,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
-        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
+              archivo: ['Archivo', 'sans-serif'],
+              display: ['Archivo', 'sans-serif'],
               sans: ['Inter', 'sans-serif'],
               mono: ['JetBrains Mono', 'monospace'],
             },
             colors: {
+              studio: {
+                bg: '#FAFAF9',
+                ink: '#0B0B0C',
+                muted: '#71717A',
+                border: 'rgba(11, 11, 12, 0.1)',
+                card: '#FFFFFF',
+                dark: '#0B0B0C',
+              },
+              cyan: {
+                DEFAULT: '#00D4FF',
+                solid: '#00D4FF',
+              },
               cyber: {
-                black: 'var(--bg-black)',
-                dark: 'var(--bg-dark)',
-                slate: 'var(--bg-slate)',
-                primary: 'var(--primary)',
-                secondary: 'var(--secondary)', 
-                accent: '#ff003c', // Red/Pink
-                dim: 'rgba(0, 240, 255, 0.1)',
-                white: 'var(--text-white)', // Dynamic White (Black in light mode)
-                gray: 'var(--text-gray)',   // Dynamic Gray
+                black: '#FAFAF9',
+                dark: '#FFFFFF',
+                slate: '#F4F4F5',
+                primary: '#00D4FF',
+                secondary: '#0B0B0C',
+                accent: '#00D4FF',
+                dim: 'rgba(0, 212, 255, 0.08)',
+                white: '#0B0B0C',
+                gray: '#52525B',
               }
-            },
-            backgroundImage: {
-              'cyber-grid': "linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px)",
-              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-            },
-            animation: {
-              'scan': 'scan 4s linear infinite',
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              scan: {
-                '0%': { backgroundPosition: '0 -100vh' },
-                '100%': { backgroundPosition: '0 100vh' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-8px)' },
-              },
             }
           }
         }
@@ -90,99 +85,47 @@
     </script>
     <style>
       :root {
-        /* Professional Dark Theme — desaturado, sem neon */
-        --bg-black: #0a0d12;
-        --bg-dark: #0e1218;
-        --bg-slate: #151a22;
-        --text-white: #f2f4f7;
-        --text-gray: #8b96a5;
-        --primary: #00d4ff;
-        --primary-rgb: 0, 212, 255;
-        --secondary: #7b2fbe;
-        --secondary-rgb: 123, 47, 190;
-      }
-
-      .light-mode {
-        --bg-black: #ffffff;
-        --bg-dark: #f0f4f8;
-        --bg-slate: #e2e8f0;
-        --text-white: #0f172a;
-        --text-gray: #475569;
-        --primary: #0097a7;
-        --primary-rgb: 0, 151, 167;
-        --secondary: #6200ea;
-        --secondary-rgb: 98, 0, 234;
+        --bg-paper: #FAFAF9;
+        --text-ink: #0B0B0C;
+        --accent-cyan: #00D4FF;
+        --border-hairline: rgba(11, 11, 12, 0.1);
       }
 
       html {
         scroll-behavior: smooth;
         scroll-padding-top: 80px;
+        background-color: #FAFAF9;
       }
 
       body {
-        background-color: var(--bg-black);
-        color: var(--text-main);
+        background-color: #FAFAF9;
+        color: #0B0B0C;
+        font-family: 'Inter', sans-serif;
         overflow-x: hidden;
-        transition: background-color 0.3s ease, color 0.3s ease;
       }
       
-      /* Scrollbar */
+      h1, h2, h3, .font-display, .font-archivo {
+        font-family: 'Archivo', sans-serif;
+      }
+
+      /* Minimal Scrollbar */
       ::-webkit-scrollbar {
         width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: var(--bg-dark);
+        background: #FAFAF9;
       }
       ::-webkit-scrollbar-thumb {
-        background: var(--primary);
+        background: #D4D4D8;
+        border-radius: 9999px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: var(--secondary);
+        background: #00D4FF;
       }
 
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: rgba(0, 240, 255, 0.05);
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: var(--primary);
-        border-radius: 10px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: var(--secondary);
-      }
-      .custom-scrollbar {
-        scrollbar-width: thin;
-        scrollbar-color: var(--primary) transparent;
-      }
-
-      .clip-corner {
+      .clip-corner, .clip-corner-sm {
         clip-path: none;
-        border-radius: 0.75rem;
-      }
-
-      .clip-corner-sm {
-        clip-path: none;
-        border-radius: 0.5rem;
-      }
-
-      .text-glow {
-        text-shadow: none;
-      }
-
-      .box-glow {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-      }
-
-      .grain-overlay {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.05;
-        mix-blend-mode: overlay;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        border-radius: 6px;
       }
 
       @media (prefers-reduced-motion: reduce) {
