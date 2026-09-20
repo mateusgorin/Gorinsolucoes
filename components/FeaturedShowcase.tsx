@@ -1,38 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-
-interface ShowcaseItem {
-  title: string;
-  category: string;
-  desc: string;
-  image: string;
-  link: string;
-}
-
-const showcaseItems: ShowcaseItem[] = [
-  {
-    title: "BRINCA MÓVEL",
-    category: "SITE INSTITUCIONAL",
-    desc: "Plataforma completa de apresentação de serviços infantis com carregamento instantâneo e layout interativo.",
-    image: "/images/brincamovel.jpg",
-    link: "https://www.brincamoveloficial.com.br"
-  },
-  {
-    title: "MÃOS DE LEIDE",
-    category: "SITE INSTITUCIONAL",
-    desc: "Presença digital sofisticada e otimizada para agendamentos e conversão direta no WhatsApp.",
-    image: "/images/maosdeleide.jpg",
-    link: "https://www.maosdeleide.com.br"
-  },
-  {
-    title: "AMORIM ERGONOMIA",
-    category: "SITE INSTITUCIONAL",
-    desc: "Portal corporativo robusto para consultoria técnica com arquitetura de alta performance.",
-    image: "/images/amorimergonomia.jpg",
-    link: "https://www.amorimergonomia.com.br"
-  }
-];
+import { projects } from '../data/projects';
 
 export const FeaturedShowcase: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,7 +9,7 @@ export const FeaturedShowcase: React.FC = () => {
 
   // Preload all showcase images on mount to avoid delay or flashing on mobile
   useEffect(() => {
-    showcaseItems.forEach((item) => {
+    projects.forEach((item) => {
       const img = new Image();
       img.src = item.image;
     });
@@ -52,13 +21,14 @@ export const FeaturedShowcase: React.FC = () => {
     if (isTouching) return;
 
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % showcaseItems.length);
+      setCurrentIndex((prev) => (prev + 1) % projects.length);
     }, 4000);
 
     return () => clearInterval(timer);
   }, [isTouching]);
 
-  const currentProject = showcaseItems[currentIndex];
+  const currentProject = projects[currentIndex];
+  const isExternalLink = currentProject.link !== "internal" && currentProject.link !== "#";
 
   return (
     <section className="py-16 md:py-24 bg-[#FAFAF9] border-t border-black/10 relative overflow-hidden">
@@ -73,7 +43,7 @@ export const FeaturedShowcase: React.FC = () => {
           <div className="flex items-center gap-2 font-mono text-xs text-[#71717A]">
             <span className="text-[#0B0B0C] font-bold">0{currentIndex + 1}</span>
             <span>/</span>
-            <span>0{showcaseItems.length}</span>
+            <span>0{projects.length}</span>
           </div>
         </div>
 
@@ -83,7 +53,7 @@ export const FeaturedShowcase: React.FC = () => {
           onTouchStart={() => setIsTouching(true)}
           onTouchEnd={() => setIsTouching(false)}
           onTouchCancel={() => setIsTouching(false)}
-          data-cursor-text="VISITAR"
+          data-cursor-text={isExternalLink ? "VISITAR" : currentProject.link === "internal" ? "SISTEMA" : "CASE"}
         >
           {/* Active Image with Crossfade Transition */}
           <AnimatePresence mode="wait">
@@ -107,17 +77,19 @@ export const FeaturedShowcase: React.FC = () => {
           </AnimatePresence>
 
           {/* Direct Link Overlay Anchor */}
-          <a
-            href={currentProject.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]"
-            aria-label={`Visitar site de ${currentProject.title}`}
-          />
+          {isExternalLink && (
+            <a
+              href={currentProject.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]"
+              aria-label={`Visitar site de ${currentProject.title}`}
+            />
+          )}
 
           {/* Carousel Slide Indicators Floating Inside Top Right */}
           <div className="absolute top-6 right-6 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10">
-            {showcaseItems.map((_, idx) => (
+            {projects.map((_, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -160,15 +132,21 @@ export const FeaturedShowcase: React.FC = () => {
             </p>
           </div>
 
-          <a
-            href={currentProject.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#0B0B0C] hover:text-[#00D4FF] uppercase tracking-wider transition-colors self-start md:self-end pt-2"
-          >
-            <span>VISITAR SITE</span>
-            <ArrowUpRight size={16} className="text-[#00D4FF]" />
-          </a>
+          {isExternalLink ? (
+            <a
+              href={currentProject.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#0B0B0C] hover:text-[#00D4FF] uppercase tracking-wider transition-colors self-start md:self-end pt-2"
+            >
+              <span>VISITAR SITE</span>
+              <ArrowUpRight size={16} className="text-[#00D4FF]" />
+            </a>
+          ) : (
+            <span className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#71717A] uppercase tracking-wider self-start md:self-end pt-2">
+              <span>{currentProject.link === "internal" ? "SISTEMA INTERNO" : "EM BREVE"}</span>
+            </span>
+          )}
         </div>
 
       </div>

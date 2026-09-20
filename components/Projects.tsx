@@ -2,78 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from './ui/SectionHeading';
 import { ArrowUpRight } from 'lucide-react';
+import { projects, Project } from '../data/projects';
 
-interface ProjectData {
-  title: string;
-  category: string;
-  tags?: string[];
-  link: string;
-  image?: string;
-  isFeatured?: boolean;
-}
+const sites = projects.filter((p) => p.category !== "SISTEMA WEB");
+const systems = projects.filter((p) => p.category === "SISTEMA WEB");
 
-const sites: ProjectData[] = [
-  {
-    title: "BRINCA MÓVEL",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.brincamoveloficial.com.br",
-    image: "/images/brincamovel.jpg",
-    isFeatured: true
-  },
-  {
-    title: "MÃOS DE LEIDE",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.maosdeleide.com.br",
-    image: "/images/maosdeleide.jpg"
-  },
-  {
-    title: "AMORIM ERGONOMIA",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.amorimergonomia.com.br",
-    image: "/images/amorimergonomia.jpg"
-  },
-  {
-    title: "BRITO OLIVEIRA ASSESSORIA",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.britooliveira.com.br/",
-    image: "/images/britooliveira.jpg"
-  },
-  {
-    title: "MARMITARIA VENTURA",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.marmitariaventura.com.br",
-    image: "/images/marmitariaventura.webp"
-  },
-  {
-    title: "PC GASTRONOMIA",
-    category: "SITE INSTITUCIONAL",
-    link: "https://www.pcgastronomia.com.br",
-    image: "/images/pcgastronomia.webp"
-  },
-  {
-    title: "MAJESTOSA ARTE",
-    category: "E-COMMERCE",
-    link: "#",
-    image: "/images/majestosa.jpg"
-  }
-];
-
-const systems: ProjectData[] = [
-  {
-    title: "SGB - SISTEMA DE GESTÃO DA BRIGADA",
-    category: "SISTEMA WEB",
-    link: "internal",
-    image: "/images/sgb.webp"
-  },
-  {
-    title: "LOGÍSTICO - CONTROLE DE ESTOQUE",
-    category: "SISTEMA WEB",
-    link: "internal",
-    image: "/images/logistico.jpg"
-  }
-];
-
-const ProjectBlock: React.FC<{ project: ProjectData }> = ({ project }) => {
+const ProjectBlock: React.FC<{ project: Project }> = ({ project }) => {
   const isExternalLink = project.link !== "internal" && project.link !== "#";
   const cursorLabel = isExternalLink ? "VISITAR" : project.link === "internal" ? "SISTEMA" : "CASE";
   const [isLoaded, setIsLoaded] = useState(false);
