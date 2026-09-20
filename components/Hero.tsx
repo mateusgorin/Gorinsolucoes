@@ -157,9 +157,9 @@ export const Hero: React.FC = () => {
               d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0"
               fill="none"
             />
-            <text className="font-mono text-[9.5px] uppercase tracking-[0.24em] fill-current font-bold">
-              <textPath href="#heroBadgePath" startOffset="0%">
-                GORIN SOLUÇÕES • WEB DESIGN • HIGH PERFORMANCE •
+            <text className="font-mono text-[9.5px] uppercase tracking-[0.34em] fill-current font-bold">
+              <textPath href="#heroBadgePath" startOffset="0%" textLength="305" lengthAdjust="spacing">
+                GORIN SOLUÇÕES • WEB DESIGNER •
               </textPath>
             </text>
           </motion.svg>
