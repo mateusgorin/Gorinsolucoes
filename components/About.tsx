@@ -48,10 +48,11 @@ export const About: React.FC = () => {
               <div className="relative w-56 h-56 md:w-64 md:h-64 mb-6">
                 <div className="relative w-full h-full rounded-full p-1 border border-black/15 bg-white overflow-hidden shadow-sm">
                   <img 
-                    src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030409/IMG-20260323-WA0090_vbovns.webp"
+                    src="/images/mateus-gorin.webp"
                     alt="Mateus Gorin" 
-                    className="w-full h-full object-cover rounded-full filter grayscale hover:grayscale-0 transition-all duration-500"
-                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover rounded-full transition-all duration-500"
                   />
                 </div>
               </div>

@@ -8,7 +8,7 @@ interface GorinHeroAnimationProps {
 // Clean, minimal hero visual. One entrance animation, one subtle idle float —
 // no HUD overlays, no glitch loops, no randomized particles. The mascot is
 // the brand asset; it should read as a logo, not a screensaver.
-const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc }) => {
+const GorinHeroAnimation: React.FC<GorinHeroAnimationProps> = ({ mascotSrc = '/images/mascot.webp' }) => {
   const primary = '#00D4FF';
   const secondary = '#7B2FBE';
 

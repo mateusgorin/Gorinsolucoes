@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SectionHeadingProps {
-  title: string;
+  title: string | string[];
   subtitle: string;
   align?: 'left' | 'center';
   className?: string;
@@ -17,6 +21,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   inverted = false
 }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -25,33 +30,40 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Split title into words or lines for masked text reveal
-  const words = title.split(' ');
+  // Extract visual lines: if already an array, or split by <br /> or \n if present, otherwise single complete line
+  const lines: string[] = Array.isArray(title)
+    ? title
+    : typeof title === 'string'
+    ? title.split(/<br\s*\/?>|\n/gi)
+    : [String(title)];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: isMobile ? 0.05 : 0.08,
-        delayChildren: 0.05,
+  useEffect(() => {
+    const el = headingRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      const lineSpans = el.querySelectorAll('.section-title-line');
+      if (lineSpans.length > 0) {
+        gsap.fromTo(
+          lineSpans,
+          { yPercent: 110 },
+          {
+            yPercent: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: el.parentElement || el,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        );
       }
-    }
-  };
+    }, el);
 
-  const wordVariants = {
-    hidden: { 
-      y: '110%', 
-      opacity: 0 
-    },
-    visible: { 
-      y: '0%', 
-      opacity: 1, 
-      transition: { 
-        duration: isMobile ? 0.45 : 0.7, 
-        ease: [0.22, 1, 0.36, 1] 
-      } 
-    }
-  };
+    return () => ctx.revert();
+  }, [title]);
 
   return (
     <div className={`mb-16 md:mb-20 ${align === 'center' ? 'text-center' : 'text-left'} ${className}`}>
@@ -71,27 +83,21 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <span>{subtitle}</span>
       </motion.div>
       
-      {/* Giant structural headline in Archivo with line-by-line / word reveal */}
-      <motion.h2 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+      {/* Giant structural headline in Archivo with line-by-line reveal via GSAP */}
+      <h2 
+        ref={headingRef}
         className={`font-archivo font-black tracking-tighter ${
           inverted ? 'text-[#FAFAF9]' : 'text-[#0B0B0C]'
         } text-[clamp(2.5rem,6.5vw,6rem)] leading-[0.95] uppercase`}
       >
-        {words.map((word, index) => (
-          <span key={index} className="inline-block overflow-hidden py-1 mr-[0.22em] align-top">
-            <motion.span 
-              variants={wordVariants}
-              className="inline-block"
-            >
-              {word}
-            </motion.span>
-          </span>
+        {lines.map((line, index) => (
+          <div key={index} className="overflow-hidden py-1">
+            <span className="block section-title-line">
+              {line}
+            </span>
+          </div>
         ))}
-      </motion.h2>
+      </h2>
 
       <motion.div 
         initial={{ scaleX: 0 }}

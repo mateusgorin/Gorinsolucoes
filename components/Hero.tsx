@@ -1,10 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MagneticButton from './MagneticButton';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -18,6 +23,35 @@ export const Hero: React.FC = () => {
     target: sectionRef,
     offset: ['start start', 'end start']
   });
+
+  // GSAP line-by-line entrance animation for main headline
+  useEffect(() => {
+    const el = heroTitleRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      const lineSpans = el.querySelectorAll('.hero-line-inner');
+      if (lineSpans.length > 0) {
+        gsap.fromTo(
+          lineSpans,
+          { yPercent: 110 },
+          {
+            yPercent: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: el.parentElement || el,
+              start: 'top 80%',
+              once: true,
+            },
+          }
+        );
+      }
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   // Requirement 5: Leve efeito de paralaxe (moves alguns pixels verticalmente, desativado em mobile)
   const ghostY = useTransform(scrollYProgress, [0, 1], [0, 60]);
@@ -65,29 +99,16 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         {/* Giant Headline in Archivo (Weight 800-900, clamp, manual line rhythm) */}
-        <h1 className="font-archivo font-black tracking-tight text-[#0B0B0C] text-[clamp(2.5rem,6.8vw,5.75rem)] leading-[0.98] uppercase mb-8">
+        <h1 
+          ref={heroTitleRef}
+          className="font-archivo font-black tracking-tight text-[#0B0B0C] text-[clamp(2.5rem,6.8vw,5.75rem)] leading-[0.98] uppercase mb-8"
+        >
           {lines.map((line, i) => (
-            <span key={i} className="block overflow-hidden py-0.5">
-              <motion.span
-                initial={{ y: '100%' }}
-                animate={{ y: '0%' }}
-                transition={{ 
-                  duration: isMobile ? 0.45 : 0.65, 
-                  delay: (isMobile ? 0.05 : 0.1) + i * (isMobile ? 0.06 : 0.08), 
-                  ease: [0.22, 1, 0.36, 1] 
-                }}
-                className={`block ${i === 3 ? 'text-[#0B0B0C]' : 'text-[#0B0B0C]'}`}
-              >
-                {i === 3 ? (
-                  <span className="relative inline-block">
-                    {line}
-                    <span className="absolute left-0 bottom-1 w-full h-[4px] bg-[#00D4FF] -z-10" />
-                  </span>
-                ) : (
-                  line
-                )}
-              </motion.span>
-            </span>
+            <div key={i} className="overflow-hidden py-0.5">
+              <span className="block hero-line-inner">
+                {line}
+              </span>
+            </div>
           ))}
         </h1>
 
@@ -115,11 +136,35 @@ export const Hero: React.FC = () => {
           
           <a
             href="#projects"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-[6px] font-archivo font-bold text-sm tracking-tight border border-black/15 text-[#0B0B0C] hover:border-black bg-transparent hover:bg-black/[0.02] hover:scale-[1.025] active:scale-[0.98] transition-all cursor-pointer"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full font-archivo font-bold text-sm tracking-tight border border-black/15 text-[#0B0B0C] hover:border-black bg-transparent hover:bg-black/[0.02] hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer"
           >
             Ver portfólio
           </a>
         </motion.div>
+      </div>
+
+      {/* Cuberto Rotating Agency Stamp Badge */}
+      <div className="absolute bottom-8 left-8 hidden lg:block select-none pointer-events-none">
+        <div className="relative w-28 h-28 flex items-center justify-center">
+          <motion.svg
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+            className="w-full h-full text-[#0B0B0C]"
+            viewBox="0 0 140 140"
+          >
+            <path
+              id="heroBadgePath"
+              d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0"
+              fill="none"
+            />
+            <text className="font-mono text-[9.5px] uppercase tracking-[0.24em] fill-current font-bold">
+              <textPath href="#heroBadgePath" startOffset="0%">
+                GORIN SOLUÇÕES • WEB DESIGN • HIGH PERFORMANCE •
+              </textPath>
+            </text>
+          </motion.svg>
+          <div className="absolute w-3.5 h-3.5 rounded-full bg-[#00D4FF] shadow-[0_0_10px_rgba(0,212,255,0.8)]" />
+        </div>
       </div>
 
       {/* Scroll indicator, bottom-right */}

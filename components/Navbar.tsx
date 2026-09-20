@@ -7,13 +7,26 @@ export const Navbar: React.FC = () => {
   const [isOverDark, setIsOverDark] = useState(false);
 
   useEffect(() => {
-    // Detect if user has scrolled over the dark #contact section
-    const contactSection = document.getElementById('contact');
-    if (!contactSection) return;
+    // Detect if user has scrolled over the dark sections (#contact or #projects)
+    const darkSections = [
+      document.getElementById('projects'),
+      document.getElementById('contact')
+    ].filter(Boolean) as HTMLElement[];
+
+    if (darkSections.length === 0) return;
+
+    const intersectingSet = new Set<string>();
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsOverDark(entry.isIntersecting);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            intersectingSet.add(entry.target.id);
+          } else {
+            intersectingSet.delete(entry.target.id);
+          }
+        });
+        setIsOverDark(intersectingSet.size > 0);
       },
       {
         root: null,
@@ -22,18 +35,17 @@ export const Navbar: React.FC = () => {
       }
     );
 
-    observer.observe(contactSection);
+    darkSections.forEach(section => observer.observe(section));
 
     const handleScroll = () => {
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        const rect = contactEl.getBoundingClientRect();
+      let overDark = false;
+      darkSections.forEach(el => {
+        const rect = el.getBoundingClientRect();
         if (rect.top <= 100 && rect.bottom >= 60) {
-          setIsOverDark(true);
-        } else if (rect.top > 100) {
-          setIsOverDark(false);
+          overDark = true;
         }
-      }
+      });
+      setIsOverDark(overDark);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -183,9 +195,8 @@ export const Navbar: React.FC = () => {
             >
               <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center p-0.5 border border-black/10 bg-white">
                 <img 
-                  src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" 
+                  src="/images/mascot.webp" 
                   alt="Logo Gorin" 
-                  referrerPolicy="no-referrer"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -201,19 +212,18 @@ export const Navbar: React.FC = () => {
                   key={link.name} 
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`font-mono text-xs tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`font-mono text-xs tracking-wider transition-colors cursor-pointer ${
                     isOverDark 
                       ? 'text-white/70 hover:text-white' 
                       : 'text-[#0B0B0C]/70 hover:text-[#0B0B0C]'
                   }`}
                 >
-                  <span className="text-[10px] text-[#00D4FF] font-semibold">{link.number}</span>
                   <span>{link.name}</span>
                 </a>
               ))}
             </div>
 
-            {/* Action buttons on right: Contato + Fullscreen Menu Button */}
+            {/* Action buttons on right: Contato + Fullscreen Menu Button (mobile only) */}
             <div className="flex items-center gap-2.5">
               <a 
                 href="#contact"
@@ -223,11 +233,11 @@ export const Navbar: React.FC = () => {
                 CONTATO
               </a>
 
-              {/* Cuberto Full-Screen Menu Button (available in all resolutions) */}
+              {/* Menu Button - só aparece no mobile */}
               <button 
                 onClick={() => setIsOpen(true)}
                 aria-label="Abrir Menu"
-                className={`flex items-center gap-2 px-4 py-2 rounded-full border font-archivo font-bold text-xs uppercase tracking-wider transition-all hover:scale-[1.025] active:scale-[0.98] cursor-pointer ${
+                className={`flex md:hidden items-center gap-2 px-4 py-2 rounded-full border font-archivo font-bold text-xs uppercase tracking-wider transition-all hover:scale-[1.025] active:scale-[0.98] cursor-pointer ${
                   isOverDark 
                     ? 'border-white/20 text-white bg-white/5 hover:bg-white/15' 
                     : 'border-black/15 text-[#0B0B0C] bg-black/[0.03] hover:bg-black/10'
@@ -260,9 +270,8 @@ export const Navbar: React.FC = () => {
               >
                 <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center p-0.5 border border-white/20 bg-white">
                   <img 
-                    src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp" 
+                    src="/images/mascot.webp" 
                     alt="Logo Gorin" 
-                    referrerPolicy="no-referrer"
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -308,9 +317,6 @@ export const Navbar: React.FC = () => {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className="group flex items-baseline gap-4 sm:gap-6 py-1 cursor-pointer w-fit"
                   >
-                    <span className="font-mono text-xs sm:text-sm md:text-base text-[#00D4FF] font-semibold">
-                      {link.number}
-                    </span>
                     <span className="font-archivo font-black text-[clamp(2.25rem,6.5vw,5.5rem)] tracking-tight uppercase leading-[1.02] text-[#FAFAF9] group-hover:text-[#00D4FF] group-hover:translate-x-3 transition-all duration-200">
                       {link.name}
                     </span>

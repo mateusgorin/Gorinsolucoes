@@ -60,7 +60,7 @@ const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimon
       transition={{ duration: 0.4, delay: showAll ? 0 : idx * 0.1 }}
       className="group h-full flex flex-col"
     >
-      <div className={`flex-1 border border-black/10 bg-white rounded-[6px] p-8 relative transition-all duration-300 ease-out flex flex-col hover:border-black/30 hover:scale-[1.02] hover:shadow-md cursor-pointer shadow-sm ${
+      <div className={`flex-1 border border-black/10 bg-white rounded-[20px] md:rounded-[24px] p-8 relative transition-all duration-300 ease-out flex flex-col hover:border-black/30 hover:scale-[1.02] hover:shadow-lg cursor-pointer shadow-sm ${
         isExpanded ? 'h-auto min-h-[400px]' : 'h-[400px]'
       }`}>
         
@@ -102,7 +102,7 @@ const TestimonialCard = React.forwardRef<HTMLDivElement, { testimonial: Testimon
             </p>
           </div>
           
-          <div className="flex items-center gap-1 text-[10px] font-mono text-[#0B0B0C] bg-[#FAFAF9] px-2.5 py-1 border border-black/10 rounded-[2px]">
+          <div className="flex items-center gap-1 text-[10px] font-mono text-[#0B0B0C] bg-[#FAFAF9] px-3 py-1 border border-black/10 rounded-full">
             <ShieldCheck size={12} className="text-[#00D4FF]" />
             <span>VERIFICADO</span>
           </div>
@@ -143,7 +143,7 @@ export const Testimonials: React.FC = () => {
   const visibleTestimonials = showAll ? testimonials : testimonials.slice(0, visibleCount);
 
   return (
-    <section id="testimonials" className="py-24 md:py-32 bg-[#FAFAF9] border-t border-black/10 relative scroll-mt-24">
+    <section id="testimonials" className="pt-28 md:pt-36 pb-24 md:pb-32 bg-[#FAFAF9] relative scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <SectionHeading 
           title="DEPOIMENTOS REAIS" 

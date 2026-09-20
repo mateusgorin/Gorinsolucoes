@@ -14,10 +14,11 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col items-center justify-center gap-4 mb-6">
           <div className="p-3 bg-white/5 border border-white/10 rounded-[6px]">
             <img 
-              src="https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030520/file-000000004e8871f59ac147d0e448ca11_fj6qzn.webp" 
+              src="/images/footer-logo.webp" 
               alt="Gorin Logo" 
+              loading="lazy"
+              decoding="async"
               className="h-12 md:h-14 w-auto object-contain" 
-              referrerPolicy="no-referrer"
             />
           </div>
            

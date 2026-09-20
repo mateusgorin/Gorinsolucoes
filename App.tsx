@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { FeaturedShowcase } from './components/FeaturedShowcase';
 import { About } from './components/About';
 import { Services } from './components/Services';
 import { Projects } from './components/Projects';
@@ -41,6 +42,7 @@ const App: React.FC = () => {
     });
 
     lenis.on('scroll', ScrollTrigger.update);
+    window.addEventListener('scroll', ScrollTrigger.update, { passive: true });
 
     const updateLenis = (time: number) => {
       lenis.raf(time * 1000);
@@ -53,6 +55,7 @@ const App: React.FC = () => {
     (window as any).__lenis = lenis;
 
     return () => {
+      window.removeEventListener('scroll', ScrollTrigger.update);
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
     };
@@ -85,6 +88,7 @@ const App: React.FC = () => {
           ) : (
             <>
               <Hero />
+              <FeaturedShowcase />
               <About />
               <Services />
               <LeadMagnet />

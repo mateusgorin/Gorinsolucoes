@@ -8,7 +8,7 @@ interface HeroAccentProps {
 // Ambient background layer for the Hero — elements (code symbols, framed numbers,
 // mascot) emerge continuously from behind the central headline, bursting fast
 // from the center and then gliding smoothly/slowly toward the screen borders.
-const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc = 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030686/Picsart-26-03-23-23-16-05-033_fowe3s.webp' }) => {
+const HeroAccent: React.FC<HeroAccentProps> = ({ mascotSrc = '/images/mascot.webp' }) => {
   const primary = '#00D4FF';
   const secondary = '#7B2FBE';
 

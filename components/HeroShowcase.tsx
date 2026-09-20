@@ -9,7 +9,7 @@ interface HeroShowcaseProps {
 // looping "product demo" — the mascot walks over to the CTA button, clicks
 // it, the button confirms success, and it resets. Mascot is the actor inside
 // the mini-site, not a badge floating outside it.
-const HeroShowcase: React.FC<HeroShowcaseProps> = ({ mascotSrc }) => {
+const HeroShowcase: React.FC<HeroShowcaseProps> = ({ mascotSrc = '/images/mascot.webp' }) => {
   const primary = '#00D4FF';
   const secondary = '#7B2FBE';
   const easing = [0.22, 1, 0.36, 1] as const;

@@ -7,7 +7,7 @@ export const LeadMagnet: React.FC = () => {
   return (
     <section className="py-20 md:py-28 bg-[#FAFAF9] border-t border-black/10 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-        <div className="bg-white border border-black/10 rounded-[6px] p-8 md:p-14 flex flex-col md:flex-row items-center gap-12 shadow-sm">
+        <div className="bg-white border border-black/10 rounded-[24px] md:rounded-[32px] p-8 md:p-14 flex flex-col md:flex-row items-center gap-12 shadow-sm">
           
           <div className="flex-1">
             <motion.div
@@ -58,7 +58,7 @@ export const LeadMagnet: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="border border-black/10 p-10 rounded-[6px] bg-[#FAFAF9] text-center"
+              className="border border-black/10 p-10 rounded-[20px] md:rounded-[24px] bg-[#FAFAF9] text-center shadow-inner"
             >
               <div className="w-16 h-16 rounded-full bg-white border border-black/10 flex items-center justify-center mx-auto mb-6">
                 <Zap size={32} className="text-[#0B0B0C]" />

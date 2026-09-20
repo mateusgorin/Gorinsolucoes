@@ -55,7 +55,7 @@ export const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#0B0B0C] text-[#FAFAF9] relative scroll-mt-24">
+    <section id="contact" className="py-24 md:py-32 bg-[#0B0B0C] text-[#FAFAF9] relative z-20 scroll-mt-24 rounded-t-[48px] md:rounded-t-[64px] -mt-12 md:-mt-16 shadow-[0_-25px_50px_rgba(0,0,0,0.35)] border-t border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <SectionHeading 
           title="ENTRE EM CONTATO" 
@@ -63,7 +63,7 @@ export const Contact: React.FC = () => {
           inverted={true}
         />
 
-        <div className="border border-white/10 bg-[#121214] rounded-[6px] p-8 lg:p-12 shadow-2xl">
+        <div className="border border-white/10 bg-[#121214] rounded-[24px] md:rounded-[36px] p-8 lg:p-14 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             
             {/* Info Side */}
@@ -88,21 +88,21 @@ export const Contact: React.FC = () => {
                   rel="noreferrer" 
                   className="flex items-center gap-3.5 group text-[#D4D4D8] hover:text-[#00D4FF] transition-colors"
                 >
-                  <div className="w-10 h-10 rounded-[4px] bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00D4FF] transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00D4FF] transition-colors">
                     <Instagram size={18} />
                   </div>
                   <span className="font-mono text-xs sm:text-sm">@mateusgorin</span>
                 </a>
                 
                 <div className="flex items-center gap-3.5 text-[#D4D4D8]">
-                  <div className="w-10 h-10 rounded-[4px] bg-white/5 border border-white/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                     <MapPin size={18} className="text-[#00D4FF]" />
                   </div>
                   <span className="font-mono text-xs sm:text-sm">Brasília, DF - Atendimento Nacional</span>
                 </div>
 
                 <div className="flex items-center gap-3.5 text-[#D4D4D8]">
-                  <div className="w-10 h-10 rounded-[4px] bg-white/5 border border-white/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                     <MessageCircle size={18} className="text-[#00D4FF]" />
                   </div>
                   <span className="font-mono text-xs sm:text-sm">WhatsApp: (61) 98129-0099</span>
@@ -154,7 +154,7 @@ export const Contact: React.FC = () => {
 
             {/* Form Side */}
             <div className="lg:col-span-7">
-              <form onSubmit={handleSubmit} className="bg-[#18181B] border border-white/10 rounded-[6px] p-6 sm:p-8 space-y-5">
+              <form onSubmit={handleSubmit} className="bg-[#18181B] border border-white/10 rounded-[20px] md:rounded-[28px] p-6 sm:p-10 space-y-5">
                 <div>
                   <label className="block text-xs font-mono uppercase tracking-wider text-white/70 mb-2">
                     SEU NOME
@@ -165,7 +165,7 @@ export const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-3.5 text-[#FAFAF9] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
+                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
                     placeholder="Como podemos te chamar?" 
                   />
                 </div>
@@ -180,7 +180,7 @@ export const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-3.5 text-[#FAFAF9] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
+                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
                     placeholder="seuemail@empresa.com" 
                   />
                 </div>
@@ -195,14 +195,14 @@ export const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-3.5 text-[#FAFAF9] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-white/30 resize-none" 
+                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30 resize-none" 
                     placeholder="Descreva o que você precisa para o seu negócio..."
                   />
                 </div>
                 
                 <button 
                   type="submit" 
-                  className="w-full py-4 px-6 bg-[#00D4FF] text-[#0B0B0C] font-archivo font-black uppercase text-sm tracking-wider rounded-[4px] hover:bg-[#00D4FF]/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  className="w-full py-4 px-8 bg-[#00D4FF] text-[#0B0B0C] font-archivo font-black uppercase text-sm tracking-wider rounded-full hover:bg-[#00D4FF]/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(0,212,255,0.25)]"
                 >
                   <span>SOLICITAR ORÇAMENTO GRÁTIS AGORA</span>
                   <Send size={16} />
