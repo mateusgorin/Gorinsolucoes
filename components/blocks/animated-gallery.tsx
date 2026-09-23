@@ -144,10 +144,11 @@ export const GalleryCol = ({
   className,
   style,
   yRange = ["0%", "-10%"],
+  inputRange = [0.1, 0.9],
   ...props
-}: HTMLMotionProps<"div"> & { yRange?: string[] }) => {
+}: HTMLMotionProps<"div"> & { yRange?: string[]; inputRange?: number[] }) => {
   const { scrollYProgress } = useContainerScrollContext()
-  const y = useTransform(scrollYProgress, [0.35, 0.88], yRange)
+  const y = useTransform(scrollYProgress, inputRange, yRange)
 
   return (
     <motion.div

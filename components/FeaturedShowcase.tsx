@@ -49,8 +49,8 @@ export const FeaturedShowcase: React.FC = () => {
         <ContainerSticky className="h-screen">
           <GalleryContainer className="pt-6 sm:pt-10 pb-16 sm:pb-24">
             
-            {/* Coluna 1 */}
-            <GalleryCol yRange={["0%", "-35%"]} className="-mt-2">
+            {/* Coluna 1: Movimento moderado */}
+            <GalleryCol yRange={["0%", "-22%"]} className="-mt-2">
               {IMAGES_1.map((imageUrl, index) => (
                 <div 
                   key={index} 
@@ -74,8 +74,8 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 2 */}
-            <GalleryCol className="-mt-2 sm:-mt-3" yRange={["-3%", "-38%"]}>
+            {/* Coluna 2 (Meio): Desliza muito mais que as outras, criando o parallax dinâmico */}
+            <GalleryCol className="-mt-2 sm:-mt-3" yRange={["10%", "-62%"]}>
               {IMAGES_2.map((imageUrl, index) => (
                 <div 
                   key={index} 
@@ -99,8 +99,8 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 3 */}
-            <GalleryCol yRange={["0%", "-35%"]} className="-mt-2">
+            {/* Coluna 3: Movimento moderado acompanhando a coluna 1 */}
+            <GalleryCol yRange={["0%", "-22%"]} className="-mt-2">
               {IMAGES_3.map((imageUrl, index) => (
                 <div 
                   key={index} 
