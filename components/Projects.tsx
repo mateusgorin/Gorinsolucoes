@@ -4,7 +4,7 @@ import { SectionHeading } from './ui/SectionHeading';
 import { ArrowUpRight } from 'lucide-react';
 import { projects, Project } from '../data/projects';
 
-const sites = projects.filter((p) => p.category !== "SISTEMA WEB");
+const sites = projects.filter((p) => p.category !== "SISTEMA WEB" && p.title !== "MAJESTOSA ARTE");
 const systems = projects.filter((p) => p.category === "SISTEMA WEB");
 
 const ProjectBlock: React.FC<{ project: Project }> = ({ project }) => {

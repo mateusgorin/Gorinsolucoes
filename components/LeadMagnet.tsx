@@ -5,7 +5,7 @@ import MagneticButton from './MagneticButton';
 
 export const LeadMagnet: React.FC = () => {
   return (
-    <section className="py-20 md:py-28 bg-[#FAFAF9] border-t border-black/10 relative">
+    <section className="pt-6 md:pt-8 pb-16 md:pb-24 bg-[#FAFAF9] relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
         <div className="bg-white border border-black/10 rounded-[24px] md:rounded-[32px] p-8 md:p-14 flex flex-col md:flex-row items-center gap-12 shadow-sm">
           

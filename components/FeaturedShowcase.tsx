@@ -1,155 +1,135 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import {
+  ContainerScroll,
+  ContainerSticky,
+  GalleryCol,
+  GalleryContainer,
+} from '@/components/blocks/animated-gallery';
 import { ArrowUpRight } from 'lucide-react';
 import { projects } from '../data/projects';
 
+// 3 Columns of images combining the user's real project screenshots with high-res studio visuals
+const IMAGES_1 = [
+  projects[0]?.image || "https://cdn.21st.dev/assets/mirror/db/db8e72b6f6e2f325ec74898fdab6a02f3c0ba7962f3cf0b89f0ee3b22aa2a083.jpg",
+  projects[1]?.image || "https://cdn.21st.dev/assets/mirror/77/777c9bd220f0c47c9eb699ebbd77fb0c6c9a8d8b0cd77f089bab93a18586d578.jpg",
+  projects[2]?.image || "https://cdn.21st.dev/assets/mirror/f9/f992831c368ea7e12c51417be55fda812d1502e9bb6730d94bc6b1e0c6a2ae57.jpg",
+  "/images/showcase-feature-1.webp",
+];
+
+const IMAGES_2 = [
+  projects[3]?.image || "https://cdn.21st.dev/assets/mirror/4e/4eb85747c8113c6edcbec2671a5aa4e62d0569488ad75652c16dd7598a1196e1.jpg",
+  projects[4]?.image || "https://cdn.21st.dev/assets/mirror/ab/ab1fd4fd007ecad2ad9a5350341b1013589f05f8f30b8fdd4a35728a800e9fce.jpg",
+  projects[5]?.image || "https://cdn.21st.dev/assets/mirror/4d/4de1f4952d0420f95ade25fc723d8042ece00762429cdccb79fd3a29ffe5f33d.jpg",
+  "/images/showcase-feature-2.webp",
+];
+
+const IMAGES_3 = [
+  "/images/majestosa.jpg",
+  projects[7]?.image || "https://cdn.21st.dev/assets/mirror/e8/e81126a3c16766e36ed84d2226b0b11507e86b999d4d07cd7e88c0f04e14c0eb.jpg",
+  projects[8]?.image || "https://cdn.21st.dev/assets/mirror/77/777c9bd220f0c47c9eb699ebbd77fb0c6c9a8d8b0cd77f089bab93a18586d578.jpg",
+  "/images/showcase-feature-3.webp",
+];
+
 export const FeaturedShowcase: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTouching, setIsTouching] = useState(false);
-
-  // Preload all showcase images on mount to avoid delay or flashing on mobile
-  useEffect(() => {
-    projects.forEach((item) => {
-      const img = new Image();
-      img.src = item.image;
-    });
-  }, []);
-
-  // Automatic carousel every 4 seconds
-  // Does not pause on desktop hover, but pauses when touching on mobile
-  useEffect(() => {
-    if (isTouching) return;
-
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % projects.length);
-    }, 4000);
-
-    return () => clearInterval(timer);
-  }, [isTouching]);
-
-  const currentProject = projects[currentIndex];
-  const isExternalLink = currentProject.link !== "internal" && currentProject.link !== "#";
-
   return (
-    <section className="py-16 md:py-24 bg-[#FAFAF9] border-t border-black/10 relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        
-        {/* Section Header Label */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-black/10">
-          <div className="flex items-center gap-2 font-mono text-xs tracking-widest text-[#0B0B0C] uppercase font-bold">
-            <span className="w-2 h-2 rounded-full bg-[#00D4FF] shadow-[0_0_8px_rgba(0,212,255,0.6)]" />
-            <span>DESTAQUES // CASOS SELECIONADOS</span>
-          </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-[#71717A]">
-            <span className="text-[#0B0B0C] font-bold">0{currentIndex + 1}</span>
-            <span>/</span>
-            <span>0{projects.length}</span>
-          </div>
-        </div>
+    <div id="showcase" className="relative bg-[#FAFAF9]">
+      
+      {/* Atmospheric Ambient Light Glow */}
+      <div
+        className="pointer-events-none absolute z-10 h-[70vh] w-full"
+        style={{
+          background: "linear-gradient(to right, rgba(0, 212, 255, 0.12), rgba(11, 11, 12, 0.05), rgba(0, 212, 255, 0.15))",
+          filter: "blur(84px)",
+          mixBlendMode: "multiply",
+        }}
+      />
 
-        {/* Mockup Showcase Carousel Container */}
-        <div 
-          className="relative w-full h-[320px] xs:h-[360px] sm:h-[420px] md:h-[520px] lg:h-[580px] rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-black/10 shadow-xl group select-none"
-          onTouchStart={() => setIsTouching(true)}
-          onTouchEnd={() => setIsTouching(false)}
-          onTouchCancel={() => setIsTouching(false)}
-          data-cursor-text={isExternalLink ? "VISITAR" : currentProject.link === "internal" ? "SISTEMA" : "CASE"}
-        >
-          {/* Active Image with Crossfade Transition */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full"
-            >
-              <img
-                src={currentProject.image}
-                alt={currentProject.title}
-                loading="eager"
-                decoding="async"
-                className="w-full h-full object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Direct Link Overlay Anchor */}
-          {isExternalLink && (
-            <a
-              href={currentProject.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]"
-              aria-label={`Visitar site de ${currentProject.title}`}
-            />
-          )}
-
-          {/* Carousel Slide Indicators Floating Inside Top Right */}
-          <div className="absolute top-6 right-6 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10">
-            {projects.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentIndex(idx);
-                }}
-                className={`transition-all duration-300 rounded-full ${
-                  idx === currentIndex 
-                    ? 'w-6 h-2 bg-[#00D4FF]' 
-                    : 'w-2 h-2 bg-white/40 hover:bg-white/70'
-                }`}
-                aria-label={`Ir para o slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Touch Pause Indicator on Mobile */}
-          {isTouching && (
-            <div className="absolute top-6 left-6 z-20 font-mono text-[10px] uppercase tracking-wider bg-black/70 text-white px-3 py-1 rounded-full border border-white/20">
-              Pausado
-            </div>
-          )}
-        </div>
-
-        {/* Project Information Below Image */}
-        <div className="mt-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 font-mono text-xs tracking-widest text-[#71717A] uppercase">
-              <span className="text-[#00D4FF] font-bold">//</span>
-              <span>{currentProject.category}</span>
-            </div>
+      {/* Trilha de Rolagem 3D com Rotação (rotateX: 75 -> 0) e Escala (scale: 1.2 -> 1) */}
+      <ContainerScroll className="relative h-[300vh] sm:h-[340vh]">
+        <ContainerSticky className="h-screen">
+          <GalleryContainer className="pt-6 sm:pt-10 pb-16 sm:pb-24">
             
-            <h3 className="font-archivo font-black text-2xl sm:text-3xl md:text-4xl text-[#0B0B0C] tracking-tight uppercase">
-              {currentProject.title}
-            </h3>
+            {/* Coluna 1 */}
+            <GalleryCol yRange={["0%", "-35%"]} className="-mt-2">
+              {IMAGES_1.map((imageUrl, index) => (
+                <div 
+                  key={index} 
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                >
+                  <img
+                    className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
+                    src={imageUrl}
+                    alt={`Gorin showcase item ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                      <span>VER PROJETO</span>
+                      <ArrowUpRight size={14} className="text-[#00D4FF]" />
+                    </span>
+                  </div>
+                  <a href="#projects" className="absolute inset-0 z-20" aria-label="Ver projetos" />
+                </div>
+              ))}
+            </GalleryCol>
 
-            <p className="font-sans text-sm md:text-base text-[#52525B] max-w-2xl leading-relaxed">
-              {currentProject.desc}
-            </p>
-          </div>
+            {/* Coluna 2 */}
+            <GalleryCol className="-mt-2 sm:-mt-3" yRange={["-3%", "-38%"]}>
+              {IMAGES_2.map((imageUrl, index) => (
+                <div 
+                  key={index} 
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                >
+                  <img
+                    className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
+                    src={imageUrl}
+                    alt={`Gorin showcase item ${index + 5}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                      <span>VER PROJETO</span>
+                      <ArrowUpRight size={14} className="text-[#00D4FF]" />
+                    </span>
+                  </div>
+                  <a href="#projects" className="absolute inset-0 z-20" aria-label="Ver projetos" />
+                </div>
+              ))}
+            </GalleryCol>
 
-          {isExternalLink ? (
-            <a
-              href={currentProject.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#0B0B0C] hover:text-[#00D4FF] uppercase tracking-wider transition-colors self-start md:self-end pt-2"
-            >
-              <span>VISITAR SITE</span>
-              <ArrowUpRight size={16} className="text-[#00D4FF]" />
-            </a>
-          ) : (
-            <span className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#71717A] uppercase tracking-wider self-start md:self-end pt-2">
-              <span>{currentProject.link === "internal" ? "SISTEMA INTERNO" : "EM BREVE"}</span>
-            </span>
-          )}
-        </div>
+            {/* Coluna 3 */}
+            <GalleryCol yRange={["0%", "-35%"]} className="-mt-2">
+              {IMAGES_3.map((imageUrl, index) => (
+                <div 
+                  key={index} 
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                >
+                  <img
+                    className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
+                    src={imageUrl}
+                    alt={`Gorin showcase item ${index + 9}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                      <span>VER PROJETO</span>
+                      <ArrowUpRight size={14} className="text-[#00D4FF]" />
+                    </span>
+                  </div>
+                  <a href="#projects" className="absolute inset-0 z-20" aria-label="Ver projetos" />
+                </div>
+              ))}
+            </GalleryCol>
 
-      </div>
-    </section>
+          </GalleryContainer>
+        </ContainerSticky>
+      </ContainerScroll>
+
+    </div>
   );
 };
+
+export default FeaturedShowcase;
