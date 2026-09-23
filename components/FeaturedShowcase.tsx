@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ContainerScroll,
   ContainerSticky,
@@ -31,12 +31,21 @@ const IMAGES_3 = [
 ];
 
 export const FeaturedShowcase: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div id="showcase" className="relative bg-[#FAFAF9]">
       
       {/* Atmospheric Ambient Light Glow */}
       <div
-        className="pointer-events-none absolute z-10 h-[70vh] w-full"
+        className="pointer-events-none absolute z-10 h-[50vh] sm:h-[70vh] w-full"
         style={{
           background: "linear-gradient(to right, rgba(0, 212, 255, 0.12), rgba(11, 11, 12, 0.05), rgba(0, 212, 255, 0.15))",
           filter: "blur(84px)",
@@ -44,17 +53,25 @@ export const FeaturedShowcase: React.FC = () => {
         }}
       />
 
-      {/* Trilha de Rolagem 3D com Rotação (rotateX: 75 -> 0) e Escala (scale: 1.2 -> 1) */}
-      <ContainerScroll className="relative h-[300vh] sm:h-[340vh]">
-        <ContainerSticky className="h-screen">
-          <GalleryContainer className="pt-2 sm:pt-4 pb-4 sm:pb-6">
+      {/* Trilha de Rolagem 3D responsiva: compacta no celular para eliminar espaço morto */}
+      <ContainerScroll className="relative h-[165vh] sm:h-[230vh] md:h-[320vh]">
+        <ContainerSticky className="h-[78vh] sm:h-[86vh] md:h-screen min-h-0">
+          <GalleryContainer 
+            rotateRange={isMobile ? [46, 0] : [75, 0]}
+            scaleRange={isMobile ? [1.12, 1] : [1.2, 1]}
+            className="pt-2 sm:pt-4 pb-2 sm:pb-6 w-[120%] -ml-[10%] sm:w-full sm:ml-0"
+          >
             
-            {/* Coluna 1: Movimento suave que traz o último card totalmente para a tela */}
-            <GalleryCol yRange={["0%", "-42%"]} inputRange={[0.15, 0.84]} className="-mt-1">
+            {/* Coluna 1 */}
+            <GalleryCol 
+              yRange={isMobile ? ["0%", "-32%"] : ["0%", "-42%"]} 
+              inputRange={[0.12, 0.85]} 
+              className="-mt-1"
+            >
               {IMAGES_1.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -63,8 +80,8 @@ export const FeaturedShowcase: React.FC = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5 sm:p-4">
+                    <span className="font-mono text-[10px] sm:text-xs font-bold text-white flex items-center gap-1.5 uppercase">
                       <span>VER PROJETO</span>
                       <ArrowUpRight size={14} className="text-[#00D4FF]" />
                     </span>
@@ -74,12 +91,16 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 2 (Meio): Deslocamento dinâmico ampliado, sem cortar a última imagem */}
-            <GalleryCol className="-mt-1 sm:-mt-2" yRange={["8%", "-54%"]} inputRange={[0.15, 0.84]}>
+            {/* Coluna 2 (Meio): Deslocamento dinâmico e veloz, perfeitamente ajustado para mobile */}
+            <GalleryCol 
+              className="-mt-1 sm:-mt-2" 
+              yRange={isMobile ? ["6%", "-44%"] : ["8%", "-54%"]} 
+              inputRange={[0.12, 0.85]}
+            >
               {IMAGES_2.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -88,8 +109,8 @@ export const FeaturedShowcase: React.FC = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5 sm:p-4">
+                    <span className="font-mono text-[10px] sm:text-xs font-bold text-white flex items-center gap-1.5 uppercase">
                       <span>VER PROJETO</span>
                       <ArrowUpRight size={14} className="text-[#00D4FF]" />
                     </span>
@@ -99,12 +120,16 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 3: Movimento alinhado à Coluna 1 garantindo visibilidade total dos cards */}
-            <GalleryCol yRange={["0%", "-42%"]} inputRange={[0.15, 0.84]} className="-mt-1">
+            {/* Coluna 3 */}
+            <GalleryCol 
+              yRange={isMobile ? ["0%", "-32%"] : ["0%", "-42%"]} 
+              inputRange={[0.12, 0.85]} 
+              className="-mt-1"
+            >
               {IMAGES_3.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -113,8 +138,8 @@ export const FeaturedShowcase: React.FC = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5 uppercase">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5 sm:p-4">
+                    <span className="font-mono text-[10px] sm:text-xs font-bold text-white flex items-center gap-1.5 uppercase">
                       <span>VER PROJETO</span>
                       <ArrowUpRight size={14} className="text-[#00D4FF]" />
                     </span>

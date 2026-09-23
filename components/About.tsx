@@ -32,7 +32,7 @@ export const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 md:py-32 relative bg-[#FAFAF9] border-t border-black/10 scroll-mt-24">
+    <section id="about" className="py-14 sm:py-20 md:py-32 relative bg-[#FAFAF9] border-t border-black/10 scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           

@@ -112,11 +112,16 @@ export const GalleryContainer = ({
   children,
   className,
   style,
+  rotateRange = [75, 0],
+  scaleRange = [1.2, 1],
   ...props
-}: React.HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div">) => {
+}: React.HTMLAttributes<HTMLDivElement> & HTMLMotionProps<"div"> & {
+  rotateRange?: [number, number];
+  scaleRange?: [number, number];
+}) => {
   const { scrollYProgress } = useContainerScrollContext()
-  const rotateX = useTransform(scrollYProgress, [0, 0.5], [75, 0])
-  const scale = useTransform(scrollYProgress, [0.5, 0.9], [1.2, 1])
+  const rotateX = useTransform(scrollYProgress, [0, 0.5], rotateRange)
+  const scale = useTransform(scrollYProgress, [0.5, 0.9], scaleRange)
 
   return (
     <motion.div

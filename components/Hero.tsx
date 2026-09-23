@@ -68,7 +68,7 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-32 sm:pt-36 pb-20 bg-[#FAFAF9] text-center"
+      className="relative min-h-[82vh] sm:min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-24 sm:pt-36 pb-12 sm:pb-20 bg-[#FAFAF9] text-center"
     >
       {/* Requirement 5: Palavra-marca gigante fantasma ("GORIN") em cinza claro translúcido */}
       <motion.div 
