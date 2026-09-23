@@ -207,15 +207,11 @@ export const Navbar: React.FC = () => {
             onClick={(e) => handleNavClick(e, '#home')}
             className="flex items-center gap-2.5 sm:gap-3 group cursor-pointer select-none"
           >
-            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden flex items-center justify-center p-1 border transition-all shrink-0 shadow-xs ${
-              isOverDark ? 'border-white/20 bg-white/10' : 'border-black/10 bg-white'
-            }`}>
-              <img 
-                src="/images/mascot-centered.webp" 
-                alt="Logo Gorin" 
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
-              />
-            </div>
+            <img 
+              src="/images/mascot-centered.webp" 
+              alt="Logo Gorin" 
+              className="w-8 h-8 sm:w-9 sm:h-9 object-contain group-hover:scale-105 transition-transform duration-200 shrink-0"
+            />
             
             <div className="flex items-center gap-1.5 font-archivo font-black text-lg sm:text-xl leading-none tracking-tight uppercase select-none">
               <span className={`transition-colors ${
@@ -312,13 +308,11 @@ export const Navbar: React.FC = () => {
                 onClick={(e) => handleNavClick(e, '#home')}
                 className="flex items-center gap-3 cursor-pointer group"
               >
-                <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center p-1 border border-white/20 bg-white shadow-xs">
-                  <img 
-                    src="/images/mascot-centered.webp" 
-                    alt="Logo Gorin" 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+                <img 
+                  src="/images/mascot-centered.webp" 
+                  alt="Logo Gorin" 
+                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain shrink-0"
+                />
                 <div className="flex items-center gap-1.5 font-archivo font-black leading-none tracking-tight text-xl uppercase">
                   <span className="text-[#FAFAF9]">
                     GORIN

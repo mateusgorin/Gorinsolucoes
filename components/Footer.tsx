@@ -11,16 +11,14 @@ export const Footer: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="container mx-auto px-4 max-w-6xl"
       >
-        <div className="flex flex-col items-center justify-center gap-4 mb-6">
-          <div className="p-3 bg-white/5 border border-white/10 rounded-[6px]">
-            <img 
-              src="/images/footer-logo.webp" 
-              alt="Gorin Logo" 
-              loading="lazy"
-              decoding="async"
-              className="h-12 md:h-14 w-auto object-contain" 
-            />
-          </div>
+        <div className="flex flex-col items-center justify-center gap-3 mb-6">
+          <img 
+            src="/images/mascot-centered.webp" 
+            alt="Logo Gorin" 
+            loading="lazy"
+            decoding="async"
+            className="w-14 h-14 md:w-16 md:h-16 object-contain" 
+          />
            
           <span className="font-archivo font-black text-xl tracking-tight text-[#FAFAF9] uppercase">
             GORIN <span className="text-[#00D4FF]">SOLUÇÕES</span>
