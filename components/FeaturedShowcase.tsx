@@ -47,10 +47,10 @@ export const FeaturedShowcase: React.FC = () => {
       {/* Trilha de Rolagem 3D com Rotação (rotateX: 75 -> 0) e Escala (scale: 1.2 -> 1) */}
       <ContainerScroll className="relative h-[300vh] sm:h-[340vh]">
         <ContainerSticky className="h-screen">
-          <GalleryContainer className="pt-6 sm:pt-10 pb-16 sm:pb-24">
+          <GalleryContainer className="pt-2 sm:pt-4 pb-4 sm:pb-6">
             
-            {/* Coluna 1: Movimento moderado */}
-            <GalleryCol yRange={["0%", "-22%"]} className="-mt-2">
+            {/* Coluna 1: Movimento suave que traz o último card totalmente para a tela */}
+            <GalleryCol yRange={["0%", "-42%"]} inputRange={[0.15, 0.84]} className="-mt-1">
               {IMAGES_1.map((imageUrl, index) => (
                 <div 
                   key={index} 
@@ -74,8 +74,8 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 2 (Meio): Desliza muito mais que as outras, criando o parallax dinâmico */}
-            <GalleryCol className="-mt-2 sm:-mt-3" yRange={["10%", "-62%"]}>
+            {/* Coluna 2 (Meio): Deslocamento dinâmico ampliado, sem cortar a última imagem */}
+            <GalleryCol className="-mt-1 sm:-mt-2" yRange={["8%", "-54%"]} inputRange={[0.15, 0.84]}>
               {IMAGES_2.map((imageUrl, index) => (
                 <div 
                   key={index} 
@@ -99,8 +99,8 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 3: Movimento moderado acompanhando a coluna 1 */}
-            <GalleryCol yRange={["0%", "-22%"]} className="-mt-2">
+            {/* Coluna 3: Movimento alinhado à Coluna 1 garantindo visibilidade total dos cards */}
+            <GalleryCol yRange={["0%", "-42%"]} inputRange={[0.15, 0.84]} className="-mt-1">
               {IMAGES_3.map((imageUrl, index) => (
                 <div 
                   key={index} 
