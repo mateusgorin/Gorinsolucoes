@@ -95,7 +95,7 @@ export const ContainerSticky = ({
       )}
       style={{
         perspective: "1000px",
-        perspectiveOrigin: "center top",
+        perspectiveOrigin: "center center",
         transformStyle: "preserve-3d",
         transformOrigin: "50% 50%",
         ...style,

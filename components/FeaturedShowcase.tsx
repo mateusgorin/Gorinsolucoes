@@ -8,12 +8,16 @@ import {
 import { ArrowUpRight } from 'lucide-react';
 import { projects } from '../data/projects';
 
-// 3 Columns of images combining the user's real project screenshots with high-res studio visuals
+// 3 Colunas com 7 cards cada, garantindo preenchimento vertical completo da tela no mobile e desktop
+// sem deixar grandes espaços em branco ao rolar.
 const IMAGES_1 = [
   projects[0]?.image || "https://cdn.21st.dev/assets/mirror/db/db8e72b6f6e2f325ec74898fdab6a02f3c0ba7962f3cf0b89f0ee3b22aa2a083.jpg",
   projects[1]?.image || "https://cdn.21st.dev/assets/mirror/77/777c9bd220f0c47c9eb699ebbd77fb0c6c9a8d8b0cd77f089bab93a18586d578.jpg",
   projects[2]?.image || "https://cdn.21st.dev/assets/mirror/f9/f992831c368ea7e12c51417be55fda812d1502e9bb6730d94bc6b1e0c6a2ae57.jpg",
   "/images/showcase-feature-1.webp",
+  projects[3]?.image || "https://cdn.21st.dev/assets/mirror/4e/4eb85747c8113c6edcbec2671a5aa4e62d0569488ad75652c16dd7598a1196e1.jpg",
+  projects[6]?.image || "https://cdn.21st.dev/assets/mirror/db/db8e72b6f6e2f325ec74898fdab6a02f3c0ba7962f3cf0b89f0ee3b22aa2a083.jpg",
+  "/images/showcase-feature-2.webp",
 ];
 
 const IMAGES_2 = [
@@ -21,6 +25,9 @@ const IMAGES_2 = [
   projects[4]?.image || "https://cdn.21st.dev/assets/mirror/ab/ab1fd4fd007ecad2ad9a5350341b1013589f05f8f30b8fdd4a35728a800e9fce.jpg",
   projects[5]?.image || "https://cdn.21st.dev/assets/mirror/4d/4de1f4952d0420f95ade25fc723d8042ece00762429cdccb79fd3a29ffe5f33d.jpg",
   "/images/showcase-feature-2.webp",
+  projects[0]?.image || "https://cdn.21st.dev/assets/mirror/db/db8e72b6f6e2f325ec74898fdab6a02f3c0ba7962f3cf0b89f0ee3b22aa2a083.jpg",
+  projects[7]?.image || "https://cdn.21st.dev/assets/mirror/e8/e81126a3c16766e36ed84d2226b0b11507e86b999d4d07cd7e88c0f04e14c0eb.jpg",
+  "/images/showcase-feature-3.webp",
 ];
 
 const IMAGES_3 = [
@@ -28,6 +35,9 @@ const IMAGES_3 = [
   projects[7]?.image || "https://cdn.21st.dev/assets/mirror/e8/e81126a3c16766e36ed84d2226b0b11507e86b999d4d07cd7e88c0f04e14c0eb.jpg",
   projects[8]?.image || "https://cdn.21st.dev/assets/mirror/77/777c9bd220f0c47c9eb699ebbd77fb0c6c9a8d8b0cd77f089bab93a18586d578.jpg",
   "/images/showcase-feature-3.webp",
+  projects[1]?.image || "https://cdn.21st.dev/assets/mirror/77/777c9bd220f0c47c9eb699ebbd77fb0c6c9a8d8b0cd77f089bab93a18586d578.jpg",
+  projects[5]?.image || "https://cdn.21st.dev/assets/mirror/4d/4de1f4952d0420f95ade25fc723d8042ece00762429cdccb79fd3a29ffe5f33d.jpg",
+  "/images/showcase-feature-1.webp",
 ];
 
 export const FeaturedShowcase: React.FC = () => {
@@ -53,25 +63,25 @@ export const FeaturedShowcase: React.FC = () => {
         }}
       />
 
-      {/* Trilha de Rolagem 3D responsiva: compacta no celular para eliminar espaço morto */}
-      <ContainerScroll className="relative h-[165vh] sm:h-[230vh] md:h-[320vh]">
-        <ContainerSticky className="h-[78vh] sm:h-[86vh] md:h-screen min-h-0">
+      {/* Trilha de Rolagem 3D do Efeito Original: calibrada para eliminar espaços mortos no mobile */}
+      <ContainerScroll className="relative h-[180vh] md:h-[300vh] lg:h-[340vh]">
+        <ContainerSticky className="h-screen min-h-[100dvh] flex items-center justify-center overflow-hidden">
           <GalleryContainer 
-            rotateRange={isMobile ? [46, 0] : [75, 0]}
-            scaleRange={isMobile ? [1.12, 1] : [1.2, 1]}
-            className="pt-2 sm:pt-4 pb-2 sm:pb-6 w-[120%] -ml-[10%] sm:w-full sm:ml-0"
+            rotateRange={isMobile ? [28, 0] : [70, 0]}
+            scaleRange={isMobile ? [1.06, 1] : [1.2, 1]}
+            className="w-full max-w-7xl mx-auto px-2.5 sm:px-6 pt-2 pb-4 gap-2.5 sm:gap-4"
           >
             
             {/* Coluna 1 */}
             <GalleryCol 
-              yRange={isMobile ? ["0%", "-32%"] : ["0%", "-42%"]} 
-              inputRange={[0.12, 0.85]} 
-              className="-mt-1"
+              yRange={isMobile ? ["0%", "-26%"] : ["0%", "-42%"]} 
+              inputRange={[0.1, 0.85]} 
+              className="-mt-1 gap-2.5 sm:gap-4"
             >
               {IMAGES_1.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -91,21 +101,21 @@ export const FeaturedShowcase: React.FC = () => {
               ))}
             </GalleryCol>
 
-            {/* Coluna 2 (Meio): Deslocamento dinâmico e veloz, perfeitamente ajustado para mobile */}
+            {/* Coluna 2 (Meio): Desloca mais que as laterais ao rolar */}
             <GalleryCol 
-              className="-mt-1 sm:-mt-2" 
-              yRange={isMobile ? ["6%", "-44%"] : ["8%", "-54%"]} 
-              inputRange={[0.12, 0.85]}
+              className="-mt-1 sm:-mt-2 gap-2.5 sm:gap-4" 
+              yRange={isMobile ? ["6%", "-42%"] : ["8%", "-54%"]} 
+              inputRange={[0.1, 0.85]}
             >
               {IMAGES_2.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
                     src={imageUrl}
-                    alt={`Gorin showcase item ${index + 5}`}
+                    alt={`Gorin showcase item ${index + 8}`}
                     loading="lazy"
                     decoding="async"
                   />
@@ -122,19 +132,19 @@ export const FeaturedShowcase: React.FC = () => {
 
             {/* Coluna 3 */}
             <GalleryCol 
-              yRange={isMobile ? ["0%", "-32%"] : ["0%", "-42%"]} 
-              inputRange={[0.12, 0.85]} 
-              className="-mt-1"
+              yRange={isMobile ? ["0%", "-26%"] : ["0%", "-42%"]} 
+              inputRange={[0.1, 0.85]} 
+              className="-mt-1 gap-2.5 sm:gap-4"
             >
               {IMAGES_3.map((imageUrl, index) => (
                 <div 
                   key={index} 
-                  className="group relative aspect-video block h-auto max-h-full w-full rounded-lg sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 sm:border-white/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
+                  className="group relative aspect-video block h-auto max-h-full w-full rounded-xl sm:rounded-2xl overflow-hidden bg-[#0D0D11] border border-black/10 shadow-md sm:shadow-lg hover:shadow-2xl hover:border-[#00D4FF]/60 transition-all duration-300"
                 >
                   <img
                     className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-transform duration-500 ease-out"
                     src={imageUrl}
-                    alt={`Gorin showcase item ${index + 9}`}
+                    alt={`Gorin showcase item ${index + 15}`}
                     loading="lazy"
                     decoding="async"
                   />

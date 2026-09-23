@@ -5,28 +5,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOverDark, setIsOverDark] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
-    // Detect if user has scrolled over the dark sections (#contact or #projects)
+    // Detect if page has scrolled past top
+    const handleScrollState = () => {
+      setHasScrolled(window.scrollY > 15);
+    };
+
+    window.addEventListener('scroll', handleScrollState, { passive: true });
+    handleScrollState();
+
+    // Detect if user is over dark sections (#projects or #contact)
     const darkSections = [
       document.getElementById('projects'),
       document.getElementById('contact')
     ].filter(Boolean) as HTMLElement[];
 
-    if (darkSections.length === 0) return;
-
-    const intersectingSet = new Set<string>();
-
     const observer = new IntersectionObserver(
       (entries) => {
+        let overDark = false;
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            intersectingSet.add(entry.target.id);
-          } else {
-            intersectingSet.delete(entry.target.id);
+            overDark = true;
           }
         });
-        setIsOverDark(intersectingSet.size > 0);
+        setIsOverDark(overDark);
       },
       {
         root: null,
@@ -37,26 +41,27 @@ export const Navbar: React.FC = () => {
 
     darkSections.forEach(section => observer.observe(section));
 
-    const handleScroll = () => {
+    const checkDarkByBoundingRect = () => {
       let overDark = false;
       darkSections.forEach(el => {
         const rect = el.getBoundingClientRect();
-        if (rect.top <= 100 && rect.bottom >= 60) {
+        if (rect.top <= 80 && rect.bottom >= 50) {
           overDark = true;
         }
       });
       setIsOverDark(overDark);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', checkDarkByBoundingRect, { passive: true });
 
     return () => {
+      window.removeEventListener('scroll', handleScrollState);
+      window.removeEventListener('scroll', checkDarkByBoundingRect);
       observer.disconnect();
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Control body scroll and Lenis when full-screen menu opens/closes
+  // Lock body scroll and Lenis when full-screen menu opens/closes
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -87,14 +92,13 @@ export const Navbar: React.FC = () => {
     };
   }, [isOpen]);
 
+  // Links mirroring the Cuberto design reference: Services, Projects, About, Testimonials, Briefing
   const navLinks = [
-    { name: 'INÍCIO', href: '#home', number: '00' },
-    { name: 'SOBRE NÓS', href: '#about', number: '01' },
-    { name: 'SERVIÇOS', href: '#services', number: '02' },
-    { name: 'PORTFÓLIO', href: '#projects', number: '03' },
-    { name: 'DEPOIMENTOS', href: '#testimonials', number: '04' },
-    { name: 'CONTATO', href: '#contact', number: '05' },
-    { name: 'BRIEFING DE PROJETO', href: '/projetos', number: '06' }
+    { name: 'Serviços', href: '#services', number: '01' },
+    { name: 'Projetos', href: '#projects', number: '02' },
+    { name: 'Sobre', href: '#about', number: '03' },
+    { name: 'Depoimentos', href: '#testimonials', number: '04' },
+    { name: 'Briefing', href: '/projetos', number: '05' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -104,9 +108,9 @@ export const Navbar: React.FC = () => {
       
       if (element) {
         if ((window as any).__lenis) {
-          (window as any).__lenis.scrollTo(element, { offset: -80 });
+          (window as any).__lenis.scrollTo(element, { offset: -70 });
         } else {
-          const headerOffset = 90;
+          const headerOffset = 80;
           const elementPosition = element.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
@@ -137,14 +141,14 @@ export const Navbar: React.FC = () => {
     }, 150);
   };
 
-  // Stagger variants for fullscreen menu items
+  // Stagger variants for fullscreen overlay menu
   const menuContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.07,
-        delayChildren: 0.15
+        delayChildren: 0.12
       }
     },
     exit: {
@@ -157,20 +161,20 @@ export const Navbar: React.FC = () => {
   };
 
   const menuItemVariants = {
-    hidden: { y: 60, opacity: 0 },
+    hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.55,
+        duration: 0.5,
         ease: [0.22, 1, 0.36, 1]
       }
     },
     exit: {
-      y: 40,
+      y: 30,
       opacity: 0,
       transition: {
-        duration: 0.35,
+        duration: 0.3,
         ease: [0.22, 1, 0.36, 1]
       }
     }
@@ -178,80 +182,120 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-4 md:top-6 left-0 right-0 z-[100] px-4 pointer-events-none flex justify-center">
-        <nav 
-          className={`pointer-events-auto w-full max-w-5xl rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 backdrop-blur-md border ${
-            isOverDark 
-              ? 'bg-[#0B0B0C]/90 border-white/15 text-white shadow-[0_10px_30px_rgba(0,0,0,0.5)]' 
-              : 'bg-white/85 border-black/10 text-[#0B0B0C] shadow-[0_8px_30px_rgba(0,0,0,0.04)]'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            {/* Brand Logo */}
-            <a 
-              href="#home"
-              onClick={(e) => handleNavClick(e, '#home')}
-              className="flex items-center gap-3 group cursor-pointer"
-            >
-              <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center p-0.5 border border-black/10 bg-white">
-                <img 
-                  src="/images/mascot.webp" 
-                  alt="Logo Gorin" 
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <span className="font-archivo font-extrabold tracking-tight text-sm uppercase">
-                GORIN <span className="font-normal opacity-60">SOLUÇÕES</span>
-              </span>
-            </a>
-
-            {/* Desktop Quick Nav Links */}
-            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-              {navLinks.slice(0, 4).map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`font-mono text-xs tracking-wider transition-colors cursor-pointer ${
-                    isOverDark 
-                      ? 'text-white/70 hover:text-white' 
-                      : 'text-[#0B0B0C]/70 hover:text-[#0B0B0C]'
-                  }`}
-                >
-                  <span>{link.name}</span>
-                </a>
-              ))}
+      {/* 
+        Menu Fixo Topo (Referência Cuberto):
+        - Fixo no topo absoluto da tela (fixed top-0 left-0 right-0 z-50)
+        - Largura total com alinhamento refinado
+        - Logo à esquerda, Links e botão pill 'Contato' à direita
+      */}
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+          hasScrolled
+            ? isOverDark
+              ? 'bg-[#0B0B0C]/85 backdrop-blur-md border-b border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4)]'
+              : 'bg-[#FAFAF9]/85 backdrop-blur-md border-b border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.03)]'
+            : isOverDark
+              ? 'bg-transparent text-white'
+              : 'bg-transparent text-[#0B0B0C]'
+        }`}
+      >
+        <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-12 lg:px-14 py-4 md:py-5 flex items-center justify-between">
+          
+          {/* Logo estilo Cuberto: clean, tipografia forte e alinhamento milimétrico */}
+          <a 
+            href="#home"
+            onClick={(e) => handleNavClick(e, '#home')}
+            className="flex items-center gap-2.5 sm:gap-3 group cursor-pointer select-none"
+          >
+            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden flex items-center justify-center p-1 border transition-all shrink-0 shadow-xs ${
+              isOverDark ? 'border-white/20 bg-white/10' : 'border-black/10 bg-white'
+            }`}>
+              <img 
+                src="/images/mascot-centered.webp" 
+                alt="Logo Gorin" 
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
+              />
             </div>
+            
+            <div className="flex items-center gap-1.5 font-archivo font-black text-lg sm:text-xl leading-none tracking-tight uppercase select-none">
+              <span className={`transition-colors ${
+                isOverDark ? 'text-[#FAFAF9]' : 'text-[#0B0B0C]'
+              }`}>
+                GORIN
+              </span>
+              <span className={`transition-colors ${
+                isOverDark ? 'text-[#00D4FF]' : 'text-[#00A3C4]'
+              }`}>
+                SOLUÇÕES
+              </span>
+            </div>
+          </a>
 
-            {/* Action buttons on right: Contato + Fullscreen Menu Button (mobile only) */}
-            <div className="flex items-center gap-2.5">
+          {/* Navegação Desktop: Links horizontais limpos no estilo Cuberto */}
+          <div className="hidden md:flex items-center space-x-7 lg:space-x-9">
+            {navLinks.map((link) => (
               <a 
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="hidden sm:inline-flex px-4 py-2 rounded-full bg-[#00D4FF] text-[#0B0B0C] font-archivo font-bold text-xs tracking-tight uppercase hover:opacity-90 transition-all hover:scale-[1.025] active:scale-[0.98]"
-              >
-                CONTATO
-              </a>
-
-              {/* Menu Button - só aparece no mobile */}
-              <button 
-                onClick={() => setIsOpen(true)}
-                aria-label="Abrir Menu"
-                className={`flex md:hidden items-center gap-2 px-4 py-2 rounded-full border font-archivo font-bold text-xs uppercase tracking-wider transition-all hover:scale-[1.025] active:scale-[0.98] cursor-pointer ${
+                key={link.name} 
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`font-sans text-sm lg:text-[15px] font-medium tracking-normal transition-colors cursor-pointer relative group ${
                   isOverDark 
-                    ? 'border-white/20 text-white bg-white/5 hover:bg-white/15' 
-                    : 'border-black/15 text-[#0B0B0C] bg-black/[0.03] hover:bg-black/10'
+                    ? 'text-white/70 hover:text-white' 
+                    : 'text-[#0B0B0C]/75 hover:text-[#0B0B0C]'
                 }`}
               >
-                <Menu size={15} className="text-[#00D4FF]" />
-                <span>MENU</span>
-              </button>
-            </div>
+                <span>{link.name}</span>
+                <span className={`absolute -bottom-1 left-0 w-0 h-[1.5px] transition-all duration-300 group-hover:w-full ${
+                  isOverDark ? 'bg-white' : 'bg-[#0B0B0C]'
+                }`} />
+              </a>
+            ))}
+
+            {/* Botão Pill Sólido 'Contato' (Exatamente como o 'Contacts' do print de referência) */}
+            <a 
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className={`inline-flex items-center justify-center px-6 py-2.5 rounded-full font-sans text-sm font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer shadow-sm ${
+                isOverDark
+                  ? 'bg-[#FAFAF9] text-[#0B0B0C] hover:bg-white'
+                  : 'bg-[#0B0B0C] text-[#FAFAF9] hover:bg-[#1f1f23]'
+              }`}
+            >
+              Contato
+            </a>
           </div>
-        </nav>
+
+          {/* Mobile Actions: Botão 'Contato' + Menu Hamburguer */}
+          <div className="flex md:hidden items-center gap-2.5">
+            <a 
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className={`px-4 py-1.5 rounded-full font-sans text-xs font-medium transition-all ${
+                isOverDark
+                  ? 'bg-white text-[#0B0B0C]'
+                  : 'bg-[#0B0B0C] text-white'
+              }`}
+            >
+              Contato
+            </a>
+
+            <button 
+              onClick={() => setIsOpen(true)}
+              aria-label="Abrir Menu"
+              className={`p-2 rounded-full border transition-all cursor-pointer ${
+                isOverDark 
+                  ? 'border-white/20 text-white bg-white/5 hover:bg-white/15' 
+                  : 'border-black/10 text-[#0B0B0C] bg-black/[0.03] hover:bg-black/[0.08]'
+              }`}
+            >
+              <Menu size={18} />
+            </button>
+          </div>
+
+        </div>
       </header>
 
-      {/* Full-Screen Menu Overlay (Cuberto Style: 100vw x 100vh, #0B0B0C background, #FAFAF9 text) */}
+      {/* Menu Fullscreen Overlay para Mobile e acesso completo */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -268,28 +312,22 @@ export const Navbar: React.FC = () => {
                 onClick={(e) => handleNavClick(e, '#home')}
                 className="flex items-center gap-3 cursor-pointer group"
               >
-                <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center p-0.5 border border-white/20 bg-white">
+                <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center p-1 border border-white/20 bg-white shadow-xs">
                   <img 
-                    src="/images/mascot.webp" 
+                    src="/images/mascot-centered.webp" 
                     alt="Logo Gorin" 
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <span className="font-archivo font-extrabold tracking-tight text-base uppercase text-[#FAFAF9]">
-                  GORIN <span className="text-[#00D4FF]">SOLUÇÕES</span>
-                </span>
+                <div className="flex items-center gap-1.5 font-archivo font-black leading-none tracking-tight text-xl uppercase">
+                  <span className="text-[#FAFAF9]">
+                    GORIN
+                  </span>
+                  <span className="text-[#00D4FF]">
+                    SOLUÇÕES
+                  </span>
+                </div>
               </a>
-
-              {/* Status Indicator */}
-              <div className="hidden lg:flex items-center gap-2.5 px-3.5 py-1.5 border border-white/15 rounded-full bg-white/5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="font-mono text-xs text-white/80 uppercase tracking-wider">
-                  Disponível para projetos
-                </span>
-              </div>
 
               {/* Close Button "X" */}
               <button 
@@ -302,15 +340,23 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-            {/* Overlay Navigation Links with Giant Archivo Typography (48px to 96px) */}
+            {/* Overlay Navigation Links with Giant Archivo Typography */}
             <motion.div 
               variants={menuContainerVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="py-8 md:py-12 flex flex-col space-y-2 sm:space-y-3"
+              className="py-8 md:py-12 flex flex-col space-y-3 sm:space-y-4"
             >
-              {navLinks.map((link) => (
+              {[
+                { name: 'Início', href: '#home' },
+                { name: 'Serviços', href: '#services' },
+                { name: 'Projetos', href: '#projects' },
+                { name: 'Sobre Nós', href: '#about' },
+                { name: 'Depoimentos', href: '#testimonials' },
+                { name: 'Briefing de Projeto', href: '/projetos' },
+                { name: 'Contato', href: '#contact' },
+              ].map((link) => (
                 <motion.div key={link.name} variants={menuItemVariants}>
                   <a
                     href={link.href}
@@ -364,3 +410,5 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
+
+export default Navbar;

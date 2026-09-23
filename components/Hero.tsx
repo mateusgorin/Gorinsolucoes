@@ -68,7 +68,7 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-[82vh] sm:min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-24 sm:pt-36 pb-12 sm:pb-20 bg-[#FAFAF9] text-center"
+      className="relative min-h-[86vh] sm:min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24 bg-[#FAFAF9] text-center"
     >
       {/* Requirement 5: Palavra-marca gigante fantasma ("GORIN") em cinza claro translúcido */}
       <motion.div 
@@ -82,22 +82,6 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Status Indicator: Disponível para projetos (pulsing green dot) */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 mb-8 border border-black/10 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="font-mono text-xs text-[#0B0B0C]/80 font-medium tracking-wider uppercase">
-            Disponível para projetos
-          </span>
-        </motion.div>
-
         {/* Giant Headline in Archivo (Weight 800-900, clamp, manual line rhythm) */}
         <h1 
           ref={heroTitleRef}

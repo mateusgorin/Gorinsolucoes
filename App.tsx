@@ -5,7 +5,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { FeaturedShowcase } from './components/FeaturedShowcase';
 import { About } from './components/About';
 import { Services } from './components/Services';
 import { Projects } from './components/Projects';
@@ -88,7 +87,6 @@ const App: React.FC = () => {
           ) : (
             <>
               <Hero />
-              <FeaturedShowcase />
               <About />
               <Services />
               <LeadMagnet />
