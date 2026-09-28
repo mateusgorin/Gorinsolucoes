@@ -1,48 +1,44 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ArrowUpRight, Zap, Code2, ShieldCheck } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import MagneticButton from './MagneticButton';
+import { siteContent } from '../data/content';
+import { MeshPanel } from './MeshPanel';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start']
   });
 
-  // GSAP line-by-line entrance animation for main headline
+  const ghostY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+
+  // GSAP ScrollTrigger masked reveal for headline
   useEffect(() => {
-    const el = heroTitleRef.current;
+    const el = titleRef.current;
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      const lineSpans = el.querySelectorAll('.hero-line-inner');
+      const lineSpans = el.querySelectorAll('.hero-line');
       if (lineSpans.length > 0) {
         gsap.fromTo(
           lineSpans,
-          { yPercent: 110 },
+          { yPercent: 100, opacity: 0 },
           {
             yPercent: 0,
-            duration: 0.9,
+            opacity: 1,
+            duration: 1.1,
             ease: 'power3.out',
             stagger: 0.1,
             scrollTrigger: {
-              trigger: el.parentElement || el,
-              start: 'top 80%',
+              trigger: el,
+              start: 'top 85%',
               once: true,
             },
           }
@@ -53,117 +49,205 @@ export const Hero: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // Requirement 5: Leve efeito de paralaxe (moves alguns pixels verticalmente, desativado em mobile)
-  const ghostY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-
-  // Editorial structured lines for headline
-  const lines = [
-    'Especialistas em',
-    'soluções digitais e',
-    'criação de sites de',
-    'alta conversão'
-  ];
+  const { hero, brand } = siteContent;
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-[86vh] sm:min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24 bg-[#FAFAF9] text-center"
+      className="relative min-h-[95vh] flex flex-col justify-start pt-32 sm:pt-40 md:pt-48 pb-28 sm:pb-36 bg-[#0B0B0E] text-[#F5F6FA] overflow-hidden"
     >
-      {/* Requirement 5: Palavra-marca gigante fantasma ("GORIN") em cinza claro translúcido */}
-      <motion.div 
-        style={{ y: isMobile ? 0 : ghostY }}
+      {/* MeshPanel behind hero for depth */}
+      <MeshPanel intensity={0.6} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
+
+      {/* Subtle Ghost Typography */}
+      <motion.div
+        style={{ y: ghostY }}
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
         aria-hidden="true"
       >
-        <span className="font-archivo font-black text-[clamp(90px,22vw,320px)] tracking-tighter text-[#0B0B0C]/[0.035] uppercase leading-none">
-          GORIN
+        <span className="font-display font-bold text-[clamp(100px,24vw,340px)] tracking-[-0.04em] text-white/[0.02] uppercase leading-none select-none">
+          {brand.shortName}
         </span>
       </motion.div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Giant Headline in Archivo (Weight 800-900, clamp, manual line rhythm) */}
-        <h1 
-          ref={heroTitleRef}
-          className="font-archivo font-black tracking-tight text-[#0B0B0C] text-[clamp(2.5rem,6.8vw,5.75rem)] leading-[0.98] uppercase mb-8"
-        >
-          {lines.map((line, i) => (
-            <div key={i} className="overflow-hidden py-0.5">
-              <span className="block hero-line-inner">
-                {line}
-              </span>
-            </div>
-          ))}
-        </h1>
+      {/* Subtle grid pattern without full glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.035]"
+        style={{
+          backgroundImage: `radial-gradient(#F5F6FA 1px, transparent 1px)`,
+          backgroundSize: '36px 36px',
+        }}
+        aria-hidden="true"
+      />
 
-        {/* Subtitle / Value proposition */}
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
+      {/* Main Container - 128rem (max-w-[1280px]) */}
+      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 flex flex-col">
+        
+        {/* Eyebrow style label above headline */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.3 : 0.5 }}
-          className="font-mono text-[#71717A] text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-10 leading-relaxed"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-2 mb-6 uppercase font-medium"
+          style={{
+            fontSize: '0.8rem',
+            letterSpacing: '0.15em',
+            color: 'var(--accent-cyan)',
+          }}
         >
-          <span className="text-[#0B0B0C] font-semibold">{'>>>'}</span> Desenvolvimento Web de Alta Performance.{' '}
-          Ajudamos empresas e profissionais a fortalecer sua presença digital com sites rápidos, modernos e otimizados para o Google.
+          <span
+            className="inline-block rounded-full"
+            style={{
+              width: '6px',
+              height: '6px',
+              backgroundColor: 'var(--accent-cyan)',
+            }}
+          />
+          <span>{brand.locationFull} · Agência de Desenvolvimento Web &amp; IA</span>
+        </motion.div>
+
+        {/* Monumental Headline: H1 */}
+        <div className="max-w-5xl mb-6 sm:mb-8 overflow-hidden">
+          <h1
+            ref={titleRef}
+            className="font-display font-bold text-[clamp(2.75rem,5vw+1rem,5.5rem)] leading-[1.05] tracking-[-0.02em] text-[#F5F6FA]"
+          >
+            {hero.headlineLines.map((line, idx) => (
+              <span key={idx} className="block overflow-hidden">
+                <span className="hero-line block">
+                  {line}
+                  {idx === hero.headlineLines.length - 1 && (
+                    <span className="text-[#00D4FF]">.</span>
+                  )}
+                </span>
+              </span>
+            ))}
+          </h1>
+        </div>
+
+        {/* Subtexto */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="font-body text-[1.15rem] leading-[1.6] max-w-3xl mb-10 sm:mb-12"
+          style={{ color: 'var(--text-muted-dark)' }}
+        >
+          {hero.subtext}
         </motion.p>
 
-        {/* Calls to Action */}
+        {/* Action CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.4 : 0.65 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 mb-16 sm:mb-20"
         >
-          <MagneticButton href="#contact">
-            Solicitar orçamento grátis
-          </MagneticButton>
-          
+          {/* Main CTA: Fale com a gente */}
           <a
-            href="#projects"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full font-archivo font-bold text-sm tracking-tight border border-black/15 text-[#0B0B0C] hover:border-black bg-transparent hover:bg-black/[0.02] hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer"
+            href={brand.whatsappDefaultUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#00D4FF] text-[#0B0B0E] font-display font-semibold text-sm sm:text-base tracking-wide hover:bg-[#3fe0ff] hover:shadow-[0_8px_25px_rgba(0,212,255,0.25)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer group"
           >
-            Ver portfólio
+            <span>{hero.ctaPrimary}</span>
+            <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
-        </motion.div>
-      </div>
 
-      {/* Cuberto Rotating Agency Stamp Badge */}
-      <div className="absolute bottom-8 left-8 hidden lg:block select-none pointer-events-none">
-        <div className="relative w-28 h-28 flex items-center justify-center">
-          <motion.svg
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-            className="w-full h-full text-[#0B0B0C]"
-            viewBox="0 0 140 140"
+          {/* Secondary CTA: Ver Projetos */}
+          <a
+            href="#cases"
+            className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border border-white/15 bg-white/[0.03] text-[#F5F6FA] font-display font-medium text-sm sm:text-base tracking-wide hover:border-white/35 hover:bg-white/[0.08] transition-all duration-300 cursor-pointer"
           >
-            <path
-              id="heroBadgePath"
-              d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0"
-              fill="none"
-            />
-            <text className="font-mono text-[9.5px] uppercase tracking-[0.34em] fill-current font-bold">
-              <textPath href="#heroBadgePath" startOffset="0%" textLength="305" lengthAdjust="spacing">
-                GORIN SOLUÇÕES • WEB DESIGNER •
-              </textPath>
-            </text>
-          </motion.svg>
-          <div className="absolute w-3.5 h-3.5 rounded-full bg-[#00D4FF] shadow-[0_0_10px_rgba(0,212,255,0.8)]" />
-        </div>
-      </div>
+            <span>{hero.ctaSecondary}</span>
+          </a>
 
-      {/* Scroll indicator, bottom-right */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="absolute bottom-8 right-8 hidden md:flex items-center gap-2 font-mono text-xs text-[#71717A]"
-      >
-        <span>Scroll para explorar</span>
-        <ChevronDown size={14} className="text-[#0B0B0C] animate-bounce" />
-      </motion.div>
+          {/* Direct response commitment badge */}
+          <div className="flex items-center gap-2 text-xs font-mono text-[#9496A6] sm:ml-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+            <span>{hero.responseCommitment}</span>
+          </div>
+        </motion.div>
+
+        {/* Editorial Metrics & Architecture Bar (Cards Grandes: radius 3.2rem) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full rounded-[3.2rem] bg-[#121216] border border-white/10 p-6 sm:p-8 md:p-10 shadow-2xl"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            {/* Left: 3 Core Pillars */}
+            <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+              
+              <div className="sm:pr-4 pt-4 sm:pt-0">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#00D4FF] mb-1.5">
+                  <Zap size={14} />
+                  <span>{hero.pillars[0].tag}</span>
+                </div>
+                <div className="font-display font-bold text-2xl sm:text-3xl text-[#F5F6FA] tracking-tight">
+                  {hero.pillars[0].value}
+                </div>
+                <p className="font-body text-xs text-[#9496A6] mt-1 leading-snug">
+                  {hero.pillars[0].desc}
+                </p>
+              </div>
+
+              <div className="sm:px-4 pt-4 sm:pt-0">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#00D4FF] mb-1.5">
+                  <ShieldCheck size={14} />
+                  <span>{hero.pillars[1].tag}</span>
+                </div>
+                <div className="font-display font-bold text-2xl sm:text-3xl text-[#F5F6FA] tracking-tight">
+                  {hero.pillars[1].value}
+                </div>
+                <p className="font-body text-xs text-[#9496A6] mt-1 leading-snug">
+                  {hero.pillars[1].desc}
+                </p>
+              </div>
+
+              <div className="sm:pl-4 pt-4 sm:pt-0">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#00D4FF] mb-1.5">
+                  <Code2 size={14} />
+                  <span>{hero.pillars[2].tag}</span>
+                </div>
+                <div className="font-display font-bold text-2xl sm:text-3xl text-[#F5F6FA] tracking-tight">
+                  {hero.pillars[2].value}
+                </div>
+                <p className="font-body text-xs text-[#9496A6] mt-1 leading-snug">
+                  {hero.pillars[2].desc}
+                </p>
+              </div>
+
+            </div>
+
+            {/* Right: Operational Status Callout with subtle accent line */}
+            <div className="md:col-span-5 bg-[#17171D] border border-white/10 rounded-[1.6rem] p-5 flex flex-col justify-between space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[11px] text-[#9496A6] uppercase tracking-wider">
+                  {hero.operationalStatus}
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#00D4FF]/10 text-[#00D4FF] font-mono text-[10px] font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+                  ONLINE
+                </span>
+              </div>
+              <p className="font-body text-xs sm:text-sm text-[#F5F6FA] leading-relaxed">
+                Desenvolvemos sites institucionais, landing pages de alta conversão, portais corporativos e automações de atendimento com IA.
+              </p>
+              <div className="flex items-center gap-3 pt-1 border-t border-white/10 text-[11px] font-mono text-[#9496A6]">
+                <span className="text-[#F5F6FA]">Atendimento Direto</span>
+                <span>·</span>
+                <span>Sem Intermediários</span>
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
+
+      </div>
     </section>
   );
 };
-
-export default Hero;
-

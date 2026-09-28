@@ -1,35 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { Services } from './components/Services';
-import { Projects } from './components/Projects';
-import { Testimonials } from './components/Testimonials';
-import { Contact } from './components/Contact';
-import { LeadMagnet } from './components/LeadMagnet';
-import { WhatsAppButton } from './components/WhatsAppButton';
-import { Footer } from './components/Footer';
-import { ThemeProvider } from './context/ThemeContext';
+import { GorinSite } from './components/GorinSite';
 import { BriefingPage } from './components/BriefingPage';
-import { CustomCursor } from './components/CustomCursor';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   const [path, setPath] = useState(window.location.pathname);
+  const [showBriefing, setShowBriefing] = useState(false);
 
-  // Initialize Lenis smooth scroll with GSAP ScrollTrigger ticker integration
+  // Initialize Lenis smooth scroll
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
@@ -40,8 +19,11 @@ const App: React.FC = () => {
       wheelMultiplier: 1,
     });
 
-    lenis.on('scroll', ScrollTrigger.update);
-    window.addEventListener('scroll', ScrollTrigger.update, { passive: true });
+    const onLenisScroll = () => {
+    };
+
+    lenis.on('scroll', onLenisScroll);
+    window.addEventListener('scroll', onLenisScroll, { passive: true });
 
     const updateLenis = (time: number) => {
       lenis.raf(time * 1000);
@@ -54,7 +36,7 @@ const App: React.FC = () => {
     (window as any).__lenis = lenis;
 
     return () => {
-      window.removeEventListener('scroll', ScrollTrigger.update);
+      window.removeEventListener('scroll', onLenisScroll);
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
     };
@@ -70,37 +52,83 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const isBriefingPath = path === '/projetos' || path === '/projetos/';
+  const isBriefingPath = path === '/projetos' || path === '/projetos/' || showBriefing;
+
+  if (isBriefingPath) {
+    return (
+      <div className="relative min-h-screen bg-white">
+        <div className="p-4 bg-black text-white flex justify-between items-center">
+          <span className="font-bold text-lg">Gorin Soluções // Briefing</span>
+          <button
+            onClick={() => {
+              setShowBriefing(false);
+              if (path.includes('/projetos')) {
+                window.history.pushState({}, '', '/');
+                setPath('/');
+              }
+            }}
+            className="text-xs font-mono uppercase bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-full transition-colors"
+          >
+            ← Voltar ao Site
+          </button>
+        </div>
+        <BriefingPage />
+      </div>
+    );
+  }
 
   return (
-    <ThemeProvider>
-      <div className="bg-[#FAFAF9] min-h-screen text-[#0B0B0C] font-sans selection:bg-[#00D4FF] selection:text-[#0B0B0C]">
-        <CustomCursor />
-        <motion.div 
-          className="fixed top-0 left-0 right-0 h-[3px] bg-[#00D4FF] z-[9999] origin-left" 
-          style={{ scaleX }} 
-        />
-        <Navbar />
-        <main className="relative z-10">
-          {isBriefingPath ? (
-            <BriefingPage />
-          ) : (
-            <>
-              <Hero />
-              <About />
-              <Services />
-              <LeadMagnet />
-              <Projects />
-              <Testimonials />
-              <Contact />
-            </>
-          )}
-        </main>
-        <WhatsAppButton />
-        <Footer />
-      </div>
-    </ThemeProvider>
+    <GorinSite onOpenBriefing={() => setShowBriefing(true)} />
   );
 };
 
-export default App;
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('App Error Caught:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#0b0b0c] text-white flex flex-col items-center justify-center p-6 text-center">
+          <h2 className="text-2xl font-bold mb-3">Gorin Soluções</h2>
+          <p className="text-white/70 text-sm mb-6 max-w-md">
+            Ocorreu uma pequena oscilação temporária na interface.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2.5 rounded-full bg-[#00d4ff] text-black font-semibold text-sm hover:opacity-90 transition-opacity"
+          >
+            Recarregar Página
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export const AppWrapper: React.FC = () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
+
+export default AppWrapper;

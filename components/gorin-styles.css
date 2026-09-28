@@ -1,0 +1,1200 @@
+/* ==========================================================================
+   GORIN SOLUÇÕES MASTER STYLESHEET
+   Refined design system for Gorin Soluções
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+
+/* Suisse Intl Typeface - Extracted from Cuberto ZIP */
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('https://db.onlinewebfonts.com/t/789a712ca735e07e6005b4a68efc2112.woff2') format('woff2'),
+       local('Suisse Intl'),
+       local('SuisseIntl-Regular');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('https://db.onlinewebfonts.com/t/2dfd910f5453673f40f09852f829f041.woff2') format('woff2'),
+       local('Suisse Intl Medium'),
+       local('SuisseIntl-Medium');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('https://db.onlinewebfonts.com/t/d5e3cb1ea13e9a9e334df97eb098e945.woff2') format('woff2'),
+       local('Suisse Intl SemiBold'),
+       local('SuisseIntl-SemiBold');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('https://db.onlinewebfonts.com/t/6b4ef82df3ce33a0058e0a811c76eec1.woff2') format('woff2'),
+       local('Suisse Intl Bold'),
+       local('SuisseIntl-Bold');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Global Font Definition */
+:root {
+  --font-gorin: 'Suisse Intl', 'Manrope', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-cuberto: var(--font-gorin);
+  --color-primary: #000000;
+  --color-accent: #00d4ff;
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  
+  --bg-light: #FAFAF8;
+  --bg-light-muted: #ECECEC;
+  --bg-dark: #0B0A0F;
+  --text-dark: #0B0A0F;
+  --text-light: #F5F4F2;
+  --text-muted-light: rgba(11,10,15,0.62);
+  --text-muted-dark: rgba(245,244,242,0.62);
+  --accent-cyan: #00D4FF;
+  --accent-cyan-mid: #22D3EE;
+  --accent-cyan-deep: #0E7490;
+  --accent-cyan-tint: #EAFBFD;
+  --radius-sm: 12px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-12: 6rem;
+}
+
+body, html {
+  font-family: var(--font-gorin);
+  color: #000000;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'General Sans', sans-serif;
+}
+
+/* ==========================================================================
+   CUSTOM CURSOR (Cuberto Exclusion Blob with Velocity Skew)
+   ========================================================================== */
+.Cursor {
+  z-index: 9999;
+  contain: layout style size;
+  pointer-events: none;
+  mix-blend-mode: exclusion;
+  position: fixed;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+@media (pointer: coarse) {
+  .Cursor {
+    display: none !important;
+  }
+}
+.Cursor:before {
+  content: "";
+  background: #ffffff;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  margin-left: -23px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  display: block;
+  transform: scale(0.28);
+}
+.Cursor.-pointer:before {
+  transform: scale(0.75);
+}
+.Cursor.-icon:before,
+.Cursor.-active:before {
+  transform: scale(1.6);
+}
+.Cursor .inner {
+  position: relative;
+}
+.Cursor .text {
+  opacity: 0;
+  color: #000000;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  margin-left: -16px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: opacity 0.3s, transform 0.25s;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.5);
+}
+.Cursor.-icon .text {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   CONTAINER & LAYOUT
+   ========================================================================== */
+.gorin-container,
+.cuberto-container,
+.Container.container {
+  width: 100%;
+  max-width: 1380px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 768px) {
+  .gorin-container,
+  .cuberto-container,
+  .Container.container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1200px) {
+  .gorin-container,
+  .cuberto-container,
+  .Container.container {
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+  }
+}
+.Container.container.-size-lg {
+  max-width: 1440px;
+}
+
+/* ==========================================================================
+   NAVBAR (Floating Pill Header)
+   ========================================================================== */
+.Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 1.25rem 0;
+}
+.Navbar.-scrolled,
+.Navbar.-fixed {
+  padding: 0.75rem 0;
+}
+.Navbar .nav-pill {
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+@media (min-width: 768px) {
+  .Navbar .nav-pill {
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+  }
+}
+.Navbar.-dark .nav-pill,
+.Navbar .nav-pill.-dark {
+  background-color: rgba(11, 10, 15, 0.92);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Roll-over text animation */
+.roll-text {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.roll-text span {
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.roll-text span:after {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  transform: translateY(0);
+}
+.group:hover .roll-text span,
+a:hover .roll-text span,
+button:hover .roll-text span {
+  transform: translateY(-100%);
+}
+
+/* ==========================================================================
+   CTA BUTTON WITH LIQUID RIPPLE EFFECT
+   ========================================================================== */
+.CtaButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.CtaButton:hover {
+  transform: scale(1.02);
+}
+.CtaButton.-fill {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+.CtaButton.-fill.-inverse {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+.CtaButton.-outline {
+  background: transparent;
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.CtaButton.-outline.-inverse {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.CtaButton .ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.CtaButton .ripple span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  border-radius: 50% 50% 0 0;
+  transform: translateY(101%);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0, 1), border-radius 0.5s cubic-bezier(0.4, 0, 0, 1);
+}
+.CtaButton:hover .ripple span {
+  transform: translateY(0);
+  border-radius: 0;
+}
+.CtaButton .title {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+.CtaButton .title span {
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.CtaButton .title span:after {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  right: 0;
+}
+.CtaButton.-fill .title span:after {
+  color: #000000;
+}
+.CtaButton.-fill.-inverse .title span:after {
+  color: #ffffff;
+}
+.CtaButton.-outline .title span:after {
+  color: #ffffff;
+}
+.CtaButton.-outline.-inverse .title span:after {
+  color: #000000;
+}
+.CtaButton:hover .title span {
+  transform: translateY(-120%);
+}
+
+/* More Button with arrow in circular badge */
+.MoreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.MoreButton .title {
+  overflow: hidden;
+}
+.MoreButton .title span {
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.MoreButton .title span:after {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.MoreButton:hover .title span {
+  transform: translateY(-100%);
+}
+.MoreButton .icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.MoreButton:hover .icon {
+  transform: scale(1.1);
+}
+.MoreButton .icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: #000000;
+}
+.-active .MoreButton .icon svg {
+  stroke: #ffffff;
+}
+
+/* Round Icon Buttons */
+.RoundButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+.RoundButton:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   TOPHEAD / HERO SECTION
+   ========================================================================== */
+.TopheadSection {
+  padding-top: 130px;
+  padding-bottom: 50px;
+  text-align: center;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .TopheadSection {
+    padding-top: 170px;
+    padding-bottom: 70px;
+  }
+}
+.TopheadSection .category-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 1.5rem;
+}
+.TopheadSection .hero-headline {
+  font-size: clamp(2.75rem, 5vw + 1rem, 5.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  text-wrap: balance;
+}
+.TopheadSection .hero-lead {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-muted-light);
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  text-wrap: balance;
+}
+
+.media-slot {
+  aspect-ratio: 1 / 1;
+  position: relative;
+  display: block;
+}
+
+/* ==========================================================================
+   OVERVIEW SECTION (What We Do & About)
+   ========================================================================== */
+.OverviewSection {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .OverviewSection {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+.OverviewSection .caption-label,
+.OverviewSection .caption h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+.OverviewSection .editorial-text,
+.OverviewSection .info .text p {
+  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: #111827;
+  max-width: 900px;
+}
+
+/* ==========================================================================
+   FEATURE ACCORDION / SERVICE CARDS (Cuberto Services)
+   ========================================================================== */
+.service-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-light-muted);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--bg-dark);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"]::before {
+  opacity: 1;
+}
+
+.service-card .service-card-header {
+  min-height: 76px;
+  padding: 1.25rem var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.service-card .service-category {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  font-weight: 500;
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1),
+              max-height 420ms cubic-bezier(0.32, 0.72, 0, 1),
+              margin-bottom 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"] .service-category {
+  opacity: 1;
+  max-height: 24px;
+  margin-bottom: 0.35rem;
+}
+
+.service-card .service-title {
+  font-size: 1.2rem;
+  color: #18181b;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  transition: color 420ms cubic-bezier(0.32, 0.72, 0, 1),
+              font-size 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"] .service-title {
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+  color: var(--text-light);
+}
+
+.service-card .service-number {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #18181b;
+  opacity: 0.35;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+  transition: color 420ms cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"] .service-number {
+  color: var(--text-light);
+  opacity: 0.55;
+}
+
+.service-card .service-card-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  position: relative;
+  z-index: 2;
+}
+
+.service-card[data-open="true"] .service-card-collapse {
+  grid-template-rows: 1fr;
+}
+
+.service-card .service-card-collapse-inner {
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  padding: 0 var(--space-6) var(--space-6) var(--space-6);
+}
+
+.service-card .service-card-content {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
+              transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"] .service-card-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 380ms cubic-bezier(0.32, 0.72, 0, 1) 90ms,
+              transform 380ms cubic-bezier(0.32, 0.72, 0, 1) 90ms;
+}
+
+.service-card .service-mesh {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.service-card[data-open="true"] .service-mesh {
+  opacity: 1;
+}
+
+.service-card .service-desc {
+  color: var(--text-muted-dark);
+  max-width: 480px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card::before,
+  .service-card .service-category,
+  .service-card .service-title,
+  .service-card .service-number,
+  .service-card .service-card-collapse,
+  .service-card .service-card-content,
+  .service-card .service-mesh {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+.service-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.service-explore-link .explore-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid rgba(245, 244, 242, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--text-light);
+}
+
+.service-explore-link:hover .explore-circle {
+  background-color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+}
+
+.service-explore-link:hover .explore-circle svg {
+  color: #ffffff;
+}
+
+.FeatureSection {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .FeatureSection {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+.FeatureItem {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 2.25rem;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #f4f4f5;
+  color: #000000;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 768px) {
+  .FeatureItem {
+    border-radius: 32px;
+    padding: 3.5rem 4rem;
+  }
+}
+.FeatureItem.-active {
+  background: #000000;
+  color: #ffffff;
+}
+.FeatureItem .item-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: lighten;
+  transition: opacity 0.6s ease;
+}
+.FeatureItem.-active .item-bg {
+  opacity: 0.85;
+}
+.FeatureItem .item-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+.FeatureItem .accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.FeatureItem.-active .accordion-body {
+  grid-template-rows: 1fr;
+}
+.FeatureItem .accordion-content {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   SELECTED WORK GRID (SummarySection)
+   ========================================================================== */
+.WorkSection {
+  background: #000000;
+  color: #ffffff;
+  border-radius: 40px 40px 0 0;
+  padding-top: 6rem;
+  padding-bottom: 8rem;
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .WorkSection {
+    border-radius: 64px 64px 0 0;
+    padding-top: 9rem;
+    padding-bottom: 10rem;
+  }
+}
+.WorkCard {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+  position: relative;
+  border: none !important;
+  box-shadow: none !important;
+}
+.WorkCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  transition: transform 400ms ease;
+  display: block;
+}
+.WorkCard:hover img {
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   TESTIMONIALS (Fanned Deck)
+   ========================================================================== */
+.TestimonialsDeck {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  position: relative;
+  perspective: 1000px;
+}
+@media (min-width: 992px) {
+  .TestimonialsDeck {
+    gap: 0;
+    padding: 3rem 0;
+  }
+  .TestimonialsDeck .deck-card {
+    width: 380px;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), margin 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    position: relative;
+    margin-left: -40px;
+    margin-right: -40px;
+  }
+  .TestimonialsDeck .deck-card:first-child {
+    margin-left: 0;
+    transform: translateY(20px) rotate(-6deg);
+    z-index: 1;
+  }
+  .TestimonialsDeck .deck-card:nth-child(2) {
+    transform: translateY(-10px) rotate(-2deg);
+    z-index: 2;
+  }
+  .TestimonialsDeck .deck-card:nth-child(3) {
+    transform: translateY(15px) rotate(4deg);
+    z-index: 3;
+  }
+  .TestimonialsDeck .deck-card:nth-child(4) {
+    transform: translateY(-15px) rotate(-4deg);
+    z-index: 4;
+  }
+  .TestimonialsDeck .deck-card:nth-child(5) {
+    margin-right: 0;
+    transform: translateY(25px) rotate(6deg);
+    z-index: 5;
+  }
+  .TestimonialsDeck:hover .deck-card {
+    transform: translateY(0) rotate(0deg) !important;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   WHY US TILES
+   ========================================================================== */
+.MetricTile {
+  background: #f4f4f5;
+  border-radius: 24px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  transition: transform 0.3s ease;
+}
+@media (min-width: 768px) {
+  .MetricTile {
+    border-radius: 28px;
+    padding: 3rem;
+    min-height: 250px;
+  }
+}
+.MetricTile.-highlight {
+  background: #e6f9fc;
+}
+.MetricTile:hover {
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   FAQ ACCORDION
+   ========================================================================== */
+.FaqItem {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.FaqItem summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.FaqItem summary::-webkit-details-marker {
+  display: none;
+}
+.FaqItem .plus-icon {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.FaqItem details[open] .plus-icon {
+  transform: rotate(135deg);
+}
+.FaqItem .plus-icon:before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: currentColor;
+}
+.FaqItem .plus-icon:after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: currentColor;
+}
+
+/* ==========================================================================
+   OUTRO & FOOTER
+   ========================================================================== */
+.OutroCard {
+  background: #000000;
+  color: #ffffff;
+  border-radius: 40px 40px 0 0;
+  padding: 6rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .OutroCard {
+    border-radius: 64px 64px 0 0;
+    padding: 9rem 3rem 6rem;
+  }
+}
+.FooterBar {
+  background: #000000;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4rem 1.5rem 3rem;
+}
+
+/* ==========================================================================
+   INTERACTIVE ELASTIC RUBBER-BAND DIVIDER
+   ========================================================================== */
+.Divider {
+  height: 1px;
+  position: relative;
+  width: 100%;
+}
+.Divider:before {
+  content: "";
+  height: 52px;
+  display: block;
+  position: absolute;
+  top: -26px;
+  left: 0;
+  right: 0;
+  cursor: grab;
+  z-index: 5;
+}
+.Divider svg {
+  pointer-events: none;
+  touch-action: none;
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  top: -99px;
+  left: 0;
+  right: 0;
+  overflow: visible;
+}
+.Divider path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1px;
+  shape-rendering: auto;
+}
+
+/* ==========================================================================
+   PORTFOLIO FILTER TABS (Anti-Pill / Segmented Control)
+   ========================================================================== */
+.PortfolioFilters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+}
+.PortfolioFilters::-webkit-scrollbar {
+  display: none;
+}
+.PortfolioFilterBtn {
+  font-family: var(--font-cuberto);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.PortfolioFilterBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.PortfolioFilterBtn.-active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   INQUIRY INTERACTIVE CHIPS (Contact Form)
+   ========================================================================== */
+.InquiryChip {
+  font-family: var(--font-cuberto);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.65rem 1.15rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-align: left;
+}
+.InquiryChip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.InquiryChip.-active {
+  background: #00d4ff;
+  color: #000000;
+  border-color: #00d4ff;
+  font-weight: 600;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+}
+
+/* ==========================================================================
+   FOUNDER EDITORIAL SPREAD
+   ========================================================================== */
+.FounderFrame {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #111113;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.15);
+}
+.FounderFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.FounderFrame:hover img {
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   LIVE BRASILIA CLOCK BADGE
+   ========================================================================== */
+.LiveClockBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  font-family: var(--font-cuberto);
+  font-size: 0.75rem;
+  color: #374151;
+}
+.LiveClockBadge .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  position: relative;
+}
+.LiveClockBadge .pulse-dot:after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: #10b981;
+  opacity: 0.4;
+  animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   INFINITE MARQUEE TICKER (General Sans Typography, ~8rem Height, Dark BG)
+   ========================================================================== */
+.MarqueeSection {
+  height: 8rem;
+  background-color: #000000;
+  color: #ffffff;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+}
+
+.MarqueeTrack {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScroll 40s linear infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .MarqueeSection:hover .MarqueeTrack {
+    animation-play-state: paused;
+  }
+}
+
+.MarqueeGroup {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.MarqueeItem {
+  font-family: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 0 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: #ffffff;
+  transition: color 0.25s ease;
+}
+
+.MarqueeItem:hover {
+  color: #00d4ff;
+}
+
+.MarqueeItem .separator {
+  color: #00d4ff;
+  font-size: 0.75em;
+  opacity: 0.9;
+  display: inline-block;
+  transform: translateY(-1px);
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

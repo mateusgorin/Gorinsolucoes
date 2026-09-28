@@ -115,7 +115,7 @@ export const CustomCursor: React.FC = () => {
     <div
       ref={cursorRef}
       aria-hidden="true"
-      className="fixed top-0 left-0 pointer-events-none z-[999999] will-change-transform -translate-x-1/2 -translate-y-1/2"
+      className="fixed top-0 left-0 pointer-events-none z-[999999] will-change-transform"
       style={{
         transform: `translate3d(${pos.current.x}px, ${pos.current.y}px, 0)`
       }}
@@ -123,16 +123,16 @@ export const CustomCursor: React.FC = () => {
       <div
         className={`rounded-full transition-all duration-300 ease-out flex items-center justify-center -translate-x-1/2 -translate-y-1/2 text-center select-none ${
           hasText
-            ? 'w-24 h-24 bg-[#00D4FF] text-[#0B0B0C] shadow-[0_10px_30px_rgba(0,212,255,0.45)] scale-100 p-2'
+            ? 'w-24 h-24 bg-[#00D4FF] text-[#0B0B0E] shadow-xl scale-100 p-2'
             : isHovered
-            ? 'w-12 h-12 bg-[#00D4FF]/20 border-2 border-[#00D4FF] backdrop-blur-[1px] scale-100'
+            ? 'w-11 h-11 bg-[#00D4FF]/15 border border-[#00D4FF] backdrop-blur-[1px] scale-100'
             : isClicking
-            ? 'w-2.5 h-2.5 bg-[#00D4FF] border border-[#0B0B0C] scale-90'
-            : 'w-3.5 h-3.5 bg-[#00D4FF] border border-[#0B0B0C]/40 shadow-[0_0_8px_rgba(0,212,255,0.4)]'
+            ? 'w-2.5 h-2.5 bg-[#00D4FF] scale-90'
+            : 'w-3.5 h-3.5 bg-[#00D4FF] border border-[#0B0B0E]/20'
         }`}
       >
         {hasText ? (
-          <span className="font-archivo font-black text-[11px] uppercase tracking-wider leading-none text-[#0B0B0C]">
+          <span className="font-display font-bold text-[11px] uppercase tracking-wider leading-none text-[#0B0B0E]">
             {cursorText}
           </span>
         ) : isHovered ? (

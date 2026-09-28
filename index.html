@@ -43,7 +43,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -85,27 +86,34 @@
     </script>
     <style>
       :root {
-        --bg-paper: #FAFAF9;
-        --text-ink: #0B0B0C;
-        --accent-cyan: #00D4FF;
-        --border-hairline: rgba(11, 11, 12, 0.1);
+        --color-primary: #000000;
+        --color-accent: #00D4FF;
+        --color-bg: #FFFFFF;
+        --color-text: #000000;
       }
 
       html {
         scroll-behavior: smooth;
-        scroll-padding-top: 80px;
-        background-color: #FAFAF9;
+        background-color: #FFFFFF;
+        color: #000000;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
       }
 
       body {
-        background-color: #FAFAF9;
-        color: #0B0B0C;
-        font-family: 'Inter', sans-serif;
+        background-color: #FFFFFF;
+        color: #000000;
+        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
         overflow-x: hidden;
+        margin: 0;
+        padding: 0;
       }
       
-      h1, h2, h3, .font-display, .font-archivo {
-        font-family: 'Archivo', sans-serif;
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 500;
+        letter-spacing: -0.02em;
       }
 
       /* Minimal Scrollbar */
@@ -113,14 +121,14 @@
         width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #FAFAF9;
+        background: #FFFFFF;
       }
       ::-webkit-scrollbar-thumb {
         background: #D4D4D8;
         border-radius: 9999px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #00D4FF;
+        background: #000000;
       }
 
       .clip-corner, .clip-corner-sm {

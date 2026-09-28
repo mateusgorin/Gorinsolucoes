@@ -46,14 +46,15 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       if (lineSpans.length > 0) {
         gsap.fromTo(
           lineSpans,
-          { yPercent: 110 },
+          { yPercent: 100, opacity: 0 },
           {
             yPercent: 0,
+            opacity: 1,
             duration: 0.9,
             ease: 'power3.out',
-            stagger: 0.1,
+            stagger: lineSpans.length > 1 ? 0.08 : 0,
             scrollTrigger: {
-              trigger: el.parentElement || el,
+              trigger: el,
               start: 'top 80%',
               once: true,
             },

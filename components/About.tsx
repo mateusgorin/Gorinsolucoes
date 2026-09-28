@@ -1,67 +1,48 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
-import { SectionHeading } from './ui/SectionHeading';
-
-const AnimatedCounter = ({ value }: { value: string }) => {
-  const numericValue = parseInt(value.replace(/\D/g, ''));
-  const suffix = value.replace(/\d/g, '');
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (inView) {
-      animate(count, numericValue, { duration: 1.8, ease: [0.22, 1, 0.36, 1] });
-    }
-  }, [inView, count, numericValue]);
-
-  return (
-    <span ref={ref}>
-      <motion.span>{rounded}</motion.span>
-      {suffix}
-    </span>
-  );
-};
+import React from 'react';
+import { motion } from 'framer-motion';
+import { siteContent } from '../data/content';
+import { StatCounter } from './StatCounter';
+import { ImageReveal } from './ImageReveal';
 
 export const About: React.FC = () => {
-  const stats = [
-    { label: 'PROJETOS ENTREGUES', value: '10+' },
-    { label: 'SATISFAÇÃO GARANTIDA', value: '100%' },
-    { label: 'BASE OPERACIONAL', value: 'BSB DF' },
-  ];
+  const { about, founder, brand } = siteContent;
 
   return (
-    <section id="about" className="py-14 sm:py-20 md:py-32 relative bg-[#FAFAF9] border-t border-black/10 scroll-mt-24">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+    <section 
+      id="about" 
+      className="py-24 sm:py-32 md:py-40 relative bg-[#121216] text-[#F5F6FA] rounded-t-[3.2rem] md:rounded-t-[6.4rem] -mt-16 sm:-mt-24 z-20 shadow-[0_-30px_70px_rgba(0,0,0,0.6)] border-t border-white/10 scroll-mt-20"
+    >
+      <div className="w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Founder Profile */}
+          {/* Founder Profile — Mateus Gorin — Fundador & Desenvolvedor Web */}
           <div className="lg:col-span-5 flex flex-col items-center text-center">
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col items-center group"
             >
               <div className="relative w-56 h-56 md:w-64 md:h-64 mb-6">
-                <div className="relative w-full h-full rounded-full p-1 border border-black/15 bg-white overflow-hidden shadow-sm">
-                  <img 
-                    src="/images/mateus-gorin.webp"
-                    alt="Mateus Gorin" 
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover rounded-full transition-all duration-500"
+                <div className="relative w-full h-full rounded-full p-1.5 border border-white/15 bg-[#141418] overflow-hidden shadow-2xl">
+                  <ImageReveal 
+                    src={founder.image} 
+                    alt={founder.alt} 
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
+                <div className="absolute -bottom-2 right-6 px-3.5 py-1 bg-[#18181D] border border-white/15 text-[#F5F6FA] rounded-full text-[11px] font-mono tracking-wider shadow-md z-10">
+                  {brand.locationShort}
+                </div>
               </div>
+              
               <div className="space-y-1">
-                <h3 className="font-archivo font-black text-2xl tracking-tight text-[#0B0B0C] uppercase">
-                  MATEUS GORIN
+                <h3 className="font-display font-bold text-2xl tracking-[-0.02em] text-[#F5F6FA]">
+                  {founder.name}
                 </h3>
-                <p className="font-mono text-xs uppercase tracking-widest text-[#71717A]">
-                  Fundador & Desenvolvedor Web
+                <p className="font-mono text-xs uppercase tracking-widest text-[#9496A6]">
+                  {founder.role}
                 </p>
               </div>
             </motion.div>
@@ -69,42 +50,45 @@ export const About: React.FC = () => {
 
           {/* Editorial Content */}
           <div className="lg:col-span-7">
-            <SectionHeading 
-              title="SOBRE O GORIN" 
-              subtitle="01 — SOBRE NÓS" 
-              align="left"
-            />
-            
-            <div className="space-y-6 text-[#3F3F46] text-base md:text-lg leading-relaxed font-sans">
-              <p>
-                <strong className="text-[#0B0B0C] font-semibold">Gorin Soluções</strong> é uma agência de tecnologia especialista em Web Design e UX, focada em criar experiências digitais que geram resultados.
-              </p>
-              <p>
-                Sediados em Brasília, desenvolvemos sites, landing pages e sistemas web com foco em design moderno, usabilidade e alta conversão. Utilizamos tecnologias de ponta (React, TypeScript) para garantir que sua empresa se destaque da concorrência com velocidade e segurança.
+            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#00D4FF] uppercase mb-4 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#00D4FF]" />
+              <span>{about.tag}</span>
+            </div>
+
+            {/* Texto Exato Solicitado vindo de data/content.ts */}
+            <div className="space-y-4 text-[#F5F6FA] text-base md:text-lg leading-relaxed font-body font-normal">
+              <p className="text-lg md:text-xl font-medium leading-relaxed text-[#F5F6FA]">
+                {about.institutionalFull}
               </p>
             </div>
 
-            {/* Editorial Stats - 1px hairline dividers */}
-            <div className="grid grid-cols-3 gap-6 mt-12 border-t border-b border-black/10 py-6">
-              {stats.map((stat, idx) => (
+            {/* Stats - Hairline Dividers (10+ Projetos entregues | 100% Satisfação garantida | BSB DF Base operacional) */}
+            <div className="grid grid-cols-3 gap-6 mt-10 border-t border-b border-white/10 py-8">
+              {about.statistics.map((stat, idx) => (
                 <div key={idx} className="text-left">
-                  <p className="text-3xl lg:text-4xl font-archivo font-black text-[#0B0B0C] tracking-tight mb-1">
-                    {stat.value.match(/\d/) ? <AnimatedCounter value={stat.value} /> : stat.value}
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-[#F5F6FA] tracking-tight mb-1">
+                    {stat.value.match(/\d/) ? <StatCounter value={stat.value} /> : stat.value}
                   </p>
-                  <p className="text-[10px] md:text-xs text-[#71717A] font-mono uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-[10px] md:text-xs text-[#9496A6] font-mono tracking-wider">{stat.label}</p>
                 </div>
               ))}
             </div>
 
-            {/* Tags */}
-            <div className="mt-8 flex flex-wrap gap-2.5">
-              {["CRIAÇÃO DE SITES", "RESPONSIVIDADE", "SEO TÉCNICO", "PERFORMANCE"].map((tag, i) => (
+            {/* Capability Indicators */}
+            <div className="mt-8 flex flex-wrap items-center gap-2">
+              {[
+                "Web Design & UX",
+                "React & TypeScript",
+                "Sites & Landing Pages",
+                "Sistemas Web",
+                "Alta Conversão"
+              ].map((pill, i) => (
                 <span 
                   key={i} 
-                  className="px-3 py-1.5 bg-white border border-black/10 text-xs font-mono text-[#0B0B0C] rounded-[4px] flex items-center gap-2"
+                  className="px-3.5 py-1.5 bg-white/[0.04] border border-white/10 text-xs font-sans text-[#F5F6FA] rounded-full flex items-center gap-2"
                 >
-                  <span className="w-1.5 h-1.5 bg-[#00D4FF]" />
-                  {tag}
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+                  {pill}
                 </span>
               ))}
             </div>

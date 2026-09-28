@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { MeshPanel } from './MeshPanel';
 
 interface HeroShowcaseProps {
   mascotSrc?: string;
@@ -44,6 +45,7 @@ const HeroShowcase: React.FC<HeroShowcaseProps> = ({ mascotSrc = '/images/mascot
 
   return (
     <div className="relative w-full max-w-xl mx-auto">
+      <MeshPanel intensity={0.6} className="absolute -inset-8 rounded-2xl pointer-events-none z-0" />
       <div
         className="absolute -inset-10 rounded-full blur-[100px] opacity-25 pointer-events-none"
         style={{ background: `radial-gradient(circle, ${primary}, transparent 70%)` }}

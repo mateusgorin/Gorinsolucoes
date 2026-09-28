@@ -1,178 +1,150 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { SectionHeading } from './ui/SectionHeading';
-import { ArrowUpRight } from 'lucide-react';
-import { projects, Project } from '../data/projects';
-
-const sites = projects.filter((p) => p.category !== "SISTEMA WEB" && p.title !== "MAJESTOSA ARTE");
-const systems = projects.filter((p) => p.category === "SISTEMA WEB");
-
-const ProjectBlock: React.FC<{ project: Project }> = ({ project }) => {
-  const isExternalLink = project.link !== "internal" && project.link !== "#";
-  const cursorLabel = isExternalLink ? "VISITAR" : project.link === "internal" ? "SISTEMA" : "CASE";
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const Content = (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="group w-full block cursor-pointer"
-      data-cursor-text={cursorLabel}
-    >
-      {/* Cover Image Container - Cuberto rounded corners and aspect ratio for 2 columns */}
-      <div 
-        className="relative w-full aspect-[4/3] sm:aspect-[16/11] md:aspect-[4/3] rounded-[20px] sm:rounded-[24px] md:rounded-[28px] overflow-hidden bg-[#18181B] border border-white/10 shadow-lg group-hover:border-[#00D4FF]/40 transition-all duration-300"
-        data-cursor-text={cursorLabel}
-      >
-        {/* Subtle skeleton shimmer before load */}
-        {!isLoaded && (
-          <div className="absolute inset-0 bg-[#222226] animate-pulse" />
-        )}
-
-        {project.image && (
-          <img
-            src={project.image}
-            alt={project.title}
-            loading="lazy"
-            decoding="async"
-            onLoad={() => setIsLoaded(true)}
-            className={`w-full h-full object-cover group-hover:scale-[1.04] transition-all duration-500 ease-out ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        )}
-
-        {/* Featured Badge strictly on the first project */}
-        {project.isFeatured && (
-          <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 pointer-events-none">
-            <span className="font-mono text-[10px] sm:text-xs font-bold tracking-widest uppercase bg-[#0B0B0C]/85 backdrop-blur-md text-[#00D4FF] px-3 py-1 rounded-full shadow-lg border border-[#00D4FF]/30">
-              DESTAQUE
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Project Typography & Metadata below the image (Cuberto style) */}
-      <div className="mt-4 sm:mt-5 flex flex-col justify-between gap-1.5">
-        <div className="flex items-center justify-between gap-2">
-          {/* Overline Category */}
-          <p className="text-[#00D4FF] text-xs font-mono uppercase tracking-[0.2em] font-bold">
-            {project.category}
-          </p>
-
-          {/* Link / Status indicator */}
-          <div className="flex items-center gap-1.5 font-mono text-xs uppercase text-white/50">
-            {project.link === "internal" ? (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/5 text-white/70 border border-white/10 text-[10px]">
-                SISTEMA INTERNO
-              </span>
-            ) : isExternalLink ? (
-              <span className="inline-flex items-center gap-1 text-white/70 font-semibold group-hover:text-[#00D4FF] transition-colors text-[11px] sm:text-xs">
-                VISITAR SITE
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/5 text-white/40 border border-white/10 text-[10px]">
-                EM BREVE
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Project Title with Archivo 800+ font, hover effect */}
-        <h3 className="text-xl sm:text-2xl md:text-3xl font-archivo font-black text-[#FAFAF9] tracking-tight uppercase flex items-center justify-between gap-3 group-hover:text-[#00D4FF] transition-colors">
-          <span className="group-hover:underline decoration-[#00D4FF] decoration-2 underline-offset-4 transition-all">
-            {project.title}
-          </span>
-          <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#00D4FF] opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 flex-shrink-0" />
-        </h3>
-      </div>
-    </motion.div>
-  );
-
-  if (isExternalLink) {
-    return (
-      <a
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-cursor-text={cursorLabel}
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]"
-      >
-        {Content}
-      </a>
-    );
-  }
-
-  return (
-    <div className="block focus:outline-none" data-cursor-text={cursorLabel}>
-      {Content}
-    </div>
-  );
-};
+import { ArrowUpRight, Zap } from 'lucide-react';
+import { projectsData } from '../data/projects';
+import { siteContent } from '../data/content';
+import { ImageReveal } from './ImageReveal';
 
 export const Projects: React.FC = () => {
+  // Use a lista de data/projects.ts diretamente, sem alterar títulos ou descrições
+  const displayProjects = projectsData.slice(0, 6);
+  const { projectsHeader, brand } = siteContent;
+
   return (
     <section 
-      id="projects" 
-      className="py-24 md:py-32 bg-[#0B0B0C] text-[#FAFAF9] relative z-20 scroll-mt-24 rounded-t-[48px] md:rounded-t-[64px] -mt-12 md:-mt-16 rounded-b-[48px] md:rounded-b-[64px] -mb-12 md:-mb-16 shadow-[0_0_50px_rgba(0,0,0,0.35)] border-y border-white/10"
+      id="cases" 
+      className="py-24 sm:py-32 md:py-40 bg-[#F5F6FA] text-[#0B0B0E] rounded-t-[3.2rem] md:rounded-t-[6.4rem] -mt-16 sm:-mt-24 z-50 relative shadow-[0_-30px_70px_rgba(0,0,0,0.3)] border-t border-black/[0.08] scroll-mt-20"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-        <SectionHeading 
-          title="PROJETOS RECENTES" 
-          subtitle="03 — PORTFÓLIO" 
-          inverted={true}
-        />
-
-        <div className="space-y-16 md:space-y-24">
-          {/* Sites Section */}
-          <div>
-            <div className="flex items-center gap-3 mb-8 md:mb-12 border-b border-white/10 pb-4">
-              <span className="w-2 h-2 bg-[#00D4FF]" />
-              <h4 className="font-mono text-xs font-bold text-white/80 tracking-[0.2em] uppercase">
-                SITES & LANDING PAGES
-              </h4>
+      <div className="w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 sm:mb-20 gap-6 border-b border-black/10 pb-8">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#00D4FF] uppercase mb-3 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#00D4FF]" />
+              <span>{projectsHeader.tag}</span>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-              {sites.map((project) => (
-                <ProjectBlock key={project.title} project={project} />
-              ))}
-            </div>
+            <h2 className="font-display font-bold text-[clamp(2.4rem,5.2vw,4.5rem)] leading-[1.08] text-[#0B0B0E] tracking-[-0.02em]">
+              {projectsHeader.title}
+            </h2>
+            <p className="font-body text-[#555660] text-base sm:text-lg mt-3">
+              {projectsHeader.subtext}
+            </p>
           </div>
 
-          {/* Systems Section */}
-          <div>
-            <div className="flex items-center gap-3 mb-8 md:mb-12 border-b border-white/10 pb-4">
-              <span className="w-2 h-2 bg-[#00D4FF]" />
-              <h4 className="font-mono text-xs font-bold text-white/80 tracking-[0.2em] uppercase">
-                SISTEMAS WEB
-              </h4>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-              {systems.map((project) => (
-                <ProjectBlock key={project.title} project={project} />
-              ))}
-            </div>
+          <div className="font-mono text-xs text-[#555660] self-start md:self-end uppercase">
+            <span className="text-[#0B0B0E] font-semibold">{projectsHeader.counter}</span> · {brand.locationFull}
           </div>
         </div>
 
-        <div className="mt-20 md:mt-28 text-center">
-          <a
-            href="/projetos"
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.pushState({}, '', '/projetos');
-              window.dispatchEvent(new PopStateEvent('popstate'));
-              window.scrollTo({ top: 0, behavior: 'auto' });
-            }}
-            className="inline-flex items-center gap-2 text-xs md:text-sm font-mono font-bold text-[#FAFAF9] uppercase tracking-wider border-b-2 border-[#00D4FF] pb-1 hover:text-[#00D4FF] hover:scale-[1.025] active:scale-[0.98] transition-all cursor-pointer"
-          >
-            INICIAR MEU PROJETO →
-          </a>
+        {/* Grid de Projetos usando data/projects.ts (Cards Grandes: radius 3.2rem) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+          {displayProjects.map((project, idx) => (
+            <motion.div
+              key={project.slug}
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.8, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col"
+            >
+              <a
+                href={`/projetos?case=${project.slug}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.history.pushState({}, '', `/projetos?case=${project.slug}`);
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group flex flex-col h-full rounded-[3.2rem] bg-white border border-black/10 overflow-hidden shadow-sm hover:shadow-xl hover:border-black/25 transition-all duration-500 cursor-pointer"
+              >
+                {/* Visual Image Container */}
+                <div className="relative aspect-[16/11] w-full overflow-hidden bg-[#18181D]">
+                  <ImageReveal
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  
+                  {/* Subtle Top Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="px-3 py-1 rounded-full bg-[#0B0B0E]/80 backdrop-blur-md text-white font-mono text-[10px] tracking-wider uppercase border border-white/10">
+                      {project.category}
+                    </span>
+                  </div>
+
+                  {/* External Link Action Pill */}
+                  <div className="absolute bottom-4 right-4 z-10 w-10 h-10 rounded-full bg-white text-[#0B0B0E] flex items-center justify-center shadow-lg group-hover:bg-[#00D4FF] group-hover:scale-110 transition-all duration-300">
+                    <ArrowUpRight size={17} />
+                  </div>
+                </div>
+
+                {/* Content Details */}
+                <div className="p-7 sm:p-8 flex flex-col justify-between flex-1 space-y-4">
+                  <div className="space-y-2">
+                    <p className="font-mono text-xs uppercase tracking-wider text-[#555660] font-semibold">
+                      {project.category}
+                    </p>
+                    <h3 className="font-display font-bold text-2xl text-[#0B0B0E] tracking-tight group-hover:text-[#00D4FF] transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="font-body text-sm sm:text-base text-[#555660] leading-relaxed pt-1">
+                      {project.desc}
+                    </p>
+                  </div>
+
+                  {/* Metrics and Stack */}
+                  <div className="pt-4 border-t border-black/10 space-y-3">
+                    <div className="flex items-center gap-1.5 text-xs font-mono text-[#0B0B0E] font-semibold">
+                      <Zap size={13} className="text-[#00D4FF]" />
+                      <span>{project.metrics}</span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {project.stack.slice(0, 3).map((item) => (
+                        <span
+                          key={item}
+                          className="px-2.5 py-0.5 rounded-full bg-[#F5F6FA] border border-black/[0.08] text-[11px] font-mono text-[#555660]"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Bottom Banner callout */}
+        <div className="mt-16 sm:mt-20 p-8 sm:p-10 rounded-[3.2rem] bg-[#0B0B0E] text-[#F5F6FA] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl border border-black/10">
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="font-display font-bold text-xl sm:text-2xl text-[#F5F6FA]">
+              {projectsHeader.bannerTitle}
+            </h4>
+            <p className="font-body text-sm text-[#9496A6]">
+              {projectsHeader.bannerDesc}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="/projetos"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/projetos');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#00D4FF] text-[#0B0B0E] font-display font-semibold text-xs uppercase tracking-wider hover:bg-[#3ce0ff] transition-colors cursor-pointer shadow-sm"
+            >
+              <span>{projectsHeader.bannerCta}</span>
+              <ArrowUpRight size={15} />
+            </a>
+          </div>
+        </div>
+
       </div>
     </section>
   );

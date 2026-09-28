@@ -1,217 +1,221 @@
 import React, { useState } from 'react';
-import { SectionHeading } from './ui/SectionHeading';
-import { Instagram, MapPin, Radio, MessageCircle, Send } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Instagram, MapPin, Send, ShieldCheck, Clock } from 'lucide-react';
+import { siteContent } from '../data/content';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
+    phone: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const phoneNumber = "5561981290099"; 
+  const { contact, brand } = siteContent;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `*NOVO PEDIDO DE ORÇAMENTO*\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}\n*Projeto:* ${formData.message}`;
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+    setIsSubmitting(true);
+
+    const messageText = contact.formatWhatsAppMessage(formData.name, formData.phone, formData.message);
+    const url = `https://wa.me/${brand.whatsappNumberRaw}?text=${encodeURIComponent(messageText)}`;
+    
+    setTimeout(() => {
+      window.open(url, '_blank');
+      setIsSubmitting(false);
+    }, 200);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name as keyof typeof prev]: value
+      [name]: value
     }));
   };
 
-  // Coordenadas aproximadas para formar o mapa do Brasil (0-100 grid)
-  const mapPoints: { x: number; y: number; id?: string }[] = [
-    { x: 35, y: 5 },  // RR
-    { x: 50, y: 10 }, // AP
-    { x: 20, y: 20 }, // AM (Manaus)
-    { x: 50, y: 25 }, // PA
-    { x: 65, y: 20 }, // MA
-    { x: 80, y: 20 }, // CE
-    { x: 90, y: 25 }, // RN
-    { x: 90, y: 30 }, // PE/PB
-    { x: 80, y: 35 }, // AL/SE
-    { x: 5, y: 35 },  // AC
-    { x: 25, y: 40 }, // RO
-    { x: 55, y: 40 }, // TO
-    { x: 75, y: 45 }, // BA
-    { x: 40, y: 50 }, // MT
-    { x: 52, y: 55 }, // GO
-    { x: 55, y: 53, id: 'DF' }, // DF - BRASÍLIA
-    { x: 65, y: 60 }, // MG
-    { x: 75, y: 65 }, // ES
-    { x: 40, y: 65 }, // MS
-    { x: 70, y: 72 }, // RJ
-    { x: 60, y: 75 }, // SP
-    { x: 55, y: 82 }, // PR
-    { x: 55, y: 88 }, // SC
-    { x: 50, y: 95 }, // RS
-  ];
-
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#0B0B0C] text-[#FAFAF9] relative z-20 scroll-mt-24 rounded-t-[48px] md:rounded-t-[64px] -mt-12 md:-mt-16 shadow-[0_-25px_50px_rgba(0,0,0,0.35)] border-t border-white/10">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-        <SectionHeading 
-          title="ENTRE EM CONTATO" 
-          subtitle="05 — CONTATO & BRIEFING" 
-          inverted={true}
-        />
+    <section 
+      id="contato" 
+      className="py-24 sm:py-32 md:py-40 bg-[#0B0B0E] text-[#F5F6FA] rounded-t-[3.2rem] md:rounded-t-[6.4rem] -mt-16 sm:-mt-24 z-[60] relative shadow-[0_-35px_80px_rgba(0,0,0,0.6)] border-t border-white/10 scroll-mt-20"
+    >
+      <div className="w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12">
+        
+        {/* Section Header */}
+        <div className="max-w-3xl mb-16 sm:mb-20">
+          <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#00D4FF] uppercase mb-4 font-semibold">
+            <span className="w-2 h-2 rounded-full bg-[#00D4FF]" />
+            <span>{contact.tag}</span>
+          </div>
 
-        <div className="border border-white/10 bg-[#121214] rounded-[24px] md:rounded-[36px] p-8 lg:p-14 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <h2 className="font-display font-bold text-[clamp(2.4rem,5.5vw,4.5rem)] leading-[1.06] tracking-[-0.02em] text-[#F5F6FA] mb-6">
+            {contact.homeTitle}
+          </h2>
+
+          <p className="font-body text-[#9496A6] text-base sm:text-lg md:text-xl leading-relaxed">
+            {contact.subtext}
+          </p>
+        </div>
+
+        {/* CTA Card (Cards Grandes: radius 3.2rem) */}
+        <div className="rounded-[3.2rem] bg-[#121216] border border-white/10 p-8 sm:p-12 lg:p-16 shadow-2xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             
-            {/* Info Side */}
-            <div className="lg:col-span-5 space-y-8 flex flex-col justify-between">
+            {/* Left Column: Direct Info & Quick Action */}
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
               <div className="space-y-4">
-                <div className="flex items-center gap-3 font-mono text-xs text-[#00D4FF] uppercase tracking-widest font-semibold">
-                  <Radio size={16} className="animate-pulse" />
-                  <span>DISPONÍVEL AGORA</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-archivo font-black text-[#FAFAF9] tracking-tight uppercase">
-                  GORIN SOLUÇÕES
-                </h3>
-                <p className="text-[#A1A1AA] text-sm leading-relaxed font-sans">
-                  Transformamos ideias em negócios digitais. Entre em contato para discutir seu projeto ou tirar dúvidas.
-                </p>
-              </div>
-              
-              <div className="space-y-4 border-t border-b border-white/10 py-6">
-                <a 
-                  href="https://www.instagram.com/mateusgorin?igsh=a3Rnc2p0ZzE4ZWFz" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="flex items-center gap-3.5 group text-[#D4D4D8] hover:text-[#00D4FF] transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-[#00D4FF] transition-colors">
-                    <Instagram size={18} />
-                  </div>
-                  <span className="font-mono text-xs sm:text-sm">@mateusgorin</span>
-                </a>
+                <span className="font-mono text-xs text-[#00D4FF] uppercase tracking-wider font-semibold">
+                  // Atendimento Imediato
+                </span>
                 
-                <div className="flex items-center gap-3.5 text-[#D4D4D8]">
-                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <MapPin size={18} className="text-[#00D4FF]" />
-                  </div>
-                  <span className="font-mono text-xs sm:text-sm">Brasília, DF - Atendimento Nacional</span>
-                </div>
+                <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#F5F6FA] tracking-tight">
+                  {brand.name}
+                </h3>
 
-                <div className="flex items-center gap-3.5 text-[#D4D4D8]">
-                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <MessageCircle size={18} className="text-[#00D4FF]" />
-                  </div>
-                  <span className="font-mono text-xs sm:text-sm">WhatsApp: (61) 98129-0099</span>
+                <p className="font-body text-sm sm:text-base text-[#9496A6] leading-relaxed">
+                  Especialistas em soluções digitais e criação de sites de alta conversão. Fale conosco para dar o próximo passo na presença da sua empresa.
+                </p>
+
+                {/* Primary Direct Button — Solicitar orçamento grátis agora */}
+                <div className="pt-2">
+                  <a
+                    href={brand.whatsappDefaultUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 rounded-full bg-[#00D4FF] text-[#0B0B0E] font-display font-semibold text-sm sm:text-base tracking-wide hover:bg-[#3de0ff] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_10px_30px_rgba(0,212,255,0.2)] group cursor-pointer"
+                  >
+                    <MessageCircle size={18} />
+                    <span>{contact.whatsappCtaText}</span>
+                    <ArrowUpRight size={17} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
                 </div>
               </div>
 
-              {/* Mapa do Brasil Estilizado */}
-              <div className="pt-2 relative w-full h-44 sm:h-52 opacity-80">
-                <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-                  {/* Conexões */}
-                  <g stroke="rgba(255, 255, 255, 0.1)" strokeWidth="0.4">
-                    {mapPoints.map((p, i) => {
-                      if (i < mapPoints.length - 1) {
-                        const next = mapPoints[i+1];
-                        if (Math.abs(p.x - next.x) < 30 && Math.abs(p.y - next.y) < 30) {
-                          return <line key={`l-${i}`} x1={p.x} y1={p.y} x2={next.x} y2={next.y} />;
-                        }
-                      }
-                      return null;
-                    })}
-                    {mapPoints.map((p, i) => {
-                      if(p.id !== 'DF') return <line key={`ldf-${i}-${p.x}-${p.y}`} x1={55} y1={53} x2={p.x} y2={p.y} stroke="rgba(0, 212, 255, 0.2)" />;
-                      return null;
-                    })}
-                  </g>
+              {/* Direct Info List: WhatsApp, Instagram, Brasília-DF — Atendimento Nacional */}
+              <div className="space-y-4 pt-6 border-t border-white/10 font-mono text-xs sm:text-sm text-[#9496A6]">
+                <a 
+                  href={brand.whatsappDefaultUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 hover:text-[#00D4FF] transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#00D4FF] shrink-0">
+                    <MessageCircle size={14} />
+                  </div>
+                  <span className="text-[#F5F6FA] font-medium">{brand.whatsappLabel}</span>
+                </a>
 
-                  {/* Pontos dos Estados */}
-                  {mapPoints.map((p, i) => (
-                    <g key={i}>
-                      {p.id === 'DF' ? (
-                        <>
-                          <circle cx={p.x} cy={p.y} r="5" className="fill-[#00D4FF]/30" />
-                          <circle cx={p.x} cy={p.y} r="2.5" className="fill-[#00D4FF]" />
-                          <circle cx={p.x} cy={p.y} r="1" className="fill-white" />
-                        </>
-                      ) : (
-                        <>
-                          <circle cx={p.x} cy={p.y} r="1.5" className="fill-white/60" />
-                        </>
-                      )}
-                    </g>
-                  ))}
-                </svg>
-                <div className="absolute bottom-0 right-0 text-[10px] font-mono text-white/40">
-                  COBERTURA NACIONAL
+                <a 
+                  href={brand.instagramUrl} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="flex items-center gap-3 hover:text-[#00D4FF] transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#00D4FF] shrink-0">
+                    <Instagram size={14} />
+                  </div>
+                  <span>Instagram {brand.instagramHandle}</span>
+                </a>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#00D4FF] shrink-0">
+                    <MapPin size={14} />
+                  </div>
+                  <span>{brand.locationFull}</span>
+                </div>
+
+                <div className="flex items-center gap-3 pt-2">
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#00D4FF] shrink-0">
+                    <Clock size={14} />
+                  </div>
+                  <span>Resposta em até 30 minutos em horário comercial</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#00D4FF] shrink-0">
+                    <ShieldCheck size={14} />
+                  </div>
+                  <span>100% Satisfação garantida</span>
                 </div>
               </div>
             </div>
 
-            {/* Form Side */}
-            <div className="lg:col-span-7">
-              <form onSubmit={handleSubmit} className="bg-[#18181B] border border-white/10 rounded-[20px] md:rounded-[28px] p-6 sm:p-10 space-y-5">
+            {/* Right Column: Proposal Form */}
+            <div className="lg:col-span-7 bg-[#17171D] border border-white/10 rounded-[2rem] p-6 sm:p-10 shadow-xl">
+              <div className="mb-6 space-y-1">
+                <span className="font-mono text-xs text-[#00D4FF] uppercase tracking-wider font-semibold">
+                  // Mensagem Direta
+                </span>
+                <h4 className="font-display font-bold text-xl sm:text-2xl text-[#F5F6FA] tracking-tight">
+                  {contact.formTitle}
+                </h4>
+                <p className="font-body text-xs sm:text-sm text-[#9496A6]">
+                  {contact.formDesc}
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/70 mb-2">
-                    SEU NOME
+                  <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider text-[#9496A6] mb-2">
+                    Seu Nome *
                   </label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
+                    id="name"
                     name="name"
+                    required
                     value={formData.name}
                     onChange={handleChange}
-                    required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
-                    placeholder="Como podemos te chamar?" 
+                    placeholder="Seu nome ou empresa"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-[#F5F6FA] placeholder:text-white/30 focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all font-body text-sm"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/70 mb-2">
-                    SEU E-MAIL
+                  <label htmlFor="phone" className="block font-mono text-xs uppercase tracking-wider text-[#9496A6] mb-2">
+                    Seu WhatsApp com DDD *
                   </label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    value={formData.email}
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    value={formData.phone}
                     onChange={handleChange}
-                    required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30" 
-                    placeholder="seuemail@empresa.com" 
+                    placeholder="(61) 98129-0099"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-[#F5F6FA] placeholder:text-white/30 focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all font-body text-sm"
                   />
                 </div>
-                
+
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/70 mb-2">
-                    DETALHES DO PROJETO
+                  <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-[#9496A6] mb-2">
+                    Detalhes do Projeto *
                   </label>
-                  <textarea 
-                    rows={5} 
+                  <textarea
+                    id="message"
                     name="message"
+                    required
+                    rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    required
-                    className="w-full bg-[#121214] border border-white/15 focus:border-[#00D4FF] p-4 text-[#FAFAF9] rounded-[12px] outline-none transition-colors font-sans text-sm placeholder:text-white/30 resize-none" 
-                    placeholder="Descreva o que você precisa para o seu negócio..."
+                    placeholder="Descreva o tipo de site, landing page ou sistema web que você deseja..."
+                    className="w-full px-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/10 text-[#F5F6FA] placeholder:text-white/30 focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF] transition-all font-body text-sm resize-none"
                   />
                 </div>
-                
-                <button 
-                  type="submit" 
-                  className="w-full py-4 px-8 bg-[#00D4FF] text-[#0B0B0C] font-archivo font-black uppercase text-sm tracking-wider rounded-full hover:bg-[#00D4FF]/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(0,212,255,0.25)]"
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 px-6 rounded-xl bg-[#00D4FF] text-[#0B0B0E] font-display font-semibold text-sm uppercase tracking-wider hover:bg-[#3ce0ff] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                 >
-                  <span>SOLICITAR ORÇAMENTO GRÁTIS AGORA</span>
                   <Send size={16} />
+                  <span>{isSubmitting ? 'Redirecionando...' : contact.whatsappCtaText}</span>
                 </button>
               </form>
             </div>
 
           </div>
         </div>
+
       </div>
     </section>
   );
