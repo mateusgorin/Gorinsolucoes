@@ -205,68 +205,197 @@ const ServiceCardItem: React.FC<{
 export const GorinSite: React.FC<GorinSiteProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
   const [isDarkBg, setIsDarkBg] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const videoShowreelRef = useRef<HTMLDivElement>(null);
+  const videoMediaRef = useRef<HTMLVideoElement>(null);
+  const navbarRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const navLinksRef = useRef<HTMLElement>(null);
+  const headerActionRef = useRef<HTMLDivElement>(null);
 
   const phoneNumber = "5561981290099";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.")}`;
 
-  // Scroll-driven accordion matching Cuberto video exactly
+  // Exact entrance animation for Navbar matching original B2sJen script:
+  // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
   useEffect(() => {
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
-    if (!cards.length) return;
+    const logo = logoRef.current;
+    const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
+    const action = headerActionRef.current;
 
-    let ticking = false;
+    const tl = gsap.timeline({ delay: 0.15 });
 
-    const updateAccordion = () => {
-      ticking = false;
-      const triggerThreshold = window.innerHeight * 0.65;
+    if (logo) {
+      tl.fromTo(
+        logo,
+        { scale: 0, opacity: 0, transformOrigin: 'center center' },
+        { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
+        0
+      );
+    }
 
-      cards.forEach((card, idx) => {
-        const rect = card.getBoundingClientRect();
-
-        if (idx === 0) {
-          // Card 01 starts open by default and stays open when at or past the section
-          const isAtOrPastSection = rect.top <= triggerThreshold || rect.bottom > 100;
-          card.setAttribute('data-open', isAtOrPastSection ? 'true' : 'false');
-        } else {
-          // Cards 02 to 06: open when top crosses <= 65% of viewport, close when > 65%
-          const shouldOpen = rect.top <= triggerThreshold;
-          card.setAttribute('data-open', shouldOpen ? 'true' : 'false');
-        }
-      });
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateAccordion);
-      }
-    };
-
-    // Immediate initial update
-    updateAccordion();
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    const lenis = (window as any).__lenis;
-    if (lenis) {
-      lenis.on('scroll', onScroll);
+    if (nav.length || action) {
+      const elementsToAnimate = [...nav, action].filter(Boolean);
+      gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
+      tl.fromTo(
+        elementsToAnimate,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
+        0.1
+      );
     }
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (lenis) {
-        lenis.off('scroll', onScroll);
+      tl.kill();
+    };
+  }, []);
+
+  // Exact Video Entrance & Parallax matching original XzcFP script:
+  // tlEnter: clipPath inset(5% 10% round 2rem), scale: 0.9 -> inset(0% 0% round 2rem), scale: 1, ease: 'expo.out', duration: 2.5
+  // tlParallax: media y from -10% to 10%, scrub: true, start: top bottom, end: bottom top
+  useEffect(() => {
+    const container = videoShowreelRef.current;
+    const video = videoMediaRef.current;
+    if (!container || !video) return;
+
+    // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
+    gsap.set(container, { willChange: 'clip-path, transform' });
+    const enterTween = gsap.fromTo(
+      container,
+      {
+        clipPath: 'inset(6% 12% round 2rem)',
+        scale: 0.88,
+        opacity: 0,
+      },
+      {
+        clipPath: 'inset(0% 0% round 2rem)',
+        scale: 1,
+        opacity: 1,
+        ease: 'expo.out',
+        duration: 2.5,
+        delay: 0.2,
       }
+    );
+
+    // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
+    gsap.set(video, { scale: 1.12 });
+    const parallaxTrigger = ScrollTrigger.create({
+      trigger: container,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+      animation: gsap.fromTo(video, { y: '-10%' }, { y: '10%', ease: 'none' }),
+    });
+
+    return () => {
+      enterTween.kill();
+      parallaxTrigger.kill();
+      gsap.killTweensOf(video);
+      gsap.killTweensOf(container);
+    };
+  }, []);
+
+  // Exact Scroll-driven accordion matching original D3dz7 script from Cuberto:
+  // Desktop (min-width: 768px): GSAP timeline with ScrollTrigger per item, start: top+=t[i].top center+=20%, end: top+=t[i].bottom center+=30%, scrub: 1
+  // Mobile (max-width: 767px): Click-to-toggle accordion
+  useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
+    const container = document.querySelector<HTMLElement>('.FeatureSection .services-items');
+    if (!cards.length || !container) return;
+
+    const mm = gsap.matchMedia();
+
+    // Mobile: Click toggle
+    mm.add('(max-width: 767px)', () => {
+      const clickHandlers: (() => void)[] = [];
+      cards.forEach((card, idx) => {
+        const handler = () => {
+          const isOpen = card.getAttribute('data-open') === 'true';
+          card.setAttribute('data-open', isOpen ? 'false' : 'true');
+          ScrollTrigger.refresh(true);
+        };
+        clickHandlers[idx] = handler;
+        card.addEventListener('click', handler);
+      });
+
+      return () => {
+        cards.forEach((card, idx) => {
+          card.removeEventListener('click', clickHandlers[idx]);
+          card.setAttribute('data-open', idx === 0 ? 'true' : 'false');
+        });
+      };
+    });
+
+    // Desktop: GSAP ScrollTrigger timelines with exact scroll positions
+    mm.add('(min-width: 768px)', () => {
+      // First card starts open
+      cards[0]?.setAttribute('data-open', 'true');
+
+      let bounds: { top: number; bottom: number }[] = [];
+      const measure = () => {
+        const containerRect = container.getBoundingClientRect();
+        bounds = cards.map((c) => {
+          const r = c.getBoundingClientRect();
+          return {
+            top: r.top - containerRect.top,
+            bottom: r.bottom - containerRect.top,
+          };
+        });
+      };
+
+      measure();
+      ScrollTrigger.addEventListener('refreshInit', measure);
+
+      const triggers: ScrollTrigger[] = [];
+
+      cards.forEach((card, idx) => {
+        if (idx === 0) return; // First card is open from the start
+
+        const st = ScrollTrigger.create({
+          trigger: container,
+          start: () => `top+=${bounds[idx]?.top || 0} center+=20%`,
+          end: () => `top+=${bounds[idx]?.bottom || 0} center+=30%`,
+          onEnter: () => card.setAttribute('data-open', 'true'),
+          onLeaveBack: () => card.setAttribute('data-open', 'false'),
+        });
+        triggers.push(st);
+      });
+
+      return () => {
+        ScrollTrigger.removeEventListener('refreshInit', measure);
+        triggers.forEach((t) => t.kill());
+      };
+    });
+
+    return () => {
+      mm.kill();
     };
   }, []);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      const currentScrollY = window.scrollY;
+      const isPastHero = currentScrollY > 60;
+      setIsScrolled(isPastHero);
+
+      // Smart navbar: show if scrolling up or at top; hide if scrolling down past header
+      if (currentScrollY <= 60) {
+        setIsNavVisible(true);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsNavVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        // Scrolling down
+        if (!isMenuOpen) {
+          setIsNavVisible(false);
+        }
+      }
+      lastScrollY = currentScrollY;
 
       const navCenterY = 45;
       const darkElements = [
@@ -291,7 +420,7 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMenuOpen]);
 
   const navItems = [
     { label: 'Serviços', href: '#services' },
@@ -494,11 +623,11 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
       </motion.a>
 
       {/* Floating Pill Header */}
-      <header className={`Navbar ${isScrolled ? '-scrolled' : ''} ${isDarkBg ? '-dark' : ''}`}>
+      <header ref={navbarRef} className={`Navbar ${isScrolled ? '-scrolled -fixed' : ''} ${isNavVisible ? '-visible' : ''} ${isDarkBg ? '-dark' : ''}`}>
         <div className="cuberto-container">
           <div className={`nav-pill ${isDarkBg ? '-dark' : ''}`}>
             {/* Logo */}
-            <a href="#" className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
+            <a ref={logoRef} href="#" className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
               <img
                 src="/images/mascot-trimmed.webp"
                 alt="Gorin Soluções"
@@ -511,7 +640,7 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
             </a>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav ref={navLinksRef} className="hidden md:flex items-center gap-6 lg:gap-8">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -525,7 +654,7 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
             </nav>
 
             {/* Header Actions */}
-            <div className="flex items-center gap-3">
+            <div ref={headerActionRef} className="flex items-center gap-3">
               <MagneticCta
                 href="#contact"
                 variant={isDarkBg ? "inverse" : "fill"}
@@ -622,24 +751,22 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
               Unimos direção de arte refinada, arquitetura de conversão estratégica e engenharia em React para transformar empresas ambiciosas em referências no mercado digital.
             </motion.p>
 
-            {/* Hero Featured Video (Cuberto Style looping showcase) */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-12 md:mt-16 w-full max-w-5xl mx-auto"
+            {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
+            <div
+              ref={videoShowreelRef}
+              className="mt-12 md:mt-16 w-full max-w-5xl mx-auto overflow-hidden rounded-[24px] md:rounded-[36px]"
+              style={{
+                boxShadow: '0 30px 70px -15px rgba(0, 0, 0, 0.22)',
+              }}
             >
               <div
-                className="relative w-full aspect-video md:aspect-[16/9] rounded-[24px] md:rounded-[36px] overflow-hidden shadow-2xl bg-black"
+                className="relative w-full aspect-video md:aspect-[16/9] rounded-[24px] md:rounded-[36px] overflow-hidden bg-black"
                 style={{
                   border: '1px solid rgba(0, 0, 0, 0.08)',
-                  boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.18)',
                 }}
               >
                 <video
-                  ref={(el) => {
-                    if (el) el.playbackRate = 0.75;
-                  }}
+                  ref={videoMediaRef}
                   onLoadedMetadata={(e) => {
                     e.currentTarget.playbackRate = 0.75;
                   }}
@@ -649,11 +776,11 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
                   muted
                   playsInline
                   preload="auto"
-                  className="w-full h-full object-cover block"
+                  className="w-full h-full object-cover block will-change-transform"
                   aria-label="Vídeo de demonstração Gorin Soluções"
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* Magnetic Action Buttons */}
             <motion.div
@@ -811,7 +938,7 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
               />
             </motion.div>
 
-            <div className="flex flex-col gap-6">
+            <div className="services-items flex flex-col gap-6">
               {servicesList.map((service, index) => (
                 <ServiceCardItem
                   key={service.number}

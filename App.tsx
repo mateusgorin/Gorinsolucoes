@@ -12,11 +12,13 @@ const App: React.FC = () => {
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
-      duration: isMobile ? 0.9 : 1.2,
+      duration: isMobile ? 1.0 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      syncTouch: false,
       touchMultiplier: isMobile ? 1.0 : 1.2,
-      wheelMultiplier: 1,
+      wheelMultiplier: 1.0,
+      lerp: 0.1,
     });
 
     const onLenisScroll = () => {

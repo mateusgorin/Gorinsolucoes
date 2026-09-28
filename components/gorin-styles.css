@@ -197,12 +197,18 @@ h1, h2, h3, h4 {
   left: 0;
   right: 0;
   z-index: 100;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
   padding: 1.25rem 0;
 }
 .Navbar.-scrolled,
 .Navbar.-fixed {
   padding: 0.75rem 0;
+}
+.Navbar.-fixed:not(.-visible) {
+  transform: translateY(-100%);
+}
+.Navbar.-visible {
+  transform: translateY(0);
 }
 .Navbar .nav-pill {
   background-color: rgba(255, 255, 255, 0.92);
@@ -522,7 +528,7 @@ button:hover .roll-text span {
   opacity: 0;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: opacity 550ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card[data-open="true"]::before {
@@ -551,9 +557,9 @@ button:hover .roll-text span {
   opacity: 0;
   margin-bottom: 0;
   overflow: hidden;
-  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1),
-              max-height 420ms cubic-bezier(0.32, 0.72, 0, 1),
-              margin-bottom 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+              max-height 450ms cubic-bezier(0.16, 1, 0.3, 1),
+              margin-bottom 450ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card[data-open="true"] .service-category {
@@ -568,8 +574,8 @@ button:hover .roll-text span {
   font-weight: 600;
   line-height: 1.25;
   margin: 0;
-  transition: color 420ms cubic-bezier(0.32, 0.72, 0, 1),
-              font-size 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+              font-size 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card[data-open="true"] .service-title {
@@ -585,8 +591,8 @@ button:hover .roll-text span {
   line-height: 1;
   user-select: none;
   flex-shrink: 0;
-  transition: color 420ms cubic-bezier(0.32, 0.72, 0, 1),
-              opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card[data-open="true"] .service-number {
@@ -597,7 +603,7 @@ button:hover .roll-text span {
 .service-card .service-card-collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: grid-template-rows 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 2;
 }
@@ -617,16 +623,16 @@ button:hover .roll-text span {
   position: relative;
   z-index: 2;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1),
-              transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  transform: translateY(10px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card[data-open="true"] .service-card-content {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 380ms cubic-bezier(0.32, 0.72, 0, 1) 90ms,
-              transform 380ms cubic-bezier(0.32, 0.72, 0, 1) 90ms;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
 }
 
 .service-card .service-mesh {
@@ -822,39 +828,39 @@ button:hover .roll-text span {
 @media (min-width: 992px) {
   .TestimonialsDeck {
     gap: 0;
-    padding: 3rem 0;
+    padding: 6rem 0 10rem 0;
   }
   .TestimonialsDeck .deck-card {
     width: 380px;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), margin 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), margin 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
     position: relative;
-    margin-left: -40px;
-    margin-right: -40px;
+    margin-left: -35px;
+    margin-right: -35px;
   }
   .TestimonialsDeck .deck-card:first-child {
     margin-left: 0;
-    transform: translateY(20px) rotate(-6deg);
+    transform: translateY(10rem) translate(28%) rotate(-9deg);
     z-index: 1;
   }
   .TestimonialsDeck .deck-card:nth-child(2) {
-    transform: translateY(-10px) rotate(-2deg);
+    transform: translateY(-2rem);
     z-index: 2;
   }
   .TestimonialsDeck .deck-card:nth-child(3) {
-    transform: translateY(15px) rotate(4deg);
+    transform: translateY(10rem) translate(-24%) rotate(9deg);
     z-index: 3;
   }
   .TestimonialsDeck .deck-card:nth-child(4) {
-    transform: translateY(-15px) rotate(-4deg);
+    transform: translateY(-14rem) translate(16%) rotate(-20deg);
     z-index: 4;
   }
   .TestimonialsDeck .deck-card:nth-child(5) {
     margin-right: 0;
-    transform: translateY(25px) rotate(6deg);
+    transform: translateY(-17rem) translate(3%) rotate(20deg);
     z-index: 5;
   }
   .TestimonialsDeck:hover .deck-card {
-    transform: translateY(0) rotate(0deg) !important;
+    transform: translateY(0) translate(0) rotate(0deg) !important;
     margin-left: 0.75rem;
     margin-right: 0.75rem;
   }

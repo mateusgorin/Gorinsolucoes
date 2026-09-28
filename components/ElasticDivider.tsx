@@ -1,5 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ElasticDividerProps {
   className?: string;
@@ -8,6 +11,7 @@ interface ElasticDividerProps {
 export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const deltaRef = useRef<number>(0);
 
   const getPathD = (cx?: number, cy?: number, totalW?: number) => {
@@ -20,10 +24,23 @@ export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }
   useEffect(() => {
     const el = containerRef.current;
     const path = pathRef.current;
-    if (!el || !path) return;
+    const svg = svgRef.current;
+    if (!el || !path || !svg) return;
 
     // Initial shape
     path.setAttribute('d', getPathD());
+
+    // Scroll entry animation matching original D09N7 script:
+    // set svg transformOrigin: 'left center', from scaleX: 0, duration: 2.4, ease: 'expo.out'
+    gsap.set(svg, { transformOrigin: 'left center' });
+    const trigger = ScrollTrigger.create({
+      trigger: el,
+      start: 'top bottom-=50',
+      onEnter: () => {
+        gsap.fromTo(svg, { scaleX: 0 }, { scaleX: 1, duration: 2.2, ease: 'expo.out' });
+      },
+      once: true,
+    });
 
     const handleResize = () => {
       path.setAttribute('d', getPathD());
@@ -65,13 +82,15 @@ export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }
       window.removeEventListener('resize', handleResize);
       el.removeEventListener('mousemove', handleMouseMove);
       el.removeEventListener('mouseleave', handleMouseLeave);
+      trigger.kill();
       gsap.killTweensOf(path);
+      gsap.killTweensOf(svg);
     };
   }, []);
 
   return (
     <div ref={containerRef} className={`Divider relative h-[1px] w-full ${className}`}>
-      <svg className="pointer-events-none w-full h-[200px] absolute top-[-99px] left-0 right-0 overflow-visible">
+      <svg ref={svgRef} className="pointer-events-none w-full h-[200px] absolute top-[-99px] left-0 right-0 overflow-visible">
         <path ref={pathRef} fill="none" stroke="currentColor" strokeWidth="1" />
       </svg>
     </div>
