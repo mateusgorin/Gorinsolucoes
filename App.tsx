@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GorinSite } from './components/GorinSite';
 import { BriefingPage } from './components/BriefingPage';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
   const [path, setPath] = useState(window.location.pathname);
   const [showBriefing, setShowBriefing] = useState(false);
 
-  // Initialize Lenis smooth scroll
+  // Initialize Lenis smooth scroll and connect with ScrollTrigger
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
@@ -21,11 +24,7 @@ const App: React.FC = () => {
       lerp: 0.1,
     });
 
-    const onLenisScroll = () => {
-    };
-
-    lenis.on('scroll', onLenisScroll);
-    window.addEventListener('scroll', onLenisScroll, { passive: true });
+    lenis.on('scroll', ScrollTrigger.update);
 
     const updateLenis = (time: number) => {
       lenis.raf(time * 1000);
@@ -38,7 +37,6 @@ const App: React.FC = () => {
     (window as any).__lenis = lenis;
 
     return () => {
-      window.removeEventListener('scroll', onLenisScroll);
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
     };

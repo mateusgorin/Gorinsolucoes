@@ -298,80 +298,75 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
     };
   }, []);
 
-  // Exact Scroll-driven accordion matching original D3dz7 script from Cuberto:
-  // Desktop (min-width: 768px): GSAP timeline with ScrollTrigger per item, start: top+=t[i].top center+=20%, end: top+=t[i].bottom center+=30%, scrub: 1
-  // Mobile (max-width: 767px): Click-to-toggle accordion
+  // Scroll-driven accordion: cards open and close dynamically as user scrolls through each one
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
-    const container = document.querySelector<HTMLElement>('.FeatureSection .services-items');
-    if (!cards.length || !container) return;
+    if (!cards.length) return;
 
-    const mm = gsap.matchMedia();
+    let ticking = false;
 
-    // Mobile: Click toggle
-    mm.add('(max-width: 767px)', () => {
-      const clickHandlers: (() => void)[] = [];
+    const updateAccordion = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      const openThreshold = vh * 0.65; // Card opens when its top crosses into lower 35% of screen
+
       cards.forEach((card, idx) => {
-        const handler = () => {
+        const rect = card.getBoundingClientRect();
+
+        if (idx === 0) {
+          // Card 01 starts open by default. It only closes if the user scrolls so far past or above
+          // Keep open while user is exploring the services section
+          const isAboveSection = rect.bottom < -100;
+          card.setAttribute('data-open', isAboveSection ? 'false' : 'true');
+        } else {
+          // Cards 02..05 open when their own top edge reaches openThreshold
+          // They automatically close when scrolled back up above openThreshold
+          const shouldBeOpen = rect.top <= openThreshold;
+          card.setAttribute('data-open', shouldBeOpen ? 'true' : 'false');
+        }
+      });
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateAccordion);
+      }
+    };
+
+    // Mobile click handler
+    const clickHandlers: (() => void)[] = [];
+    cards.forEach((card, idx) => {
+      const handler = () => {
+        if (window.innerWidth < 768) {
           const isOpen = card.getAttribute('data-open') === 'true';
           card.setAttribute('data-open', isOpen ? 'false' : 'true');
-          ScrollTrigger.refresh(true);
-        };
-        clickHandlers[idx] = handler;
-        card.addEventListener('click', handler);
-      });
-
-      return () => {
-        cards.forEach((card, idx) => {
-          card.removeEventListener('click', clickHandlers[idx]);
-          card.setAttribute('data-open', idx === 0 ? 'true' : 'false');
-        });
+        }
       };
+      clickHandlers[idx] = handler;
+      card.addEventListener('click', handler);
     });
 
-    // Desktop: GSAP ScrollTrigger timelines with exact scroll positions
-    mm.add('(min-width: 768px)', () => {
-      // First card starts open
-      cards[0]?.setAttribute('data-open', 'true');
+    // Run immediately
+    updateAccordion();
 
-      let bounds: { top: number; bottom: number }[] = [];
-      const measure = () => {
-        const containerRect = container.getBoundingClientRect();
-        bounds = cards.map((c) => {
-          const r = c.getBoundingClientRect();
-          return {
-            top: r.top - containerRect.top,
-            bottom: r.bottom - containerRect.top,
-          };
-        });
-      };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
 
-      measure();
-      ScrollTrigger.addEventListener('refreshInit', measure);
-
-      const triggers: ScrollTrigger[] = [];
-
-      cards.forEach((card, idx) => {
-        if (idx === 0) return; // First card is open from the start
-
-        const st = ScrollTrigger.create({
-          trigger: container,
-          start: () => `top+=${bounds[idx]?.top || 0} center+=20%`,
-          end: () => `top+=${bounds[idx]?.bottom || 0} center+=30%`,
-          onEnter: () => card.setAttribute('data-open', 'true'),
-          onLeaveBack: () => card.setAttribute('data-open', 'false'),
-        });
-        triggers.push(st);
-      });
-
-      return () => {
-        ScrollTrigger.removeEventListener('refreshInit', measure);
-        triggers.forEach((t) => t.kill());
-      };
-    });
+    const lenis = (window as any).__lenis;
+    if (lenis) {
+      lenis.on('scroll', onScroll);
+    }
 
     return () => {
-      mm.kill();
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (lenis) {
+        lenis.off('scroll', onScroll);
+      }
+      cards.forEach((card, idx) => {
+        card.removeEventListener('click', clickHandlers[idx]);
+      });
     };
   }, []);
 
@@ -1253,14 +1248,23 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
             </motion.div>
 
             <div className="TestimonialsDeck">
-              {testimonials.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="deck-card border border-black/10 rounded-3xl p-8 flex flex-col justify-between shadow-lg relative overflow-hidden"
-                  style={{
-                    backgroundColor: idx % 2 === 0 || idx === 4 ? 'var(--accent-cyan-tint)' : 'var(--bg-light)',
-                  }}
-                >
+              {testimonials.map((item, idx) => {
+                // Card 0 (top-center): cyan tint #E8F9FB
+                // Card 1 (mid-left): clean white #FFFFFF
+                // Card 2 (mid-right): clean white #FFFFFF
+                // Card 3 (bottom-left): cyan tint #E8F9FB
+                // Card 4 (bottom-right): cyan tint #E8F9FB
+                const isCyanTint = idx === 0 || idx === 3 || idx === 4;
+                const bgStyle = isCyanTint ? '#EBF7F9' : '#FFFFFF';
+
+                return (
+                  <div
+                    key={idx}
+                    className="deck-card border border-black/[0.08] rounded-3xl p-7 md:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden"
+                    style={{
+                      backgroundColor: bgStyle,
+                    }}
+                  >
                   {/* Decorative Quotation Mark Glyph */}
                   <span
                     aria-hidden="true"
@@ -1309,7 +1313,8 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
                     </p>
                   </div>
                 </div>
-              ))}
+              );
+            })}
             </div>
           </div>
         </section>

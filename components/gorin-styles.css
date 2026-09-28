@@ -815,54 +815,79 @@ button:hover .roll-text span {
 }
 
 /* ==========================================================================
-   TESTIMONIALS (Fanned Deck)
+   TESTIMONIALS (Exact Cuberto Fanned / Stacked Cluster)
    ========================================================================== */
 .TestimonialsDeck {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   position: relative;
-  perspective: 1000px;
+  width: 100%;
 }
-@media (min-width: 992px) {
+
+@media (min-width: 768px) {
   .TestimonialsDeck {
-    gap: 0;
-    padding: 6rem 0 10rem 0;
-  }
-  .TestimonialsDeck .deck-card {
-    width: 380px;
-    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), margin 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    display: block;
     position: relative;
-    margin-left: -35px;
-    margin-right: -35px;
+    max-width: 960px;
+    height: 640px;
+    margin: 0 auto;
+    perspective: 1200px;
   }
-  .TestimonialsDeck .deck-card:first-child {
-    margin-left: 0;
-    transform: translateY(10rem) translate(28%) rotate(-9deg);
+
+  .TestimonialsDeck .deck-card {
+    position: absolute;
+    width: 380px;
+    max-width: 90vw;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+    box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Card 1: Top-Center (light cyan tint, back) */
+  .TestimonialsDeck .deck-card:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(0deg);
     z-index: 1;
   }
+
+  /* Card 2: Mid-Left (white, tilted left) */
   .TestimonialsDeck .deck-card:nth-child(2) {
-    transform: translateY(-2rem);
+    top: 70px;
+    left: 20%;
+    transform: translate(-50%, 0) rotate(-11deg);
     z-index: 2;
   }
+
+  /* Card 3: Mid-Right (white, tilted right) */
   .TestimonialsDeck .deck-card:nth-child(3) {
-    transform: translateY(10rem) translate(-24%) rotate(9deg);
+    top: 60px;
+    left: 78%;
+    transform: translate(-50%, 0) rotate(7deg);
     z-index: 3;
   }
+
+  /* Card 4: Bottom-Left (light cyan tint, tilted counter-clockwise) */
   .TestimonialsDeck .deck-card:nth-child(4) {
-    transform: translateY(-14rem) translate(16%) rotate(-20deg);
+    top: 240px;
+    left: 36%;
+    transform: translate(-50%, 0) rotate(-14deg);
     z-index: 4;
   }
+
+  /* Card 5: Bottom-Right (frontmost, light cyan tint, tilted clockwise) */
   .TestimonialsDeck .deck-card:nth-child(5) {
-    margin-right: 0;
-    transform: translateY(-17rem) translate(3%) rotate(20deg);
+    top: 220px;
+    left: 68%;
+    transform: translate(-50%, 0) rotate(15deg);
     z-index: 5;
   }
-  .TestimonialsDeck:hover .deck-card {
-    transform: translateY(0) translate(0) rotate(0deg) !important;
-    margin-left: 0.75rem;
-    margin-right: 0.75rem;
+
+  /* Hover micro-interaction: subtle organic elevation */
+  .TestimonialsDeck .deck-card:hover {
+    z-index: 10 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.22);
   }
 }
 
