@@ -426,6 +426,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     { label: 'Contato', href: '#contact' },
   ];
 
+  const clientBrands = [
+    "BRINCA MÓVEL",
+    "MÃOS DE LEIDE",
+    "AMORIM ERGONOMIA",
+    "BRITO OLIVEIRA",
+    "MARMITARIA VENTURA",
+    "PC GASTRONOMIA",
+    "MAJESTOSA ARTE",
+    "SGB BRIGADA",
+  ];
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
@@ -978,27 +989,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               ]}
             />
 
-            <div className="w-full max-w-4xl mx-auto">
-              <div
-                className="relative w-full aspect-video md:aspect-[16/9] rounded-[24px] md:rounded-[36px] overflow-hidden bg-black shadow-lg"
-                style={{
-                  border: '1px solid rgba(0, 0, 0, 0.08)',
-                }}
-              >
-                <video
-                  onLoadedMetadata={(e) => {
-                    e.currentTarget.playbackRate = 0.75;
-                  }}
-                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/gemini_generated_video_5d1602a7_tlladz.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full object-cover block will-change-transform"
-                  aria-label="Empresas e marcas desenvolvidas pela Gorin Soluções"
-                />
-              </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
+              {clientBrands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="py-5 px-4 rounded-2xl bg-black/[0.02] hover:bg-black/[0.06] transition-all flex items-center justify-center text-center cursor-default group"
+                >
+                  <span className="font-bold text-sm md:text-base tracking-wider text-black/60 group-hover:text-black transition-colors uppercase">
+                    {brand}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
