@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Paperclip, MessageCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, MessageCircle } from 'lucide-react';
 
 interface ContactPageProps {
   onBack: () => void;
@@ -12,7 +12,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
   const [email, setEmail] = useState('');
   const [projectDetails, setProjectDetails] = useState('');
   const [selectedBudget, setSelectedBudget] = useState<string>('');
-  const [fileName, setFileName] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,36 +43,28 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
 
     setIsSubmitting(true);
 
+    const interestsText = selectedInterests.length > 0 ? selectedInterests.join(', ') : 'Não especificado';
+    const budgetText = selectedBudget || 'A definir';
+    const text = `*Novo Contato - Gorin Soluções*\n\n` +
+      `*Nome:* ${name}\n` +
+      `*E-mail:* ${email}\n` +
+      `*Interesses:* ${interestsText}\n` +
+      `*Orçamento:* ${budgetText}\n` +
+      `*Sobre o projeto:* ${projectDetails || 'Sem observações adicionais.'}`;
+
+    const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(text)}`;
+
     setTimeout(() => {
       setIsSubmitting(false);
+      window.open(waUrl, '_blank');
       setIsSubmitted(true);
-
-      // Also construct WhatsApp message for optional direct transmission
-      const interestsText = selectedInterests.length > 0 ? selectedInterests.join(', ') : 'Não especificado';
-      const budgetText = selectedBudget || 'A definir';
-      const text = `*Novo Contato - Gorin Soluções*\n\n` +
-        `*Nome:* ${name}\n` +
-        `*E-mail:* ${email}\n` +
-        `*Interesses:* ${interestsText}\n` +
-        `*Orçamento:* ${budgetText}\n` +
-        `*Sobre o projeto:* ${projectDetails || 'Sem observações adicionais.'}`;
-
-      const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(text)}`;
-      (window as any).__lastContactWhatsApp = waUrl;
-    }, 600);
+    }, 400);
   };
 
   return (
@@ -143,7 +134,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             {/* Monumental Headline */}
             <div className="mb-14 md:mb-16">
               <h1 className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-black leading-[1.08]">
-                Ei! Diga-nos todas <br className="hidden sm:inline" /> as coisas.
+                Vamos conversar sobre <br className="hidden sm:inline" /> o seu próximo projeto.
               </h1>
             </div>
 
@@ -239,19 +230,6 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                     );
                   })}
                 </div>
-              </div>
-
-              {/* Attachment Button */}
-              <div className="pt-2">
-                <label className="inline-flex items-center gap-2 cursor-pointer text-sm md:text-base font-medium text-black hover:opacity-75 transition-opacity underline decoration-black/30 underline-offset-4">
-                  <Paperclip size={18} className="rotate-45" />
-                  <span>{fileName ? `Anexo: ${fileName}` : 'Adicionar anexo'}</span>
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                  />
-                </label>
               </div>
 
               {/* Submit Button */}
