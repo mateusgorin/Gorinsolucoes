@@ -20,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface GorinSiteProps {
   onOpenBriefing?: () => void;
+  onOpenContact?: () => void;
 }
 
 // Cuberto Magnetic CTA Button with spring physics, liquid ripple fill, and text roll-over
@@ -202,7 +203,7 @@ const ServiceCardItem: React.FC<{
   );
 };
 
-export const GorinSite: React.FC<GorinSiteProps> = () => {
+export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBriefing, onOpenContact }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -421,7 +422,6 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
     { label: 'Serviços', href: '#services' },
     { label: 'O Estúdio', href: '#about' },
     { label: 'Projetos', href: '#projects' },
-    { label: 'Por Que a Gorin', href: '#why' },
     { label: 'Depoimentos', href: '#testimonials' },
     { label: 'Contato', href: '#contact' },
   ];
@@ -429,12 +429,27 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
+
+    if (href === '#contact') {
+      if (onOpenContact) {
+        onOpenContact();
+        return;
+      }
+    }
+
     const target = document.querySelector(href);
     if (target) {
+      const navOffset = 80;
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - navOffset;
+
       if ((window as any).__lenis) {
-        (window as any).__lenis.scrollTo(target, { offset: -70 });
+        try {
+          (window as any).__lenis.scrollTo(targetPosition, { duration: 1.2 });
+        } catch {
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
       } else {
-        target.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
       }
     }
   };
@@ -525,17 +540,6 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
       ],
       image: "/images/pcgastronomia.webp",
     }
-  ];
-
-  const clientBrands = [
-    "BRINCA MÓVEL",
-    "MÃOS DE LEIDE",
-    "AMORIM ERGONOMIA",
-    "BRITO OLIVEIRA",
-    "MARMITARIA VENTURA",
-    "PC GASTRONOMIA",
-    "MAJESTOSA ARTE",
-    "SGB BRIGADA",
   ];
 
   const testimonials = [
@@ -651,9 +655,17 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
             {/* Header Actions */}
             <div ref={headerActionRef} className="flex items-center gap-3">
               <MagneticCta
-                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onOpenContact) {
+                    onOpenContact();
+                  } else {
+                    window.history.pushState({}, '', '/contato');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }
+                }}
                 variant={isDarkBg ? "inverse" : "fill"}
-                className="!py-2.5 !px-5 !text-xs md:!text-sm"
+                className="!py-2.5 !px-5 !text-xs md:!text-sm cursor-pointer"
               >
                 Iniciar Projeto
               </MagneticCta>
@@ -692,14 +704,20 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
                     {item.label}
                   </a>
                 ))}
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 text-center py-3 bg-black text-white rounded-full font-semibold text-sm"
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    if (onOpenContact) {
+                      onOpenContact();
+                    } else {
+                      window.history.pushState({}, '', '/contato');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                  }}
+                  className="mt-2 text-center py-3 bg-[#00D4FF] text-black rounded-full font-semibold text-sm cursor-pointer"
                 >
-                  Conversar no WhatsApp
-                </a>
+                  Iniciar Projeto
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -785,9 +803,17 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
               className="mt-12 md:mt-14 flex flex-wrap items-center justify-center gap-4"
             >
               <MagneticCta
-                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onOpenContact) {
+                    onOpenContact();
+                  } else {
+                    window.history.pushState({}, '', '/contato');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }
+                }}
                 variant="fill"
-                className="!py-4 !px-8 !text-base"
+                className="!py-4 !px-8 !text-base cursor-pointer"
               >
                 Solicitar orçamento sem compromisso
               </MagneticCta>
@@ -873,14 +899,7 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
                   transition={{ duration: 0.6 }}
                   className="mb-6"
                 >
-                  <span
-                    className="caption-label block mb-2 uppercase font-medium"
-                    style={{
-                      fontSize: '0.85rem',
-                      letterSpacing: '0.15em',
-                      color: 'var(--accent-cyan)',
-                    }}
-                  >
+                  <span className="caption-label block mb-2 uppercase font-medium text-black">
                     01. O Estúdio &amp; Visão
                   </span>
                   <TextRevealHeading
@@ -959,17 +978,27 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
               ]}
             />
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
-              {clientBrands.map((brand, idx) => (
-                <div
-                  key={idx}
-                  className="py-5 px-4 rounded-2xl bg-black/[0.02] hover:bg-black/[0.06] transition-all flex items-center justify-center text-center cursor-default group"
-                >
-                  <span className="font-bold text-sm md:text-base tracking-wider text-black/60 group-hover:text-black transition-colors uppercase">
-                    {brand}
-                  </span>
-                </div>
-              ))}
+            <div className="w-full max-w-4xl mx-auto">
+              <div
+                className="relative w-full aspect-video md:aspect-[16/9] rounded-[24px] md:rounded-[36px] overflow-hidden bg-black shadow-lg"
+                style={{
+                  border: '1px solid rgba(0, 0, 0, 0.08)',
+                }}
+              >
+                <video
+                  onLoadedMetadata={(e) => {
+                    e.currentTarget.playbackRate = 0.75;
+                  }}
+                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/gemini_generated_video_5d1602a7_tlladz.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="w-full h-full object-cover block will-change-transform"
+                  aria-label="Empresas e marcas desenvolvidas pela Gorin Soluções"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -1537,18 +1566,23 @@ export const GorinSite: React.FC<GorinSiteProps> = () => {
                 </div>
 
                 <div className="pt-2">
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-[#00D4FF] text-black font-semibold hover:bg-[#00bfe6] transition-colors shadow-lg"
+                  <button
+                    onClick={() => {
+                      if (onOpenContact) {
+                        onOpenContact();
+                      } else {
+                        window.history.pushState({}, '', '/contato');
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                      }
+                    }}
+                    className="inline-flex items-center justify-center rounded-full bg-[#00D4FF] text-black font-semibold hover:bg-[#00bfe6] transition-colors shadow-lg cursor-pointer"
                     style={{
-                      padding: '1rem 2.5rem',
+                      padding: '1.1rem 2.8rem',
                       fontSize: '1.05rem',
                     }}
                   >
-                    Iniciar Conversa no WhatsApp
-                  </a>
+                    Falar com o Gorin
+                  </button>
                 </div>
               </div>
             </div>

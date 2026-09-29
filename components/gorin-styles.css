@@ -815,7 +815,7 @@ button:hover .roll-text span {
 }
 
 /* ==========================================================================
-   TESTIMONIALS (Exact Cuberto Fanned / Stacked Cluster)
+   TESTIMONIALS (Exact Cuberto Fanned Stack -> 3+2 Grid on Hover/View)
    ========================================================================== */
 .TestimonialsDeck {
   display: flex;
@@ -826,68 +826,125 @@ button:hover .roll-text span {
   width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .TestimonialsDeck {
     display: block;
     position: relative;
-    max-width: 960px;
-    height: 640px;
+    max-width: 1180px;
+    height: 740px;
     margin: 0 auto;
     perspective: 1200px;
   }
 
   .TestimonialsDeck .deck-card {
     position: absolute;
-    width: 380px;
+    width: 360px;
     max-width: 90vw;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.12);
   }
 
-  /* Card 1: Top-Center (light cyan tint, back) */
-  .TestimonialsDeck .deck-card:nth-child(1) {
-    top: 0;
+  /* ============================================================
+     ESTADO 1: EMPILHADO (Screenshot 1 / Screenshot_2026-09-28-20-00-26)
+     ============================================================ */
+  /* Card 1: Top-Center (light cyan) */
+  .TestimonialsDeck:not([data-opened="true"]) .deck-card:nth-child(1) {
+    top: 30px;
     left: 50%;
     transform: translate(-50%, 0) rotate(0deg);
     z-index: 1;
   }
 
   /* Card 2: Mid-Left (white, tilted left) */
-  .TestimonialsDeck .deck-card:nth-child(2) {
-    top: 70px;
+  .TestimonialsDeck:not([data-opened="true"]) .deck-card:nth-child(2) {
+    top: 90px;
     left: 20%;
     transform: translate(-50%, 0) rotate(-11deg);
     z-index: 2;
   }
 
   /* Card 3: Mid-Right (white, tilted right) */
-  .TestimonialsDeck .deck-card:nth-child(3) {
-    top: 60px;
+  .TestimonialsDeck:not([data-opened="true"]) .deck-card:nth-child(3) {
+    top: 80px;
     left: 78%;
     transform: translate(-50%, 0) rotate(7deg);
     z-index: 3;
   }
 
-  /* Card 4: Bottom-Left (light cyan tint, tilted counter-clockwise) */
-  .TestimonialsDeck .deck-card:nth-child(4) {
-    top: 240px;
+  /* Card 4: Bottom-Left (light cyan, tilted counter-clockwise) */
+  .TestimonialsDeck:not([data-opened="true"]) .deck-card:nth-child(4) {
+    top: 270px;
     left: 36%;
     transform: translate(-50%, 0) rotate(-14deg);
     z-index: 4;
   }
 
-  /* Card 5: Bottom-Right (frontmost, light cyan tint, tilted clockwise) */
-  .TestimonialsDeck .deck-card:nth-child(5) {
-    top: 220px;
+  /* Card 5: Bottom-Right (frontmost, light cyan, tilted clockwise) */
+  .TestimonialsDeck:not([data-opened="true"]) .deck-card:nth-child(5) {
+    top: 250px;
     left: 68%;
     transform: translate(-50%, 0) rotate(15deg);
     z-index: 5;
   }
 
-  /* Hover micro-interaction: subtle organic elevation */
+  /* ============================================================
+     ESTADO 2: ABERTO EM GRID (Screenshot 2 / Screenshot_2026-09-28-20-00-29)
+     Linha Superior: 3 cartões (Esquerda, Centro, Direita)
+     Linha Inferior: 2 cartões (Esquerda-Centro, Direita-Centro)
+     Ativado ao passar o mouse (:hover) ou quando data-opened="true"
+     ============================================================ */
+  /* Fileira Superior - Card 1 (Esquerda) */
+  .TestimonialsDeck:hover .deck-card:nth-child(2),
+  .TestimonialsDeck[data-opened="true"] .deck-card:nth-child(2) {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Fileira Superior - Card 2 (Centro) */
+  .TestimonialsDeck:hover .deck-card:nth-child(1),
+  .TestimonialsDeck[data-opened="true"] .deck-card:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Fileira Superior - Card 3 (Direita) */
+  .TestimonialsDeck:hover .deck-card:nth-child(3),
+  .TestimonialsDeck[data-opened="true"] .deck-card:nth-child(3) {
+    top: 0;
+    left: auto;
+    right: 0;
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Fileira Inferior - Card 4 (Esquerda-Centro) */
+  .TestimonialsDeck:hover .deck-card:nth-child(4),
+  .TestimonialsDeck[data-opened="true"] .deck-card:nth-child(4) {
+    top: 380px;
+    left: 17%;
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Fileira Inferior - Card 5 (Direita-Centro) */
+  .TestimonialsDeck:hover .deck-card:nth-child(5),
+  .TestimonialsDeck[data-opened="true"] .deck-card:nth-child(5) {
+    top: 380px;
+    left: auto;
+    right: 17%;
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Elevação do cartão em foco */
   .TestimonialsDeck .deck-card:hover {
     z-index: 10 !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.22);
+    transform: translateY(-8px) scale(1.02) rotate(0deg) !important;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.22);
   }
 }
 

@@ -4,12 +4,14 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GorinSite } from './components/GorinSite';
 import { BriefingPage } from './components/BriefingPage';
+import { ContactPage } from './components/ContactPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
   const [path, setPath] = useState(window.location.pathname);
   const [showBriefing, setShowBriefing] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   // Initialize Lenis smooth scroll and connect with ScrollTrigger
   useEffect(() => {
@@ -52,7 +54,22 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const isBriefingPath = path === '/projetos' || path === '/projetos/' || showBriefing;
+  const isBriefingPath = path === '/briefing' || path === '/briefing/' || showBriefing;
+  const isContactPath = path === '/contato' || path === '/contato/' || showContact;
+
+  if (isContactPath) {
+    return (
+      <ContactPage
+        onBack={() => {
+          setShowContact(false);
+          if (path.includes('/contato')) {
+            window.history.pushState({}, '', '/');
+            setPath('/');
+          }
+        }}
+      />
+    );
+  }
 
   if (isBriefingPath) {
     return (
@@ -62,7 +79,7 @@ const App: React.FC = () => {
           <button
             onClick={() => {
               setShowBriefing(false);
-              if (path.includes('/projetos')) {
+              if (path.includes('/briefing')) {
                 window.history.pushState({}, '', '/');
                 setPath('/');
               }
@@ -78,7 +95,14 @@ const App: React.FC = () => {
   }
 
   return (
-    <GorinSite onOpenBriefing={() => setShowBriefing(true)} />
+    <GorinSite
+      onOpenBriefing={() => setShowBriefing(true)}
+      onOpenContact={() => {
+        window.history.pushState({}, '', '/contato');
+        setPath('/contato');
+        setShowContact(true);
+      }}
+    />
   );
 };
 
