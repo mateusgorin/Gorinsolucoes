@@ -211,14 +211,16 @@ h1, h2, h3, h4 {
   transform: translateY(0);
 }
 .Navbar .nav-pill {
-  background-color: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background-color: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 9999px;
   padding: 0.5rem 1rem 0.5rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 @media (min-width: 768px) {
@@ -228,8 +230,13 @@ h1, h2, h3, h4 {
 }
 .Navbar.-dark .nav-pill,
 .Navbar .nav-pill.-dark {
-  background-color: rgba(11, 10, 15, 0.92);
-  border-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(11, 10, 15, 0.55);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .Navbar .nav-pill { background-color: rgba(255, 255, 255, 0.92); }
+  .Navbar.-dark .nav-pill, .Navbar .nav-pill.-dark { background-color: rgba(11, 10, 15, 0.92); }
 }
 
 /* Roll-over text animation */
@@ -1285,4 +1292,21 @@ button:hover .roll-text span {
   to {
     transform: translateX(-50%);
   }
+}
+
+.nav-glass-menu {
+  background-color: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.nav-glass-menu.-dark {
+  background-color: rgba(11, 10, 15, 0.6);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-glass-menu { background-color: rgba(255, 255, 255, 0.96); }
+  .nav-glass-menu.-dark { background-color: rgba(11, 10, 15, 0.96); }
 }

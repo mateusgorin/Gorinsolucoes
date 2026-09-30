@@ -703,7 +703,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className={`md:hidden mt-2 p-6 backdrop-blur-xl border rounded-3xl shadow-xl flex flex-col gap-4 ${isDarkBg ? 'bg-[#0B0A0F]/95 border-white/10 text-white' : 'bg-white/95 border-black/10 text-black'}`}
+                className={`md:hidden mt-2 p-6 border rounded-3xl flex flex-col gap-4 nav-glass-menu ${isDarkBg ? '-dark text-white' : 'text-black'}`}
               >
                 {navItems.map((item) => (
                   <a
