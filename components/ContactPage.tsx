@@ -59,12 +59,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
       `*Sobre o projeto:* ${projectDetails || 'Sem observações adicionais.'}`;
 
     const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(text)}`;
+    (window as any).__lastContactWhatsApp = waUrl;
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      window.open(waUrl, '_blank');
-      setIsSubmitted(true);
-    }, 400);
+    window.open(waUrl, '_blank');
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   return (
@@ -106,10 +105,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               <CheckCircle2 size={42} strokeWidth={2} />
             </div>
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-black">
-              Mensagem enviada!
+              Falta só um toque
             </h2>
             <p className="text-black/70 text-lg leading-relaxed mb-8">
-              Obrigado, <strong className="text-black font-semibold">{name}</strong>. Recebi seus detalhes e volto a falar com você em até 24 horas.
+              Obrigado, <strong className="text-black font-semibold">{name}</strong>. Abri o WhatsApp com a sua mensagem pronta. É só tocar em enviar por lá. Se ele não abriu, use o botão abaixo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -233,14 +232,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6">
+              <div className="pt-6 space-y-3">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-10 py-4 rounded-full border border-black text-black hover:bg-black hover:text-white font-medium text-base transition-all duration-200 disabled:opacity-50"
+                  className="px-10 py-4 rounded-full border border-black text-black hover:bg-black hover:text-white font-medium text-base transition-all duration-200 disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                 </button>
+                <p className="text-[13px] text-black/60">
+                  Vou usar essas informações só para responder ao seu contato. Saiba mais na <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline hover:text-black">Política de Privacidade</a>.
+                </p>
               </div>
             </form>
           </div>

@@ -1836,7 +1836,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             {/* Bottom Row */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/50">
               <div className="flex items-center gap-6">
-                <a href="#privacy" onClick={(e) => { e.preventDefault(); alert('Gorin Soluções protege todos os dados estratégicos fornecidos por clientes.'); }} className="hover:text-white transition-colors">
+                <a href="/politica-de-privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade
                 </a>
                 <span>2026, Gorin Soluções</span>

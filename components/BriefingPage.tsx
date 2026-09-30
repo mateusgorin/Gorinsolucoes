@@ -35,6 +35,7 @@ export const BriefingPage: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState('');
 
   const mapFields = [
@@ -133,15 +134,18 @@ export const BriefingPage: React.FC = () => {
       });
 
       if (response.ok) {
+        setEmailSent(true);
         // Prepare the WhatsApp share url
         const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(whatsappMsgText)}`;
         setWhatsappUrl(waUrl);
         setIsSent(true);
       } else {
+        setEmailSent(false);
         throw new Error("Falha no envio de e-mail");
       }
     } catch (err) {
       console.error(err);
+      setEmailSent(false);
       // Fallback: Still activate the WhatsApp redirection even if FormSubmit API has errors
       const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(whatsappMsgText)}`;
       setWhatsappUrl(waUrl);
@@ -208,10 +212,14 @@ export const BriefingPage: React.FC = () => {
             
             <CheckCircle2 size={56} className="text-[#00D4FF] mx-auto mb-6" />
             <h3 className="text-2xl sm:text-3xl font-archivo font-black text-[#0B0B0C] uppercase tracking-tight mb-4">
-              Recebi suas respostas!
+              {emailSent ? 'Recebi suas respostas!' : 'Suas respostas estão prontas'}
             </h3>
             <p className="text-[#71717A] font-sans text-sm md:text-base max-w-lg mx-auto mb-8 leading-relaxed">
-              Elas já chegaram no meu e-mail. Para eu ver na hora e a gente começar logo, <strong className="text-[#0B0B0C]">envie também uma cópia no meu WhatsApp, pelo botão abaixo.</strong>
+              {emailSent ? (
+                <>Elas foram enviadas para o meu e-mail. Para eu ver na hora, <strong className="text-[#0B0B0C]">envie também uma cópia no meu WhatsApp, pelo botão abaixo.</strong></>
+              ) : (
+                <>Não consegui enviar por e-mail agora, mas está tudo pronto para seguir pelo WhatsApp. <strong className="text-[#0B0B0C]">Toque no botão abaixo para me mandar as respostas.</strong></>
+              )}
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -550,7 +558,7 @@ export const BriefingPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="w-full sm:w-auto">
+              <div className="w-full sm:w-auto flex flex-col items-end gap-2">
                 <button 
                   type="submit" 
                   disabled={loading}
@@ -565,6 +573,9 @@ export const BriefingPage: React.FC = () => {
                     </>
                   )}
                 </button>
+                <p className="text-[13px] text-black/60 font-sans normal-case tracking-normal">
+                  Vou usar essas informações só para responder ao seu contato. Saiba mais na <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline hover:text-black">Política de Privacidade</a>.
+                </p>
               </div>
             </div>
 

@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GorinSite } from './components/GorinSite';
 import { BriefingPage } from './components/BriefingPage';
 import { ContactPage } from './components/ContactPage';
+import { PrivacyPage } from './components/PrivacyPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,6 +57,7 @@ const App: React.FC = () => {
 
   const isBriefingPath = path === '/briefing' || path === '/briefing/' || showBriefing;
   const isContactPath = path === '/contato' || path === '/contato/' || showContact;
+  const isPrivacyPath = path === '/politica-de-privacidade' || path === '/politica-de-privacidade/';
 
   if (isContactPath) {
     return (
@@ -91,6 +93,18 @@ const App: React.FC = () => {
         </div>
         <BriefingPage />
       </div>
+    );
+  }
+
+  if (isPrivacyPath) {
+    return (
+      <PrivacyPage
+        onBack={() => {
+          window.history.pushState({}, '', '/');
+          setPath('/');
+          window.scrollTo(0, 0);
+        }}
+      />
     );
   }
 
