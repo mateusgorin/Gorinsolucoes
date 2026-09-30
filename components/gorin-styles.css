@@ -221,7 +221,7 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.2s ease;
 }
 @media (min-width: 768px) {
   .Navbar .nav-pill {
@@ -1295,18 +1295,23 @@ button:hover .roll-text span {
 }
 
 .nav-glass-menu {
-  background-color: rgba(255, 255, 255, 0.6);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .nav-glass-menu.-dark {
-  background-color: rgba(11, 10, 15, 0.6);
+  background-color: rgba(11, 10, 15, 0.68);
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+@media (max-width: 767px) {
+  .Navbar.-menu-open .nav-pill { opacity: 0; pointer-events: none; }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .nav-glass-menu { background-color: rgba(255, 255, 255, 0.96); }
-  .nav-glass-menu.-dark { background-color: rgba(11, 10, 15, 0.96); }
+  .Navbar .nav-pill { background-color: rgba(255, 255, 255, 0.92); }
+  .Navbar.-dark .nav-pill, .Navbar .nav-pill.-dark { background-color: rgba(11, 10, 15, 0.92); }
+  .nav-glass-menu { background-color: rgba(255, 255, 255, 0.97); }
+  .nav-glass-menu.-dark { background-color: rgba(11, 10, 15, 0.97); }
 }

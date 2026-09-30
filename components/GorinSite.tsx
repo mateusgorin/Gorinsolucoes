@@ -372,6 +372,49 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
   }, []);
 
   useEffect(() => {
+    if (isMenuOpen) {
+      const lenis = (window as any).__lenis;
+      if (lenis && typeof lenis.stop === 'function') {
+        lenis.stop();
+      }
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      const lenis = (window as any).__lenis;
+      if (lenis && typeof lenis.start === 'function') {
+        lenis.start();
+      }
+      document.documentElement.style.overflow = "";
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      const lenis = (window as any).__lenis;
+      if (lenis && typeof lenis.start === 'function') {
+        lenis.start();
+      }
+      document.documentElement.style.overflow = "";
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
@@ -633,7 +676,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
       </motion.a>
 
       {/* Floating Pill Header */}
-      <header ref={navbarRef} className={`Navbar ${isScrolled ? '-scrolled -fixed' : ''} ${isNavVisible ? '-visible' : ''} ${isDarkBg ? '-dark' : ''}`}>
+      <header ref={navbarRef} className={`Navbar ${isScrolled ? '-scrolled -fixed' : ''} ${isNavVisible || isMenuOpen ? '-visible' : ''} ${isDarkBg ? '-dark' : ''} ${isMenuOpen ? '-menu-open' : ''}`}>
         <div className="cuberto-container">
           <div className={`nav-pill ${isDarkBg ? '-dark' : ''}`}>
             {/* Logo */}
@@ -665,21 +708,23 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
             {/* Header Actions */}
             <div ref={headerActionRef} className="flex items-center gap-3">
-              <MagneticCta
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onOpenContact) {
-                    onOpenContact();
-                  } else {
-                    window.history.pushState({}, '', '/contato');
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  }
-                }}
-                variant={isDarkBg ? "inverse" : "fill"}
-                className="!py-2.5 !px-5 !text-xs md:!text-sm cursor-pointer"
-              >
-                Iniciar Projeto
-              </MagneticCta>
+              <div className="hidden md:block">
+                <MagneticCta
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenContact) {
+                      onOpenContact();
+                    } else {
+                      window.history.pushState({}, '', '/contato');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                  }}
+                  variant={isDarkBg ? "inverse" : "fill"}
+                  className="!py-2.5 !px-5 !text-xs md:!text-sm cursor-pointer"
+                >
+                  Iniciar Projeto
+                </MagneticCta>
+              </div>
 
               {/* Mobile Menu Toggle */}
               <button
@@ -696,39 +741,117 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             </div>
           </div>
 
-          {/* Mobile Menu Dropdown */}
+          {/* Mobile Menu Expanded Card */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className={`md:hidden mt-2 p-6 border rounded-3xl flex flex-col gap-4 nav-glass-menu ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Menu"
+                initial={{ height: 64, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 64, opacity: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], exit: { duration: 0.25 } }}
+                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                style={{
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  paddingTop: '12px',
+                  paddingBottom: '28px',
+                }}
               >
-                {navItems.map((item) => (
+                {/* Top Row */}
+                <div className="flex items-center justify-between h-[44px]">
                   <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    className={`text-lg font-semibold no-underline py-1.5 border-b ${isDarkBg ? 'text-white border-white/10' : 'text-black border-black/5'}`}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}
                   >
-                    {item.label}
+                    <img
+                      src="/images/mascot-trimmed.webp"
+                      alt="Gorin Soluções"
+                      loading="eager"
+                      className="w-[22px] h-[22px] object-contain transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <span className={`font-bold text-xl tracking-tighter uppercase transition-colors duration-300 ${isDarkBg ? 'text-white' : 'text-black'}`}>
+                      GORIN<span className="text-[#00D4FF]">.</span>
+                    </span>
                   </a>
-                ))}
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    if (onOpenContact) {
-                      onOpenContact();
-                    } else {
-                      window.history.pushState({}, '', '/contato');
-                      window.dispatchEvent(new PopStateEvent('popstate'));
-                    }
-                  }}
-                  className="mt-2 text-center py-3 bg-[#00D4FF] text-black rounded-full font-semibold text-sm cursor-pointer"
+
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`w-[44px] h-[44px] flex items-center justify-center rounded-full transition-colors ${isDarkBg ? 'hover:bg-white/10 text-white' : 'hover:bg-black/5 text-black'}`}
+                    aria-label="Fechar menu"
+                  >
+                    <X size={26} strokeWidth={1.5} />
+                  </button>
+                </div>
+
+                {/* Menu Label & Divider */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Iniciar Projeto
-                </button>
+                  <div className="text-[16px] opacity-60 font-medium mt-[44px]">
+                    Menu
+                  </div>
+                  <div
+                    className="w-full h-[1px] mt-[16px]"
+                    style={{
+                      backgroundColor: isDarkBg ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)'
+                    }}
+                  />
+                </motion.div>
+
+                {/* Navigation Links with Stagger */}
+                <nav className="mt-[24px] flex flex-col gap-[10px]">
+                  {navItems.map((item, idx) => (
+                    <div key={item.label} className="overflow-hidden">
+                      <motion.a
+                        href={item.href}
+                        onClick={(e) => handleNavClick(e, item.href)}
+                        initial={{ y: "110%", opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.7, delay: 0.15 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                        className={`block text-[2.25rem] leading-[1.1] tracking-[-0.03em] font-medium no-underline transition-colors ${isDarkBg ? 'text-white hover:text-[#00D4FF]' : 'text-black hover:text-[#0E7490]'}`}
+                      >
+                        {item.label}
+                      </motion.a>
+                    </div>
+                  ))}
+                </nav>
+
+                {/* Contact Pill CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-[32px] flex justify-start"
+                >
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      if (onOpenContact) {
+                        onOpenContact();
+                      } else {
+                        window.history.pushState({}, '', '/contato');
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                      }
+                    }}
+                    className={`inline-flex items-center justify-center rounded-full font-semibold transition-colors cursor-pointer ${isDarkBg ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'}`}
+                    style={{
+                      padding: '14px 32px',
+                      fontSize: '1.0625rem',
+                    }}
+                  >
+                    Iniciar Projeto
+                  </button>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
