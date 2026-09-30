@@ -177,7 +177,7 @@ export const BriefingPage: React.FC = () => {
         />
         
         <p className="font-sans text-[#71717A] text-sm md:text-base mb-10 -mt-10 max-w-2xl leading-relaxed">
-          Para criarmos o seu site com a melhor estratégia e design, preciso de algumas informações fundamentais sobre o seu negócio.
+          Para eu montar o seu site do jeito certo, preciso conhecer melhor o seu negócio. Responda com calma. Se não souber alguma coisa, escreva 'não sei' que a gente resolve junto.
         </p>
 
         {/* Progress Tracker Widget */}
@@ -185,7 +185,7 @@ export const BriefingPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <ClipboardCheck className="text-[#00D4FF]" size={20} />
             <span className="font-mono text-xs text-[#0B0B0C] uppercase tracking-wider font-semibold">
-              Progresso do Preenchimento
+              Seu progresso
             </span>
           </div>
           <div className="flex-1 max-w-md w-full">
@@ -203,16 +203,15 @@ export const BriefingPage: React.FC = () => {
         {isSent ? (
           <div className="border border-black/10 bg-white rounded-[6px] p-8 md:p-12 text-center shadow-lg">
             <div className="inline-flex items-center gap-1.5 text-[10px] font-mono text-[#0B0B0C] bg-black/5 px-3 py-1 rounded-[2px] mb-6">
-              SISTEMA SINCRONIZADO
+              BRIEFING EM ANDAMENTO
             </div>
             
             <CheckCircle2 size={56} className="text-[#00D4FF] mx-auto mb-6" />
             <h3 className="text-2xl sm:text-3xl font-archivo font-black text-[#0B0B0C] uppercase tracking-tight mb-4">
-              E-mail Enviado com Sucesso!
+              Recebi suas respostas!
             </h3>
             <p className="text-[#71717A] font-sans text-sm md:text-base max-w-lg mx-auto mb-8 leading-relaxed">
-              Obrigado! Suas respostas foram direcionadas para meu e-mail <strong className="text-[#0B0B0C] font-mono">mateusmirandaamaral@gmail.com</strong>.<br/>
-              Para garantir que eu visualize imediatamente e possamos iniciar a estratégia já, <strong className="text-[#0B0B0C]">envie também uma cópia no meu WhatsApp no botão abaixo!</strong>
+              Elas já chegaram no meu e-mail. Para eu ver na hora e a gente começar logo, <strong className="text-[#0B0B0C]">envie também uma cópia no meu WhatsApp, pelo botão abaixo.</strong>
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -237,7 +236,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 1: Sobre a Empresa / Profissional */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <Building2 size={14} /> SEC_01 // SOBRE
+                <Building2 size={14} /> 01 · Seu negócio
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">01.</span> Sobre a Empresa / Profissional
@@ -313,7 +312,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 2: Público-Alvo */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <Users size={14} /> SEC_02 // PÚBLICO
+                <Users size={14} /> 02 · Seu público
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">02.</span> Público-Alvo
@@ -357,7 +356,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 3: Objetivo do Site */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <Target size={14} /> SEC_03 // OBJETIVO
+                <Target size={14} /> 03 · Objetivo do site
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">03.</span> Objetivo do Site
@@ -383,7 +382,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 4: Conteúdo e Materiais */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <FileText size={14} /> SEC_04 // CONTEÚDO
+                <FileText size={14} /> 04 · Conteúdo
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">04.</span> Conteúdo e Materiais
@@ -441,7 +440,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 5: Identidade Visual e Design */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <Palette size={14} /> SEC_05 // DESIGN
+                <Palette size={14} /> 05 · Design
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">05.</span> Identidade Visual e Design
@@ -500,7 +499,7 @@ export const BriefingPage: React.FC = () => {
             {/* Section 6: Domínio e Estrutura Técnica */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
               <div className="absolute top-6 right-6 flex items-center gap-2 font-mono text-[10px] text-[#71717A] uppercase">
-                <Globe size={14} /> SEC_06 // ESTRUTURA
+                <Globe size={14} /> 06 · Domínio e estrutura
               </div>
               <h4 className="text-lg font-archivo font-black text-[#0B0B0C] tracking-tight uppercase mb-6 flex items-center gap-2">
                 <span className="text-[#00D4FF]">06.</span> Domínio e Estrutura Técnica

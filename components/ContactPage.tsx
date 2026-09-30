@@ -106,10 +106,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               <CheckCircle2 size={42} strokeWidth={2} />
             </div>
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-black">
-              Solicitação enviada com sucesso!
+              Mensagem enviada!
             </h2>
             <p className="text-black/70 text-lg leading-relaxed mb-8">
-              Obrigado, <strong className="text-black font-semibold">{name}</strong>. Recebemos seus detalhes e analisaremos os requisitos para retornar em até 24 horas úteis.
+              Obrigado, <strong className="text-black font-semibold">{name}</strong>. Recebi seus detalhes e volto a falar com você em até 24 horas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -209,7 +209,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               {/* Budget Options */}
               <div className="space-y-4 pt-4">
                 <label className="block text-base md:text-lg font-medium text-black">
-                  Orçamento estimado do projeto (BRL)
+                  Quanto você pretende investir? (R$)
                 </label>
                 <div className="flex flex-wrap gap-2.5 sm:gap-3">
                   {budgetOptions.map((b) => {
@@ -239,7 +239,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                   disabled={isSubmitting}
                   className="px-10 py-4 rounded-full border border-black text-black hover:bg-black hover:text-white font-medium text-base transition-all duration-200 disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Enviando...' : 'Enviar solicitação'}
+                  {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                 </button>
               </div>
             </form>

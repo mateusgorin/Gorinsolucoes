@@ -24,7 +24,7 @@ export const projectsData: CaseStudy[] = [
     client: "Brinca Móvel Oficial",
     category: "Site Institucional",
     tag: "INTERATIVO // ALTA VELOCIDADE",
-    desc: "Plataforma completa de apresentação de serviços infantis com carregamento instantâneo e layout interativo.",
+    desc: "Site para uma empresa de brincadeiras e eventos infantis. Leve, colorido e com pedido de orçamento direto no WhatsApp.",
     image: "/images/brincamovel.jpg",
     gallery: [
       "/images/brincamovel.jpg",
@@ -50,7 +50,7 @@ export const projectsData: CaseStudy[] = [
     client: "Clínica Mãos de Leide",
     category: "Site Institucional",
     tag: "SAÚDE & BEM-ESTAR // CONVERSÃO",
-    desc: "Presença digital sofisticada e otimizada para agendamentos e conversão direta no WhatsApp.",
+    desc: "Site de uma clínica de massagem e bem-estar. Explica cada tratamento com calma e leva ao agendamento pelo WhatsApp.",
     image: "/images/maosdeleide.jpg",
     gallery: [
       "/images/maosdeleide.jpg",
@@ -76,7 +76,7 @@ export const projectsData: CaseStudy[] = [
     client: "Amorim Ergonomia & Saúde Ocupacional",
     category: "Site Institucional",
     tag: "CONSULTORIA CORPORATIVA // B2B",
-    desc: "Portal corporativo robusto para consultoria técnica com arquitetura de alta performance.",
+    desc: "Site de uma consultoria de ergonomia e saúde ocupacional. Sério, claro e feito para passar confiança a empresas.",
     image: "/images/amorimergonomia.webp",
     gallery: [
       "/images/amorimergonomia.webp",
@@ -102,7 +102,7 @@ export const projectsData: CaseStudy[] = [
     client: "Brito Oliveira Consultoria Contábil",
     category: "Site Institucional",
     tag: "ASSESSORIA CORPORATIVA // B2B",
-    desc: "Website institucional e posicionamento digital para assessoria e consultoria especializada.",
+    desc: "Site de uma assessoria contábil. Visual sóbrio, informação clara e contato direto com os sócios.",
     image: "/images/britooliveira.jpg",
     gallery: [
       "/images/britooliveira.jpg",
@@ -128,7 +128,7 @@ export const projectsData: CaseStudy[] = [
     client: "Marmitaria Ventura Gastronomia",
     category: "Site Institucional",
     tag: "DELIVERY & ALIMENTAÇÃO // DIRETO",
-    desc: "Site institucional e cardápio online com canais diretos para pedidos via WhatsApp e redes sociais.",
+    desc: "Site e cardápio online de uma marmitaria, com pedido direto pelo WhatsApp da cozinha, sem depender de aplicativo.",
     image: "/images/marmitariaventura.webp",
     gallery: [
       "/images/marmitariaventura.webp",
@@ -154,7 +154,7 @@ export const projectsData: CaseStudy[] = [
     client: "Chef PC & Buffet de Eventos",
     category: "Site Institucional",
     tag: "ALTA CULINÁRIA // CARDÁPIO DIGITAL",
-    desc: "Presença online moderna para gastronomia com apresentação de cardápio e atendimento direto.",
+    desc: "Site de um chef e buffet de eventos. Cardápio com fotos e pedido de orçamento direto com o chef, sem PDF pesado.",
     image: "/images/pcgastronomia.webp",
     gallery: [
       "/images/pcgastronomia.webp",
@@ -180,7 +180,7 @@ export const projectsData: CaseStudy[] = [
     client: "Brigada de Emergência & Segurança",
     category: "Sistema Web",
     tag: "GESTÃO OPERACIONAL // ESCALAS & RONDAS",
-    desc: "Sistema web customizado para controle operacional, gestão de equipes e relatórios de brigada.",
+    desc: "Sistema web para brigadas de emergência: escalas, rondas, inspeção de extintores, ocorrências e relatórios em PDF.",
     image: "/images/sgb.webp",
     gallery: [
       "/images/sgb.webp",
@@ -206,7 +206,7 @@ export const projectsData: CaseStudy[] = [
     client: "Operação Logística & Distribuição",
     category: "Sistema Web",
     tag: "GESTÃO DE ESTOQUE // EM NUVEM",
-    desc: "Sistema web integrado para gerenciamento logístico, rastreamento e controle de estoque em tempo real.",
+    desc: "Sistema web de controle de estoque: entradas, saídas e níveis mínimos em um só lugar.",
     image: "/images/logistico.jpg",
     gallery: [
       "/images/logistico.jpg",

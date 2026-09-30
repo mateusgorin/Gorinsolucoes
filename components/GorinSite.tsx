@@ -420,7 +420,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
   const navItems = [
     { label: 'Serviços', href: '#services' },
-    { label: 'O Estúdio', href: '#about' },
+    { label: 'Sobre', href: '#about' },
     { label: 'Projetos', href: '#projects' },
     { label: 'Depoimentos', href: '#testimonials' },
     { label: 'Contato', href: '#contact' },
