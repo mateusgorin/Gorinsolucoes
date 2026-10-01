@@ -336,10 +336,20 @@ button:hover .roll-text span {
   transform: scale(1);
 }
 
-@media (pointer: coarse) {
-  .CtaButton:active {
-    transform: scale(0.98);
+@media (pointer: coarse), (hover: none) {
+  .CtaButton:active,
+  .CtaButton:focus-visible {
+  transform: scale(0.98);
   }
+
+  .image-reveal-touch-active {
+    transform: scale(1.018) !important;
+  }
+
+  .image-reveal-media {
+    transition-duration: 520ms;
+  }
+
   .service-card:active,
   .project-card:active {
     transition-duration: 180ms;

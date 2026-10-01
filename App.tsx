@@ -6,6 +6,7 @@ import { GorinSite } from './components/GorinSite';
 import { BriefingPage } from './components/BriefingPage';
 import { ContactPage } from './components/ContactPage';
 import { PrivacyPage } from './components/PrivacyPage';
+import { getMotionCapabilities } from './hooks/useMotionPreferences';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,16 +17,17 @@ const App: React.FC = () => {
 
   // Keep native touch scrolling intact; Lenis smooths wheel input on precise pointers.
   useEffect(() => {
-    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const { isTouch, hasFinePointer } = getMotionCapabilities();
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lenis = new Lenis({
-      duration: isTouch ? 0.7 : 1.2,
+      duration: hasFinePointer && !isReduced ? 1.2 : 0.7,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: !isReduced && !isTouch,
+      // Preserve native touch scrolling on phones and tablets, including hybrids.
+      smoothWheel: !isReduced && hasFinePointer,
       syncTouch: false,
       touchMultiplier: 1,
       wheelMultiplier: 1,
-      lerp: isReduced ? 1 : 0.1,
+      lerp: isReduced ? 1 : isTouch ? 0.14 : 0.1,
     });
 
     let refreshFrame = 0;

@@ -46,6 +46,7 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
             initial={reducedMotion ? false : { y: 18, opacity: 0 }}
             animate={reducedMotion || isVisible ? { y: 0, opacity: 1 } : undefined}
             onViewportEnter={() => setIsVisible(true)}
+            onAnimationStart={() => setIsVisible(true)}
             viewport={{ once: true, margin: '0px 0px -12% 0px' }}
             transition={{
               duration: 0.72,

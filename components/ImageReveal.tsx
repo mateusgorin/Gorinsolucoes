@@ -22,6 +22,7 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
 }) => {
   const reducedMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(Boolean(reducedMotion));
+  const [isTouchActive, setIsTouchActive] = useState(false);
 
   useEffect(() => {
     const fallback = window.setTimeout(() => setIsVisible(true), 1400);
@@ -38,9 +39,17 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
         initial={reducedMotion ? false : { scale: 1.04, opacity: 0.86 }}
         animate={reducedMotion || isVisible ? { scale: 1, opacity: 1 } : undefined}
         onViewportEnter={() => setIsVisible(true)}
+        onLoad={() => setIsVisible(true)}
+        onError={() => setIsVisible(true)}
+        onPointerDown={(event) => {
+          if (event.pointerType === 'touch') setIsTouchActive(true);
+        }}
+        onPointerUp={() => setIsTouchActive(false)}
+        onPointerCancel={() => setIsTouchActive(false)}
+        onPointerLeave={() => setIsTouchActive(false)}
         viewport={{ once: true, margin: '0px 0px -10% 0px' }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className={`image-reveal-media w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${className}`}
+        className={`image-reveal-media w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] ${isTouchActive ? 'image-reveal-touch-active' : ''} ${className}`}
       />
       {children}
     </div>
