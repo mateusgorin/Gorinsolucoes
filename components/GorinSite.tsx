@@ -348,15 +348,27 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
       cards.forEach((card, idx) => {
         const rect = card.getBoundingClientRect();
+        const currentlyOpen = card.getAttribute('data-open') === 'true';
 
         if (idx === 0) {
           // Card 01 starts open by default. It only closes if the user scrolls past
           const isAboveSection = rect.bottom < -100;
           card.setAttribute('data-open', isAboveSection ? 'false' : 'true');
         } else {
-          // Cards 02..05 open only when their top edge reaches the green line mark
-          const shouldBeOpen = rect.top <= openThreshold;
-          card.setAttribute('data-open', shouldBeOpen ? 'true' : 'false');
+          // Cards 02..06: Use hysteresis band (open at openThreshold, but only close when scrolled back down past openThreshold + 70px)
+          // This prevents rapid oscillation/jitter when scrolling quickly
+          const closeThreshold = openThreshold + 70;
+          let shouldBeOpen = currentlyOpen;
+
+          if (rect.top <= openThreshold) {
+            shouldBeOpen = true;
+          } else if (rect.top > closeThreshold) {
+            shouldBeOpen = false;
+          }
+
+          if (shouldBeOpen !== currentlyOpen) {
+            card.setAttribute('data-open', shouldBeOpen ? 'true' : 'false');
+          }
         }
       });
     };
