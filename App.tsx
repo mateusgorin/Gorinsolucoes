@@ -14,19 +14,29 @@ const App: React.FC = () => {
   const [showBriefing, setShowBriefing] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
-  // Smooth wheel on fine pointers; preserve native touch scrolling for reliable mobile motion.
+  // Keep native touch scrolling intact; Lenis smooths wheel input on precise pointers.
   useEffect(() => {
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lenis = new Lenis({
       duration: isTouch ? 0.7 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: !isReduced,
+      smoothWheel: !isReduced && !isTouch,
       syncTouch: false,
       touchMultiplier: 1,
       wheelMultiplier: 1,
       lerp: isReduced ? 1 : 0.1,
     });
+
+    let refreshFrame = 0;
+    let refreshTimer = 0;
+    const scheduleRefresh = () => {
+      window.clearTimeout(refreshTimer);
+      window.cancelAnimationFrame(refreshFrame);
+      refreshTimer = window.setTimeout(() => {
+        refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+      }, 120);
+    };
 
     lenis.on('scroll', ScrollTrigger.update);
     const updateLenis = (time: number) => lenis.raf(time * 1000);
@@ -34,12 +44,26 @@ const App: React.FC = () => {
     gsap.ticker.lagSmoothing(1000, 16);
     (window as any).__lenis = lenis;
 
-    const refresh = () => requestAnimationFrame(() => ScrollTrigger.refresh());
-    window.addEventListener('load', refresh, { once: true });
-    document.fonts?.ready.then(refresh);
+    const resizeObserver = new ResizeObserver(scheduleRefresh);
+    resizeObserver.observe(document.body);
+    window.addEventListener('load', scheduleRefresh, { once: true });
+    window.addEventListener('resize', scheduleRefresh, { passive: true });
+    window.addEventListener('orientationchange', scheduleRefresh, { passive: true });
+    window.visualViewport?.addEventListener('resize', scheduleRefresh, { passive: true });
+    document.fonts?.ready.then(scheduleRefresh);
+    document.querySelectorAll('img').forEach((image) => {
+      if (!image.complete) image.addEventListener('load', scheduleRefresh, { once: true });
+    });
+    scheduleRefresh();
 
     return () => {
-      window.removeEventListener('load', refresh);
+      window.clearTimeout(refreshTimer);
+      window.cancelAnimationFrame(refreshFrame);
+      resizeObserver.disconnect();
+      window.removeEventListener('load', scheduleRefresh);
+      window.removeEventListener('resize', scheduleRefresh);
+      window.removeEventListener('orientationchange', scheduleRefresh);
+      window.visualViewport?.removeEventListener('resize', scheduleRefresh);
       lenis.destroy();
       delete (window as any).__lenis;
       gsap.ticker.remove(updateLenis);

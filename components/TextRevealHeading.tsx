@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 export interface TextRevealHeadingProps {
@@ -17,6 +17,13 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
   style,
 }) => {
   const reducedMotion = useReducedMotion();
+  const [isVisible, setIsVisible] = useState(Boolean(reducedMotion));
+
+  useEffect(() => {
+    const fallback = window.setTimeout(() => setIsVisible(true), 1200);
+    return () => window.clearTimeout(fallback);
+  }, []);
+
   const displayLines = useMemo(() => {
     if (lines && lines.length > 0) return lines;
     if (typeof children === 'string') {
@@ -37,7 +44,8 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
           <motion.span
             className="block text-reveal-line"
             initial={reducedMotion ? false : { y: 18, opacity: 0 }}
-            whileInView={reducedMotion ? undefined : { y: 0, opacity: 1 }}
+            animate={reducedMotion || isVisible ? { y: 0, opacity: 1 } : undefined}
+            onViewportEnter={() => setIsVisible(true)}
             viewport={{ once: true, margin: '0px 0px -12% 0px' }}
             transition={{
               duration: 0.72,

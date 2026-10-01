@@ -330,9 +330,20 @@ button:hover .roll-text span {
   transform: translateY(101%);
   transition: transform 0.5s cubic-bezier(0.4, 0, 0, 1), border-radius 0.5s cubic-bezier(0.4, 0, 0, 1);
 }
-.CtaButton:hover .ripple span {
-  transform: translateY(0);
-  border-radius: 0;
+.CtaButton:hover .ripple span,
+.CtaButton:focus-visible .ripple span,
+.CtaButton:active .ripple span {
+  transform: scale(1);
+}
+
+@media (pointer: coarse) {
+  .CtaButton:active {
+    transform: scale(0.98);
+  }
+  .service-card:active,
+  .project-card:active {
+    transition-duration: 180ms;
+  }
 }
 .CtaButton .title {
   position: relative;
