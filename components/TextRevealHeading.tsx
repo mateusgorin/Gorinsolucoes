@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export interface TextRevealHeadingProps {
   as?: 'h1' | 'h2' | 'h3' | 'span' | 'div';
@@ -16,6 +16,7 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
   className = '',
   style,
 }) => {
+  const reducedMotion = useReducedMotion();
   const displayLines = useMemo(() => {
     if (lines && lines.length > 0) return lines;
     if (typeof children === 'string') {
@@ -34,12 +35,13 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
       {displayLines.map((lineText, index) => (
         <span key={index} className="block py-0.5">
           <motion.span
-            className="block will-change-transform"
-            initial={{ y: 15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            className="block text-reveal-line"
+            initial={reducedMotion ? false : { y: 18, opacity: 0 }}
+            whileInView={reducedMotion ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: '0px 0px -12% 0px' }}
             transition={{
-              duration: 0.6,
-              delay: index * 0.08,
+              duration: 0.72,
+              delay: index * 0.075,
               ease: [0.16, 1, 0.3, 1],
             }}
           >

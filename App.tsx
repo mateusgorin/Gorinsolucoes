@@ -14,33 +14,34 @@ const App: React.FC = () => {
   const [showBriefing, setShowBriefing] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
-  // Initialize Lenis smooth scroll and connect with ScrollTrigger
+  // Smooth wheel on fine pointers; preserve native touch scrolling for reliable mobile motion.
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const lenis = new Lenis({
-      duration: isMobile ? 1.0 : 1.2,
+      duration: isTouch ? 0.7 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
+      smoothWheel: !isReduced,
       syncTouch: false,
-      touchMultiplier: isMobile ? 1.0 : 1.2,
-      wheelMultiplier: 1.0,
-      lerp: 0.1,
+      touchMultiplier: 1,
+      wheelMultiplier: 1,
+      lerp: isReduced ? 1 : 0.1,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
-
-    const updateLenis = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
+    const updateLenis = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
-
-    // Provide global access for anchor links
+    gsap.ticker.lagSmoothing(1000, 16);
     (window as any).__lenis = lenis;
 
+    const refresh = () => requestAnimationFrame(() => ScrollTrigger.refresh());
+    window.addEventListener('load', refresh, { once: true });
+    document.fonts?.ready.then(refresh);
+
     return () => {
+      window.removeEventListener('load', refresh);
       lenis.destroy();
+      delete (window as any).__lenis;
       gsap.ticker.remove(updateLenis);
     };
   }, []);

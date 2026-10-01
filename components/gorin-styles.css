@@ -6,6 +6,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
 
+/* Motion tokens: one responsive language shared by scroll, touch and pointer states. */
+:root {
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-fast: 180ms;
+  --motion-base: 500ms;
+}
+
 /* Suisse Intl Typeface - Extracted from Cuberto ZIP */
 @font-face {
   font-family: 'Suisse Intl';
@@ -1314,4 +1321,54 @@ button:hover .roll-text span {
   .Navbar.-dark .nav-pill, .Navbar .nav-pill.-dark { background-color: rgba(11, 10, 15, 0.92); }
   .nav-glass-menu { background-color: rgba(255, 255, 255, 0.97); }
   .nav-glass-menu.-dark { background-color: rgba(11, 10, 15, 0.97); }
+}
+
+/* Responsive motion: touch keeps continuity through scroll/tap instead of hover. */
+.image-reveal-media,
+.text-reveal-line {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+@media (pointer: coarse) {
+  .CtaButton:active,
+  .MoreButton:active,
+  .RoundButton:active,
+  .service-explore-link:active {
+    transform: scale(0.97);
+  }
+
+  .image-reveal-media {
+    transition-duration: 500ms;
+  }
+
+  .FounderFrame img {
+    transition-duration: 500ms;
+  }
+
+  .MarqueeTrack {
+    animation-duration: 52s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .Cursor,
+  .MarqueeTrack {
+    display: none !important;
+  }
+
+  .image-reveal-media,
+  .text-reveal-line {
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

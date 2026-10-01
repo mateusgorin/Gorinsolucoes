@@ -11,8 +11,8 @@ export const FluidCursor: React.FC = () => {
   const velRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Only enable on desktop pointer fine
-    if (!window.matchMedia('(pointer: fine)').matches) return;
+    // Cursor customizado só existe onde há ponteiro preciso; touch usa estados de toque e scroll.
+    if (!window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const el = cursorRef.current;
     if (!el) return;
