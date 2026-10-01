@@ -915,9 +915,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 <video
                   ref={videoMediaRef}
                   onLoadedMetadata={(e) => {
-                    e.currentTarget.playbackRate = 0.75;
+                    e.currentTarget.playbackRate = 0.6375;
                   }}
-                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/gemini_generated_video_6c0b68ed_kmnt39.mp4"
+                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4"
                   autoPlay
                   loop
                   muted
