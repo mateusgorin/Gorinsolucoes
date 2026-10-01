@@ -32,14 +32,14 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
   return (
     <Tag className={className} style={style}>
       {displayLines.map((lineText, index) => (
-        <span key={index} className="block py-0.5">
+        <span key={index} className="block overflow-hidden py-0.5">
           <motion.span
             className="block will-change-transform"
-            initial={{ y: 15, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: "0%", opacity: 1 }}
             transition={{
-              duration: 0.6,
-              delay: index * 0.08,
+              duration: 0.9,
+              delay: index * 0.1,
               ease: [0.16, 1, 0.3, 1],
             }}
           >

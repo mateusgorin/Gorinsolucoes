@@ -87,6 +87,23 @@ body, html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Official Lenis Smooth Inertia Scroll CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 h1, h2, h3, h4 {
   font-family: 'General Sans', sans-serif;
 }
@@ -198,7 +215,21 @@ h1, h2, h3, h4 {
   right: 0;
   z-index: 100;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
-  padding: 1.25rem 0;
+  padding: 0.5rem 0 0.75rem 0;
+}
+@media (min-width: 768px) {
+  .Navbar,
+  .Navbar.-scrolled,
+  .Navbar.-fixed {
+    padding: 0 !important;
+    background-color: #FFFFFF;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+  }
+  .Navbar.-dark,
+  .Navbar.-dark.-scrolled,
+  .Navbar.-dark.-fixed {
+    background-color: #0B0A0F !important;
+  }
 }
 .Navbar.-scrolled,
 .Navbar.-fixed {
@@ -225,7 +256,31 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 768px) {
   .Navbar .nav-pill {
-    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    padding: 1.25rem 0.5rem;
+    background-color: #FFFFFF !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+  }
+  .Navbar.-scrolled .nav-pill,
+  .Navbar.-fixed .nav-pill {
+    padding: 1.25rem 0.5rem;
+    background-color: #FFFFFF !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+  }
+  .Navbar.-dark .nav-pill,
+  .Navbar.-dark.-scrolled .nav-pill,
+  .Navbar.-dark.-fixed .nav-pill {
+    background-color: #0B0A0F !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
   }
 }
 .Navbar.-dark .nav-pill,
@@ -434,15 +489,15 @@ button:hover .roll-text span {
    TOPHEAD / HERO SECTION
    ========================================================================== */
 .TopheadSection {
-  padding-top: 130px;
-  padding-bottom: 50px;
+  padding-top: 90px;
+  padding-bottom: 30px;
   text-align: center;
   position: relative;
 }
 @media (min-width: 768px) {
   .TopheadSection {
-    padding-top: 170px;
-    padding-bottom: 70px;
+    padding-top: 140px;
+    padding-bottom: 50px;
   }
 }
 .TopheadSection .category-tag {
@@ -455,9 +510,9 @@ button:hover .roll-text span {
   margin-bottom: 1.5rem;
 }
 .TopheadSection .hero-headline {
-  font-size: clamp(2.75rem, 5vw + 1rem, 5.5rem);
+  font-size: clamp(2.2rem, 5vw + 1rem, 5.5rem);
   font-weight: 500;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   max-width: 1100px;
   margin-left: auto;
@@ -472,7 +527,7 @@ button:hover .roll-text span {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
   text-wrap: balance;
 }
 
@@ -524,6 +579,7 @@ button:hover .roll-text span {
   background-color: var(--bg-light-muted);
   overflow: hidden;
   box-sizing: border-box;
+  transition: background-color 1.8s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card::before {
@@ -535,7 +591,7 @@ button:hover .roll-text span {
   opacity: 0;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 550ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1.8s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"]::before {
@@ -564,9 +620,9 @@ button:hover .roll-text span {
   opacity: 0;
   margin-bottom: 0;
   overflow: hidden;
-  transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
-              max-height 450ms cubic-bezier(0.16, 1, 0.3, 1),
-              margin-bottom 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.25, 1),
+              max-height 1.2s cubic-bezier(0.25, 1, 0.25, 1),
+              margin-bottom 1.2s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"] .service-category {
@@ -581,8 +637,8 @@ button:hover .roll-text span {
   font-weight: 600;
   line-height: 1.25;
   margin: 0;
-  transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1),
-              font-size 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 1.6s cubic-bezier(0.25, 1, 0.25, 1),
+              font-size 1.6s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"] .service-title {
@@ -598,8 +654,8 @@ button:hover .roll-text span {
   line-height: 1;
   user-select: none;
   flex-shrink: 0;
-  transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 1.6s cubic-bezier(0.25, 1, 0.25, 1),
+              opacity 1.6s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"] .service-number {
@@ -610,7 +666,7 @@ button:hover .roll-text span {
 .service-card .service-card-collapse {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-rows 2.2s cubic-bezier(0.25, 1, 0.25, 1);
   position: relative;
   z-index: 2;
 }
@@ -630,16 +686,16 @@ button:hover .roll-text span {
   position: relative;
   z-index: 2;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(16px);
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.25, 1),
+              transform 0.5s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"] .service-card-content {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s,
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+  transition: opacity 1.6s cubic-bezier(0.25, 1, 0.25, 1) 0.35s,
+              transform 1.6s cubic-bezier(0.25, 1, 0.25, 1) 0.35s;
 }
 
 .service-card .service-mesh {
@@ -651,7 +707,7 @@ button:hover .roll-text span {
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  transition: opacity 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.25, 1);
 }
 
 .service-card[data-open="true"] .service-mesh {
@@ -814,11 +870,7 @@ button:hover .roll-text span {
   height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
-  transition: transform 400ms ease;
   display: block;
-}
-.WorkCard:hover img {
-  transform: scale(1.04);
 }
 
 /* ==========================================================================

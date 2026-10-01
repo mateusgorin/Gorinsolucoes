@@ -299,6 +299,39 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     };
   }, []);
 
+  // Parallax scrub on project cards (Cuberto authentic visual depth)
+  useEffect(() => {
+    const workMediaElements = document.querySelectorAll<HTMLElement>('.work-card-media');
+    if (!workMediaElements.length) return;
+
+    const triggers: ScrollTrigger[] = [];
+
+    workMediaElements.forEach((el) => {
+      const img = el.querySelector<HTMLElement>('img');
+      if (!img) return;
+
+      gsap.set(img, { scale: 1.25, transformOrigin: 'center center' });
+
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.8,
+        animation: gsap.fromTo(
+          img,
+          { y: '-16%' },
+          { y: '16%', ease: 'none' }
+        ),
+      });
+
+      triggers.push(st);
+    });
+
+    return () => {
+      triggers.forEach((st) => st.kill());
+    };
+  }, []);
+
   // Scroll-driven accordion: cards open and close dynamically as user scrolls through each one
   useEffect(() => {
     const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
@@ -309,19 +342,19 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     const updateAccordion = () => {
       ticking = false;
       const vh = window.innerHeight;
-      const openThreshold = vh * 0.65; // Card opens when its top crosses into lower 35% of screen
+      const isMobile = window.innerWidth < 768;
+      // Opens only when the card top reaches higher up on the screen (24% of viewport on mobile, 32% on desktop)
+      const openThreshold = isMobile ? vh * 0.24 : vh * 0.32;
 
       cards.forEach((card, idx) => {
         const rect = card.getBoundingClientRect();
 
         if (idx === 0) {
-          // Card 01 starts open by default. It only closes if the user scrolls so far past or above
-          // Keep open while user is exploring the services section
+          // Card 01 starts open by default. It only closes if the user scrolls past
           const isAboveSection = rect.bottom < -100;
           card.setAttribute('data-open', isAboveSection ? 'false' : 'true');
         } else {
-          // Cards 02..05 open when their own top edge reaches openThreshold
-          // They automatically close when scrolled back up above openThreshold
+          // Cards 02..05 open only when their top edge reaches the green line mark
           const shouldBeOpen = rect.top <= openThreshold;
           card.setAttribute('data-open', shouldBeOpen ? 'true' : 'false');
         }
@@ -416,8 +449,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
+    let ticking = false;
 
-    const handleScroll = () => {
+    const updateScroll = () => {
+      ticking = false;
       const currentScrollY = window.scrollY;
       const isPastHero = currentScrollY > 60;
       setIsScrolled(isPastHero);
@@ -456,8 +491,15 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
       setIsDarkBg(overDark);
     };
 
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateScroll);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    updateScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMenuOpen]);
 
@@ -685,9 +727,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 src="/images/mascot-trimmed.webp"
                 alt="Gorin Soluções"
                 loading="eager"
-                className="w-5 h-5 md:w-[22px] md:h-[22px] object-contain transition-transform duration-300 group-hover:scale-110"
+                className="w-[22px] h-[22px] md:w-[24px] md:h-[24px] object-contain transition-transform duration-300 group-hover:scale-110"
               />
-              <span className={`font-bold text-lg md:text-xl tracking-tighter uppercase transition-colors duration-300 ${isDarkBg ? 'text-white' : 'text-black'}`}>
+              <span className={`font-bold text-xl md:text-[1.38rem] tracking-tighter uppercase transition-colors duration-300 ${isDarkBg ? 'text-white' : 'text-black'}`}>
                 GORIN<span className="text-[#00D4FF]">.</span>
               </span>
             </a>
@@ -901,13 +943,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
             <div
               ref={videoShowreelRef}
-              className="mt-12 md:mt-16 w-full max-w-5xl mx-auto overflow-hidden rounded-[24px] md:rounded-[36px]"
+              className="mt-8 md:mt-12 w-full max-w-5xl mx-auto overflow-hidden rounded-[20px] md:rounded-[36px]"
               style={{
                 boxShadow: '0 30px 70px -15px rgba(0, 0, 0, 0.22)',
               }}
             >
               <div
-                className="relative w-full aspect-video md:aspect-[16/9] rounded-[24px] md:rounded-[36px] overflow-hidden bg-black"
+                className="relative w-full aspect-video md:aspect-[16/9] rounded-[20px] md:rounded-[36px] overflow-hidden bg-black"
                 style={{
                   border: '1px solid rgba(0, 0, 0, 0.08)',
                 }}
@@ -933,8 +975,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-12 md:mt-14 flex flex-wrap items-center justify-center gap-4"
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-4"
             >
               <MagneticCta
                 onClick={(e) => {
@@ -968,7 +1010,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
         {/* ==========================================================================
            2. FOUNDER & STUDIO EDITORIAL SPREAD (MATEUS GORIN & PHILOSOPHY)
            ========================================================================== */}
-        <section className="py-20 md:py-32 bg-[#fafaf9] border-t border-b border-black/10 relative" id="about">
+        <section className="py-14 md:py-24 bg-[#fafaf9] border-t border-b border-black/10 relative" id="about">
           <div className="cuberto-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               
@@ -996,7 +1038,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                       MATEUS GORIN
                     </h3>
                     <p className="text-xs font-mono uppercase tracking-widest text-black/60 mt-1">
-                      Fundador &amp; Líder de Engenharia Web
+                      Fundador &amp; Desenvolvedor Web
                     </p>
                     
                     <div className="mt-4 flex items-center gap-3">
@@ -1155,14 +1197,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               {/* Left Column */}
               <div className="flex flex-col gap-12 md:gap-20">
                 {col1Projects.map((p, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
+                    initial={{ opacity: 0, y: 36, scale: 0.96 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     onClick={() => setSelectedProject(p)}
                     className="WorkCard group cursor-pointer"
                     data-cursor-icon="arrow-up-right"
                   >
                     <div
-                      className="w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
+                      className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
                       style={{
                         borderRadius: 'var(--radius-lg)',
                         overflow: 'hidden',
@@ -1174,10 +1220,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                         src={p.image}
                         alt={p.title}
                         loading="lazy"
-                        className="w-full h-full object-cover block"
+                        className="w-full h-full object-cover block will-change-transform"
                         style={{
                           borderRadius: 'var(--radius-lg)',
-                          transition: 'transform 400ms ease',
                         }}
                       />
                     </div>
@@ -1204,21 +1249,25 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                         {p.title}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
               {/* Right Column (Offset) */}
               <div className="flex flex-col gap-12 md:gap-20 md:pt-28">
                 {col2Projects.map((p, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
+                    initial={{ opacity: 0, y: 36, scale: 0.96 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.15 }}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                     onClick={() => setSelectedProject(p)}
                     className="WorkCard group cursor-pointer"
                     data-cursor-icon="arrow-up-right"
                   >
                     <div
-                      className="w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
+                      className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
                       style={{
                         borderRadius: 'var(--radius-lg)',
                         overflow: 'hidden',
@@ -1230,10 +1279,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                         src={p.image}
                         alt={p.title}
                         loading="lazy"
-                        className="w-full h-full object-cover block"
+                        className="w-full h-full object-cover block will-change-transform"
                         style={{
                           borderRadius: 'var(--radius-lg)',
-                          transition: 'transform 400ms ease',
                         }}
                       />
                     </div>
@@ -1260,7 +1308,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                         {p.title}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -1380,7 +1428,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
         {/* ==========================================================================
            6. TESTIMONIALS (FANNED DECK WITH AUTHENTIC CLIENT REVIEWS)
            ========================================================================== */}
-        <section className="py-24 md:py-36 bg-white relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16" id="testimonials">
+        <section className="py-16 md:py-24 bg-white relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16" id="testimonials">
           <div className="cuberto-container">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
@@ -1602,7 +1650,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
         {/* ==========================================================================
            8. FAQ SECTION (HIGH-CRAFT ACCORDION)
            ========================================================================== */}
-        <section className="bg-black text-white py-20 md:py-32 rounded-t-[40px] md:rounded-t-[64px]" id="faq">
+        <section className="bg-black text-white py-16 md:py-24 rounded-t-[40px] md:rounded-t-[64px]" id="faq">
           <div className="cuberto-container">
             <motion.div
               initial={{ opacity: 0, y: 18 }}

@@ -27,10 +27,11 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
         alt={alt}
         loading={loading}
         decoding={decoding}
-        initial={{ scale: 1.05, opacity: 0.8 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${className}`}
+        initial={{ scale: 1.22, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className={`w-full h-full object-cover block will-change-transform ${className}`}
       />
       {children}
     </div>

@@ -18,30 +18,29 @@ const App: React.FC = () => {
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
-      duration: isMobile ? 1.0 : 1.2,
+      duration: isMobile ? 0.8 : 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       syncTouch: false,
-      touchMultiplier: isMobile ? 1.0 : 1.2,
+      touchMultiplier: 1.0,
       wheelMultiplier: 1.0,
-      lerp: 0.1,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    const updateLenis = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
 
     // Provide global access for anchor links
     (window as any).__lenis = lenis;
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
-      gsap.ticker.remove(updateLenis);
     };
   }, []);
 
