@@ -802,16 +802,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 role="dialog"
                 aria-modal="true"
                 aria-label="Menu"
-                initial={{ height: 64, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 64, opacity: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], exit: { duration: 0.25 } }}
-                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                initial={{ opacity: 0, scale: 0.96, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: -8 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
                 style={{
                   paddingLeft: '20px',
                   paddingRight: '20px',
                   paddingTop: '12px',
                   paddingBottom: '28px',
+                  transformOrigin: 'top center',
                 }}
               >
                 {/* Top Row */}
@@ -847,9 +848,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
                 {/* Menu Label & Divider */}
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.2, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <div className="text-[16px] opacity-60 font-medium mt-[44px]">
                     Menu
@@ -862,16 +863,16 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                   />
                 </motion.div>
 
-                {/* Navigation Links with Stagger */}
+                {/* Navigation Links with Immediate Smooth Entrance */}
                 <nav className="mt-[24px] flex flex-col gap-[10px]">
                   {navItems.map((item, idx) => (
                     <div key={item.label} className="overflow-hidden">
                       <motion.a
                         href={item.href}
                         onClick={(e) => handleNavClick(e, item.href)}
-                        initial={{ y: "110%", opacity: 0 }}
+                        initial={{ y: "80%", opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.7, delay: 0.15 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 0.28, delay: 0.04 + idx * 0.03, ease: [0.16, 1, 0.3, 1] }}
                         className={`block text-[2.25rem] leading-[1.1] tracking-[-0.03em] font-medium no-underline transition-colors ${isDarkBg ? 'text-white hover:text-[#00D4FF]' : 'text-black hover:text-[#0E7490]'}`}
                       >
                         {item.label}
@@ -882,9 +883,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
 
                 {/* Contact Pill CTA Button */}
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.25, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
                   className="mt-[32px] flex justify-start"
                 >
                   <button
