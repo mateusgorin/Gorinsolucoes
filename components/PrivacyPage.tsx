@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { EMAIL, WHATSAPP_DISPLAY } from '../lib/contact';
 
 interface PrivacyPageProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
-export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onBack }) => {
+export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onBack: onBackProp }) => {
+  const navigate = useNavigate();
+  const onBack = onBackProp || (() => navigate('/'));
   useEffect(() => {
     window.scrollTo(0, 0);
-    const prevTitle = document.title;
-    document.title = "Política de Privacidade | Gorin Soluções";
-    return () => {
-      document.title = prevTitle;
-    };
   }, []);
 
   return (
@@ -59,11 +58,11 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onBack }) => {
             1. Dados Coletados e Finalidade
           </h2>
           <p className="text-base sm:text-[1.0625rem] leading-[1.6] text-black/85 mb-4">
-            Coletamos apenas as informações que você nos envia voluntariamente:
+            Coleto apenas as informações que você me envia voluntariamente:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-base sm:text-[1.0625rem] leading-[1.6] text-black/85 mb-6">
             <li><strong>Contato e Briefing:</strong> Nome, e-mail, telefone, preferências de orçamento e detalhes sobre o projeto enviados via formulários para iniciar atendimento e propostas.</li>
-            <li><strong>Comunicações Diretas:</strong> Mensagens trocadas via WhatsApp, e-mail (<a href="mailto:mateusmirandaamaral@gmail.com" className="underline hover:text-black">mateusmirandaamaral@gmail.com</a>) ou redes sociais.</li>
+            <li><strong>Comunicações Diretas:</strong> Mensagens trocadas via WhatsApp, e-mail (<a href={`mailto:${EMAIL}`} className="underline hover:text-black">{EMAIL}</a>) ou redes sociais.</li>
             <li><strong>Dados Técnicos:</strong> Registros automáticos de acesso (IP e navegador) mantidos pelos servidores de hospedagem para segurança e estabilidade.</li>
           </ul>
 
@@ -71,18 +70,18 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onBack }) => {
             2. Compartilhamento e Serviços de Terceiros
           </h2>
           <p className="text-base sm:text-[1.0625rem] leading-[1.6] text-black/85 mb-6">
-            Não vendemos nem alugamos seus dados. Utilizamos apenas serviços essenciais para o funcionamento da operação e atendimento (WhatsApp/Meta para mensagens, FormSubmit para envio de formulários, Gmail para e-mails, Vercel para hospedagem e Cloudinary/Google Fonts para recursos visuais). Alguns destes serviços podem processar dados nos Estados Unidos sob salvaguardas contratuais.
+            Não vendo nem alugo seus dados. Utilizo apenas serviços essenciais para o funcionamento da operação e atendimento (WhatsApp/Meta para mensagens, FormSubmit para envio de formulários, Gmail para e-mails, Vercel para hospedagem e Cloudinary/Google Fonts para recursos visuais). Alguns destes serviços podem processar dados nos Estados Unidos sob salvaguardas contratuais.
           </p>
 
           <h2 className="text-lg sm:text-xl font-medium tracking-tight text-black mt-8 mb-3">
             3. Seus Direitos (LGPD)
           </h2>
           <p className="text-base sm:text-[1.0625rem] leading-[1.6] text-black/85 mb-6">
-            Você pode solicitar a qualquer momento a confirmação, acesso, correção ou exclusão dos seus dados pessoais. Para exercer seus direitos ou tirar dúvidas, entre em contato diretamente pelo e-mail <a href="mailto:mateusmirandaamaral@gmail.com" className="underline hover:text-black">mateusmirandaamaral@gmail.com</a> ou WhatsApp (61) 98129-0099.
+            Você pode solicitar a qualquer momento a confirmação, acesso, correção ou exclusão dos seus dados pessoais. Para exercer seus direitos ou tirar dúvidas, entre em contato diretamente pelo e-mail <a href={`mailto:${EMAIL}`} className="underline hover:text-black">{EMAIL}</a> ou WhatsApp {WHATSAPP_DISPLAY}.
           </p>
 
           <div className="border-t border-black/10 pt-6 mt-10 text-xs text-black/60 font-mono">
-            Gorin Soluções · Brasília, DF · mateusmirandaamaral@gmail.com
+            Gorin Soluções · Brasília, DF · {EMAIL}
           </div>
         </div>
       </main>

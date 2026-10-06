@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './gorin-styles.css';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
@@ -15,6 +16,7 @@ import { MeshDiagonal } from './MeshDiagonal';
 import { StatCounter } from './StatCounter';
 import { ImageReveal } from './ImageReveal';
 import { Instagram, MessageCircle, ArrowUpRight, X, Clock, MapPin, CheckCircle, ExternalLink, Award, ThumbsUp, Code2, Layers } from 'lucide-react';
+import { WHATSAPP_DISPLAY, INSTAGRAM_URL, INSTAGRAM_HANDLE, whatsappLink } from '../lib/contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -141,6 +143,7 @@ const ServiceCardItem: React.FC<{
       data-open={index === 0 ? "true" : "false"}
       data-index={index}
     >
+      <div className="service-fill" aria-hidden="true" />
       {/* Cabeçalho com min-height 76px (título e número na mesma linha) */}
       <div className="service-card-header">
         <div className="flex flex-col justify-center">
@@ -203,7 +206,12 @@ const ServiceCardItem: React.FC<{
   );
 };
 
-export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBriefing, onOpenContact }) => {
+export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBriefingProp, onOpenContact: onOpenContactProp }) => {
+  const navigate = useNavigate();
+  const onOpenContact = onOpenContactProp || (() => navigate('/contato'));
+  const onOpenBriefing = onOpenBriefingProp || (() => navigate('/briefing'));
+  void onOpenBriefing;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -214,43 +222,49 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
   const videoMediaRef = useRef<HTMLVideoElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
+  const logoImgRef = useRef<HTMLImageElement>(null);
   const navLinksRef = useRef<HTMLElement>(null);
   const headerActionRef = useRef<HTMLDivElement>(null);
 
-  const phoneNumber = "5561981290099";
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.")}`;
+  const whatsappUrl = whatsappLink("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.");
 
   // Exact entrance animation for Navbar matching original B2sJen script:
   // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
   useEffect(() => {
-    const logo = logoRef.current;
-    const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
-    const action = headerActionRef.current;
-
-    const tl = gsap.timeline({ delay: 0.15 });
-
-    if (logo) {
-      tl.fromTo(
-        logo,
-        { scale: 0, opacity: 0, transformOrigin: 'center center' },
-        { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
-        0
-      );
+    if (logoImgRef.current) {
+      logoImgRef.current.setAttribute('fetchpriority', 'high');
     }
 
-    if (nav.length || action) {
-      const elementsToAnimate = [...nav, action].filter(Boolean);
-      gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
-      tl.fromTo(
-        elementsToAnimate,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
-        0.1
-      );
-    }
+    const ctx = gsap.context(() => {
+      const logo = logoRef.current;
+      const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
+      const action = headerActionRef.current;
+
+      const tl = gsap.timeline({ delay: 0.15 });
+
+      if (logo) {
+        tl.fromTo(
+          logo,
+          { scale: 0, opacity: 0, transformOrigin: 'center center' },
+          { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
+          0
+        );
+      }
+
+      if (nav.length || action) {
+        const elementsToAnimate = [...nav, action].filter(Boolean);
+        gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
+        tl.fromTo(
+          elementsToAnimate,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
+          0.1
+        );
+      }
+    });
 
     return () => {
-      tl.kill();
+      ctx.revert();
     };
   }, []);
 
@@ -262,40 +276,54 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     const video = videoMediaRef.current;
     if (!container || !video) return;
 
-    // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
-    gsap.set(container, { willChange: 'clip-path, transform' });
-    const enterTween = gsap.fromTo(
-      container,
-      {
-        clipPath: 'inset(6% 12% round 2rem)',
-        scale: 0.88,
-        opacity: 0,
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
       },
-      {
-        clipPath: 'inset(0% 0% round 2rem)',
-        scale: 1,
-        opacity: 1,
-        ease: 'expo.out',
-        duration: 2.5,
-        delay: 0.2,
-      }
+      { threshold: 0.1 }
     );
 
-    // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
-    gsap.set(video, { scale: 1.12 });
-    const parallaxTrigger = ScrollTrigger.create({
-      trigger: container,
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: true,
-      animation: gsap.fromTo(video, { y: '-10%' }, { y: '10%', ease: 'none' }),
+    observer.observe(video);
+
+    const ctx = gsap.context(() => {
+      // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
+      gsap.set(container, { willChange: 'clip-path, transform' });
+      gsap.fromTo(
+        container,
+        {
+          clipPath: 'inset(6% 12% round 2rem)',
+          scale: 0.88,
+          opacity: 0,
+        },
+        {
+          clipPath: 'inset(0% 0% round 2rem)',
+          scale: 1,
+          opacity: 1,
+          ease: 'expo.out',
+          duration: 2.5,
+          delay: 0.2,
+        }
+      );
+
+      // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
+      gsap.set(video, { scale: 1.12 });
+      ScrollTrigger.create({
+        trigger: container,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+        animation: gsap.fromTo(video, { y: '-10%' }, { y: '10%', ease: 'none' }),
+      });
     });
 
     return () => {
-      enterTween.kill();
-      parallaxTrigger.kill();
-      gsap.killTweensOf(video);
-      gsap.killTweensOf(container);
+      observer.disconnect();
+      ctx.revert();
     };
   }, []);
 
@@ -304,115 +332,139 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     const workMediaElements = document.querySelectorAll<HTMLElement>('.work-card-media');
     if (!workMediaElements.length) return;
 
-    const triggers: ScrollTrigger[] = [];
+    const ctx = gsap.context(() => {
+      workMediaElements.forEach((el) => {
+        const img = el.querySelector<HTMLElement>('img');
+        if (!img) return;
 
-    workMediaElements.forEach((el) => {
-      const img = el.querySelector<HTMLElement>('img');
-      if (!img) return;
+        gsap.set(img, { scale: 1.25, transformOrigin: 'center center' });
 
-      gsap.set(img, { scale: 1.25, transformOrigin: 'center center' });
-
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.8,
-        animation: gsap.fromTo(
-          img,
-          { y: '-16%' },
-          { y: '16%', ease: 'none' }
-        ),
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.8,
+          animation: gsap.fromTo(
+            img,
+            { y: '-16%' },
+            { y: '16%', ease: 'none' }
+          ),
+        });
       });
-
-      triggers.push(st);
     });
 
     return () => {
-      triggers.forEach((st) => st.kill());
+      ctx.revert();
     };
   }, []);
 
-  // Scroll-driven accordion: cards open and close dynamically as user scrolls through each one
+  // Scroll-driven accordion using ScrollTrigger scrub (Cuberto model)
   useEffect(() => {
+    const main = document.querySelector<HTMLElement>('.services-main');
+    const items = document.querySelector<HTMLElement>('.services-items');
     const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
-    if (!cards.length) return;
+    if (!main || !items || !cards.length) return;
 
-    let ticking = false;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      cards.forEach(card => card.setAttribute('data-open', 'true'));
+      return;
+    }
 
-    const updateAccordion = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      const isMobile = window.innerWidth < 768;
-      // Opens only when the card top reaches higher up on the screen (24% of viewport on mobile, 32% on desktop)
-      const openThreshold = isMobile ? vh * 0.24 : vh * 0.32;
+    let offsets: { top: number; bottom: number }[] = [];
+    let tls: gsap.core.Timeline[] = [];
+    let createTimelines: () => void = () => {};
 
-      cards.forEach((card, idx) => {
-        const rect = card.getBoundingClientRect();
-        const currentlyOpen = card.getAttribute('data-open') === 'true';
+    const measure = () => {
+      // Save progress of each timeline
+      const progressArr = tls.map(tl => {
+        const dur = tl.duration();
+        return dur > 0 ? tl.time() / dur : 0;
+      });
 
-        if (idx === 0) {
-          // Card 01 starts open by default. It only closes if the user scrolls past
-          const isAboveSection = rect.bottom < -100;
-          card.setAttribute('data-open', isAboveSection ? 'false' : 'true');
-        } else {
-          // Cards 02..06: Use hysteresis band (open at openThreshold, but only close when scrolled back down past openThreshold + 70px)
-          // This prevents rapid oscillation/jitter when scrolling quickly
-          const closeThreshold = openThreshold + 70;
-          let shouldBeOpen = currentlyOpen;
+      tls.forEach(tl => {
+        tl.revert({ kill: false });
+      });
+      tls = [];
 
-          if (rect.top <= openThreshold) {
-            shouldBeOpen = true;
-          } else if (rect.top > closeThreshold) {
-            shouldBeOpen = false;
-          }
+      const r = items.getBoundingClientRect();
+      cards.forEach((card, i) => {
+        const b = card.getBoundingClientRect();
+        offsets[i] = {
+          top: b.top - r.top,
+          bottom: b.bottom - r.top
+        };
+      });
 
-          if (shouldBeOpen !== currentlyOpen) {
-            card.setAttribute('data-open', shouldBeOpen ? 'true' : 'false');
-          }
-        }
+      main.style.height = r.height + 'px';
+
+      // Re-create timelines and render at saved progress
+      createTimelines();
+      tls.forEach((tl, i) => {
+        const prog = progressArr[i] || 0;
+        tl.render(tl.duration() * prog, true, true);
       });
     };
 
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateAccordion);
-      }
-    };
+    const ctx = gsap.context(() => {
+      ScrollTrigger.addEventListener('refreshInit', measure);
 
-    // Mobile click handler
-    const clickHandlers: (() => void)[] = [];
-    cards.forEach((card, idx) => {
-      const handler = () => {
-        if (window.innerWidth < 768) {
-          const isOpen = card.getAttribute('data-open') === 'true';
-          card.setAttribute('data-open', isOpen ? 'false' : 'true');
-        }
+      createTimelines = () => {
+        const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
+
+        cards.forEach((card, i) => {
+          if (i === 0) return; // Card 01 starts open / static
+
+          const title = card.querySelector<HTMLElement>('.service-title');
+          const number = card.querySelector<HTMLElement>('.service-number');
+          const category = card.querySelector<HTMLElement>('.service-category');
+          const fill = card.querySelector<HTMLElement>('.service-fill');
+          const mesh = card.querySelector<HTMLElement>('.service-mesh');
+          const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+          const content = card.querySelector<HTMLElement>('.service-card-content');
+
+          if (!title || !number || !category || !fill || !mesh || !collapse || !content) return;
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: main,
+              start: () => `top+=${offsets[i].top} center+=20%`,
+              end: () => `top+=${offsets[i].bottom} center+=30%`,
+              scrub: 1,
+            }
+          });
+
+          tl.to(title, { color: luz, duration: 1, ease: 'none' }, 0)
+            .to(number, { color: luz, opacity: 0.55, duration: 1, ease: 'none' }, 0)
+            .to(fill, { opacity: 1, duration: 1, ease: 'none' }, 0)
+            .to(category, { opacity: 1, maxHeight: 24, marginBottom: '0.35rem', duration: 1, ease: 'none' }, 0)
+            .to(mesh, { opacity: 1, duration: 1, ease: 'none' }, 0)
+            .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
+            .to(content, { opacity: 1, duration: 0.6, ease: 'none' }, 0.4);
+
+          tls.push(tl);
+        });
       };
-      clickHandlers[idx] = handler;
-      card.addEventListener('click', handler);
+
+      measure();
     });
 
-    // Run immediately
-    updateAccordion();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    const lenis = (window as any).__lenis;
-    if (lenis) {
-      lenis.on('scroll', onScroll);
+    if (document.readyState !== 'complete') {
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+      });
     }
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (lenis) {
-        lenis.off('scroll', onScroll);
-      }
-      cards.forEach((card, idx) => {
-        card.removeEventListener('click', clickHandlers[idx]);
-      });
+      ScrollTrigger.removeEventListener('refreshInit', measure);
+      ctx.revert();
+      main.style.removeProperty('height');
     };
   }, []);
 
@@ -567,12 +619,12 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
     {
       number: "01",
       category: "Performance & SEO",
-      title: "Páginas Ultravelozes com Foco em Conversão",
-      tagline: "Carregamento em menos de 1 segundo para reter cada visitante",
-      desc: "Um segundo de atraso custa até 20% das suas vendas. Desenvolvemos interfaces leves em código puro, sem o peso excessivo de plugins, atingindo notas máximas no Google PageSpeed e posicionando sua marca na liderança das buscas.",
+      title: "Páginas Leves com Foco em Conversão",
+      tagline: "Carregamento rápido para reter a atenção de quem visita",
+      desc: "Crio sites leves com código próprio e sem plugins pesados. A estrutura é pensada para velocidade desde o início, facilitando o acesso do usuário e ajudando o posicionamento nas buscas.",
       deliverables: [
-        "Pontuação 95+ no Google PageSpeed",
-        "Otimização Core Web Vitals",
+        "Código limpo focado em velocidade",
+        "Otimização para carregamento rápido",
         "Arquitetura de conversão direta",
         "SEO técnico on-page completo"
       ],
@@ -583,25 +635,25 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
       category: "Estratégia Visual & UX/UI",
       title: "Design de Experiência que Conduz à Venda",
       tagline: "Estética refinada e hierarquia visual projetadas para gerar ação",
-      desc: "Cada elemento, contraste e espaçamento tem um objetivo comercial claro. Criamos identidades digitais sofisticadas com tipografia internacional e fluxos intuitivos, garantindo que o visitante encontre respostas imediatas e avance para a contratação.",
+      desc: "Cada elemento, contraste e espaçamento tem um objetivo claro. Crio identidades digitais com tipografia cuidada e fluxos intuitivos, ajudando o visitante a encontrar respostas rápidas e avançar no contato.",
       deliverables: [
         "Direção de arte sob medida (sem templates)",
-        "Design 100% responsivo para todos os dispositivos",
+        "Design responsivo para todos os dispositivos",
         "Mapeamento de jornada do usuário",
-        "Microinterações e animações elegantes"
+        "Microinterações e navegação fluida"
       ],
       image: "/images/showcase-feature-2.webp",
     },
     {
       number: "03",
       category: "Inteligência Comercial",
-      title: "Automação e Atendimento 24 Horas",
+      title: "Automação e Atendimento Direto",
       tagline: "Seu website trabalhando ativamente mesmo fora do expediente",
-      desc: "Conectamos sua presença digital a rotinas inteligentes de qualificação de leads, formulários dinâmicos com validação instantânea e canais automatizados, garantindo que nenhum potencial cliente fique sem resposta.",
+      desc: "Conecto sua presença digital a formulários práticos com validação imediata e canais diretos, ajudando para que cada pessoa interessada consiga falar com você rapidamente.",
       deliverables: [
-        "Encaminhamento inteligente para WhatsApp",
+        "Encaminhamento prático para WhatsApp",
         "Formulários interativos com feedback instantâneo",
-        "Integração com CRMs e ferramentas de vendas",
+        "Integração com ferramentas de atendimento",
         "Rastreamento de conversões e eventos"
       ],
       image: "/images/showcase-feature-3.webp",
@@ -611,26 +663,26 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
       category: "Presença Orgânica",
       title: "Visibilidade e Posicionamento no Google",
       tagline: "Sua empresa encontrada exatamente por quem está pronto para contratar",
-      desc: "Estruturamos cada página segundo as melhores práticas mundiais de indexação orgânica, com marcação de dados Schema.org e integração ao ecossistema local do Google, atraindo tráfego qualificado e de alto valor.",
+      desc: "Estruturo cada página seguindo boas práticas de indexação orgânica, com marcação de dados Schema.org e integração ao ecossistema local do Google, atraindo contatos qualificados.",
       deliverables: [
         "Marcação estruturada Schema.org",
         "Integração com Google Meu Negócio e Maps",
         "Sitemap dinâmico e robots.txt otimizado",
-        "Otimização semântica para buscas por voz e IA"
+        "Estrutura semântica para mecanismos de busca"
       ],
       image: "/images/mascot-trimmed.webp",
     },
     {
       number: "05",
-      category: "Engenharia de Elite",
+      category: "Engenharia Autoral",
       title: "Tecnologia Moderna em React e TypeScript",
-      tagline: "A mesma infraestrutura de alta performance das maiores empresas globais",
-      desc: "Construído sobre stack moderna (React, TypeScript, Vite e Tailwind CSS). Livre de vulnerabilidades de segurança, plugins desatualizados ou travamentos de plataformas legadas. Seu site é um ativo de valor permanente, seguro e preparado para escalar.",
+      tagline: "Infraestrutura moderna e estável para a presença da sua marca",
+      desc: "Construo sobre stack moderna (React, TypeScript, Vite e Tailwind CSS), sem depender de plataformas pesadas ou plugins desatualizados. Seu site fica seguro, estável e pronto para crescer.",
       deliverables: [
-        "Código 100% autoral e documentado",
-        "Certificado SSL e criptografia de ponta a ponta",
+        "Código autoral e documentado",
+        "Certificado SSL e navegação segura",
         "Carregamento sob demanda (lazy loading)",
-        "Hospedagem global em CDN de alta disponibilidade"
+        "Hospedagem moderna em CDN de alta disponibilidade"
       ],
       image: "/images/sgb.webp",
     },
@@ -638,13 +690,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
       number: "06",
       category: "Canais Comerciais",
       title: "Contato Direto sem Fricção ou Intermediários",
-      tagline: "A distância mais curta entre o interesse do cliente e o fechamento",
-      desc: "Implementamos pontos estratégicos de contato ao longo de toda a navegação, permitindo que o visitante inicie uma conversa com seu time de vendas em um único toque, aumentando substancialmente a taxa de resposta.",
+      tagline: "O caminho mais curto entre o interesse do cliente e a conversa",
+      desc: "Organizo pontos de contato ao longo de toda a navegação para que o visitante inicie uma conversa com você em um toque, facilitando o início de novos negócios.",
       deliverables: [
         "Gatilhos de WhatsApp contextuais por serviço",
         "Chamadas para ação visíveis e balanceadas",
         "Integração com Instagram e redes sociais",
-        "Painel de métricas e suporte contínuo"
+        "Acompanhamento e suporte próximo"
       ],
       image: "/images/pcgastronomia.webp",
     }
@@ -687,23 +739,23 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
   const faqs = [
     {
       q: "Qual a diferença entre um site desenvolvido pela Gorin e um feito em WordPress/Wix?",
-      a: "Plataformas como WordPress ou Wix utilizam construtores pesados e dezenas de plugins de terceiros que deixam o site lento, vulnerável a invasões e dependente de atualizações que quebram o layout. A Gorin desenvolve código autoral moderno em React e TypeScript — a mesma tecnologia usada pelas maiores empresas do mundo. O resultado é um site que abre instantaneamente (menos de 1 segundo), tem nota máxima no Google e não trava."
+      a: "Plataformas como WordPress ou Wix costumam usar construtores pesados e muitos plugins que deixam o site lento e difícil de manter. Eu desenvolvo em código próprio com React e TypeScript. O resultado é um site leve, rápido para carregar, seguro e sem depender de plugins pesados."
     },
     {
       q: "Quanto tempo leva para o projeto ser entregue?",
-      a: "Para Landing Pages e Websites Institucionais estratégicos, o prazo médio de entrega varia entre 7 e 20 dias úteis, dependendo da complexidade do projeto e da disponibilização das informações da sua empresa. Trabalhamos com etapas claras: alinhamento estratégico, criação do design exclusivo, desenvolvimento e homologação."
+      a: "Para Landing Pages e Websites Institucionais, o prazo é a partir de 7 dias úteis, dependendo da complexidade e da rapidez com que as informações chegam. Trabalho com etapas claras: alinhamento inicial, criação do design, desenvolvimento e publicação."
     },
     {
       q: "O site é otimizado para celulares e mecanismos de busca (Google)?",
-      a: "Sim, 100%. Mais de 80% do tráfego atual provém de smartphones. Por isso, todos os nossos layouts são desenhados prioritariamente para mobile, com tempos de resposta imediatos e SEO técnico embutido (código semântico, metatags OpenGraph e estruturação de dados) para que sua empresa ganhe relevância orgânica no Google."
+      a: "Sim. A maior parte dos acessos hoje vem do celular, então o site é pensado primeiro para mobile e com SEO técnico básico, incluindo código semântico e metatags para ajudar no posicionamento do seu negócio no Google."
     },
     {
       q: "Como funciona a hospedagem e a manutenção após o lançamento?",
-      a: "Auxiliamos na configuração do seu domínio próprio (.com.br) e conectamos seu site a uma infraestrutura de hospedagem em nuvem de alta disponibilidade com CDN global e certificado de segurança SSL gratuito. Você recebe um produto robusto que não requer manutenção técnica constante."
+      a: "Ajudo na configuração do seu domínio próprio (.com.br) e conecto seu site a uma hospedagem em nuvem estável, com certificado de segurança SSL. Você recebe uma página pronta que não exige manutenção complicada no dia a dia."
     },
     {
-      q: "Como iniciamos o projeto e quais são as formas de pagamento?",
-      a: "O primeiro passo é uma conversa inicial via WhatsApp ou pelo formulário do site para compreendermos seu modelo de negócio e objetivos. Apresentamos uma proposta detalhada com escopo, prazos e investimento. Facilitamos o pagamento via PIX com parcelamento ou cartão de crédito."
+      q: "Como eu inicio o projeto e quais são as formas de pagamento?",
+      a: "O primeiro passo é uma conversa inicial pelo WhatsApp ou pelo formulário para entender seu negócio e o que você precisa. Envio uma proposta com o escopo, prazos e investimento. O pagamento pode ser feito via PIX ou cartão de crédito."
     }
   ];
 
@@ -736,8 +788,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             {/* Logo */}
             <a ref={logoRef} href="#" className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
               <img
+                ref={logoImgRef}
                 src="/images/mascot-trimmed.webp"
-                alt="Gorin Soluções"
+                alt="Logotipo Gorin Soluções"
                 loading="eager"
                 className="w-[22px] h-[22px] md:w-[24px] md:h-[24px] object-contain transition-transform duration-300 group-hover:scale-110"
               />
@@ -766,12 +819,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 <MagneticCta
                   onClick={(e) => {
                     e.preventDefault();
-                    if (onOpenContact) {
-                      onOpenContact();
-                    } else {
-                      window.history.pushState({}, '', '/contato');
-                      window.dispatchEvent(new PopStateEvent('popstate'));
-                    }
+                    onOpenContact();
                   }}
                   variant={isDarkBg ? "inverse" : "fill"}
                   className="!py-2.5 !px-5 !text-xs md:!text-sm cursor-pointer"
@@ -828,7 +876,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                   >
                     <img
                       src="/images/mascot-trimmed.webp"
-                      alt="Gorin Soluções"
+                      alt="Logotipo Gorin Soluções"
                       loading="eager"
                       className="w-[22px] h-[22px] object-contain transition-transform duration-300 group-hover:scale-110"
                     />
@@ -891,12 +939,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                   <button
                     onClick={() => {
                       setIsMenuOpen(false);
-                      if (onOpenContact) {
-                        onOpenContact();
-                      } else {
-                        window.history.pushState({}, '', '/contato');
-                        window.dispatchEvent(new PopStateEvent('popstate'));
-                      }
+                      onOpenContact();
                     }}
                     className={`inline-flex items-center justify-center rounded-full font-semibold transition-colors cursor-pointer ${isDarkBg ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'}`}
                     style={{
@@ -937,7 +980,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               as="h1"
               className="hero-headline"
               lines={[
-                "Criamos websites e",
+                "Desenvolvo sites e",
                 "soluções digitais que",
                 "geram resultados reais."
               ]}
@@ -950,7 +993,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="hero-lead"
             >
-              Unimos direção de arte refinada, arquitetura de conversão estratégica e engenharia em React para transformar empresas ambiciosas em referências no mercado digital.
+              Uno direção de arte refinada, estrutura de conversão e engenharia em React para transformar empresas em referências no mercado digital.
             </motion.p>
 
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
@@ -971,13 +1014,16 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                   ref={videoMediaRef}
                   onLoadedMetadata={(e) => {
                     e.currentTarget.playbackRate = 0.52;
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                      e.currentTarget.pause();
+                    }
                   }}
                   src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4"
                   autoPlay
                   loop
                   muted
                   playsInline
-                  preload="auto"
+                  preload="metadata"
                   className="w-full h-full object-cover block will-change-transform"
                   aria-label="Vídeo de demonstração Gorin Soluções"
                 />
@@ -994,12 +1040,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               <MagneticCta
                 onClick={(e) => {
                   e.preventDefault();
-                  if (onOpenContact) {
-                    onOpenContact();
-                  } else {
-                    window.history.pushState({}, '', '/contato');
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  }
+                  onOpenContact();
                 }}
                 variant="fill"
                 className="!py-4 !px-8 !text-base cursor-pointer"
@@ -1056,13 +1097,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     
                     <div className="mt-4 flex items-center gap-3">
                       <a
-                        href="https://www.instagram.com/mateusgorin?igsh=a3Rnc2p0ZzE4ZWFz"
+                        href={INSTAGRAM_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs font-mono text-black/70 hover:text-black flex items-center gap-1.5 transition-colors"
                       >
                         <Instagram size={14} />
-                        <span>@mateusgorin</span>
+                        <span>{INSTAGRAM_HANDLE}</span>
                       </a>
                       <span className="text-black/20">·</span>
                       <a
@@ -1072,7 +1113,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                         className="text-xs font-mono text-black/70 hover:text-black flex items-center gap-1.5 transition-colors"
                       >
                         <MessageCircle size={14} />
-                        <span>(61) 98129-0099</span>
+                        <span>{WHATSAPP_DISPLAY}</span>
                       </a>
                     </div>
                   </div>
@@ -1099,7 +1140,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                       lineHeight: 1.1,
                     }}
                     lines={[
-                      "Construímos ferramentas de",
+                      "Construo ferramentas de",
                       "crescimento, não apenas sites."
                     ]}
                   />
@@ -1110,7 +1151,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     A <strong className="text-black font-semibold">Gorin Soluções</strong> nasceu da convicção de que empresas profissionais merecem mais do que templates genéricos do WordPress e páginas lentas que espantam clientes.
                   </p>
                   <p>
-                    Com base operacional em Brasília e projetos em todo o Brasil, unimos o rigor técnico da engenharia de software à sensibilidade de design de ponta. Desenvolvemos cada linha de código com uma meta implacável: fazer sua empresa transmitir autoridade máxima, carregar em fração de segundo e converter visitantes em contratos fechados.
+                    Com base em Brasília e projetos em todo o Brasil, uno o rigor técnico da engenharia de software ao cuidado visual. Desenvolvo cada linha de código com um objetivo claro: fazer sua empresa transmitir autoridade, carregar rápido e transformar visitantes em clientes reais.
                   </p>
                 </div>
               </div>
@@ -1141,15 +1182,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               />
             </motion.div>
 
-            <div className="services-items flex flex-col gap-6">
-              {servicesList.map((service, index) => (
-                <ServiceCardItem
-                  key={service.number}
-                  service={service}
-                  index={index}
-                  whatsappUrl={whatsappUrl}
-                />
-              ))}
+            <div className="services-main" style={{ position: 'relative' }}>
+              <div className="services-items flex flex-col gap-6">
+                {servicesList.map((service, index) => (
+                  <ServiceCardItem
+                    key={service.number}
+                    service={service}
+                    index={index}
+                    whatsappUrl={whatsappUrl}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -1231,8 +1274,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     >
                       <img
                         src={p.image}
-                        alt={p.title}
+                        alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover block will-change-transform"
                         style={{
                           borderRadius: 'var(--radius-lg)',
@@ -1290,8 +1334,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     >
                       <img
                         src={p.image}
-                        alt={p.title}
+                        alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover block will-change-transform"
                         style={{
                           borderRadius: 'var(--radius-lg)',
@@ -1361,7 +1406,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 <div className="relative aspect-video w-full overflow-hidden bg-black">
                   <img
                     src={selectedProject.image}
-                    alt={selectedProject.title}
+                    alt={`Imagem detalhada do projeto ${selectedProject.title}`}
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111113] via-transparent to-transparent"></div>
@@ -1380,7 +1426,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     <div className="flex items-center gap-2 text-xs font-mono text-[#00D4FF] uppercase tracking-wider mb-2">
                       <span>{selectedProject.category}</span>
                       <span>·</span>
-                      <span>Entrega Garantida</span>
+                      <span>Projeto Entregue</span>
                     </div>
                     <h3 className="text-3xl md:text-4xl font-bold tracking-tight">
                       {selectedProject.title}
@@ -1555,7 +1601,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               </div>
               <div className="md:col-span-8 lg:col-span-9">
                 <p className="editorial-text">
-                  Não entregamos apenas páginas na internet. Entregamos ativos de autoridade e ferramentas comerciais que continuam gerando leads e clientes todos os dias.
+                  Não entrego apenas páginas na internet. Crio ferramentas comerciais que continuam gerando contatos e oportunidades para o seu negócio.
                 </p>
               </div>
             </div>
@@ -1568,7 +1614,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     <Award size={24} strokeWidth={1.5} className="text-black" />
                   </div>
                   <div className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Track Record Comprovado
+                    Projetos Realizados
                   </div>
                 </div>
                 <div>
@@ -1587,15 +1633,15 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     <ThumbsUp size={24} strokeWidth={1.5} className="text-black" />
                   </div>
                   <div className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Índice de Aprovação
+                    Tempo de resposta
                   </div>
                 </div>
                 <div>
                   <div className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-1">
-                    <StatCounter value="100%" />
+                    <StatCounter value="24h" />
                   </div>
                   <div className="text-sm font-semibold uppercase tracking-wider text-black/75">
-                    Clientes Satisfeitos
+                    Resposta em até 24 horas
                   </div>
                 </div>
               </div>
@@ -1630,10 +1676,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                 </div>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
-                    Código 100% Puro
+                    Código feito do zero
                   </div>
                   <div className="text-sm text-black/70 leading-relaxed">
-                    Sem Elementor ou construtores lentos. Velocidade máxima no Google e zero dependência técnica.
+                    Sem depender de construtores pesados. Foco em velocidade de carregamento e estabilidade técnica.
                   </div>
                 </div>
               </div>
@@ -1644,15 +1690,15 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                     <Layers size={24} strokeWidth={1.5} className="text-black" />
                   </div>
                   <div className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Metodologia Integrada
+                    Processo Completo
                   </div>
                 </div>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
-                    Estratégia, UX/UI e Desenvolvimento Integrados
+                    Estratégia, Design e Desenvolvimento Integrados
                   </div>
                   <div className="text-sm md:text-base text-black/70 leading-relaxed max-w-2xl">
-                    Cuidamos de cada etapa: do conceito e pesquisa de mercado à arquitetura de conversão, redação persuasiva e suporte pós-lançamento.
+                    Acompanho cada etapa: da conversa inicial e entendimento do público à interface, código limpo e publicação final.
                   </div>
                 </div>
               </div>
@@ -1746,19 +1792,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
               <div className="space-y-8">
                 <div className="space-y-4">
                   <p className="text-white/70 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-                    Conte-nos sobre sua empresa e receba uma análise estratégica com estimativa de investimento e cronograma.
+                    Conte-me sobre sua empresa e receba uma análise do seu projeto com estimativa de prazo e investimento.
                   </p>
                 </div>
 
                 <div className="pt-2">
                   <button
                     onClick={() => {
-                      if (onOpenContact) {
-                        onOpenContact();
-                      } else {
-                        window.history.pushState({}, '', '/contato');
-                        window.dispatchEvent(new PopStateEvent('popstate'));
-                      }
+                      onOpenContact();
                     }}
                     className="inline-flex items-center justify-center rounded-full bg-[#00D4FF] text-black font-semibold hover:bg-[#00bfe6] transition-colors shadow-lg cursor-pointer"
                     style={{
@@ -1802,11 +1843,11 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                       >
                         <MessageCircle size={16} strokeWidth={1.5} style={{ color: 'var(--accent-cyan)', stroke: 'var(--accent-cyan)' }} />
                       </div>
-                      <span>(61) 98129-0099 · WhatsApp Direto</span>
+                      <span>{WHATSAPP_DISPLAY} · WhatsApp Direto</span>
                     </a>
 
                     <a 
-                      href="https://www.instagram.com/mateusgorin?igsh=a3Rnc2p0ZzE4ZWFz" 
+                      href={INSTAGRAM_URL} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="flex items-center gap-3.5 py-2.5 text-white/90 hover:text-white transition-colors"
@@ -1821,7 +1862,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
                       >
                         <Instagram size={16} strokeWidth={1.5} style={{ color: 'var(--accent-cyan)', stroke: 'var(--accent-cyan)' }} />
                       </div>
-                      <span>@mateusgorin · Instagram</span>
+                      <span>{INSTAGRAM_HANDLE} · Instagram</span>
                     </a>
                   </div>
 
@@ -1897,15 +1938,15 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: _onOpenBri
             {/* Bottom Row */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/50">
               <div className="flex items-center gap-6">
-                <a href="/politica-de-privacidade" className="hover:text-white transition-colors">
+                <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade
-                </a>
+                </Link>
                 <span>2026, Gorin Soluções</span>
               </div>
 
               <div className="flex items-center gap-3">
                 <a
-                  href="https://www.instagram.com/mateusgorin?igsh=a3Rnc2p0ZzE4ZWFz"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="RoundButton"

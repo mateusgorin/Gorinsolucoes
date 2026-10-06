@@ -16,7 +16,6 @@
     <!-- SEO Meta Tags Otimizadas -->
     <title>Gorin Soluções | Criação de Sites e Sistemas Web em Brasília</title>
     <meta name="description" content="Criação de sites profissionais, landing pages e sistemas web em Brasília. Fale direto com o Mateus e peça seu orçamento." />
-    <meta name="keywords" content="criação de sites Brasília DF, agência web Brasília, desenvolvimento web Brasília, criar site profissional Brasília, landing page alta conversão, sistema web Brasília, site para restaurante Brasília, site para pequenas empresas DF, desenvolvedor web Brasília, Gorin Soluções" />
     <meta name="theme-color" content="#FAFAF9" />
     <link rel="canonical" href="https://www.gorinsolucoes.com.br/" />
     <meta name="geo.region" content="BR-DF" />
@@ -40,155 +39,11 @@
     <meta name="twitter:description" content="Sites e sistemas web sob medida, em Brasília. Peça seu orçamento." />
     <meta name="twitter:image" content="https://i.postimg.cc/y8HBpVXk/Picsart-26-04-06-17-53-16-100.jpg" />
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              archivo: ['Archivo', 'sans-serif'],
-              display: ['Archivo', 'sans-serif'],
-              sans: ['Inter', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            colors: {
-              studio: {
-                bg: '#FAFAF9',
-                ink: '#0B0B0C',
-                muted: '#71717A',
-                border: 'rgba(11, 11, 12, 0.1)',
-                card: '#FFFFFF',
-                dark: '#0B0B0C',
-              },
-              cyan: {
-                DEFAULT: '#00D4FF',
-                solid: '#00D4FF',
-              },
-              cyber: {
-                black: '#FAFAF9',
-                dark: '#FFFFFF',
-                slate: '#F4F4F5',
-                primary: '#00D4FF',
-                secondary: '#0B0B0C',
-                accent: '#00D4FF',
-                dim: 'rgba(0, 212, 255, 0.08)',
-                white: '#0B0B0C',
-                gray: '#52525B',
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      :root {
-        --color-primary: #000000;
-        --color-accent: #00D4FF;
-        --color-bg: #FFFFFF;
-        --color-text: #000000;
-      }
-
-      html {
-        scroll-behavior: smooth;
-        background-color: #FFFFFF;
-        color: #000000;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
-      }
-
-      body {
-        background-color: #FFFFFF;
-        color: #000000;
-        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Manrope', 'Suisse Intl', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-weight: 500;
-        letter-spacing: -0.02em;
-      }
-
-      /* Minimal Scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #FFFFFF;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #D4D4D8;
-        border-radius: 9999px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #000000;
-      }
-
-      .clip-corner, .clip-corner-sm {
-        clip-path: none;
-        border-radius: 6px;
-      }
-
-      /* Infinite marquee animation */
-      @keyframes marquee {
-        0% {
-          transform: translate3d(0, 0, 0);
-        }
-        100% {
-          transform: translate3d(-33.333%, 0, 0);
-        }
-      }
-      .animate-marquee {
-        animation: marquee 30s linear infinite;
-      }
-
-      /* Lenis Smooth Scroll Configuration */
-      html.lenis, html.lenis body {
-        height: auto;
-      }
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *, ::before, ::after {
-          animation-delay: -1ms !important;
-          animation-duration: 1ms !important;
-          animation-iteration-count: 1 !important;
-          background-attachment: initial !important;
-          scroll-behavior: auto !important;
-          transition-duration: 0s !important;
-          transition-delay: 0s !important;
-        }
-      }
-    </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "vite": "https://esm.sh/vite@^7.3.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "export": "https://esm.sh/export@^0.1.337"
-  }
-}
-</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -196,7 +51,8 @@
   "name": "Gorin Soluções",
   "description": "Criação de sites, landing pages e sistemas web em Brasília, DF.",
   "url": "https://www.gorinsolucoes.com.br",
-  "telephone": "+55-61-99194-4512",
+  "telephone": "+55-61-98129-0099",
+  "email": "mateusmirandaamaral@gmail.com",
   "image": "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1785030520/file-000000004e8871f59ac147d0e448ca11_fj6qzn.webp",
   "logo": "https://i.ibb.co/JwncghHW/Picsart-25-12-22-08-54-19-528.png",
   "priceRange": "$$",
@@ -218,8 +74,7 @@
     "SEO"
   ],
   "sameAs": [
-    "https://www.instagram.com/gorinsolucoes",
-    "https://wa.me/5561991944512"
+    "https://www.instagram.com/mateusgorin"
   ]
 }
 </script>

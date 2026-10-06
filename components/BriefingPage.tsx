@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SectionHeading } from './ui/SectionHeading';
-import { ClipboardCheck, ArrowLeft, Send, Sparkles, Building2, Users, Target, FileText, Palette, Globe, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Send, Sparkles, Building2, Users, Target, FileText, Palette, Globe, CheckCircle2 } from 'lucide-react';
+import { EMAIL, whatsappLink } from '../lib/contact';
 
 export const BriefingPage: React.FC = () => {
   // All fields in a unified state
@@ -33,6 +35,7 @@ export const BriefingPage: React.FC = () => {
     tecnicoHospedagem: ''
   });
 
+  const [website, setWebsite] = useState(''); // Anti-spam honeypot
   const [loading, setLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -68,12 +71,21 @@ export const BriefingPage: React.FC = () => {
     }));
   };
 
+  const navigate = useNavigate();
+
   const handleBackHome = () => {
-    window.location.href = '/';
+    navigate('/');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Anti-spam honeypot check
+    if (website.trim() !== '') {
+      setIsSent(true);
+      return;
+    }
+
     setLoading(true);
 
     // Format beautifully for WhatsApp
@@ -124,7 +136,7 @@ export const BriefingPage: React.FC = () => {
 
     try {
       // POST asynchronously to FormSubmit AJAX endpoint
-      const response = await fetch("https://formsubmit.co/ajax/mateusmirandaamaral@gmail.com", {
+      const response = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +148,7 @@ export const BriefingPage: React.FC = () => {
       if (response.ok) {
         setEmailSent(true);
         // Prepare the WhatsApp share url
-        const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(whatsappMsgText)}`;
+        const waUrl = whatsappLink(whatsappMsgText);
         setWhatsappUrl(waUrl);
         setIsSent(true);
       } else {
@@ -147,7 +159,7 @@ export const BriefingPage: React.FC = () => {
       console.error(err);
       setEmailSent(false);
       // Fallback: Still activate the WhatsApp redirection even if FormSubmit API has errors
-      const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(whatsappMsgText)}`;
+      const waUrl = whatsappLink(whatsappMsgText);
       setWhatsappUrl(waUrl);
       setIsSent(true);
     } finally {
@@ -177,22 +189,16 @@ export const BriefingPage: React.FC = () => {
         {/* Heading */}
         <SectionHeading 
           title="BRIEFING DE PROJETO" 
-          subtitle="ESTRATÉGIA & ESPECIFICAÇÃO" 
+          subtitle="Para desenhar um site que realmente gere resultados e converse com seu público ideal, preciso entender as particularidades do seu negócio. Preencha os campos abaixo com o máximo de detalhes possível."
         />
-        
-        <p className="font-sans text-[#71717A] text-sm md:text-base mb-10 -mt-10 max-w-2xl leading-relaxed">
-          Para eu montar o seu site do jeito certo, preciso conhecer melhor o seu negócio. Responda com calma. Se não souber alguma coisa, escreva 'não sei' que a gente resolve junto.
-        </p>
 
-        {/* Progress Tracker Widget */}
-        <div className="border border-black/10 bg-white rounded-[6px] p-5 mb-10 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
-          <div className="flex items-center gap-3">
-            <ClipboardCheck className="text-[#00D4FF]" size={20} />
-            <span className="font-mono text-xs text-[#0B0B0C] uppercase tracking-wider font-semibold">
-              Seu progresso
-            </span>
-          </div>
-          <div className="flex-1 max-w-md w-full">
+        {/* Global Progress Bar */}
+        <div className="mt-8 mb-12 flex items-center justify-between gap-4 bg-white p-4 rounded-[6px] border border-black/10 shadow-sm">
+          <div className="flex-1">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-[#71717A]">PROGRESSO DO PREENCHIMENTO</span>
+              <span className="text-xs font-mono font-semibold text-[#0B0B0C]">{filledFieldsCount} de {mapFields.length} respondidos</span>
+            </div>
             <div className="h-2 w-full bg-black/5 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-[#00D4FF] transition-all duration-500 ease-out"
@@ -205,7 +211,7 @@ export const BriefingPage: React.FC = () => {
 
         {/* Success Screen */}
         {isSent ? (
-          <div className="border border-black/10 bg-white rounded-[6px] p-8 md:p-12 text-center shadow-lg">
+          <div className="border border-black/10 bg-white rounded-[6px] p-8 md:p-12 text-center shadow-lg" role="status" aria-live="polite">
             <div className="inline-flex items-center gap-1.5 text-[10px] font-mono text-[#0B0B0C] bg-black/5 px-3 py-1 rounded-[2px] mb-6">
               BRIEFING EM ANDAMENTO
             </div>
@@ -240,6 +246,19 @@ export const BriefingPage: React.FC = () => {
         ) : (
           /* Form Content */
           <form onSubmit={handleSubmit} className="space-y-8 relative">
+            {/* Honeypot field for anti-spam */}
+            <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+              <label htmlFor="briefing-website-field">Website</label>
+              <input
+                id="briefing-website-field"
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+              />
+            </div>
             
             {/* Section 1: Sobre a Empresa / Profissional */}
             <div className="border border-black/10 bg-white rounded-[6px] p-6 md:p-8 shadow-sm relative">
@@ -252,13 +271,16 @@ export const BriefingPage: React.FC = () => {
               
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-empresaNome" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Qual é o nome da empresa ou o seu nome como profissional? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Como a marca deve ser apresentada no site?)</span>
                   </label>
                   <input 
+                    id="briefing-empresaNome"
                     type="text"
                     name="empresaNome"
+                    autoComplete="organization"
+                    maxLength={120}
                     required
                     value={formData.empresaNome}
                     onChange={handleChange}
@@ -268,12 +290,14 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-empresaServico" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Qual é o seu principal serviço, produto ou área de atuação? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: escritório de advocacia, venda de roupas, consultoria financeira, restaurante, clínica de estética...)</span>
                   </label>
                   <textarea 
+                    id="briefing-empresaServico"
                     name="empresaServico"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.empresaServico}
@@ -284,12 +308,14 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-empresaFormato" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Como funciona o seu formato de venda ou atendimento? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: apenas presencial, 100% online, e-commerce, envio para todo o país, atendimento híbrido...)</span>
                   </label>
                   <textarea 
+                    id="briefing-empresaFormato"
                     name="empresaFormato"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.empresaFormato}
@@ -300,13 +326,15 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-empresaRegiao" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Qual é a sua região de abrangência? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: atende o Brasil todo, apenas uma cidade específica, região metropolitana...)</span>
                   </label>
                   <input 
+                    id="briefing-empresaRegiao"
                     type="text"
                     name="empresaRegiao"
+                    maxLength={120}
                     required
                     value={formData.empresaRegiao}
                     onChange={handleChange}
@@ -328,12 +356,14 @@ export const BriefingPage: React.FC = () => {
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-publicoCliente" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Quem é o seu cliente ideal? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: outras empresas/B2B, mães, jovens universitários, público de luxo, público em geral...)</span>
                   </label>
                   <textarea 
+                    id="briefing-publicoCliente"
                     name="publicoCliente"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.publicoCliente}
@@ -344,12 +374,14 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-publicoProblema" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Qual é o principal problema ou desejo que o seu negócio resolve para esse cliente? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Por que eles te procuram?)</span>
                   </label>
                   <textarea 
+                    id="briefing-publicoProblema"
                     name="publicoProblema"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.publicoProblema}
@@ -371,18 +403,20 @@ export const BriefingPage: React.FC = () => {
               </h4>
 
               <div>
-                <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                <label htmlFor="briefing-objetivoAcao" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                   Qual é a ação principal que você deseja que o visitante faça ao entrar no site? <span className="text-[#00D4FF]">*</span>
                   <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: clicar no botão do WhatsApp, preencher um formulário de orçamento, comprar um produto direto na página, agendar uma consulta...)</span>
                 </label>
                 <textarea 
+                  id="briefing-objetivoAcao"
                   name="objetivoAcao"
+                  maxLength={2000}
                   required
                   rows={3}
                   value={formData.objetivoAcao}
                   onChange={handleChange}
                   className="w-full bg-[#FAFAF9] border border-black/15 focus:border-[#00D4FF] focus:bg-white p-3.5 text-[#0B0B0C] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-black/30 resize-none"
-                  placeholder="Selecione ou descreva qual a ação direta convertemos"
+                  placeholder="Selecione ou descreva qual a ação direta desejada"
                 />
               </div>
             </div>
@@ -398,12 +432,14 @@ export const BriefingPage: React.FC = () => {
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-materiaisProntos" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Quais materiais você já possui prontos para o site? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: textos institucionais, fotos profissionais da equipe/produtos, vídeos, depoimentos de clientes...)</span>
                   </label>
                   <textarea 
+                    id="briefing-materiaisProntos"
                     name="materiaisProntos"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.materiaisProntos}
@@ -414,27 +450,31 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
-                    As fotos disponíveis são profissionais ou precisaremos utilizar bancos de imagens de alta qualidade por enquanto? <span className="text-[#00D4FF]">*</span>
+                  <label htmlFor="briefing-materiaisFotos" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                    As fotos disponíveis são profissionais ou vou precisar utilizar bancos de imagens de alta qualidade por enquanto? <span className="text-[#00D4FF]">*</span>
                   </label>
                   <textarea 
+                    id="briefing-materiaisFotos"
                     name="materiaisFotos"
+                    maxLength={2000}
                     required
                     rows={2}
                     value={formData.materiaisFotos}
                     onChange={handleChange}
                     className="w-full bg-[#FAFAF9] border border-black/15 focus:border-[#00D4FF] focus:bg-white p-3.5 text-[#0B0B0C] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-black/30 resize-none"
-                    placeholder="Nos informe sobre as fotos"
+                    placeholder="Informe sobre as fotos"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-materiaisRedes" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Quais redes sociais você utiliza profissionalmente e deseja vincular ao site? <span className="text-[#00D4FF]">*</span>
                   </label>
                   <input 
+                    id="briefing-materiaisRedes"
                     type="text"
                     name="materiaisRedes"
+                    maxLength={120}
                     required
                     value={formData.materiaisRedes}
                     onChange={handleChange}
@@ -456,27 +496,31 @@ export const BriefingPage: React.FC = () => {
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-designLogoCores" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Você já possui um logotipo profissional e uma paleta de cores definida? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Se não, tem cores de preferência para a marca?)</span>
                   </label>
                   <textarea 
+                    id="briefing-designLogoCores"
                     name="designLogoCores"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.designLogoCores}
                     onChange={handleChange}
                     className="w-full bg-[#FAFAF9] border border-black/15 focus:border-[#00D4FF] focus:bg-white p-3.5 text-[#0B0B0C] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-black/30 resize-none"
-                    placeholder="Nos informe sobre logotipo e suas preferências de cores"
+                    placeholder="Informe sobre logotipo e suas preferências de cores"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-designReferencias" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Tem o link de 2 ou 3 sites (podem ser de concorrentes ou de outros ramos) que você acha incríveis e que servem de referência visual? <span className="text-[#00D4FF]">*</span>
                   </label>
                   <textarea 
+                    id="briefing-designReferencias"
                     name="designReferencias"
+                    maxLength={2000}
                     required
                     rows={3}
                     value={formData.designReferencias}
@@ -487,12 +531,14 @@ export const BriefingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-designImagemVibe" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Que tipo de imagem você quer passar para o seu cliente? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: clean/minimalista, moderno/tecnológico, sério/corporativo, elegante/sofisticado, jovem/descontraído...)</span>
                   </label>
                   <textarea 
+                    id="briefing-designImagemVibe"
                     name="designImagemVibe"
+                    maxLength={2000}
                     required
                     rows={2}
                     value={formData.designImagemVibe}
@@ -515,33 +561,37 @@ export const BriefingPage: React.FC = () => {
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-tecnicoDominio" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Você já tem um domínio próprio comprado? <span className="text-[#00D4FF]">*</span>
                     <span className="block text-[11px] text-[#71717A] normal-case font-sans mt-0.5">(Ex: www.suaempresa.com.br)</span>
                   </label>
                   <input 
+                    id="briefing-tecnicoDominio"
                     type="text"
                     name="tecnicoDominio"
+                    maxLength={120}
                     required
                     value={formData.tecnicoDominio}
                     onChange={handleChange}
                     className="w-full bg-[#FAFAF9] border border-black/15 focus:border-[#00D4FF] focus:bg-white p-3.5 text-[#0B0B0C] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-black/30"
-                    placeholder="Nos informe o status do seu domínio"
+                    placeholder="Informe o status do seu domínio"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
+                  <label htmlFor="briefing-tecnicoHospedagem" className="block text-xs font-mono text-[#0B0B0C] uppercase tracking-wider mb-2 font-medium">
                     Você já tem alguma hospedagem contratada ou algum site antigo no ar atualmente? <span className="text-[#00D4FF]">*</span>
                   </label>
                   <textarea 
+                    id="briefing-tecnicoHospedagem"
                     name="tecnicoHospedagem"
+                    maxLength={2000}
                     required
                     rows={2}
                     value={formData.tecnicoHospedagem}
                     onChange={handleChange}
                     className="w-full bg-[#FAFAF9] border border-black/15 focus:border-[#00D4FF] focus:bg-white p-3.5 text-[#0B0B0C] rounded-[4px] outline-none transition-colors font-sans text-sm placeholder:text-black/30 resize-none"
-                    placeholder="Nos informe de hospedagens ou sites anteriores"
+                    placeholder="Informe sobre hospedagens ou sites anteriores"
                   />
                 </div>
               </div>

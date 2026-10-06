@@ -22,10 +22,10 @@ export const MeshPanel: React.FC<MeshPanelProps> = ({
           height: '60%',
           background: 'radial-gradient(circle, var(--accent-cyan-deep) 0%, transparent 70%)',
           opacity: 0.25 * intensity,
-          filter: 'blur(60px)',
         }}
       />
       <svg
+        aria-hidden="true"
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 800 500"
         preserveAspectRatio="xMidYMax slice"

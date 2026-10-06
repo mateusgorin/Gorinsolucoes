@@ -1,18 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GorinSite } from './components/GorinSite';
-import { BriefingPage } from './components/BriefingPage';
-import { ContactPage } from './components/ContactPage';
-import { PrivacyPage } from './components/PrivacyPage';
+import { ScrollToTop } from './components/ScrollToTop';
+import { Seo } from './components/Seo';
+
+const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
+const BriefingPage = lazy(() => import('./components/BriefingPage').then(m => ({ default: m.BriefingPage })));
+const PrivacyPage = lazy(() => import('./components/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
 
 gsap.registerPlugin(ScrollTrigger);
 
+const BriefingWrapper: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="relative min-h-screen bg-white">
+      <div className="p-4 bg-black text-white flex justify-between items-center">
+        <span className="font-bold text-lg">Gorin Soluções // Briefing</span>
+        <button
+          onClick={() => navigate('/')}
+          className="text-xs font-mono uppercase bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+        >
+          ← Voltar ao Site
+        </button>
+      </div>
+      <BriefingPage />
+    </div>
+  );
+};
+
+const PageFallback: React.FC = () => (
+  <div className="min-h-screen bg-white" />
+);
+
 const App: React.FC = () => {
-  const [path, setPath] = useState(window.location.pathname);
-  const [showBriefing, setShowBriefing] = useState(false);
-  const [showContact, setShowContact] = useState(false);
+  const navigate = useNavigate();
 
   // Initialize Lenis smooth scroll and connect with ScrollTrigger
   useEffect(() => {
@@ -44,78 +69,28 @@ const App: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setPath(window.location.pathname);
-    };
-    window.addEventListener('popstate', handleLocationChange);
-    return () => {
-      window.removeEventListener('popstate', handleLocationChange);
-    };
-  }, []);
-
-  const isBriefingPath = path === '/briefing' || path === '/briefing/' || showBriefing;
-  const isContactPath = path === '/contato' || path === '/contato/' || showContact;
-  const isPrivacyPath = path === '/politica-de-privacidade' || path === '/politica-de-privacidade/';
-
-  if (isContactPath) {
-    return (
-      <ContactPage
-        onBack={() => {
-          setShowContact(false);
-          if (path.includes('/contato')) {
-            window.history.pushState({}, '', '/');
-            setPath('/');
-          }
-        }}
-      />
-    );
-  }
-
-  if (isBriefingPath) {
-    return (
-      <div className="relative min-h-screen bg-white">
-        <div className="p-4 bg-black text-white flex justify-between items-center">
-          <span className="font-bold text-lg">Gorin Soluções // Briefing</span>
-          <button
-            onClick={() => {
-              setShowBriefing(false);
-              if (path.includes('/briefing')) {
-                window.history.pushState({}, '', '/');
-                setPath('/');
-              }
-            }}
-            className="text-xs font-mono uppercase bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-full transition-colors"
-          >
-            ← Voltar ao Site
-          </button>
-        </div>
-        <BriefingPage />
-      </div>
-    );
-  }
-
-  if (isPrivacyPath) {
-    return (
-      <PrivacyPage
-        onBack={() => {
-          window.history.pushState({}, '', '/');
-          setPath('/');
-          window.scrollTo(0, 0);
-        }}
-      />
-    );
-  }
-
   return (
-    <GorinSite
-      onOpenBriefing={() => setShowBriefing(true)}
-      onOpenContact={() => {
-        window.history.pushState({}, '', '/contato');
-        setPath('/contato');
-        setShowContact(true);
-      }}
-    />
+    <>
+      <ScrollToTop />
+      <Seo />
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <GorinSite
+                onOpenBriefing={() => navigate('/briefing')}
+                onOpenContact={() => navigate('/contato')}
+              />
+            }
+          />
+          <Route path="/contato" element={<ContactPage onBack={() => navigate('/')} />} />
+          <Route path="/briefing" element={<BriefingWrapper />} />
+          <Route path="/politica-de-privacidade" element={<PrivacyPage onBack={() => navigate('/')} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 };
 

@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, MessageCircle } from 'lucide-react';
+import { EMAIL, whatsappLink } from '../lib/contact';
 
 interface ContactPageProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
-export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
+export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) => {
+  const navigate = useNavigate();
+  const onBack = onBackProp || (() => navigate('/'));
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [projectDetails, setProjectDetails] = useState('');
   const [selectedBudget, setSelectedBudget] = useState<string>('');
+  const [website, setWebsite] = useState(''); // Honeypot
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -45,9 +50,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (website.trim() !== '') {
+      // Honeypot triggered, ignore silently
+      setIsSubmitted(true);
+      return;
+    }
+
     if (!name.trim() || !email.trim()) return;
 
-    setIsSubmitting(true);
+    // Simple email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      alert('Por favor, insira um e-mail válido.');
+      return;
+    }
 
     const interestsText = selectedInterests.length > 0 ? selectedInterests.join(', ') : 'Não especificado';
     const budgetText = selectedBudget || 'A definir';
@@ -58,12 +74,38 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
       `*Orçamento:* ${budgetText}\n` +
       `*Sobre o projeto:* ${projectDetails || 'Sem observações adicionais.'}`;
 
-    const waUrl = `https://wa.me/5561981290099?text=${encodeURIComponent(text)}`;
-    (window as any).__lastContactWhatsApp = waUrl;
+    const waUrl = whatsappLink(text);
 
+    // Synchronously open WhatsApp before any await
     window.open(waUrl, '_blank');
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+
+    setIsSubmitting(true);
+
+    // Send parallel email via FormSubmit AJAX endpoint without blocking WhatsApp or success screen
+    const emailPayload = {
+      _subject: `Novo contato pelo site: ${name}`,
+      _honey: "",
+      _captcha: "false",
+      "Nome": name,
+      "E-mail": email,
+      "Interesses": interestsText,
+      "Orçamento": budgetText,
+      "Detalhes do Projeto": projectDetails || 'Sem observações adicionais.'
+    };
+
+    fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(emailPayload)
+    }).catch(err => {
+      console.error('Email send failed:', err);
+    }).finally(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    });
   };
 
   return (
@@ -73,7 +115,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="group flex items-center gap-2 text-sm font-semibold tracking-tight hover:opacity-70 transition-opacity"
+            className="group flex items-center gap-2 text-sm font-semibold tracking-tight hover:opacity-70 transition-opacity cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
               <ArrowLeft size={16} />
@@ -85,7 +127,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             <span>Contato Direto</span>
             <button
               onClick={onBack}
-              className="px-4 py-2 rounded-full border border-black/15 text-black hover:bg-black hover:text-white transition-all text-xs font-sans font-medium"
+              className="px-4 py-2 rounded-full border border-black/15 text-black hover:bg-black hover:text-white transition-all text-xs font-sans font-medium cursor-pointer"
             >
               Voltar ao Site
             </button>
@@ -100,6 +142,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             className="py-16 text-center max-w-xl mx-auto"
+            role="status"
+            aria-live="polite"
           >
             <div className="w-20 h-20 rounded-full bg-[#EBF7F9] text-[#0E7490] mx-auto flex items-center justify-center mb-6">
               <CheckCircle2 size={42} strokeWidth={2} />
@@ -112,7 +156,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href={(window as any).__lastContactWhatsApp || 'https://wa.me/5561981290099'}
+                href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-black text-white hover:bg-black/85 font-medium transition-colors"
@@ -122,7 +166,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               </a>
               <button
                 onClick={onBack}
-                className="px-8 py-4 rounded-full border border-black/20 text-black hover:bg-black/5 font-medium transition-colors"
+                className="px-8 py-4 rounded-full border border-black/20 text-black hover:bg-black/5 font-medium transition-colors cursor-pointer"
               >
                 Voltar à Página Inicial
               </button>
@@ -137,7 +181,21 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               </h1>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-12">
+            <form onSubmit={handleSubmit} className="space-y-12" noValidate>
+              {/* Honeypot field for anti-spam */}
+              <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+                <label htmlFor="website-field">Website</label>
+                <input
+                  id="website-field"
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </div>
+
               {/* Interest Pills Section */}
               <div className="space-y-4">
                 <label className="block text-base md:text-lg font-medium text-black">
@@ -151,7 +209,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                         key={item}
                         type="button"
                         onClick={() => toggleInterest(item)}
-                        className={`px-5 py-2.5 rounded-full text-sm md:text-base border transition-all duration-200 ${
+                        className={`px-5 py-2.5 rounded-full text-sm md:text-base border transition-all duration-200 cursor-pointer ${
                           isSelected
                             ? 'bg-black text-white border-black shadow-sm'
                             : 'bg-transparent text-black border-black/25 hover:border-black'
@@ -167,39 +225,54 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               {/* Text Inputs with Minimal Bottom Border */}
               <div className="space-y-8 pt-4">
                 <div>
+                  <label htmlFor="contact-name" className="sr-only">Seu nome</label>
                   <div className="relative">
                     <input
+                      id="contact-name"
+                      name="name"
                       type="text"
                       required
+                      maxLength={120}
+                      autoComplete="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Seu nome"
                       className="w-full py-4 text-lg md:text-xl text-black placeholder:text-black/45 bg-transparent border-b border-black/20 focus:border-black outline-none transition-colors"
                     />
-                    <span className="absolute right-0 top-5 text-red-500 font-bold">*</span>
+                    <span className="absolute right-0 top-5 text-red-500 font-bold" aria-hidden="true">*</span>
                   </div>
                 </div>
 
                 <div>
+                  <label htmlFor="contact-email" className="sr-only">E-mail</label>
                   <div className="relative">
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
                       required
+                      maxLength={160}
+                      autoComplete="email"
+                      inputMode="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="E-mail"
                       className="w-full py-4 text-lg md:text-xl text-black placeholder:text-black/45 bg-transparent border-b border-black/20 focus:border-black outline-none transition-colors"
                     />
-                    <span className="absolute right-0 top-5 text-red-500 font-bold">*</span>
+                    <span className="absolute right-0 top-5 text-red-500 font-bold" aria-hidden="true">*</span>
                   </div>
                 </div>
 
                 <div>
+                  <label htmlFor="contact-details" className="sr-only">Conte-me sobre o seu projeto</label>
                   <textarea
+                    id="contact-details"
+                    name="projectDetails"
                     rows={3}
+                    maxLength={2000}
                     value={projectDetails}
                     onChange={(e) => setProjectDetails(e.target.value)}
-                    placeholder="Conte-nos sobre o seu projeto."
+                    placeholder="Conte-me sobre o seu projeto."
                     className="w-full py-4 text-lg md:text-xl text-black placeholder:text-black/45 bg-transparent border-b border-black/20 focus:border-black outline-none resize-none transition-colors"
                   />
                 </div>
@@ -218,7 +291,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                         key={b}
                         type="button"
                         onClick={() => setSelectedBudget(isSelected ? '' : b)}
-                        className={`px-5 py-2.5 rounded-full text-sm md:text-base border transition-all duration-200 ${
+                        className={`px-5 py-2.5 rounded-full text-sm md:text-base border transition-all duration-200 cursor-pointer ${
                           isSelected
                             ? 'bg-black text-white border-black shadow-sm'
                             : 'bg-transparent text-black border-black/25 hover:border-black'

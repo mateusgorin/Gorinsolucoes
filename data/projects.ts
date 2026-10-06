@@ -33,12 +33,12 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "https://www.brincamoveloficial.com.br",
     isFeatured: true,
-    metrics: "0.7s Carregamento · +140% em Contatos",
-    problem: "A empresa precisava de um site lúdico, porém com carregamento ultra-rápido no celular dos pais durante a busca por eventos, sem perder a interatividade visual.",
-    solution: "Desenvolvimento de plataforma interativa em React 19 com otimização radical de imagens, navegação dinâmica dos pacotes e conexão direta com WhatsApp.",
+    metrics: "Carregamento Rápido · Contato Direto",
+    problem: "A empresa precisava de um site leve e colorido, com abertura rápida no celular dos pais durante a busca por eventos, sem perder a interatividade visual.",
+    solution: "Desenvolvimento de plataforma interativa em React 19 com fotos otimizadas, navegação dinâmica dos pacotes e conexão direta com WhatsApp.",
     results: [
-      "Carregamento sub-segundo mesmo com dezenas de fotos em alta resolução",
-      "Crescimento de mais de 140% nos pedidos de orçamento via WhatsApp",
+      "Carregamento ágil no celular mesmo com várias fotos dos eventos",
+      "Aumento expressivo no envio de pedidos de orçamento pelo WhatsApp",
       "Posicionamento consolidado no mercado de eventos infantis no DF"
     ],
     stack: ["React 19", "TypeScript", "Tailwind CSS", "GSAP", "WhatsApp API"],
@@ -85,11 +85,11 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "https://www.amorimergonomia.com.br",
     isFeatured: true,
-    metrics: "Score 99+ Lighthouse · Autoridade B2B",
-    problem: "Necessidade de transmitir credibilidade técnica e médica para fechar grandes contratos de laudos ergonômicos com multinacionais e órgãos governamentais.",
-    solution: "Portal institucional desenvolvido em React e TypeScript puro, sem CMS lento, com organização semântica dos serviços técnicos e formulário corporativo.",
+    metrics: "Estrutura Rápida · Autoridade B2B",
+    problem: "Necessidade de transmitir credibilidade técnica para fechar contratos de laudos ergonômicos com empresas e instituições.",
+    solution: "Portal institucional desenvolvido em React e TypeScript próprio, sem CMS lento, com organização semântica dos serviços técnicos e formulário corporativo.",
     results: [
-      "Pontuação máxima de 99/100 nos Core Web Vitals do Google",
+      "Estrutura leve e navegação rápida em computadores e celulares",
       "Credibilidade técnica reforçada para propostas de grande porte",
       "Indexação nos mecanismos de busca com marcação Schema.org"
     ],
@@ -117,7 +117,7 @@ export const projectsData: CaseStudy[] = [
     results: [
       "Percepção imediata de solidez e governança corporativa",
       "Navegação ágil sem plugins pesados ou lentidão de carregamento",
-      "Responsividade perfeita para acesso em celulares e computadores"
+      "Responsividade fluida para acesso em celulares e computadores"
     ],
     stack: ["React", "TypeScript", "Tailwind CSS", "Vite"],
     year: "2025"
@@ -137,13 +137,13 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "https://www.marmitariaventura.com.br",
     isFeatured: true,
-    metrics: "+90% em Pedidos Diretos sem Taxas",
+    metrics: "Pedidos Diretos · Canal Sem Comissões",
     problem: "Taxas elevadas de aplicativos de terceiros consumiam grande fatia das margens de lucro dos pratos diários.",
-    solution: "Desenvolvimento de cardápio digital próprio, ultrarrápido no 4G/5G, com seleção de itens e envio automático formatado para o WhatsApp da cozinha.",
+    solution: "Desenvolvimento de cardápio digital próprio, rápido no celular, com seleção de itens e envio automático formatado para o WhatsApp da cozinha.",
     results: [
-      "Migração em massa dos clientes para o canal direto do restaurante",
-      "Economia substancial em comissões de marketplaces",
-      "Aumento da taxa de recompra semanal"
+      "Migração dos clientes fiéis para o canal direto do restaurante",
+      "Economia expressiva em comissões de marketplaces",
+      "Facilidade para o cliente pedir no dia a dia"
     ],
     stack: ["React", "TypeScript", "Tailwind CSS", "WhatsApp Ordering"],
     year: "2025"
@@ -163,13 +163,13 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "https://www.pcgastronomia.com.br",
     isFeatured: true,
-    metrics: "Cardápio Dinâmico · Fechamento Instantâneo",
+    metrics: "Cardápio Dinâmico · Contato Direto",
     problem: "Cardápios em arquivos PDF pesados que demoravam para abrir nos celulares de clientes interessados em eventos sofisticados.",
-    solution: "Plataforma visual com imagens em alta definição dos pratos, filtros intuitivos de menu e botão de orçamento direto com o chef.",
+    solution: "Plataforma visual com fotos dos pratos, filtros intuitivos de menu e botão de orçamento direto com o chef.",
     results: [
-      "Fim do envio de PDFs pesados por mensagem",
-      "Apresentação premium condizente com a gastronomia autoral do chef",
-      "Aumento na conversão de orçamentos para casamentos e eventos corporativos"
+      "Substituição de PDFs pesados por navegação rápida",
+      "Apresentação condizente com a gastronomia do chef",
+      "Mais facilidade na solicitação de orçamentos para eventos"
     ],
     stack: ["React", "TypeScript", "Design Editorial", "WhatsApp API", "Vite"],
     year: "2025"
@@ -189,13 +189,13 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "internal",
     isFeatured: true,
-    metrics: "100% Digital · Relatórios em Segundos",
+    metrics: "Operação Digital · Relatórios em PDF",
     problem: "Processos manuais de controle de rondas, inspeção de extintores e escalas de plantonistas em planilhas e formulários de papel.",
-    solution: "Sistema web em nuvem com controle de permissões por perfil, registro instantâneo de ocorrências e geração automatizada de relatórios em PDF.",
+    solution: "Sistema web em nuvem com controle de permissões por perfil, registro rápido de ocorrências e geração automatizada de relatórios em PDF.",
     results: [
-      "Eliminação completa do papel na rotina dos brigadistas",
-      "Geração de relatórios de auditoria e conformidade em segundos",
-      "Acompanhamento em tempo real da equipe em campo"
+      "Fim do uso de papel na rotina diária dos brigadistas",
+      "Geração prática de relatórios para vistorias e auditorias",
+      "Acompanhamento organizado da equipe em campo"
     ],
     stack: ["React 19", "TypeScript", "Controle RBAC", "Exportação PDF", "Cloud Storage"],
     year: "2025"
@@ -215,13 +215,13 @@ export const projectsData: CaseStudy[] = [
     ],
     link: "internal",
     isFeatured: true,
-    metrics: "Precisão 99.9% · Controle de Entradas e Saídas",
+    metrics: "Controle de Estoque · Rastreamento de Itens",
     problem: "Divergências constantes entre estoque físico e planilhas descentralizadas, gerando atrasos na expedição e compras incorretas.",
     solution: "Aplicação web centralizada em nuvem com movimentações rastreadas por operador, leitura de código de barras e níveis mínimos automatizados.",
     results: [
-      "Precisão de inventário superior a 99.9%",
-      "Redução drástica no tempo gasto com contagens manuais",
-      "Visibilidade em tempo real para múltiplos galpões"
+      "Controle confiável de entradas, saídas e saldos",
+      "Economia de tempo na checagem diária dos itens",
+      "Visualização clara para operadores e supervisores"
     ],
     stack: ["React", "TypeScript", "Cloud Database", "Dashboards em Tempo Real"],
     year: "2025"

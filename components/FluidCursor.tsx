@@ -112,6 +112,7 @@ export const FluidCursor: React.FC = () => {
   return (
     <div
       ref={cursorRef}
+      aria-hidden="true"
       className={`Cursor fixed top-0 left-0 z-[9999] pointer-events-none opacity-0 transition-opacity duration-300 ${cursorState}`}
       style={{ transform: 'translate3d(-100px, -100px, 0)' }}
     >

@@ -14,6 +14,7 @@ export const MeshDiagonal: React.FC<MeshDiagonalProps> = ({
   return (
     <div className={`relative overflow-hidden ${className}`} style={style}>
       <svg
+        aria-hidden="true"
         className="absolute inset-0 w-full h-full pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 500 350"

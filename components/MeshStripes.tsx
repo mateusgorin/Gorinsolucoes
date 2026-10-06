@@ -14,6 +14,7 @@ export const MeshStripes: React.FC<MeshStripesProps> = ({
   return (
     <div className={`relative overflow-hidden ${className}`} style={style}>
       <svg
+        aria-hidden="true"
         className="absolute inset-0 w-full h-full pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
