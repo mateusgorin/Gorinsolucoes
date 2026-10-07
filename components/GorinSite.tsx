@@ -1147,7 +1147,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="mb-14"
+              className="mb-14 md:mb-16"
             >
               <span className="caption-label block mb-2">02. Competências &amp; Serviços</span>
               <TextRevealHeading
