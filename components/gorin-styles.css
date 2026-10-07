@@ -755,12 +755,12 @@ button:hover .roll-text span {
 
 .FeatureSection {
   padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-bottom: 7rem;
 }
 @media (min-width: 768px) {
   .FeatureSection {
     padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-bottom: 8rem;
   }
 }
 .FeatureItem {
@@ -1082,7 +1082,6 @@ button:hover .roll-text span {
   background: #000000;
   color: #ffffff;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4rem 1.5rem 3rem;
 }
 
 /* ==========================================================================

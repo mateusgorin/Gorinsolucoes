@@ -327,37 +327,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     };
   }, []);
 
-  // Parallax scrub on project cards (Cuberto authentic visual depth)
-  useEffect(() => {
-    const workMediaElements = document.querySelectorAll<HTMLElement>('.work-card-media');
-    if (!workMediaElements.length) return;
-
-    const ctx = gsap.context(() => {
-      workMediaElements.forEach((el) => {
-        const img = el.querySelector<HTMLElement>('img');
-        if (!img) return;
-
-        gsap.set(img, { scale: 1.25, transformOrigin: 'center center' });
-
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.8,
-          animation: gsap.fromTo(
-            img,
-            { y: '-16%' },
-            { y: '16%', ease: 'none' }
-          ),
-        });
-      });
-    });
-
-    return () => {
-      ctx.revert();
-    };
-  }, []);
-
   // Scroll-driven accordion using ScrollTrigger scrub (Cuberto model)
   useEffect(() => {
     const main = document.querySelector<HTMLElement>('.services-main');
@@ -371,22 +340,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
       return;
     }
 
-    let offsets: { top: number; bottom: number }[] = [];
-    let tls: gsap.core.Timeline[] = [];
-    let createTimelines: () => void = () => {};
+    const offsets: { top: number; bottom: number }[] = [];
+    const tls: gsap.core.Timeline[] = [];
 
-    const measure = () => {
-      // Save progress of each timeline
-      const progressArr = tls.map(tl => {
-        const dur = tl.duration();
-        return dur > 0 ? tl.time() / dur : 0;
-      });
-
-      tls.forEach(tl => {
-        tl.revert({ kill: false });
-      });
-      tls = [];
-
+    const computeLayout = () => {
       const r = items.getBoundingClientRect();
       cards.forEach((card, i) => {
         const b = card.getBoundingClientRect();
@@ -395,13 +352,24 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           bottom: b.bottom - r.top
         };
       });
-
       main.style.height = r.height + 'px';
+    };
 
-      // Re-create timelines and render at saved progress
-      createTimelines();
+    const measure = () => {
+      // Salva o progresso atual de cada timeline existente
+      const progressoSalvo = tls.map(tl => tl.progress());
+
+      // Reverte estilos temporariamente sem matar timelines/ScrollTriggers
+      tls.forEach(tl => {
+        tl.revert({ kill: false });
+      });
+
+      // Recalcula dimensões e offsets estáveis
+      computeLayout();
+
+      // Restaura as timelines para o progresso salvo
       tls.forEach((tl, i) => {
-        const prog = progressArr[i] || 0;
+        const prog = progressoSalvo[i] ?? 0;
         tl.render(tl.duration() * prog, true, true);
       });
     };
@@ -409,59 +377,68 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     const ctx = gsap.context(() => {
       ScrollTrigger.addEventListener('refreshInit', measure);
 
-      createTimelines = () => {
-        const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
+      // Primeiro cálculo de layout antes de instanciar as timelines
+      computeLayout();
 
-        cards.forEach((card, i) => {
-          if (i === 0) return; // Card 01 starts open / static
+      const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
 
-          const title = card.querySelector<HTMLElement>('.service-title');
-          const number = card.querySelector<HTMLElement>('.service-number');
-          const category = card.querySelector<HTMLElement>('.service-category');
-          const fill = card.querySelector<HTMLElement>('.service-fill');
-          const mesh = card.querySelector<HTMLElement>('.service-mesh');
-          const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
-          const content = card.querySelector<HTMLElement>('.service-card-content');
+      cards.forEach((card, i) => {
+        if (i === 0) return; // Card 01 starts open / static
 
-          if (!title || !number || !category || !fill || !mesh || !collapse || !content) return;
+        const title = card.querySelector<HTMLElement>('.service-title');
+        const number = card.querySelector<HTMLElement>('.service-number');
+        const category = card.querySelector<HTMLElement>('.service-category');
+        const fill = card.querySelector<HTMLElement>('.service-fill');
+        const mesh = card.querySelector<HTMLElement>('.service-mesh');
+        const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+        const content = card.querySelector<HTMLElement>('.service-card-content');
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: main,
-              start: () => `top+=${offsets[i].top} center+=20%`,
-              end: () => `top+=${offsets[i].bottom} center+=30%`,
-              scrub: 1,
-            }
-          });
+        if (!title || !number || !category || !fill || !mesh || !collapse || !content) return;
 
-          tl.to(title, { color: luz, duration: 1, ease: 'none' }, 0)
-            .to(number, { color: luz, opacity: 0.55, duration: 1, ease: 'none' }, 0)
-            .to(fill, { opacity: 1, duration: 1, ease: 'none' }, 0)
-            .to(category, { opacity: 1, maxHeight: 24, marginBottom: '0.35rem', duration: 1, ease: 'none' }, 0)
-            .to(mesh, { opacity: 1, duration: 1, ease: 'none' }, 0)
-            .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
-            .to(content, { opacity: 1, duration: 0.6, ease: 'none' }, 0.4);
-
-          tls.push(tl);
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: main,
+            start: () => `top+=${offsets[i]?.top ?? 0} center+=20%`,
+            end: () => `top+=${offsets[i]?.bottom ?? 0} center+=30%`,
+            scrub: 1,
+          }
         });
-      };
 
-      measure();
+        tl.to(title, { color: luz, duration: 1, ease: 'none' }, 0)
+          .to(number, { color: luz, opacity: 0.55, duration: 1, ease: 'none' }, 0)
+          .to(fill, { opacity: 1, duration: 1, ease: 'none' }, 0)
+          .to(category, { opacity: 1, maxHeight: 24, marginBottom: '0.35rem', duration: 1, ease: 'none' }, 0)
+          .to(mesh, { opacity: 1, duration: 1, ease: 'none' }, 0)
+          .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
+          .to(content, { opacity: 1, duration: 0.6, ease: 'none' }, 0.4);
+
+        tls.push(tl);
+      });
     });
+
+    let cancelled = false;
 
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => {
-        ScrollTrigger.refresh();
+        if (!cancelled) {
+          ScrollTrigger.refresh();
+        }
       });
     }
 
-    if (document.readyState !== 'complete') {
-      window.addEventListener('load', () => {
+    const onLoad = () => {
+      if (!cancelled) {
         ScrollTrigger.refresh();
-      });
+      }
+    };
+
+    if (document.readyState !== 'complete') {
+      window.addEventListener('load', onLoad);
     }
 
     return () => {
+      cancelled = true;
+      window.removeEventListener('load', onLoad);
       ScrollTrigger.removeEventListener('refreshInit', measure);
       ctx.revert();
       main.style.removeProperty('height');
@@ -1140,8 +1117,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       lineHeight: 1.1,
                     }}
                     lines={[
-                      "Construo ferramentas de",
-                      "crescimento, não apenas sites."
+                      "Construo ferramentas de crescimento,",
+                      "não apenas sites."
                     ]}
                   />
                 </motion.div>
@@ -1200,7 +1177,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            4. CLIENT BRANDS REEL
            ========================================================================== */}
-        <section className="py-16 md:py-20 border-t border-b border-black/10 overflow-hidden" id="brands">
+        <section className="pt-20 pb-16 md:py-24 border-t border-b border-black/10 overflow-hidden" id="brands">
           <div className="cuberto-container">
             <TextRevealHeading
               as="h2"
@@ -1255,8 +1232,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 {col1Projects.map((p, idx) => (
                   <motion.div
                     key={idx}
-                    initial={{ opacity: 0, y: 36, scale: 0.96 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 36 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     onClick={() => setSelectedProject(p)}
@@ -1277,7 +1254,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                         alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover block will-change-transform"
+                        className="w-full h-full object-cover block"
                         style={{
                           borderRadius: 'var(--radius-lg)',
                         }}
@@ -1315,8 +1292,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 {col2Projects.map((p, idx) => (
                   <motion.div
                     key={idx}
-                    initial={{ opacity: 0, y: 36, scale: 0.96 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 36 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                     onClick={() => setSelectedProject(p)}
@@ -1337,7 +1314,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                         alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover block will-change-transform"
+                        className="w-full h-full object-cover block"
                         style={{
                           borderRadius: 'var(--radius-lg)',
                         }}
@@ -1818,7 +1795,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            10. FOOTER
            ========================================================================== */}
-        <footer className="FooterBar bg-black text-white pt-20 pb-12 border-t border-white/10">
+        <footer className="FooterBar bg-black text-white pt-20 pb-28 md:pb-32 border-t border-white/10">
           <div className="cuberto-container">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 mb-16">
               
