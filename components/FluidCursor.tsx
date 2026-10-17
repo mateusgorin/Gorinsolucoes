@@ -3,47 +3,92 @@ import gsap from 'gsap';
 
 export const FluidCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  
   const [cursorState, setCursorState] = useState<string>('');
   const [cursorIcon, setCursorIcon] = useState<string | null>(null);
+  const [cursorTextContent, setCursorTextContent] = useState<string | null>(null);
 
-  const posRef = useRef({ x: -100, y: -100 });
+  // Target coordinates for smooth position interpolations
   const mouseRef = useRef({ x: -100, y: -100 });
+  const posRef = useRef({ x: -100, y: -100 });
   const velRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Only enable on desktop pointer fine
+    // Enable only on desktop pointer fine environments
     if (!window.matchMedia('(pointer: fine)').matches) return;
 
     const el = cursorRef.current;
-    if (!el) return;
+    const innerEl = innerRef.current;
+    if (!el || !innerEl) return;
+
+    // Fast quickSetters for high performance 60/120fps rendering
+    const setX = gsap.quickSetter(el, 'x', 'px');
+    const setY = gsap.quickSetter(el, 'y', 'px');
+    const setRotation = gsap.quickSetter(el, 'rotation', 'deg');
+    const setScaleX = gsap.quickSetter(el, 'scaleX');
+    const setScaleY = gsap.quickSetter(el, 'scaleY');
+    const setInnerRotation = gsap.quickSetter(innerEl, 'rotation', 'deg');
 
     let isVisible = false;
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      let targetX = e.clientX;
+      let targetY = e.clientY;
+
       if (!isVisible) {
         isVisible = true;
         el.style.opacity = '1';
+        posRef.current = { x: targetX, y: targetY };
       }
 
-      // Target detection matching Cuberto's data-cursor-icon
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
+      const rawTarget = e.target as HTMLElement | null;
+      if (!rawTarget) return;
 
-      const cursorTarget = target.closest('[data-cursor-icon], a, button, .WorkCard, .PreviewCard, .FeatureItem, .deck-card') as HTMLElement | null;
+      // Magnetic stick element check
+      const stickTarget = rawTarget.closest('[data-cursor-stick]') as HTMLElement | null;
+      if (stickTarget) {
+        const rect = stickTarget.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        targetX = targetX + (centerX - targetX) * 0.15;
+        targetY = targetY + (centerY - targetY) * 0.15;
+      }
 
-      if (cursorTarget) {
-        const icon = cursorTarget.getAttribute('data-cursor-icon');
-        if (icon) {
-          setCursorState('-icon');
-          setCursorIcon(icon);
-        } else {
-          setCursorState('-pointer');
-          setCursorIcon(null);
-        }
+      mouseRef.current = { x: targetX, y: targetY };
+
+      // Smooth position lerp using gsap.to
+      gsap.to(posRef.current, {
+        x: targetX,
+        y: targetY,
+        duration: 0.55,
+        ease: 'power4.out',
+        overwrite: 'auto'
+      });
+
+      // Target type detection: icon, text, or interactive clickables
+      const iconTarget = rawTarget.closest('[data-cursor-icon]') as HTMLElement | null;
+      const textTarget = rawTarget.closest('[data-cursor-text]') as HTMLElement | null;
+      const clickableTarget = rawTarget.closest('a, button, summary, .WorkCard, .service-card, .deck-card, .FeatureItem, .PreviewCard') as HTMLElement | null;
+
+      if (iconTarget) {
+        const icon = iconTarget.getAttribute('data-cursor-icon');
+        setCursorState('-icon');
+        setCursorIcon(icon);
+        setCursorTextContent(null);
+      } else if (textTarget) {
+        const text = textTarget.getAttribute('data-cursor-text');
+        setCursorState('-text');
+        setCursorTextContent(text);
+        setCursorIcon(null);
+      } else if (clickableTarget) {
+        setCursorState('-pointer');
+        setCursorIcon(null);
+        setCursorTextContent(null);
       } else {
         setCursorState('');
         setCursorIcon(null);
+        setCursorTextContent(null);
       }
     };
 
@@ -71,33 +116,31 @@ export const FluidCursor: React.FC = () => {
     document.documentElement.addEventListener('mouseleave', handleMouseLeave);
     document.documentElement.addEventListener('mouseenter', handleMouseEnter);
 
-    // Cuberto velocity skew calculation:
-    // Angle = Math.atan2(vel.y, vel.x) * 180 / Math.PI
-    // ScaleX = 1 + skew, ScaleY = 1 - skew
-    const skewingDelta = 0.0012;
-    const skewingDeltaMax = 0.22;
-    const skewFactor = 1.6;
-
-    const updateCursor = () => {
+    // Ticker Loop for Velocity Calculation and Skew Deformation
+    const updateTicker = () => {
       const prevX = posRef.current.x;
       const prevY = posRef.current.y;
 
-      posRef.current.x += (mouseRef.current.x - posRef.current.x) * 0.18;
-      posRef.current.y += (mouseRef.current.y - posRef.current.y) * 0.18;
+      const vx = mouseRef.current.x - prevX;
+      const vy = mouseRef.current.y - prevY;
 
-      velRef.current.x = posRef.current.x - prevX;
-      velRef.current.y = posRef.current.y - prevY;
+      velRef.current.x = vx;
+      velRef.current.y = vy;
 
-      const speed = Math.sqrt(velRef.current.x ** 2 + velRef.current.y ** 2);
-      const skew = Math.min(speed * skewingDelta, skewingDeltaMax) * skewFactor;
-      const angle = (Math.atan2(velRef.current.y, velRef.current.x) * 180) / Math.PI;
+      const velocity = Math.min(Math.hypot(vx, vy) * 4, 150);
+      const angle = (Math.atan2(vy, vx) * 180) / Math.PI;
+      const skewing = 1.0;
+      const scale = Math.min(velocity * 0.00075 * skewing, 0.5);
 
-      if (el) {
-        el.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) rotate(${angle}deg) scale(${1 + skew}, ${1 - skew})`;
-      }
+      setX(posRef.current.x);
+      setY(posRef.current.y);
+      setScaleX(1 + scale);
+      setScaleY(1 - scale * 0.45);
+      setRotation(angle);
+      setInnerRotation(-angle);
     };
 
-    gsap.ticker.add(updateCursor);
+    gsap.ticker.add(updateTicker);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -105,7 +148,7 @@ export const FluidCursor: React.FC = () => {
       window.removeEventListener('mouseup', handleMouseUp);
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
-      gsap.ticker.remove(updateCursor);
+      gsap.ticker.remove(updateTicker);
     };
   }, []);
 
@@ -116,22 +159,27 @@ export const FluidCursor: React.FC = () => {
       className={`Cursor fixed top-0 left-0 z-[9999] pointer-events-none opacity-0 transition-opacity duration-300 ${cursorState}`}
       style={{ transform: 'translate3d(-100px, -100px, 0)' }}
     >
-      <div className="inner">
+      <div ref={innerRef} className="inner">
         <div className="text flex items-center justify-center">
           {cursorIcon === 'play' && (
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-0.5">
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 ml-0.5 text-black">
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
           {cursorIcon === 'times' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 text-black">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           )}
           {cursorIcon === 'arrow-up-right' && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 text-black">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M7 7h10v10" />
             </svg>
+          )}
+          {cursorTextContent && (
+            <span className="text-black font-semibold text-xs uppercase tracking-wider">
+              {cursorTextContent}
+            </span>
           )}
         </div>
       </div>

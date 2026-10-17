@@ -21,23 +21,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const interestOptions = [
-    'Design de sites',
-    'Redesign do site',
-    'Design de UI/UX',
-    'Design de produto',
-    'Identidade visual',
-    'Desenvolvimento web',
-    'Desenvolvimento para dispositivos móveis',
-    'Sistema web',
+    'Site Institucional',
+    'Landing Page de Alta Conversão',
+    'Sistema Web / Dashboard',
+    'Reformulação de Site',
+    'Manutenção & Suporte',
+    'Outro',
   ];
 
   const budgetOptions = [
-    '600 a 1000',
-    '1000 a 2000',
-    '2000 a 3000',
-    '3000 a 4000',
-    '4000 a 5000',
-    'Mais de 5 mil',
+    'Até R$ 1.500',
+    'R$ 1.500 – R$ 3.000',
+    'R$ 3.000 – R$ 5.000',
+    'Acima de R$ 5.000',
+    'Ainda não defini',
   ];
 
   const toggleInterest = (interest: string) => {

@@ -19,6 +19,32 @@ export interface CaseStudy {
 
 export const projectsData: CaseStudy[] = [
   {
+    slug: "cachoeiras-df",
+    title: "CACHOEIRAS DF",
+    client: "Cachoeiras DF Oficial",
+    category: "Site Institucional",
+    tag: "ECOTURISMO // GUIA & TRILHAS",
+    desc: "Portal interativo com o guia completo de cachoeiras, trilhas e ecoturismo no Distrito Federal e entorno.",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+      "/images/showcase-feature-2.webp",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg"
+    ],
+    link: "https://cachoeirasdf.vercel.app/",
+    isFeatured: true,
+    metrics: "Guia Completo · Acesso Rápido a Trilhas",
+    problem: "Turistas e aventureiros do Distrito Federal tinham dificuldade em encontrar informações atualizadas, localização precisa e dicas de segurança sobre as cachoeiras da região em um único lugar.",
+    solution: "Criação de um portal web rápido e responsivo com filtros por localização, grau de dificuldade, fotos e acesso direto via dispositivos móveis.",
+    results: [
+      "Facilidade na busca por roteiros ecológicos no DF",
+      "Navegação otimizada para smartphones em trilhas",
+      "Alta retenção e engajamento dos usuários"
+    ],
+    stack: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    year: "2025"
+  },
+  {
     slug: "brinca-movel",
     title: "BRINCA MÓVEL",
     client: "Brinca Móvel Oficial",

@@ -10,6 +10,9 @@ import { Seo } from './components/Seo';
 const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
 const BriefingPage = lazy(() => import('./components/BriefingPage').then(m => ({ default: m.BriefingPage })));
 const PrivacyPage = lazy(() => import('./components/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
+const BlogPage = lazy(() => import('./components/BlogPage').then(m => ({ default: m.BlogPage })));
+
+import { whatsappLink } from './lib/contact';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,33 +44,78 @@ const App: React.FC = () => {
 
   // Initialize Lenis smooth scroll and connect with ScrollTrigger
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    const lenis = new Lenis({
-      duration: isMobile ? 0.8 : 1.0,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      syncTouch: false,
-      touchMultiplier: 1.0,
-      wheelMultiplier: 1.0,
-    });
+    // Do not initialize on touch devices (pointer: coarse) or with prefers-reduced-motion
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    lenis.on('scroll', ScrollTrigger.update);
+    let cleanupLenis: (() => void) | null = null;
 
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+    if (!isTouch && !prefersReducedMotion) {
+      const lenis = new Lenis({
+        duration: 1.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        syncTouch: false,
+      });
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      // Desktop: use GSAP ticker with lagSmoothing(0) instead of a separate requestAnimationFrame
+      gsap.ticker.lagSmoothing(0);
+      const updateLenis = (time: number) => {
+        lenis.raf(time * 1000);
+      };
+      gsap.ticker.add(updateLenis);
+
+      // Provide global access for anchor links
+      (window as any).__lenis = lenis;
+
+      cleanupLenis = () => {
+        gsap.ticker.remove(updateLenis);
+        lenis.destroy();
+        (window as any).__lenis = null;
+      };
+    } else {
+      (window as any).__lenis = null;
     }
-    rafId = requestAnimationFrame(raf);
 
-    // Provide global access for anchor links
-    (window as any).__lenis = lenis;
+    // Anchor scrolling support for both cases (with and without Lenis)
+    const handleAnchorClick = (e: MouseEvent) => {
+      if (e.defaultPrevented) return;
+      const target = (e.target as HTMLElement)?.closest('a');
+      if (!target) return;
+      const href = target.getAttribute('href');
+      if (href && href.startsWith('#') && href.length > 1) {
+        const el = document.querySelector(href);
+        if (el) {
+          e.preventDefault();
+          const navOffset = 80;
+          const targetPosition = el.getBoundingClientRect().top + window.scrollY - navOffset;
+          const lenisInstance = (window as any).__lenis;
+          if (lenisInstance && typeof lenisInstance.scrollTo === 'function') {
+            try {
+              lenisInstance.scrollTo(targetPosition, { duration: 1.2 });
+            } catch {
+              window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+          } else {
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
 
     return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
+      document.removeEventListener('click', handleAnchorClick);
+      if (cleanupLenis) {
+        cleanupLenis();
+      }
     };
   }, []);
+
+  const whatsappUrl = whatsappLink("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.");
 
   return (
     <>
@@ -81,12 +129,14 @@ const App: React.FC = () => {
               <GorinSite
                 onOpenBriefing={() => navigate('/briefing')}
                 onOpenContact={() => navigate('/contato')}
+                onOpenBlog={() => navigate('/blog')}
               />
             }
           />
           <Route path="/contato" element={<ContactPage onBack={() => navigate('/')} />} />
           <Route path="/briefing" element={<BriefingWrapper />} />
           <Route path="/politica-de-privacidade" element={<PrivacyPage onBack={() => navigate('/')} />} />
+          <Route path="/blog" element={<BlogPage onBack={() => navigate('/')} whatsappUrl={whatsappUrl} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

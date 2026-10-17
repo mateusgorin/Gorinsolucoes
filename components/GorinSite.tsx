@@ -6,16 +6,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FluidCursor } from './FluidCursor';
 import { ElasticDivider } from './ElasticDivider';
-import { projects, Project } from '../data/projects';
+import { projectsData, CaseStudy } from '../data/projects';
+import { articlesData } from '../data/articles';
 import { TextRevealHeading } from './TextRevealHeading';
 import { MeshPanel } from './MeshPanel';
 import { MeshStripes } from './MeshStripes';
 import { MeshRings } from './MeshRings';
 import { MeshDiagonal } from './MeshDiagonal';
+import { CtaPrismArtwork } from './CtaPrismArtwork';
 
 import { StatCounter } from './StatCounter';
 import { ImageReveal } from './ImageReveal';
-import { Instagram, MessageCircle, ArrowUpRight, X, Clock, MapPin, CheckCircle, ExternalLink, Award, ThumbsUp, Code2, Layers } from 'lucide-react';
+import { Instagram, MessageCircle, ArrowUpRight, X, Clock, Calendar, MapPin, ExternalLink, Award, ThumbsUp, Code2, Layers } from 'lucide-react';
 import { WHATSAPP_DISPLAY, INSTAGRAM_URL, INSTAGRAM_HANDLE, whatsappLink } from '../lib/contact';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface GorinSiteProps {
   onOpenBriefing?: () => void;
   onOpenContact?: () => void;
+  onOpenBlog?: () => void;
 }
 
 // Cuberto Magnetic CTA Button with spring physics, liquid ripple fill, and text roll-over
@@ -135,67 +138,58 @@ const renderServiceMesh = (idx: number) => {
 const ServiceCardItem: React.FC<{
   service: ServiceItemData;
   index: number;
+  isOpen?: boolean;
+  onClick?: () => void;
   whatsappUrl: string;
-}> = ({ service, index, whatsappUrl }) => {
+}> = ({ service, index, isOpen = false, onClick, whatsappUrl }) => {
   return (
     <article
       className="service-card"
-      data-open={index === 0 ? "true" : "false"}
+      data-open={isOpen ? "true" : "false"}
       data-index={index}
+      onClick={onClick}
     >
       <div className="service-fill" aria-hidden="true" />
-      {/* Cabeçalho com min-height 76px (título e número na mesma linha) */}
+      <div className="service-mesh" aria-hidden="true">
+        {renderServiceMesh(index)}
+      </div>
+
       <div className="service-card-header">
-        <div className="flex flex-col justify-center">
-          <span className="service-category">
-            {service.category}
-          </span>
+        <span className="service-number">
+          {service.number}
+        </span>
+
+        <div className="service-title-wrap">
           <h3 className="service-title">
             {service.title}
           </h3>
         </div>
-
-        <span className="service-number">
-          {service.number}
-        </span>
       </div>
 
-      {/* Wrapper com display grid e grid-template-rows 0fr -> 1fr */}
       <div className="service-card-collapse">
-        {/* Único filho direto com min-height 0 e overflow hidden */}
         <div className="service-card-collapse-inner">
-          {/* Componente de malha do card (opacity 0 fechado, 1 aberto) */}
-          <div className="service-mesh">
-            {renderServiceMesh(index)}
-          </div>
-
-          {/* Conteúdo interno: descrição, checkmarks e Explorar */}
           <div className="service-card-content">
             <p className="service-desc">
               {service.desc}
             </p>
 
-            {service.deliverables && (
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-                {service.deliverables.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 text-xs md:text-sm text-white/90">
-                    <CheckCircle size={15} className="text-[#00D4FF] shrink-0" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-8">
+            <div className="service-card-action">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="service-explore-link group/btn"
+                onClick={(e) => e.stopPropagation()}
+                className="MoreButton"
               >
-                <span>Explorar</span>
-                <span className="explore-circle">
-                  <ArrowUpRight size={16} />
+                <span className="title">
+                  <span data-text="Explorar escopo e iniciar projeto">
+                    Explorar escopo e iniciar projeto
+                  </span>
+                </span>
+                <span className="icon">
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path fill="none" stroke="currentColor" strokeWidth="2" d="M3 13 13 3m0 8.65V3H4.35" />
+                  </svg>
                 </span>
               </a>
             </div>
@@ -206,20 +200,37 @@ const ServiceCardItem: React.FC<{
   );
 };
 
-export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBriefingProp, onOpenContact: onOpenContactProp }) => {
+export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBriefingProp, onOpenContact: onOpenContactProp, onOpenBlog: onOpenBlogProp }) => {
   const navigate = useNavigate();
   const onOpenContact = onOpenContactProp || (() => navigate('/contato'));
   const onOpenBriefing = onOpenBriefingProp || (() => navigate('/briefing'));
+  const onOpenBlog = onOpenBlogProp || (() => navigate('/blog'));
   void onOpenBriefing;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isDarkBg, setIsDarkBg] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
+  const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => 
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false
+  );
+  const [openStates, setOpenStates] = useState<boolean[]>([true, false, false, false, false, false]);
 
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)');
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+  
+
+
+  const loaderRef = useRef<HTMLDivElement>(null);
   const videoShowreelRef = useRef<HTMLDivElement>(null);
   const videoMediaRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const logoImgRef = useRef<HTMLImageElement>(null);
@@ -227,6 +238,25 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
   const headerActionRef = useRef<HTMLDivElement>(null);
 
   const whatsappUrl = whatsappLink("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.");
+
+  // Page Loader Curtain animation on mount
+  useEffect(() => {
+    const loader = loaderRef.current;
+    if (!loader) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(loader, {
+        yPercent: -100,
+        duration: 0.85,
+        ease: 'expo.inOut',
+        delay: 0.1,
+      });
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
 
   // Exact entrance animation for Navbar matching original B2sJen script:
   // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
@@ -333,115 +363,109 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     const items = document.querySelector<HTMLElement>('.services-items');
     const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
     if (!main || !items || !cards.length) return;
+    const mm = gsap.matchMedia();
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      cards.forEach(card => card.setAttribute('data-open', 'true'));
-      return;
-    }
-
-    const offsets: { top: number; bottom: number }[] = [];
-    const tls: gsap.core.Timeline[] = [];
-
-    const computeLayout = () => {
-      const r = items.getBoundingClientRect();
-      cards.forEach((card, i) => {
-        const b = card.getBoundingClientRect();
-        offsets[i] = {
-          top: b.top - r.top,
-          bottom: b.bottom - r.top
-        };
-      });
-      main.style.height = r.height + 'px';
-    };
-
-    const measure = () => {
-      // Salva o progresso atual de cada timeline existente
-      const progressoSalvo = tls.map(tl => tl.progress());
-
-      // Reverte estilos temporariamente sem matar timelines/ScrollTriggers
-      tls.forEach(tl => {
-        tl.revert({ kill: false });
-      });
-
-      // Recalcula dimensões e offsets estáveis
-      computeLayout();
-
-      // Restaura as timelines para o progresso salvo
-      tls.forEach((tl, i) => {
-        const prog = progressoSalvo[i] ?? 0;
-        tl.render(tl.duration() * prog, true, true);
-      });
-    };
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.addEventListener('refreshInit', measure);
-
-      // Primeiro cálculo de layout antes de instanciar as timelines
-      computeLayout();
-
+    mm.add("(min-width: 768px)", () => {
+      const offsets: { top: number; bottom: number }[] = [];
+      const tls: gsap.core.Timeline[] = [];
       const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
 
+      const computeLayout = () => {
+        // Expand all collapses to measure the "full" height
+        cards.forEach((card) => {
+          const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+          if (collapse) collapse.style.gridTemplateRows = '1fr';
+        });
+
+        const r = items.getBoundingClientRect();
+        cards.forEach((card, i) => {
+          const b = card.getBoundingClientRect();
+          offsets[i] = {
+            top: b.top - r.top,
+            bottom: b.bottom - r.top
+          };
+        });
+        
+        main.style.height = r.height + 'px';
+      };
+
+      const measure = () => {
+        const progressoSalvo = tls.map(tl => tl.progress());
+        tls.forEach(tl => tl.revert({ kill: false }));
+        computeLayout();
+        tls.forEach((tl, i) => {
+          const prog = progressoSalvo[i] ?? 0;
+          tl.render(tl.duration() * prog, true, true);
+        });
+      };
+
+      ScrollTrigger.addEventListener('refreshInit', measure);
+      computeLayout();
+
       cards.forEach((card, i) => {
-        if (i === 0) return; // Card 01 starts open / static
+        // Card 01 is always open
+        if (i === 0) return;
 
         const title = card.querySelector<HTMLElement>('.service-title');
         const number = card.querySelector<HTMLElement>('.service-number');
-        const category = card.querySelector<HTMLElement>('.service-category');
         const fill = card.querySelector<HTMLElement>('.service-fill');
         const mesh = card.querySelector<HTMLElement>('.service-mesh');
         const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
         const content = card.querySelector<HTMLElement>('.service-card-content');
 
-        if (!title || !number || !category || !fill || !mesh || !collapse || !content) return;
+        if (!title || !number || !fill || !mesh || !collapse || !content) return;
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: main,
             start: () => `top+=${offsets[i]?.top ?? 0} center+=20%`,
             end: () => `top+=${offsets[i]?.bottom ?? 0} center+=30%`,
-            scrub: 1,
+            scrub: 1
           }
         });
 
-        tl.to(title, { color: luz, duration: 1, ease: 'none' }, 0)
-          .to(number, { color: luz, opacity: 0.55, duration: 1, ease: 'none' }, 0)
-          .to(fill, { opacity: 1, duration: 1, ease: 'none' }, 0)
-          .to(category, { opacity: 1, maxHeight: 24, marginBottom: '0.35rem', duration: 1, ease: 'none' }, 0)
-          .to(mesh, { opacity: 1, duration: 1, ease: 'none' }, 0)
+        tl.fromTo(title, { color: '#000000' }, { color: luz, duration: 1 }, 0)
+          .fromTo(number, { color: '#000000', opacity: 0.2 }, { color: luz, opacity: 0.5, duration: 1 }, 0)
+          .fromTo(fill, { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
+          .fromTo(mesh, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'none' }, 0)
           .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
-          .to(content, { opacity: 1, duration: 0.6, ease: 'none' }, 0.4);
+          .fromTo(content, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.4);
 
         tls.push(tl);
       });
+
+      const handleTransitionEnd = (e: TransitionEvent) => {
+        if (e.target === e.currentTarget && e.propertyName === 'grid-template-rows') {
+          requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+          });
+        }
+      };
+
+      cards.forEach(card => {
+        const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+        collapse?.addEventListener('transitionend', handleTransitionEnd as any);
+      });
+
+      return () => {
+        ScrollTrigger.removeEventListener('refreshInit', measure);
+        main.style.removeProperty('height');
+        cards.forEach(card => {
+           const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+           const animEls = card.querySelectorAll('.service-title, .service-number, .service-fill, .service-mesh, .service-card-collapse, .service-card-content');
+           gsap.set(animEls, { clearProps: "all" });
+           if (collapse) {
+             collapse.style.removeProperty('grid-template-rows');
+             collapse.removeEventListener('transitionend', handleTransitionEnd as any);
+           }
+        });
+      };
     });
 
-    let cancelled = false;
-
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        if (!cancelled) {
-          ScrollTrigger.refresh();
-        }
-      });
-    }
-
-    const onLoad = () => {
-      if (!cancelled) {
-        ScrollTrigger.refresh();
-      }
-    };
-
-    if (document.readyState !== 'complete') {
-      window.addEventListener('load', onLoad);
-    }
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
-      cancelled = true;
-      window.removeEventListener('load', onLoad);
-      ScrollTrigger.removeEventListener('refreshInit', measure);
-      ctx.revert();
-      main.style.removeProperty('height');
+      mm.revert();
     };
   }, []);
 
@@ -467,7 +491,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     };
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsMenuOpen(false);
       }
     };
@@ -548,24 +572,43 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     { label: 'Serviços', href: '#services' },
     { label: 'Sobre', href: '#about' },
     { label: 'Projetos', href: '#projects' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Depoimentos', href: '#testimonials' },
     { label: 'Contato', href: '#contact' },
   ];
 
   const clientBrands = [
-    "BRINCA MÓVEL",
-    "MÃOS DE LEIDE",
-    "AMORIM ERGONOMIA",
-    "BRITO OLIVEIRA",
-    "MARMITARIA VENTURA",
-    "PC GASTRONOMIA",
-    "MAJESTOSA ARTE",
-    "SGB BRIGADA",
+    { name: "Brito Oliveira", slug: "brito-oliveira" },
+    { name: "Amorim Ergonomia", slug: "amorim-ergonomia" },
+    { name: "Brinca Móvel", slug: "brinca-movel" },
+    { name: "P&C Gastronomia", slug: "pc-gastronomia" },
+    { name: "Mãos de Leide", slug: "maos-de-leide" },
+    { name: "Logístico", slug: "logistico-controle-estoque" },
+    { name: "SGB", slug: "sgb-gestao-brigada" },
+    { name: "Marmitaria Ventura", slug: "marmitaria-ventura" },
   ];
+
+  const handleBrandClick = (slug: string) => {
+    const matched = projectsData.find((p) => p.slug === slug);
+    if (matched) {
+      setSelectedProject(matched);
+    }
+    const target = document.querySelector('#projects');
+    if (target) {
+      const navOffset = 80;
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+    }
+  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
+
+    if (href === '/blog') {
+      navigate('/blog');
+      return;
+    }
 
     if (href === '#contact') {
       if (onOpenContact) {
@@ -736,11 +779,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     }
   ];
 
-  const col1Projects = projects.filter((_, idx) => idx % 2 === 0);
-  const col2Projects = projects.filter((_, idx) => idx % 2 !== 0);
+  const col1Projects = projectsData.filter((_, idx) => idx % 2 === 0);
+  const col2Projects = projectsData.filter((_, idx) => idx % 2 !== 0);
 
   return (
     <div className="relative min-h-screen bg-white text-black selection:bg-black selection:text-white">
+      {/* Page Loader Curtain */}
+      <div ref={loaderRef} className="Loader" aria-hidden="true" />
+
       {/* Velocity Skew Magnetic Cursor */}
       <FluidCursor />
 
@@ -777,7 +823,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </a>
 
             {/* Desktop Navigation */}
-            <nav ref={navLinksRef} className="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav ref={navLinksRef} className="hidden lg:flex items-center gap-6 lg:gap-8">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -792,7 +838,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
             {/* Header Actions */}
             <div ref={headerActionRef} className="flex items-center gap-3">
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <MagneticCta
                   onClick={(e) => {
                     e.preventDefault();
@@ -808,7 +854,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 ${isDarkBg ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}
+                className={`lg:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 ${isDarkBg ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}
                 aria-label="Abrir menu"
               >
                 <div className="w-4 flex flex-col gap-1">
@@ -831,7 +877,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -8 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                className={`lg:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
                 style={{
                   paddingLeft: '20px',
                   paddingRight: '20px',
@@ -958,8 +1004,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               className="hero-headline"
               lines={[
                 "Desenvolvo sites e",
-                "soluções digitais que",
-                "geram resultados reais."
+                "soluções digitais."
               ]}
             />
 
@@ -974,18 +1019,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </motion.p>
 
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
-            <div
-              ref={videoShowreelRef}
-              className="mt-8 md:mt-12 w-full max-w-5xl mx-auto overflow-hidden rounded-[20px] md:rounded-[36px]"
-              style={{
-                boxShadow: '0 30px 70px -15px rgba(0, 0, 0, 0.22)',
-              }}
-            >
+            <div className="PreviewSection mt-8 md:mt-12">
               <div
-                className="relative w-full aspect-video md:aspect-[16/9] rounded-[20px] md:rounded-[36px] overflow-hidden bg-black"
-                style={{
-                  border: '1px solid rgba(0, 0, 0, 0.08)',
-                }}
+                ref={videoShowreelRef}
+                className="preview-main max-w-5xl mx-auto overflow-hidden rounded-[20px] md:rounded-[36px]"
               >
                 <video
                   ref={videoMediaRef}
@@ -1036,14 +1073,49 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           </div>
         </section>
 
+        {/* Fullscreen Showreel Modal with Audio */}
+        <AnimatePresence>
+          {isShowreelOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsShowreelOpen(false)}
+              className="ShowreelModal fixed inset-0 z-[10000] bg-black/95 flex items-center justify-center p-4 md:p-12 cursor-pointer"
+              data-cursor-icon="times"
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-6xl aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black"
+              >
+                <video
+                  ref={modalVideoRef}
+                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4"
+                  autoPlay
+                  controls
+                  playsInline
+                  className="w-full h-full object-contain"
+                />
+                <button
+                  onClick={() => setIsShowreelOpen(false)}
+                  className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
+                  aria-label="Fechar vídeo"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
 
 
         {/* ==========================================================================
            2. FOUNDER & STUDIO EDITORIAL SPREAD (MATEUS GORIN & PHILOSOPHY)
            ========================================================================== */}
-        <section className="py-14 md:py-24 bg-[#fafaf9] border-t border-b border-black/10 relative" id="about">
+        <section className="py-20 md:py-28 bg-white relative" id="about">
           <div className="cuberto-container">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               
               {/* Founder Editorial Portrait Card */}
                <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
@@ -1098,23 +1170,20 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               </div>
 
               {/* Editorial Text & Manifesto */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-8 pt-4 lg:pt-0">
                 <motion.div
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6 }}
-                  className="mb-6"
+                  className="mb-4"
                 >
-                  <span className="caption-label block mb-2 uppercase font-medium text-black">
-                    01. O Estúdio &amp; Visão
-                  </span>
                   <TextRevealHeading
                     as="h2"
                     className="font-medium tracking-tight text-black"
                     style={{
-                      fontSize: 'clamp(2rem, 3.5vw + 1rem, 3.5rem)',
-                      lineHeight: 1.1,
+                      fontSize: 'clamp(1.75rem, 2.6vw + 0.5rem, 2.5rem)',
+                      lineHeight: 1.15,
                     }}
                     lines={[
                       "Construo ferramentas de crescimento,",
@@ -1123,7 +1192,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   />
                 </motion.div>
 
-                <div className="space-y-5 text-black/75 text-base md:text-lg leading-relaxed">
+                <div className="space-y-3.5 text-black/75 text-base md:text-[1.05rem] leading-relaxed">
                   <p>
                     A <strong className="text-black font-semibold">Gorin Soluções</strong> nasceu da convicção de que empresas profissionais merecem mais do que templates genéricos do WordPress e páginas lentas que espantam clientes.
                   </p>
@@ -1149,7 +1218,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               transition={{ duration: 0.6 }}
               className="mb-14 md:mb-16"
             >
-              <span className="caption-label block mb-2">02. Competências &amp; Serviços</span>
               <TextRevealHeading
                 as="h2"
                 className="text-3xl md:text-6xl font-medium tracking-tight"
@@ -1160,12 +1228,22 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </motion.div>
 
             <div className="services-main" style={{ position: 'relative' }}>
-              <div className="services-items flex flex-col gap-6">
+              <div className="services-items flex flex-col">
                 {servicesList.map((service, index) => (
                   <ServiceCardItem
                     key={service.number}
                     service={service}
                     index={index}
+                    isOpen={isMobile ? openStates[index] : (index === 0 ? true : false)}
+                    onClick={() => {
+                      if (isMobile) {
+                        setOpenStates(prev => {
+                          const next = [...prev];
+                          next[index] = !next[index];
+                          return next;
+                        });
+                      }
+                    }}
                     whatsappUrl={whatsappUrl}
                   />
                 ))}
@@ -1175,37 +1253,38 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         </section>
 
         {/* ==========================================================================
-           4. CLIENT BRANDS REEL
+           4. CLIENT BRANDS REEL (#brands)
            ========================================================================== */}
-        <section className="pt-20 pb-16 md:py-24 border-t border-b border-black/10 overflow-hidden" id="brands">
+        <section className="LogoreelSection bg-white py-20 md:py-28 relative z-10" id="brands">
           <div className="cuberto-container">
-            <TextRevealHeading
-              as="h2"
-              className="text-center text-xs md:text-sm font-mono uppercase tracking-widest text-black/45 mb-10"
-              lines={[
-                "Empresas e marcas desenvolvidas pela Gorin Soluções"
-              ]}
-            />
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-center text-xs md:text-sm font-mono uppercase tracking-widest text-black font-bold mb-10 md:mb-14 select-none">
+                Empresas e marcas desenvolvidas pela Gorin Soluções
+              </h2>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
-              {clientBrands.map((brand, idx) => (
-                <div
-                  key={idx}
-                  className="py-5 px-4 rounded-2xl bg-black/[0.02] hover:bg-black/[0.06] transition-all flex items-center justify-center text-center cursor-default group"
-                >
-                  <span className="font-bold text-sm md:text-base tracking-wider text-black/60 group-hover:text-black transition-colors uppercase">
-                    {brand}
-                  </span>
-                </div>
-              ))}
+              <div className="brands-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+                {clientBrands.map((brand, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleBrandClick(brand.slug)}
+                    className="brand-item cursor-pointer h-full"
+                  >
+                    <div className="brand-item-inner h-full min-h-[75px] md:min-h-[90px] py-4 px-3 rounded-2xl bg-black/[0.05] border border-black/15 flex flex-col items-center justify-center text-center">
+                      <span className="font-normal text-xs md:text-sm tracking-wider text-black uppercase select-none">
+                        {brand.name}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* ==========================================================================
-           5. SELECTED WORK (CUBERTO ASYMMETRIC PORTFOLIO WITH MODAL & FILTER TABS)
+           5. SELECTED WORK (CUBERTO ASYMMETRIC PORTFOLIO WITH MODAL)
            ========================================================================== */}
-        <section className="WorkSection" id="projects">
+        <section className="WorkSection bg-black text-white py-20 md:py-32 rounded-t-[2.5rem] md:rounded-t-[5rem] relative overflow-hidden" id="projects">
           <div className="cuberto-container">
             <div className="mb-14 md:mb-20">
               <motion.div
@@ -1214,10 +1293,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="caption-label text-white/50 block mb-2">03. Projetos Selecionados</span>
                 <TextRevealHeading
                   as="h2"
-                  className="text-3xl md:text-6xl font-medium tracking-tight"
+                  className="text-3xl md:text-6xl font-medium tracking-tight text-white"
                   lines={[
                     "Trabalhos Recentes"
                   ]}
@@ -1238,57 +1316,32 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     onClick={() => setSelectedProject(p)}
                     className="WorkCard group cursor-pointer"
-                    data-cursor-icon="arrow-up-right"
+                    data-cursor-text="Ver"
                   >
-                    <div
-                      className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
-                      style={{
-                        borderRadius: 'var(--radius-lg)',
-                        overflow: 'hidden',
-                        border: 'none',
-                        boxShadow: 'none',
-                      }}
-                    >
+                    <div className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden rounded-2xl md:rounded-3xl">
                       <img
                         src={p.image}
                         alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover block"
-                        style={{
-                          borderRadius: 'var(--radius-lg)',
-                        }}
                       />
                     </div>
 
-                    {/* Bloco de texto abaixo da imagem */}
-                    <div style={{ marginTop: 'var(--space-2)' }}>
-                      <div
-                        style={{
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.1em',
-                          fontSize: '0.75rem',
-                          color: 'var(--text-muted-dark)',
-                        }}
-                      >
+                    <div className="mt-4 flex flex-col gap-1">
+                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/50">
                         {p.category}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '1.25rem',
-                          fontWeight: 600,
-                          color: 'var(--text-light)',
-                        }}
-                      >
+                      </span>
+                      <h3 className="text-xl md:text-2xl font-semibold text-white tracking-tight group-hover:text-[#00D4FF] transition-colors">
                         {p.title}
-                      </div>
+                      </h3>
                     </div>
                   </motion.div>
                 ))}
               </div>
 
               {/* Right Column (Offset) */}
-              <div className="flex flex-col gap-12 md:gap-20 md:pt-28">
+              <div className="flex flex-col gap-12 md:gap-20 md:mt-36">
                 {col2Projects.map((p, idx) => (
                   <motion.div
                     key={idx}
@@ -1298,50 +1351,25 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                     onClick={() => setSelectedProject(p)}
                     className="WorkCard group cursor-pointer"
-                    data-cursor-icon="arrow-up-right"
+                    data-cursor-text="Ver"
                   >
-                    <div
-                      className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden"
-                      style={{
-                        borderRadius: 'var(--radius-lg)',
-                        overflow: 'hidden',
-                        border: 'none',
-                        boxShadow: 'none',
-                      }}
-                    >
+                    <div className="work-card-media w-full aspect-[4/3] md:aspect-[16/11] relative overflow-hidden rounded-2xl md:rounded-3xl">
                       <img
                         src={p.image}
                         alt={`Imagem em destaque do projeto ${p.title}`}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover block"
-                        style={{
-                          borderRadius: 'var(--radius-lg)',
-                        }}
                       />
                     </div>
 
-                    {/* Bloco de texto abaixo da imagem */}
-                    <div style={{ marginTop: 'var(--space-2)' }}>
-                      <div
-                        style={{
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.1em',
-                          fontSize: '0.75rem',
-                          color: 'var(--text-muted-dark)',
-                        }}
-                      >
+                    <div className="mt-4 flex flex-col gap-1">
+                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/50">
                         {p.category}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '1.25rem',
-                          fontWeight: 600,
-                          color: 'var(--text-light)',
-                        }}
-                      >
+                      </span>
+                      <h3 className="text-xl md:text-2xl font-semibold text-white tracking-tight group-hover:text-[#00D4FF] transition-colors">
                         {p.title}
-                      </div>
+                      </h3>
                     </div>
                   </motion.div>
                 ))}
@@ -1417,11 +1445,11 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   <div className="grid grid-cols-2 gap-4 border-t border-b border-white/10 py-6 text-sm">
                     <div>
                       <span className="text-xs font-mono text-white/40 block mb-1">TECNOLOGIA</span>
-                      <span className="text-white font-medium">React + TypeScript</span>
+                      <span className="text-white font-medium">{selectedProject.stack?.join(" · ") || "React + TypeScript"}</span>
                     </div>
                     <div>
                       <span className="text-xs font-mono text-white/40 block mb-1">FOCO DO PROJETO</span>
-                      <span className="text-white font-medium">Conversão &amp; Performance</span>
+                      <span className="text-white font-medium">{selectedProject.metrics || "Conversão & Performance"}</span>
                     </div>
                   </div>
 
@@ -1464,7 +1492,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            6. TESTIMONIALS (FANNED DECK WITH AUTHENTIC CLIENT REVIEWS)
            ========================================================================== */}
-        <section className="py-16 md:py-24 bg-white relative z-10 rounded-t-[40px] md:rounded-t-[64px] -mt-10 md:-mt-16" id="testimonials">
+        <section className="py-20 md:py-28 bg-white relative z-10 rounded-t-[2.5rem] md:rounded-t-[5rem] -mt-10 md:-mt-16" id="testimonials">
           <div className="cuberto-container">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
@@ -1473,7 +1501,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <span className="caption-label block mb-2">04. Depoimentos &amp; Avaliações</span>
               <TextRevealHeading
                 as="h2"
                 className="text-3xl md:text-5xl font-medium tracking-tight"
@@ -1485,84 +1512,49 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </motion.div>
 
             <div className="TestimonialsDeck">
-              {testimonials.map((item, idx) => {
-                // Card 0 (top-center): cyan tint #E8F9FB
-                // Card 1 (mid-left): clean white #FFFFFF
-                // Card 2 (mid-right): clean white #FFFFFF
-                // Card 3 (bottom-left): cyan tint #E8F9FB
-                // Card 4 (bottom-right): cyan tint #E8F9FB
-                const isCyanTint = idx === 0 || idx === 3 || idx === 4;
-                const bgStyle = isCyanTint ? '#EBF7F9' : '#FFFFFF';
-
-                return (
-                  <div
-                    key={idx}
-                    className="deck-card border border-black/[0.08] rounded-3xl p-7 md:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden"
-                    style={{
-                      backgroundColor: bgStyle,
-                    }}
-                  >
+              {testimonials.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="deck-card p-7 md:p-8 flex flex-col justify-between relative overflow-hidden"
+                >
                   {/* Decorative Quotation Mark Glyph */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none select-none"
-                    style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      left: '1.25rem',
-                      fontSize: '4.5rem',
-                      fontFamily: 'serif',
-                      color: 'var(--accent-cyan-mid)',
-                      opacity: 0.15,
-                      lineHeight: 1,
-                      zIndex: 0,
-                    }}
+                    className="pointer-events-none select-none text-black/10 text-6xl font-serif absolute top-4 left-5 leading-none"
                   >
                     "
                   </span>
 
-                  {/* Paper Noise Texture (feTurbulence baseFrequency 0.9, numOctaves 2, opacity 0.025) */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 rounded-3xl"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                      opacity: 0.025,
-                      zIndex: 1,
-                    }}
-                  />
-
                   <div className="relative z-10">
-                    <span className="text-xs font-mono text-black/50 uppercase tracking-widest block mb-4">
+                    <span className="text-xs font-mono text-black/50 uppercase tracking-widest block mb-3">
                       {item.highlight}
                     </span>
-                    <p className="text-black/85 text-sm md:text-base leading-relaxed mb-8">
+                    <p className="text-black/85 text-sm md:text-base leading-relaxed mb-6 font-medium">
                       "{item.content}"
                     </p>
                   </div>
 
-                  <div className="relative z-10 border-t border-black/10 pt-4">
+                  <div className="relative z-10 border-t border-black/10 pt-4 mt-auto">
                     <h4 className="font-bold text-base text-black uppercase tracking-tight">
                       {item.name}
                     </h4>
-                    <p className="text-xs font-mono text-black/60 uppercase">
+                    <p className="text-xs font-mono text-black/60 uppercase mt-0.5">
                       {item.role}
                     </p>
                   </div>
                 </div>
-              );
-            })}
+              ))}
             </div>
           </div>
         </section>
 
         {/* ==========================================================================
-           7. WHY GORIN & ELASTIC RUBBER-BAND DIVIDER
+           7. WHY GORIN & ELASTIC RUBBER-BAND DIVIDER (#why)
            ========================================================================== */}
-        <section className="py-16 md:py-24" id="why">
+        <section className="py-20 md:py-28 bg-white" id="why">
           <div className="cuberto-container">
             {/* The interactive rubber-band line */}
-            <div className="my-12">
+            <div className="mb-14">
               <ElasticDivider />
             </div>
 
@@ -1570,113 +1562,108 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               <div className="md:col-span-4 lg:col-span-3">
                 <TextRevealHeading
                   as="h2"
-                  className="caption-label"
+                  className="caption-label text-black block"
                   lines={[
                     "Por Que a Gorin"
                   ]}
                 />
               </div>
               <div className="md:col-span-8 lg:col-span-9">
-                <p className="editorial-text">
+                <p className="text-xl md:text-3xl font-medium tracking-tight text-black leading-snug">
                   Não entrego apenas páginas na internet. Crio ferramentas comerciais que continuam gerando contatos e oportunidades para o seu negócio.
                 </p>
               </div>
             </div>
 
-            {/* Metric Tiles */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-              <div className="MetricTile -highlight">
-                <div>
-                  <div style={{ marginBottom: 'var(--space-2)' }}>
-                    <Award size={24} strokeWidth={1.5} className="text-black" />
-                  </div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-black/60">
+            {/* Bento Grid (12 Columns) */}
+            <div className="cuberto-tiles-grid grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+              {/* Tile 1: 10+ Projetos (span 4, cyan) */}
+              <div className="MetricTile -bg-cyan lg:col-span-4">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono uppercase tracking-widest text-black/60">
                     Projetos Realizados
-                  </div>
+                  </span>
+                  <Award size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
                 <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-1">
+                  <div className="stat-number text-black mb-1" style={{ fontSize: 'clamp(3.75rem, 5vw, 5rem)', fontWeight: 600, lineHeight: 1 }}>
                     <StatCounter value="10+" />
                   </div>
-                  <div className="text-sm font-semibold uppercase tracking-wider text-black/75">
+                  <div className="text-sm font-semibold uppercase tracking-wider text-black/80">
                     Projetos Entregues
                   </div>
                 </div>
               </div>
 
-              <div className="MetricTile">
-                <div>
-                  <div style={{ marginBottom: 'var(--space-2)' }}>
-                    <ThumbsUp size={24} strokeWidth={1.5} className="text-black" />
-                  </div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Tempo de resposta
-                  </div>
+              {/* Tile 2: 24h Resposta (span 4, grey) */}
+              <div className="MetricTile -bg-grey lg:col-span-4">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono uppercase tracking-widest text-black/60">
+                    Tempo de Resposta
+                  </span>
+                  <ThumbsUp size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
                 <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-1">
+                  <div className="stat-number text-black mb-1" style={{ fontSize: 'clamp(3.75rem, 5vw, 5rem)', fontWeight: 600, lineHeight: 1 }}>
                     <StatCounter value="24h" />
                   </div>
-                  <div className="text-sm font-semibold uppercase tracking-wider text-black/75">
+                  <div className="text-sm font-semibold uppercase tracking-wider text-black/80">
                     Resposta em até 24 horas
                   </div>
                 </div>
               </div>
 
-              <div className="MetricTile -highlight">
-                <div>
-                  <div style={{ marginBottom: 'var(--space-2)' }}>
-                    <MapPin size={24} strokeWidth={1.5} className="text-black" />
-                  </div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-black/60">
+              {/* Tile 3: BSB Brasília (span 4, cyan) */}
+              <div className="MetricTile -bg-cyan lg:col-span-4">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono uppercase tracking-widest text-black/60">
                     Base Operacional
-                  </div>
+                  </span>
+                  <MapPin size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
                 <div>
-                  <div className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-1">
+                  <div className="stat-number text-black mb-1" style={{ fontSize: 'clamp(3.75rem, 5vw, 5rem)', fontWeight: 600, lineHeight: 1 }}>
                     BSB
                   </div>
-                  <div className="text-sm font-semibold uppercase tracking-wider text-black/75">
+                  <div className="text-sm font-semibold uppercase tracking-wider text-black/80">
                     Brasília - DF / Atendimento Brasil
                   </div>
                 </div>
               </div>
 
-              <div className="MetricTile">
-                <div>
-                  <div style={{ marginBottom: 'var(--space-2)' }}>
-                    <Code2 size={24} strokeWidth={1.5} className="text-black" />
-                  </div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-black/60">
+              {/* Tile 4: Código do Zero (span 6, grey) */}
+              <div className="MetricTile -bg-grey lg:col-span-6">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono uppercase tracking-widest text-black/60">
                     Engenharia Autoral
-                  </div>
+                  </span>
+                  <Code2 size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
                 <div>
-                  <div className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
+                  <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
                     Código feito do zero
-                  </div>
-                  <div className="text-sm text-black/70 leading-relaxed">
-                    Sem depender de construtores pesados. Foco em velocidade de carregamento e estabilidade técnica.
-                  </div>
+                  </h3>
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed">
+                    Sem depender de construtores pesados do WordPress. Desenvolvimento em React 19 + TypeScript para máxima velocidade, segurança e SEO.
+                  </p>
                 </div>
               </div>
 
-              <div className="MetricTile sm:col-span-2 lg:col-span-2">
-                <div>
-                  <div style={{ marginBottom: 'var(--space-2)' }}>
-                    <Layers size={24} strokeWidth={1.5} className="text-black" />
-                  </div>
-                  <div className="text-xs font-mono uppercase tracking-widest text-black/60">
+              {/* Tile 5: Estratégia, Design e Desenvolvimento (span 6, grey) */}
+              <div className="MetricTile -bg-grey lg:col-span-6">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs font-mono uppercase tracking-widest text-black/60">
                     Processo Completo
-                  </div>
+                  </span>
+                  <Layers size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
                 <div>
-                  <div className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
+                  <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
                     Estratégia, Design e Desenvolvimento Integrados
-                  </div>
-                  <div className="text-sm md:text-base text-black/70 leading-relaxed max-w-2xl">
-                    Acompanho cada etapa: da conversa inicial e entendimento do público à interface, código limpo e publicação final.
-                  </div>
+                  </h3>
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed">
+                    Acompanhamento de ponta a ponta: da arquitetura comercial e design de interface ao código autoral e otimização de conversão.
+                  </p>
                 </div>
               </div>
             </div>
@@ -1684,41 +1671,130 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         </section>
 
         {/* ==========================================================================
-           8. FAQ SECTION (HIGH-CRAFT ACCORDION)
+           8. BLOG INSIGHTS & FAQ SECTION (INSIDE BLACK BACKGROUND)
            ========================================================================== */}
-        <section className="bg-black text-white py-16 md:py-24 rounded-t-[40px] md:rounded-t-[64px]" id="faq">
+        <section className="FaqSection bg-black text-white py-20 md:py-32 rounded-t-[2.5rem] md:rounded-t-[5rem] relative" id="insights">
           <div className="cuberto-container">
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-14"
-            >
-              <span className="caption-label text-white/50 block mb-2">Perguntas Frequentes</span>
-              <TextRevealHeading
-                as="h2"
-                className="text-3xl md:text-6xl font-medium tracking-tight"
-                lines={[
-                  "Dúvidas Comuns"
-                ]}
-              />
-            </motion.div>
+            {/* Blog Insights Subsection */}
+            <div className="mb-24 md:mb-36">
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6 }}
+                className="flex flex-row items-center justify-between gap-6 mb-12 md:mb-16"
+              >
+                <TextRevealHeading
+                  as="h2"
+                  className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white"
+                  lines={[
+                    "Insights"
+                  ]}
+                />
 
-            <div className="max-w-4xl mx-auto space-y-2 text-center">
-              {faqs.map((faq, idx) => (
-                <div key={idx} className="FaqItem">
-                  <details className="group">
-                    <summary className="py-2 text-xl md:text-2xl font-medium cursor-pointer inline-flex items-center justify-center gap-4 w-full">
-                      <span>{faq.q}</span>
-                      <span className="plus-icon"></span>
-                    </summary>
-                    <p className="mt-4 text-white/70 text-base md:text-lg leading-relaxed max-w-2xl mx-auto text-center">
-                      {faq.a}
-                    </p>
-                  </details>
+                <MagneticCta
+                  onClick={onOpenBlog}
+                  variant="outline"
+                  className="!text-white !border-white/30 hover:!border-white hover:!bg-white hover:!text-black transition-all cursor-pointer !py-3.5 !px-8 !text-sm sm:!text-base font-normal shrink-0"
+                >
+                  Visite o Blog
+                </MagneticCta>
+              </motion.div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12">
+                {articlesData.map((article) => (
+                  <motion.article
+                    key={article.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.5 }}
+                    onClick={onOpenBlog}
+                    className="group cursor-pointer flex flex-col bg-[#111111] rounded-3xl overflow-hidden border border-white/10 hover:border-[#00D4FF]/40 hover:shadow-2xl transition-all duration-500"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-white/5">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md text-white text-[11px] font-mono px-3 py-1 rounded-full uppercase tracking-wider border border-white/10">
+                        {article.category}
+                      </div>
+                    </div>
+
+                    <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                      <div>
+                        <div className="flex items-center gap-3 text-xs font-mono text-white/50 mb-3">
+                          <span className="flex items-center gap-1">
+                            <Calendar size={12} />
+                            {article.date}
+                          </span>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <Clock size={12} />
+                            {article.readTime}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl font-bold tracking-tight text-white group-hover:text-[#00D4FF] transition-colors mb-3 leading-snug">
+                          {article.title}
+                        </h3>
+
+                        <p className="text-white/70 text-sm leading-relaxed line-clamp-3">
+                          {article.excerpt}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+
+            {/* FAQ Subsection */}
+            <div id="faq">
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-14 md:mb-20"
+              >
+                <TextRevealHeading
+                  as="h2"
+                  className="text-3xl md:text-6xl font-medium tracking-tight text-white"
+                  lines={[
+                    "Dúvidas Comuns"
+                  ]}
+                />
+              </motion.div>
+
+              <div className="max-w-4xl mx-auto">
+                {faqs.map((faq, idx) => (
+                  <React.Fragment key={idx}>
+                    <div className="faq-divider opacity-20 text-white my-3">
+                      <ElasticDivider />
+                    </div>
+                    <div className="FaqItem py-2">
+                      <details className="group">
+                        <summary className="py-4 text-lg md:text-2xl font-medium cursor-pointer flex items-center justify-between gap-6 w-full text-left list-none select-none">
+                          <span className="text-white group-hover:text-[#00D4FF] transition-colors">{faq.q}</span>
+                          <span className="plus-icon">
+                            +
+                          </span>
+                        </summary>
+                        <p className="pb-6 pt-2 text-white/70 text-base md:text-lg leading-relaxed text-left max-w-3xl">
+                          {faq.a}
+                        </p>
+                      </details>
+                    </div>
+                  </React.Fragment>
+                ))}
+                <div className="faq-divider opacity-20 text-white my-3">
+                  <ElasticDivider />
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </section>
@@ -1727,20 +1803,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            9. CONTACT & INTERACTIVE INQUIRY ESTIMATOR (ZERO AI SLOP)
            ========================================================================== */}
         <section className="bg-black text-white py-24 md:py-32 relative overflow-hidden" id="contact">
-          {/* Overlaid MeshPanels behind all content */}
-          <div
-            className="absolute bottom-0 left-0 w-full pointer-events-none"
-            style={{ height: '33.333%', zIndex: 0 }}
-          >
-            <MeshPanel intensity={1} className="w-full h-full" />
-          </div>
-
-          <div
-            className="absolute top-0 right-0 pointer-events-none"
-            style={{ width: '45%', height: '33.333%', zIndex: 0 }}
-          >
-            <MeshPanel intensity={0.5} className="w-full h-full" />
-          </div>
+          {/* 3D Isometric Diamond Prism Sculpture (Cuberto style, Gorin brand colors) */}
+          <CtaPrismArtwork />
 
           <div className="cuberto-container relative z-10">
             <motion.div
@@ -1750,7 +1814,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               transition={{ duration: 0.6 }}
               className="text-center mb-14"
             >
-              <span className="caption-label text-white/50 block mb-2">05. Iniciar um Projeto</span>
               <TextRevealHeading
                 as="h2"
                 className="font-medium tracking-tight"
@@ -1773,19 +1836,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   </p>
                 </div>
 
-                <div className="pt-2">
-                  <button
-                    onClick={() => {
+                <div className="pt-2 flex justify-center">
+                  <MagneticCta
+                    onClick={(e) => {
+                      e.preventDefault();
                       onOpenContact();
                     }}
-                    className="inline-flex items-center justify-center rounded-full bg-[#00D4FF] text-black font-semibold hover:bg-[#00bfe6] transition-colors shadow-lg cursor-pointer"
-                    style={{
-                      padding: '1.1rem 2.8rem',
-                      fontSize: '1.05rem',
-                    }}
+                    variant="inverse"
+                    className="!py-4 !px-8 !text-base cursor-pointer font-medium"
                   >
                     Falar com o Gorin
-                  </button>
+                  </MagneticCta>
                 </div>
               </div>
             </div>
@@ -1875,7 +1936,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 </div>
               </div>
 
-              {/* Right Column: Navigation Links in Columns */}
+              {/* Right Column: Navigation Links in Columns with roll-text */}
               <div className="md:col-span-5 grid grid-cols-2 gap-8 justify-start md:justify-end">
                 <div className="flex flex-col space-y-3">
                   {navItems.slice(0, 3).map((item) => (
@@ -1883,9 +1944,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       key={item.label}
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-sm font-medium text-white/70 hover:text-white transition-colors no-underline"
+                      className="roll-text text-sm font-medium text-white/70 hover:text-white transition-colors no-underline group"
                     >
-                      {item.label}
+                      <span data-text={item.label}>{item.label}</span>
                     </a>
                   ))}
                 </div>
@@ -1895,17 +1956,17 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       key={item.label}
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className="text-sm font-medium text-white/70 hover:text-white transition-colors no-underline"
+                      className="roll-text text-sm font-medium text-white/70 hover:text-white transition-colors no-underline group"
                     >
-                      {item.label}
+                      <span data-text={item.label}>{item.label}</span>
                     </a>
                   ))}
                   <a
                     href="#contact"
                     onClick={(e) => handleNavClick(e, '#contact')}
-                    className="text-sm font-medium text-[#00D4FF] hover:underline transition-colors no-underline"
+                    className="roll-text text-sm font-medium text-[#00D4FF] transition-colors no-underline group"
                   >
-                    Iniciar Projeto
+                    <span data-text="Iniciar Projeto">Iniciar Projeto</span>
                   </a>
                 </div>
               </div>
@@ -1927,6 +1988,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   target="_blank"
                   rel="noopener noreferrer"
                   className="RoundButton"
+                  data-cursor-stick
                   aria-label="Instagram de Mateus Gorin"
                 >
                   <Instagram className="w-4 h-4" />
@@ -1937,6 +1999,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   target="_blank"
                   rel="noopener noreferrer"
                   className="RoundButton"
+                  data-cursor-stick
                   aria-label="WhatsApp da Gorin Soluções"
                 >
                   <MessageCircle className="w-4 h-4" />
@@ -1947,6 +2010,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   target="_blank"
                   rel="noopener noreferrer"
                   className="RoundButton"
+                  data-cursor-stick
                   aria-label="GitHub"
                 >
                   <ExternalLink className="w-4 h-4" />

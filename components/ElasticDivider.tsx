@@ -1,8 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface ElasticDividerProps {
   className?: string;
@@ -11,86 +8,99 @@ interface ElasticDividerProps {
 export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const deltaRef = useRef<number>(0);
+  
+  const pointRef = useRef({ x: 0, y: 100 });
+  const isGrabbedRef = useRef(false);
 
-  const getPathD = (cx?: number, cy?: number, totalW?: number) => {
-    const w = totalW || (containerRef.current ? containerRef.current.offsetWidth : 1200);
-    const x = cx !== undefined ? cx : w / 2;
-    const y = cy !== undefined ? cy : 100;
-    return `M0,100 Q${x},${y} ${w},100`;
+  const getPathD = (x: number, y: number, width: number) => {
+    return `M 0,100 C ${width * 0.25},100 ${x - width * 0.2},${y} ${x},${y} C ${x + width * 0.2},${y} ${width * 0.75},100 ${width},100`;
   };
 
   useEffect(() => {
     const el = containerRef.current;
     const path = pathRef.current;
-    const svg = svgRef.current;
-    if (!el || !path || !svg) return;
+    if (!el || !path) return;
 
-    // Initial shape
-    path.setAttribute('d', getPathD());
-
-    // Scroll entry animation matching original D09N7 script:
-    // set svg transformOrigin: 'left center', from scaleX: 0, duration: 2.4, ease: 'expo.out'
-    gsap.set(svg, { transformOrigin: 'left center' });
-    const trigger = ScrollTrigger.create({
-      trigger: el,
-      start: 'top bottom-=50',
-      onEnter: () => {
-        gsap.fromTo(svg, { scaleX: 0 }, { scaleX: 1, duration: 2.2, ease: 'expo.out' });
-      },
-      once: true,
-    });
-
-    const handleResize = () => {
-      path.setAttribute('d', getPathD());
+    const updatePath = () => {
+      const width = el.offsetWidth || 1200;
+      path.setAttribute('d', getPathD(pointRef.current.x || width / 2, pointRef.current.y, width));
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const i = e.clientX - rect.left;
-      const a = e.clientY - rect.top;
+    const initialWidth = el.offsetWidth || 1200;
+    pointRef.current.x = initialWidth / 2;
+    pointRef.current.y = 100;
+    updatePath();
 
-      if (!deltaRef.current) {
-        deltaRef.current = a < 100 ? 50 : -50;
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      const width = rect.width || 1200;
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const svgY = mouseY + 100;
+      const deltaY = svgY - 100;
+
+      if (!isGrabbedRef.current && Math.abs(deltaY) > 10) {
+        isGrabbedRef.current = true;
       }
 
-      const o = i;
-      const s = a * 2 - 100 + deltaRef.current;
+      if (isGrabbedRef.current) {
+        // Clamp maximum vertical deflection to ±65px (y between 35 and 165)
+        const clampedY = Math.max(35, Math.min(165, svgY));
+        pointRef.current.x = Math.max(0, Math.min(width, mouseX));
+        pointRef.current.y = clampedY;
 
-      gsap.to(path, {
-        attr: { d: getPathD(o, s, rect.width) },
-        duration: 0.2,
-        overwrite: true,
+        updatePath();
+
+        // Release string if pulled beyond maximum amplitude (±65px)
+        if (Math.abs(clampedY - 100) >= 65) {
+          releaseString(width);
+        }
+      }
+    };
+
+    const releaseString = (currentWidth: number) => {
+      if (!isGrabbedRef.current) return;
+      isGrabbedRef.current = false;
+
+      gsap.to(pointRef.current, {
+        y: 100,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.1)',
+        onUpdate: () => {
+          path.setAttribute('d', getPathD(pointRef.current.x, pointRef.current.y, currentWidth));
+        },
       });
     };
 
-    const handleMouseLeave = () => {
-      deltaRef.current = 0;
-      gsap.to(path, {
-        attr: { d: getPathD() },
-        duration: 2,
-        ease: 'elastic.out(1, 0.2)',
-      });
+    const handlePointerLeave = () => {
+      const width = el.offsetWidth || 1200;
+      releaseString(width);
+    };
+
+    const handleResize = () => {
+      const width = el.offsetWidth || 1200;
+      if (!isGrabbedRef.current) {
+        pointRef.current.x = width / 2;
+      }
+      updatePath();
     };
 
     window.addEventListener('resize', handleResize);
-    el.addEventListener('mousemove', handleMouseMove);
-    el.addEventListener('mouseleave', handleMouseLeave);
+    el.addEventListener('pointermove', handlePointerMove);
+    el.addEventListener('pointerleave', handlePointerLeave);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      el.removeEventListener('mousemove', handleMouseMove);
-      el.removeEventListener('mouseleave', handleMouseLeave);
-      trigger.kill();
-      gsap.killTweensOf(path);
-      gsap.killTweensOf(svg);
+      el.removeEventListener('pointermove', handlePointerMove);
+      el.removeEventListener('pointerleave', handlePointerLeave);
+      gsap.killTweensOf(pointRef.current);
     };
   }, []);
 
   return (
     <div ref={containerRef} className={`Divider relative h-[1px] w-full ${className}`}>
-      <svg ref={svgRef} className="pointer-events-none w-full h-[200px] absolute top-[-99px] left-0 right-0 overflow-visible">
+      <svg className="pointer-events-none absolute top-[-99px] left-0 right-0 w-full h-[200px] overflow-visible">
         <path ref={pathRef} fill="none" stroke="currentColor" strokeWidth="1" />
       </svg>
     </div>

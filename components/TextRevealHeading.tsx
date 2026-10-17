@@ -27,19 +27,20 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
     return children ? [String(children)] : [];
   }, [lines, children]);
 
-  const Tag = as as any;
+  const Tag = as as keyof JSX.IntrinsicElements;
 
   return (
     <Tag className={className} style={style}>
       {displayLines.map((lineText, index) => (
-        <span key={index} className="block overflow-hidden py-0.5 pb-2 md:pb-3 -mb-2 md:-mb-3">
+        <span key={index} className="reveal-line block overflow-hidden py-[0.08em] pb-[0.22em] -mb-[0.22em]">
           <motion.span
-            className="block will-change-transform"
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: "0%", opacity: 1 }}
+            className="reveal-line-inner block"
+            initial={{ y: '100%', opacity: 0 }}
+            whileInView={{ y: '0%', opacity: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{
-              duration: 0.9,
-              delay: index * 0.1,
+              duration: 0.8,
+              delay: index * 0.08,
               ease: [0.16, 1, 0.3, 1],
             }}
           >
