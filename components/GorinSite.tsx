@@ -1049,7 +1049,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-4"
+              className="mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-center gap-3.5 md:gap-4 w-full px-4 md:px-0"
             >
               <MagneticCta
                 onClick={(e) => {
@@ -1057,7 +1057,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   onOpenContact();
                 }}
                 variant="fill"
-                className="!py-4 !px-8 !text-base cursor-pointer"
+                className="!w-full md:!w-auto !max-w-[320px] md:!max-w-none !py-3.5 md:!py-4 !px-5 md:!px-8 !text-xs sm:!text-sm md:!text-base whitespace-nowrap cursor-pointer justify-center text-center"
               >
                 Solicitar orçamento sem compromisso
               </MagneticCta>
@@ -1065,7 +1065,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               <MagneticCta
                 href="#projects"
                 variant="outline"
-                className="!py-4 !px-8 !text-base"
+                className="!w-full md:!w-auto !max-w-[320px] md:!max-w-none !py-3.5 md:!py-4 !px-5 md:!px-8 !text-xs sm:!text-sm md:!text-base whitespace-nowrap justify-center text-center"
               >
                 Conhecer projetos entregues
               </MagneticCta>
@@ -1113,7 +1113,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            2. FOUNDER & STUDIO EDITORIAL SPREAD (MATEUS GORIN & PHILOSOPHY)
            ========================================================================== */}
-        <section className="py-20 md:py-28 bg-white relative" id="about">
+        <section className="pt-16 pb-10 md:py-28 bg-white relative" id="about">
           <div className="cuberto-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               
@@ -1186,18 +1186,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       lineHeight: 1.15,
                     }}
                     lines={[
-                      "Construo ferramentas de crescimento,",
-                      "não apenas sites."
+                      "Crio sites de alta conversão,",
+                      "não apenas páginas."
                     ]}
                   />
                 </motion.div>
 
                 <div className="space-y-3.5 text-black/75 text-base md:text-[1.05rem] leading-relaxed">
                   <p>
-                    A <strong className="text-black font-semibold">Gorin Soluções</strong> nasceu da convicção de que empresas profissionais merecem mais do que templates genéricos do WordPress e páginas lentas que espantam clientes.
+                    A <strong className="text-black font-semibold">Gorin Soluções</strong> desenvolve sites modernos, rápidos e personalizados para empresas que buscam destaque no mercado e mais vendas.
                   </p>
                   <p>
-                    Com base em Brasília e projetos em todo o Brasil, uno o rigor técnico da engenharia de software ao cuidado visual. Desenvolvo cada linha de código com um objetivo claro: fazer sua empresa transmitir autoridade, carregar rápido e transformar visitantes em clientes reais.
+                    Com atendimento em todo o Brasil, uno design exclusivo e alta tecnologia. Cada projeto é criado do zero com um objetivo claro: transmitir autoridade, carregar instantaneamente e transformar visitantes em clientes reais.
                   </p>
                 </div>
               </div>
@@ -1216,7 +1216,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="mb-14 md:mb-16"
+              className="mb-8 md:mb-16"
             >
               <TextRevealHeading
                 as="h2"
