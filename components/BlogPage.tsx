@@ -13,7 +13,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
 
-  const categories = ['Todos', 'Inteligência Artificial', 'Engenharia Web', 'Performance'];
+  const categories = ['Todos', 'Inteligência Artificial', 'Engenharia Web', 'Performance', 'Design & UX', 'Conversão & Vendas'];
 
   const filteredArticles = selectedCategory === 'Todos' 
     ? articlesData 

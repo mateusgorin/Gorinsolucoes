@@ -1057,7 +1057,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   onOpenContact();
                 }}
                 variant="fill"
-                className="!w-full md:!w-auto !max-w-[320px] md:!max-w-none !py-3.5 md:!py-4 !px-5 md:!px-8 !text-xs sm:!text-sm md:!text-base whitespace-nowrap cursor-pointer justify-center text-center"
+                className="!w-full md:!w-auto !max-w-[360px] md:!max-w-none !min-h-[72px] md:!min-h-0 !py-4 !px-6 md:!px-8 !text-base !leading-snug cursor-pointer flex items-center justify-center text-center"
               >
                 Solicitar orçamento sem compromisso
               </MagneticCta>
@@ -1065,7 +1065,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               <MagneticCta
                 href="#projects"
                 variant="outline"
-                className="!w-full md:!w-auto !max-w-[320px] md:!max-w-none !py-3.5 md:!py-4 !px-5 md:!px-8 !text-xs sm:!text-sm md:!text-base whitespace-nowrap justify-center text-center"
+                className="!w-full md:!w-auto !max-w-[360px] md:!max-w-none !min-h-[72px] md:!min-h-0 !py-4 !px-6 md:!px-8 !text-base !leading-snug flex items-center justify-center text-center"
               >
                 Conhecer projetos entregues
               </MagneticCta>
@@ -1702,7 +1702,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12">
-                {articlesData.map((article) => (
+                {articlesData.slice(0, 3).map((article) => (
                   <motion.article
                     key={article.id}
                     initial={{ opacity: 0, y: 20 }}
