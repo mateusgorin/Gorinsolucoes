@@ -16,7 +16,7 @@ export const articlesData: Article[] = [
     category: 'Inteligência Artificial',
     date: '15/10/2026',
     readTime: '4 min de leitura',
-    image: '/images/blog-cover-1.png',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434337/Captura_de_tela_2026-10-19_152447_qwqsu5.webp',
     excerpt: 'Descubra como modelos avançados de IA e assistentes de engenharia transformaram o fluxo de desenvolvimento web, reduzindo o tempo de criação de código limpo em React e TypeScript.',
     content: [
       'A inteligência artificial deixou de ser uma promessa futurista para se tornar a ferramenta mais poderosa no dia a dia de desenvolvedores de alto nível. Na Gorin Soluções, utilizamos inteligência artificial de ponta integrada ao nosso fluxo de engenharia para multiplicar a velocidade de escrita de códigos.',
@@ -30,7 +30,7 @@ export const articlesData: Article[] = [
     category: 'Engenharia Web',
     date: '10/10/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-cover-2.jpg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434381/Gemini_Generated_Image_228kid228kid228k_xhvthq.webp',
     excerpt: 'Entenda os gargalos de performance, segurança e manutenção das plataformas tradicionais e por que código autoral em React e TypeScript garante autoridade digital superior.',
     content: [
       'O mercado digital mudou. Plataformas de arrastar e soltar e construtores baseados em WordPress dependem de dezenas de plugins de terceiros que tornam o site lento, vulnerável a invasões e difícil de posicionar no Google.',
@@ -44,7 +44,7 @@ export const articlesData: Article[] = [
     category: 'Performance',
     date: '05/10/2026',
     readTime: '6 min de leitura',
-    image: '/images/blog-cover-3.jpg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434390/Gemini_Generated_Image_90katb90katb90ka_in6y87.webp',
     excerpt: 'Como cada milissegundo economizado no carregamento do seu site se traduz diretamente em mais leads qualificados e maior faturamento para o seu negócio.',
     content: [
       'Estudos de comportamento do consumidor mostram que cada segundo de atraso no carregamento de uma página reduz drasticamente as taxas de conversão. Usuários no celular abandonam sites lentos antes mesmo de verem a primeira dobra.',
@@ -58,7 +58,7 @@ export const articlesData: Article[] = [
     category: 'Conversão & Vendas',
     date: '28/09/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-4-mobile-first.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434400/Gemini_Generated_Image_jix1zajix1zajix1_r4yuyj.webp',
     excerpt: 'Mais de 80% do tráfego qualificado de empresas de serviços vem de smartphones. Descubra a anatomia de uma página projetada para transformar scrolls em conversas imediatas no WhatsApp.',
     content: [
       'No cenário digital atual, o smartphone não é apenas um dispositivo secundário — é o ponto de contato principal entre seu cliente e seu negócio. Sites concebidos exclusivamente para computadores que apenas encolhem no celular frustram o usuário com botões minúsculos, textos ilegíveis e menus labirínticos.',
@@ -72,7 +72,7 @@ export const articlesData: Article[] = [
     category: 'Design & UX',
     date: '22/09/2026',
     readTime: '6 min de leitura',
-    image: '/images/blog-5-minimal-ui.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434454/Captura_de_tela_2026-10-19_152709_esjn54.webp',
     excerpt: 'A psicologia visual por trás de marcas de alto valor: como tipografia monumental, contrastes elegantes e animações fluidas diferenciam empresas comuns de líderes de mercado.',
     content: [
       'Existe um abismo visual entre um site com aspecto amador — poluído por banners piscantes, cores desarmônicas e poluição visual — e uma experiência digital de alto padrão. Grandes referências mundiais compreendem que o design refinado é o atalho mais rápido para estabelecer percepção de autoridade e cobrar valores premium.',
@@ -86,7 +86,7 @@ export const articlesData: Article[] = [
     category: 'Performance',
     date: '14/09/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-6-seo-rankings.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434486/Gemini_Generated_Image_bllhxlbllhxlbllh_ddscfn.webp',
     excerpt: 'Descubra como o Google avalia LCP, INP e CLS para ranquear sua empresa acima dos concorrentes e por que arquitetura de código limpo vence qualquer atalho de SEO.',
     content: [
       'O algoritmo do Google avalia muito mais do que apenas palavras-chave: a experiência técnica do usuário tornou-se critério eliminatório. Os Core Web Vitals medem velocidade de carregamento (LCP), interatividade instantânea (INP) e estabilidade visual (CLS).',
@@ -100,7 +100,7 @@ export const articlesData: Article[] = [
     category: 'Engenharia Web',
     date: '05/09/2026',
     readTime: '4 min de leitura',
-    image: '/images/blog-7-cloud-security.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434535/Captura_de_tela_2026-10-19_152835_kw9tgy.webp',
     excerpt: 'A vulnerabilidade oculta de bancos de dados expostos e plugins desatualizados versus a robustez de sites compilados e distribuídos em redes globais de borda.',
     content: [
       'Um dos maiores prejuízos para qualquer empresa é ver seu site fora do ar em meio a uma campanha de anúncios ou ter dados comprometidos por falhas em plugins de terceiros. Plataformas tradicionais com bancos de dados expostos na web pública são alvos frequentes de ataques automatizados.',
@@ -114,7 +114,7 @@ export const articlesData: Article[] = [
     category: 'Inteligência Artificial',
     date: '26/08/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-8-ai-support.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435141/Picsart_26-10-19_15-37-46-215_ivrlbo.webp',
     excerpt: 'Como empresas modernas estão automatizando a triagem de leads e o pré-atendimento com inteligência artificial generativa sem perder o toque humano e o fechamento no WhatsApp.',
     content: [
       'A velocidade na resposta ao cliente é um dos fatores mais determinantes para fechar uma venda. Responder um lead nos primeiros minutos aumenta drasticamente as chances de conversão. No entanto, manter uma equipe humana disponível 24 horas por dia é inviável para a maioria das empresas.',
@@ -128,7 +128,7 @@ export const articlesData: Article[] = [
     category: 'Conversão & Vendas',
     date: '18/08/2026',
     readTime: '4 min de leitura',
-    image: '/images/blog-9-copywriting.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435759/Screenshot_20261019_154907_Google_se2v2c.webp',
     excerpt: 'Por que slogans genéricos e parágrafos prolixos afastam clientes: aprenda as técnicas de escrita persuasiva e objetiva aplicadas em websites de alta performance.',
     content: [
       'Muitas empresas investem em tráfego pago e design, mas pecam no elemento mais decisivo para a conversão: o texto. Frases genéricas como "qualidade e excelência" não explicam o problema real que sua empresa resolve nem por que o cliente deve escolher você.',
@@ -142,7 +142,7 @@ export const articlesData: Article[] = [
     category: 'Engenharia Web',
     date: '10/08/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-10-serverless-nodes.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435467/1792435312805_mrwjjq.webp',
     excerpt: 'Como a computação serverless e funções sob demanda permitem que aplicações web suportem milhões de acessos sem gerenciar servidores dedicados caros.',
     content: [
       'O modelo tradicional de hospedagem com servidores dedicados sempre ligados obriga empresas a pagarem por recursos computacionais mesmo quando o tráfego está baixo. A arquitetura Serverless revolucionou essa dinâmica.',
@@ -156,7 +156,7 @@ export const articlesData: Article[] = [
     category: 'Conversão & Vendas',
     date: '02/08/2026',
     readTime: '6 min de leitura',
-    image: '/images/blog-11-cro-ab-test.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435725/Screenshot_20261019_154808_Google_wwxqaa.webp',
     excerpt: 'Como testar variações de títulos, botões de ação e propostas de valor para multiplicar o faturamento do seu site sem gastar um centavo a mais em anúncios.',
     content: [
       'Muitas empresas tentam aumentar vendas apenas investindo mais dinheiro em anúncios, ignorando o vazamento no próprio site. A Otimização da Taxa de Conversão (CRO) foca em extrair o máximo valor dos visitantes que já chegam até você.',
@@ -170,7 +170,7 @@ export const articlesData: Article[] = [
     category: 'Design & UX',
     date: '25/07/2026',
     readTime: '5 min de leitura',
-    image: '/images/blog-12-accessibility.svg',
+    image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435607/Screenshot_20261019_154622_Google_kpqeyh.webp',
     excerpt: 'Por que contraste adequado, navegação por teclado e semântica acessível não são apenas conformidade legal, mas uma vantagem competitiva de mercado.',
     content: [
       'Acessibilidade digital não é um detalhe secundário. Milhões de pessoas navegam com leitores de tela, contrastes aumentados ou exclusivamente por teclado. Um site inacessível bloqueia potenciais compradores e expõe a marca a riscos regulatórios.',
