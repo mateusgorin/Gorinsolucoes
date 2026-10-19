@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgMint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#C4E7CB" />
+      <stop offset="100%" stopColor="#D5F0DA" />
+    </linearGradient>
+    <filter id="clayShadowMint" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="8" dy="18" stdDeviation="16" flood-color="#3D6B48" flood-opacity="0.25" />
+    </filter>
+    <linearGradient id="mintWindow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" />
+      <stop offset="100%" stopColor="#ECFDF5" />
+    </linearGradient>
+    <linearGradient id="badgeGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#10B981" />
+      <stop offset="100%" stopColor="#059669" />
+    </linearGradient>
+    <linearGradient id="goldPen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FBBF24" />
+      <stop offset="100%" stopColor="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" rx="36" fill="url(#bgMint)" />
+
+  <!-- 3D Glass Design Window -->
+  <g transform="translate(180, 80) rotate(-4 220 180)" filter="url(#clayShadowMint)">
+    <rect width="440" height="320" rx="32" fill="url(#mintWindow)" />
+    
+    <!-- Top Bar -->
+    <circle cx="38" cy="36" r="6" fill="#F87171" />
+    <circle cx="58" cy="36" r="6" fill="#FBBF24" />
+    <circle cx="78" cy="36" r="6" fill="#34D399" />
+
+    <!-- 2026 Floating Badge -->
+    <g transform="translate(26, -24)">
+      <rect width="110" height="44" rx="22" fill="url(#badgeGreen)" filter="url(#clayShadowMint)" />
+      <text x="55" y="30" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="#FFFFFF" text-anchor="middle">2026</text>
+    </g>
+
+    <!-- Vector Wireframe Canvas -->
+    <rect x="40" y="70" width="360" height="160" rx="18" fill="#F0FDF4" stroke="#A7F3D0" stroke-width="2" stroke-dasharray="8 6" />
+    
+    <!-- Bezier curves inside -->
+    <path d="M 60 180 C 120 100 240 220 380 120" fill="none" stroke="#10B981" stroke-width="4" stroke-linecap="round" />
+    <circle cx="120" cy="100" r="7" fill="#FFFFFF" stroke="#10B981" stroke-width="3" />
+    <circle cx="240" cy="220" r="7" fill="#FFFFFF" stroke="#10B981" stroke-width="3" />
+    <line x1="100" y1="120" x2="140" y2="80" stroke="#059669" stroke-width="2" />
+
+    <!-- UI Component Pills below -->
+    <rect x="40" y="250" width="100" height="34" rx="17" fill="#A7F3D0" />
+    <rect x="155" y="250" width="130" height="34" rx="17" fill="#E2E8F0" />
+    <rect x="300" y="250" width="100" height="34" rx="17" fill="#E2E8F0" />
+  </g>
+
+  <!-- 3D Golden Pen Tool floating on the right -->
+  <g transform="translate(560, 60) rotate(24 40 40)" filter="url(#clayShadowMint)">
+    <rect width="70" height="70" rx="22" fill="url(#goldPen)" />
+    <path d="M 35 15 L 50 35 L 35 55 L 20 35 Z" fill="#FFFFFF" />
+    <circle cx="35" cy="35" r="4" fill="url(#goldPen)" />
+  </g>
+
+  <!-- 3D Glossy Green Cylinder on left -->
+  <g transform="translate(100, 310)" filter="url(#clayShadowMint)">
+    <ellipse cx="60" cy="70" rx="40" ry="20" fill="#059669" />
+    <path d="M 20 70 L 20 120 C 20 135 100 135 100 120 L 100 70 Z" fill="#10B981" />
+    <ellipse cx="60" cy="120" rx="40" ry="20" fill="#34D399" />
+  </g>
+</svg>

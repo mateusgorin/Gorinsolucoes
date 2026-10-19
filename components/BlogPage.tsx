@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, X, Clock, Calendar, ArrowLeft, Sparkles, Code2, Layers, Cpu } from 'lucide-react';
-
+import { motion } from 'framer-motion';
+import { ArrowLeft, Clock, Calendar, MessageCircle, ArrowUpRight } from 'lucide-react';
 import { articlesData, Article } from '../data/articles';
+import { MagneticCta } from './MagneticCta';
 
 interface BlogPageProps {
   onBack: () => void;
@@ -13,190 +13,238 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
 
-  const categories = ['Todos', 'Inteligência Artificial', 'Engenharia Web', 'Performance', 'Design & UX', 'Conversão & Vendas'];
+  const categories = [
+    'Todos',
+    'Inteligência Artificial',
+    'Engenharia Web',
+    'Performance',
+    'Design & UX',
+    'Conversão & Vendas',
+  ];
 
-  const filteredArticles = selectedCategory === 'Todos' 
-    ? articlesData 
+  const filteredArticles = selectedCategory === 'Todos'
+    ? articlesData
     : articlesData.filter(a => a.category === selectedCategory);
 
+  const handleOpenArticle = (article: Article) => {
+    setActiveArticle(article);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToList = () => {
+    setActiveArticle(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white pt-16 pb-20">
-      {/* Top Navbar Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-black/10 px-6 py-4 flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
-        >
-          <ArrowLeft size={18} />
-          <span>Voltar ao Início</span>
-        </button>
-        <span className="font-bold text-lg tracking-tight uppercase">
-          GORIN<span className="text-[#00D4FF]">.</span> BLOG
-        </span>
-      </div>
-
-      <div className="cuberto-container pt-4 md:pt-6">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
-          <span className="caption-label block mb-2 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
-            Insights &amp; Artigos · Gorin Soluções
-          </span>
-          <h1 className="text-4xl md:text-5xl font-medium tracking-tight mb-3">
-            Blog &amp; Conhecimento
-          </h1>
-          <p className="text-black/70 text-base md:text-lg leading-relaxed">
-            Notícias, bastidores de engenharia, inteligência artificial e estratégias para dominar o mercado digital.
-          </p>
-        </div>
-
-        {/* Category Filter Pills */}
-        <div className="flex items-center justify-center gap-2 md:gap-3 overflow-x-auto pb-4 mb-8 scrollbar-none">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
-                selectedCategory === cat
-                  ? 'bg-black text-white shadow-md'
-                  : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Articles Grid (2 columns on desktop) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {filteredArticles.map((article) => (
-            <motion.article
-              key={article.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              onClick={() => setActiveArticle(article)}
-              className="group cursor-pointer flex flex-col bg-white rounded-3xl overflow-hidden border border-black/10 hover:shadow-2xl transition-all duration-500"
-              data-cursor-text="Ler"
-            >
-              {/* Thumbnail */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-black/5">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md text-white text-[11px] font-mono px-3 py-1 rounded-full uppercase tracking-wider">
-                  {article.category}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-xs font-mono text-black/50 mb-3">
-                    <span className="flex items-center gap-1">
-                      <Calendar size={12} />
-                      {article.date}
-                    </span>
-                    <span>·</span>
-                    <span className="flex items-center gap-1">
-                      <Clock size={12} />
-                      {article.readTime}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold tracking-tight text-black group-hover:text-[#0E7490] transition-colors mb-3 leading-snug">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-black/70 text-sm leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-
-      {/* Article Detail Modal */}
-      <AnimatePresence>
-        {activeArticle && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveArticle(null)}
-            className="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white pt-20 pb-28">
+      {/* Top Navbar */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5 px-6 h-20 flex items-center justify-between">
+        {activeArticle ? (
+          <button
+            onClick={handleBackToList}
+            className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
           >
-            <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative bg-white text-black rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
-            >
-              {/* Header Image */}
-              <div className="relative aspect-[21/9] w-full overflow-hidden bg-black/10">
-                <img
-                  src={activeArticle.image}
-                  alt={activeArticle.title}
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  onClick={() => setActiveArticle(null)}
-                  className="absolute top-4 right-4 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label="Fechar"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              {/* Article Body */}
-              <div className="p-6 md:p-12 space-y-6">
-                <div>
-                  <div className="flex items-center gap-3 text-xs font-mono text-[#0E7490] uppercase tracking-wider mb-3">
-                    <span>{activeArticle.category}</span>
-                    <span>·</span>
-                    <span>{activeArticle.date}</span>
-                    <span>·</span>
-                    <span>{activeArticle.readTime}</span>
-                  </div>
-                  <h2 className="text-2xl md:text-4xl font-bold tracking-tight leading-tight">
-                    {activeArticle.title}
-                  </h2>
-                </div>
-
-                <div className="space-y-4 text-black/80 text-base md:text-lg leading-relaxed pt-2 border-t border-black/10">
-                  {activeArticle.content.map((paragraph, idx) => (
-                    <p key={idx}>{paragraph}</p>
-                  ))}
-                </div>
-
-                <div className="pt-8 border-t border-black/10 flex flex-wrap items-center justify-between gap-4">
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="CtaButton -fill !py-3.5 !px-7 !text-sm flex items-center gap-2"
-                  >
-                    <span>Falar sobre seu projeto com a Gorin</span>
-                    <ArrowUpRight size={16} />
-                  </a>
-
-                  <button
-                    onClick={() => setActiveArticle(null)}
-                    className="text-xs font-mono text-black/60 hover:text-black transition-colors cursor-pointer"
-                  >
-                    Fechar artigo
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+            <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
+              <ArrowLeft size={16} />
+            </div>
+            <span>Voltar ao Blog</span>
+          </button>
+        ) : (
+          <button
+            onClick={onBack}
+            className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
+          >
+            <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
+              <ArrowLeft size={16} />
+            </div>
+            <span className="font-bold tracking-tighter uppercase text-base">GORIN<span className="text-[#00D4FF]">.</span></span>
+          </button>
         )}
-      </AnimatePresence>
+
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
+            Insights &amp; Artigos
+          </span>
+          <MagneticCta
+            onClick={onBack}
+            variant="outline"
+            className="!px-4 !py-2 !text-xs font-sans font-medium cursor-pointer"
+          >
+            Voltar ao Início
+          </MagneticCta>
+        </div>
+      </header>
+
+      {/* ARTICLE INLINE READER VIEW (NO POPUP / INLINE FULL PAGE) */}
+      {activeArticle ? (
+        <main className="max-w-4xl mx-auto px-6 pt-10">
+          <motion.article
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Breadcrumb / Top Category */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-medium border border-black/20 text-black uppercase tracking-wider">
+                {activeArticle.category}
+              </span>
+              <span className="text-black/30">·</span>
+              <div className="flex items-center gap-1.5 text-xs font-mono text-black/60">
+                <Calendar size={13} />
+                <span>{activeArticle.date}</span>
+              </div>
+              <span className="text-black/30">·</span>
+              <div className="flex items-center gap-1.5 text-xs font-mono text-black/60">
+                <Clock size={13} />
+                <span>{activeArticle.readTime}</span>
+              </div>
+            </div>
+
+            {/* Monumental Article Title */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-black leading-[1.08] mb-8">
+              {activeArticle.title}
+            </h1>
+
+            {/* Lead Excerpt */}
+            <p className="text-lg md:text-2xl text-black/75 font-normal leading-relaxed mb-10 pb-8 border-b border-black/10">
+              {activeArticle.excerpt}
+            </p>
+
+            {/* 3D Hero Artwork Cover */}
+            <div className="w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden aspect-[16/10] bg-slate-100 mb-12 shadow-sm">
+              <img
+                src={activeArticle.image}
+                alt={activeArticle.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Rich Editorial Body */}
+            <div className="space-y-6 text-black/85 text-lg md:text-xl leading-relaxed mb-16 max-w-3xl">
+              {activeArticle.content.map((paragraph, idx) => (
+                <p key={idx} className="first-of-type:font-medium">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            {/* Commercial CTA Card inside Article */}
+            <div className="bg-[#0B0B0C] text-white p-8 md:p-12 rounded-[2rem] mb-16 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2 text-center md:text-left">
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
+                  Pronto para elevar o padrão digital da sua empresa?
+                </h3>
+                <p className="text-white/70 text-sm md:text-base max-w-lg">
+                  Vamos conversar no WhatsApp sobre prazos, escopo e estimativa de investimento para o seu novo projeto.
+                </p>
+              </div>
+              <MagneticCta
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="inverse"
+                className="!py-4 !px-8 !text-sm whitespace-nowrap cursor-pointer shrink-0"
+              >
+                Falar com a Gorin
+              </MagneticCta>
+            </div>
+
+            {/* Back Button & Related Articles Footer */}
+            <div className="pt-8 border-t border-black/10 flex items-center justify-between">
+              <button
+                onClick={handleBackToList}
+                className="group flex items-center gap-2 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
+              >
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                <span>Voltar a todos os artigos</span>
+              </button>
+
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="text-xs font-mono uppercase text-black/50 hover:text-black transition-colors cursor-pointer"
+              >
+                ↑ Topo da página
+              </button>
+            </div>
+          </motion.article>
+        </main>
+      ) : (
+        /* ARTICLES DIRECTORY LIST (CUBERTO 2-COLUMN DESIGN PATTERN) */
+        <main className="cuberto-container pt-8 md:pt-12">
+          {/* Headline */}
+          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+            <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
+              Insights &amp; Artigos · Gorin Soluções
+            </span>
+            <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-4">
+              Blog &amp; Conhecimento
+            </h1>
+            <p className="text-black/70 text-base md:text-xl leading-relaxed">
+              Tendências de engenharia, inteligência artificial e estratégias de alta performance para marcas que lideram seus mercados.
+            </p>
+          </div>
+
+          {/* Category Filter Pills */}
+          <div className="flex items-center justify-center gap-2 md:gap-3 overflow-x-auto pb-4 mb-14 scrollbar-none">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-5 py-2.5 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                  selectedCategory === cat
+                    ? 'bg-black text-white shadow-md'
+                    : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Articles Grid (2 Columns on Desktop, Cuberto Layout) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 md:gap-y-20">
+            {filteredArticles.map((article) => (
+              <motion.article
+                key={article.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45 }}
+                onClick={() => handleOpenArticle(article)}
+                className="group cursor-pointer flex flex-col select-none"
+                data-cursor-text="Ler"
+              >
+                {/* 3D Artwork Cover Card (Rounded corners, no outer container borders) */}
+                <div className="relative aspect-[16/10] w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-slate-100 shadow-sm transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Category Pill Tag */}
+                <div className="mt-6 mb-3">
+                  <span className="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-medium border border-black/25 text-black uppercase tracking-wider">
+                    {article.category}
+                  </span>
+                </div>
+
+                {/* Article Title */}
+                <h2 className="text-2xl md:text-[2rem] font-semibold tracking-tight text-black group-hover:text-[#0E7490] transition-colors leading-[1.22] mb-3">
+                  {article.title}
+                </h2>
+
+                {/* Date */}
+                <span className="text-sm font-mono text-black/50">
+                  {article.date}
+                </span>
+              </motion.article>
+            ))}
+          </div>
+        </main>
+      )}
     </div>
   );
 };

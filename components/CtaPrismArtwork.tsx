@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface CtaPrismArtworkProps {
   className?: string;
@@ -9,6 +9,22 @@ export const CtaPrismArtwork: React.FC<CtaPrismArtworkProps> = ({
   className = '',
   intensity = 0.9,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div
       aria-hidden="true"
@@ -35,13 +51,13 @@ export const CtaPrismArtwork: React.FC<CtaPrismArtworkProps> = ({
         }}
       />
 
-      {/* Monumental 3D Faceted Prism SVG - Matches the exact peak-to-corners scale */}
+      {/* Monumental 3D Faceted Prism SVG - Proportional on mobile (xMidYMin slice), corner-to-corner on desktop (none) */}
       <svg
         className="w-full h-full pointer-events-none absolute top-0 left-0"
         viewBox="0 0 1600 900"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
+        preserveAspectRatio={isMobile ? 'xMidYMin slice' : 'none'}
         style={{ opacity: intensity }}
       >
         <defs>

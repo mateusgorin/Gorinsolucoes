@@ -8,10 +8,10 @@ import { ScrollToTop } from './components/ScrollToTop';
 import { Seo } from './components/Seo';
 import { FluidCursor } from './components/FluidCursor';
 
-const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
-const BriefingPage = lazy(() => import('./components/BriefingPage').then(m => ({ default: m.BriefingPage })));
-const PrivacyPage = lazy(() => import('./components/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
-const BlogPage = lazy(() => import('./components/BlogPage').then(m => ({ default: m.BlogPage })));
+import { ContactPage } from './components/ContactPage';
+import { BriefingPage } from './components/BriefingPage';
+import { PrivacyPage } from './components/PrivacyPage';
+import { BlogPage } from './components/BlogPage';
 
 import { whatsappLink } from './lib/contact';
 

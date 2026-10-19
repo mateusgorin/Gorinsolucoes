@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#88D9B4" />
+      <stop offset="100%" stopColor="#97E2C0" />
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="12" dy="24" stdDeviation="20" flood-color="#1C5237" flood-opacity="0.32" />
+      <feDropShadow dx="4" dy="8" stdDeviation="8" flood-color="#1C5237" flood-opacity="0.18" />
+    </filter>
+    <filter id="glassBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <!-- Gold Gradient -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFBEB" />
+      <stop offset="30%" stopColor="#FBBF24" />
+      <stop offset="70%" stopColor="#D97706" />
+      <stop offset="100%" stopColor="#92400E" />
+    </linearGradient>
+    <!-- Glass Gradients -->
+    <linearGradient id="glassCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" stop-opacity="0.85" />
+      <stop offset="100%" stopColor="#E2E8F0" stop-opacity="0.45" />
+    </linearGradient>
+    <linearGradient id="frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" stop-opacity="0.95" />
+      <stop offset="100%" stopColor="#E2E8F0" stop-opacity="0.75" />
+    </linearGradient>
+  </defs>
+
+  <!-- Card Canvas with Generous Rounded Corners -->
+  <rect width="800" height="450" rx="36" fill="url(#bg)" />
+
+  <!-- Soft Ambient Studio Lighting Highlights -->
+  <circle cx="200" cy="110" r="140" fill="#FFFFFF" fill-opacity="0.18" filter="url(#glassBlur)" />
+  <circle cx="680" cy="360" r="130" fill="#1C5237" fill-opacity="0.08" filter="url(#glassBlur)" />
+
+  <!-- Back Browser Window (Blue/Teal) -->
+    <g transform="translate(210, 75) rotate(-6 160 140)" filter="url(#softShadow)">
+      <rect width="270" height="230" rx="26" fill="#38BDF8" stroke="#0284C7" stroke-width="2" />
+      <circle cx="28" cy="26" r="5" fill="#EF4444" />
+      <circle cx="44" cy="26" r="5" fill="#F59E0B" />
+      <circle cx="60" cy="26" r="5" fill="#10B981" />
+      <!-- 5-Star Rating Pill floating on left -->
+      <g transform="translate(-40, 70)" filter="url(#softShadow)">
+        <rect width="130" height="38" rx="19" fill="#F97316" />
+        <circle cx="22" cy="19" r="6" fill="#FDE047" />
+        <circle cx="44" cy="19" r="6" fill="#FDE047" />
+        <circle cx="66" cy="19" r="6" fill="#FDE047" />
+        <circle cx="88" cy="19" r="6" fill="#FDE047" />
+        <circle cx="110" cy="19" r="6" fill="#FDE047" />
+      </g>
+    </g>
+    <!-- Front Browser Window (Lilac / White with Code tag) -->
+    <g transform="translate(320, 100) rotate(5 160 140)" filter="url(#softShadow)">
+      <polygon points="0,240 18,256 298,256 280,240" fill="#CBD5E1" />
+      <polygon points="280,0 298,16 298,256 280,240" fill="#94A3B8" />
+      <rect width="280" height="240" rx="28" fill="url(#frost)" stroke="#FFFFFF" stroke-width="2.5" />
+      <circle cx="32" cy="30" r="5" fill="#F87171" />
+      <circle cx="48" cy="30" r="5" fill="#FBBF24" />
+      <circle cx="64" cy="30" r="5" fill="#34D399" />
+      <!-- Code tag pill -->
+      <rect x="85" y="20" width="46" height="20" rx="10" fill="#E2E8F0" />
+      <text x="108" y="34" font-family="monospace" font-size="11" font-weight="900" fill="#64748B" text-anchor="middle">&lt;/&gt;</text>
+      <!-- Media block -->
+      <rect x="30" y="60" width="130" height="85" rx="16" fill="#C084FC" />
+      <rect x="175" y="60" width="75" height="38" rx="12" fill="#38BDF8" />
+      <rect x="175" y="108" width="75" height="38" rx="12" fill="#F472B6" />
+      <!-- Pill Buttons below -->
+      <rect x="30" y="165" width="65" height="30" rx="15" fill="#F43F5E" />
+      <rect x="105" y="165" width="85" height="30" rx="15" fill="#34D399" />
+    </g>
+    <!-- Connected Isometric Cubes at Bottom Right -->
+    <g transform="translate(560, 260)" filter="url(#softShadow)">
+      <line x1="25" y1="25" x2="65" y2="65" stroke="#3B82F6" stroke-width="6" stroke-linecap="round" />
+      <!-- Cyan Cube -->
+      <g transform="translate(10, 0)">
+        <polygon points="20,0 40,10 20,20 0,10" fill="#38BDF8" />
+        <polygon points="0,10 20,20 20,40 0,30" fill="#0284C7" />
+        <polygon points="20,20 40,10 40,30 20,40" fill="#0369A1" />
+      </g>
+      <!-- Yellow Cube -->
+      <g transform="translate(55, 45)">
+        <polygon points="20,0 40,10 20,20 0,10" fill="#FDE047" />
+        <polygon points="0,10 20,20 20,40 0,30" fill="#EAB308" />
+        <polygon points="20,20 40,10 40,30 20,40" fill="#CA8A04" />
+      </g>
+    </g>
+    <!-- Floating purple cube top-right -->
+    <g transform="translate(580, 75)" filter="url(#softShadow)">
+      <polygon points="16,0 32,8 16,16 0,8" fill="#C084FC" />
+      <polygon points="0,8 16,16 16,32 0,24" fill="#9333EA" />
+      <polygon points="16,16 32,8 32,24 16,32" fill="#7E22CE" />
+    </g>
+</svg>

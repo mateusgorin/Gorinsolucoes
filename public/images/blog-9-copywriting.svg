@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#8893EE" />
+      <stop offset="100%" stopColor="#98A3F6" />
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="12" dy="24" stdDeviation="20" flood-color="#313666" flood-opacity="0.32" />
+      <feDropShadow dx="4" dy="8" stdDeviation="8" flood-color="#313666" flood-opacity="0.18" />
+    </filter>
+    <filter id="glassBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <!-- Gold Gradient -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFBEB" />
+      <stop offset="30%" stopColor="#FBBF24" />
+      <stop offset="70%" stopColor="#D97706" />
+      <stop offset="100%" stopColor="#92400E" />
+    </linearGradient>
+    <!-- Glass Gradients -->
+    <linearGradient id="glassCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" stop-opacity="0.85" />
+      <stop offset="100%" stopColor="#E2E8F0" stop-opacity="0.45" />
+    </linearGradient>
+    <linearGradient id="frost" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" stop-opacity="0.95" />
+      <stop offset="100%" stopColor="#E2E8F0" stop-opacity="0.75" />
+    </linearGradient>
+  </defs>
+
+  <!-- Card Canvas with Generous Rounded Corners -->
+  <rect width="800" height="450" rx="36" fill="url(#bg)" />
+
+  <!-- Soft Ambient Studio Lighting Highlights -->
+  <circle cx="200" cy="110" r="140" fill="#FFFFFF" fill-opacity="0.18" filter="url(#glassBlur)" />
+  <circle cx="680" cy="360" r="130" fill="#313666" fill-opacity="0.08" filter="url(#glassBlur)" />
+
+  <!-- Dynamically Curved 3D Paper Sheet -->
+    <g transform="translate(180, 80) rotate(-8 180 140)" filter="url(#softShadow)">
+      <!-- Back Shadow Sheet -->
+      <path d="M 60 70 C 140 20 240 120 340 50 L 310 230 C 210 300 110 200 30 250 Z" fill="#C7D2FE" />
+      <!-- Front Curved White Paper Sheet -->
+      <path d="M 50 50 C 140 0 250 110 350 40 L 320 220 C 220 290 110 180 20 230 Z" fill="#FFFFFF" stroke="#EDE9FE" stroke-width="2.5" />
+    </g>
+    <!-- Hovering Metallic Digital Stylus Pen -->
+    <g transform="translate(390, 60) rotate(-38 70 80)" filter="url(#softShadow)">
+      <rect x="55" y="10" width="34" height="170" rx="17" fill="#E0E7FF" stroke="#818CF8" stroke-width="2" />
+      <rect x="62" y="70" width="20" height="40" rx="6" fill="#1E1B4B" />
+      <polygon points="55,180 72,250 89,180" fill="#6366F1" />
+      <circle cx="72" cy="250" r="3" fill="#1E1B4B" />
+    </g>
+    <!-- Floating Golden Sparkle Stars -->
+    <g transform="translate(180, 95)" filter="url(#softShadow)">
+      <path d="M 20 0 L 25 15 L 40 20 L 25 25 L 20 40 L 15 25 L 0 20 L 15 15 Z" fill="#FDE047" />
+    </g>
+    <g transform="translate(530, 110)" filter="url(#softShadow)">
+      <path d="M 20 0 L 25 15 L 40 20 L 25 25 L 20 40 L 15 25 L 0 20 L 15 15 Z" fill="#FDE047" />
+    </g>
+    <g transform="translate(170, 270)" filter="url(#softShadow)">
+      <path d="M 18 0 L 22 13 L 36 18 L 22 23 L 18 36 L 14 23 L 0 18 L 14 13 Z" fill="#FDE047" />
+    </g>
+    <!-- Splashing Purple Ink Droplets below -->
+    <g transform="translate(430, 270)">
+      <circle cx="20" cy="20" r="10" fill="#4338CA" />
+      <circle cx="45" cy="35" r="7" fill="#4338CA" />
+      <circle cx="55" cy="15" r="8" fill="#6366F1" />
+      <circle cx="80" cy="25" r="11" fill="#4338CA" />
+    </g>
+</svg>

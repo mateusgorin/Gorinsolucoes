@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgAi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#A8D0F8" />
+      <stop offset="50%" stopColor="#BCE0FC" />
+      <stop offset="100%" stopColor="#D2E8FF" />
+    </linearGradient>
+    <filter id="clayShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="8" dy="16" stdDeviation="14" flood-color="#4A75A0" flood-opacity="0.32" />
+    </filter>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="windowWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFFFFF" />
+      <stop offset="100%" stopColor="#EFF6FF" />
+    </linearGradient>
+    <linearGradient id="codeDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#1E2330" />
+      <stop offset="100%" stopColor="#11151F" />
+    </linearGradient>
+    <linearGradient id="purpleBtn" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#9333EA" />
+      <stop offset="100%" stopColor="#C084FC" />
+    </linearGradient>
+    <linearGradient id="aiChip" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#E9D5FF" />
+      <stop offset="100%" stopColor="#C084FC" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="500" rx="36" fill="url(#bgAi)" />
+
+  <!-- Background decorative floating blur orbs -->
+  <circle cx="160" cy="110" r="70" fill="#FFFFFF" fill-opacity="0.25" filter="url(#softGlow)" />
+  <circle cx="700" cy="380" r="90" fill="#60A5FA" fill-opacity="0.22" filter="url(#softGlow)" />
+
+  <!-- LEFT 3D WINDOW: White UI Card with AI chip -->
+  <g transform="translate(140, 70) rotate(-6 200 180)" filter="url(#clayShadow)">
+    <rect width="260" height="340" rx="28" fill="url(#windowWhite)" />
+    
+    <!-- Window top dots -->
+    <circle cx="36" cy="32" r="6" fill="#F87171" />
+    <circle cx="56" cy="32" r="6" fill="#FBBF24" />
+    <circle cx="76" cy="32" r="6" fill="#34D399" />
+
+    <!-- AI Chip in Center -->
+    <rect x="75" y="65" width="110" height="100" rx="22" fill="url(#aiChip)" />
+    <text x="130" y="126" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="34" font-weight="900" fill="#FFFFFF" text-anchor="middle">AI</text>
+    
+    <!-- Chip connector pins -->
+    <line x1="95" y1="55" x2="95" y2="65" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+    <line x1="130" y1="55" x2="130" y2="65" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+    <line x1="165" y1="55" x2="165" y2="65" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+    <line x1="95" y1="165" x2="95" y2="175" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+    <line x1="130" y1="165" x2="130" y2="175" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+    <line x1="165" y1="165" x2="165" y2="175" stroke="#A855F7" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Skeleton Lines -->
+    <rect x="40" y="190" width="180" height="14" rx="7" fill="#E2E8F0" />
+    <rect x="40" y="215" width="140" height="12" rx="6" fill="#E2E8F0" />
+
+    <!-- Mini Media Card -->
+    <rect x="40" y="240" width="80" height="40" rx="10" fill="#93C5FD" />
+    <circle cx="65" cy="255" r="7" fill="#FFFFFF" />
+    <polygon points="48,276 68,260 84,276" fill="#DBEAFE" />
+
+    <!-- Button: Generate Website -->
+    <rect x="36" y="292" width="188" height="34" rx="17" fill="url(#purpleBtn)" />
+    <text x="130" y="314" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">✨ Generate Website</text>
+  </g>
+
+  <!-- RIGHT 3D WINDOW: Dark Code Editor with Colorful Syntax -->
+  <g transform="translate(420, 80) rotate(5 200 180)" filter="url(#clayShadow)">
+    <rect width="250" height="330" rx="28" fill="url(#codeDark)" />
+    
+    <!-- Header with window buttons -->
+    <circle cx="34" cy="30" r="5" fill="#EF4444" />
+    <circle cx="50" cy="30" r="5" fill="#F59E0B" />
+    <circle cx="66" cy="30" r="5" fill="#10B981" />
+    <text x="210" y="34" font-family="monospace" font-size="14" font-weight="700" fill="#64748B">&lt;/&gt;</text>
+
+    <!-- Folder tree on right / lines on left -->
+    <!-- Syntax lines -->
+    <rect x="30" y="70" width="35" height="8" rx="4" fill="#F43F5E" />
+    <rect x="72" y="70" width="60" height="8" rx="4" fill="#38BDF8" />
+    
+    <rect x="45" y="92" width="75" height="8" rx="4" fill="#FBBF24" />
+    <rect x="126" y="92" width="40" height="8" rx="4" fill="#34D399" />
+    
+    <rect x="45" y="114" width="50" height="8" rx="4" fill="#C084FC" />
+    <rect x="100" y="114" width="65" height="8" rx="4" fill="#F472B6" />
+    
+    <rect x="60" y="136" width="70" height="8" rx="4" fill="#38BDF8" />
+    <rect x="60" y="158" width="85" height="8" rx="4" fill="#FBBF24" />
+    
+    <rect x="30" y="180" width="40" height="8" rx="4" fill="#F43F5E" />
+    <rect x="30" y="202" width="75" height="8" rx="4" fill="#10B981" />
+    <rect x="45" y="224" width="90" height="8" rx="4" fill="#E2E8F0" />
+    <rect x="45" y="246" width="60" height="8" rx="4" fill="#C084FC" />
+    <rect x="30" y="268" width="30" height="8" rx="4" fill="#F43F5E" />
+
+    <!-- File tree sidebar -->
+    <line x1="175" y1="65" x2="175" y2="295" stroke="#334155" stroke-width="1.5" />
+    <rect x="185" y="80" width="45" height="6" rx="3" fill="#94A3B8" />
+    <rect x="195" y="102" width="38" height="6" rx="3" fill="#64748B" />
+    <rect x="195" y="124" width="35" height="6" rx="3" fill="#64748B" />
+    <rect x="185" y="146" width="42" height="6" rx="3" fill="#94A3B8" />
+    <rect x="195" y="168" width="40" height="6" rx="3" fill="#64748B" />
+  </g>
+</svg>
