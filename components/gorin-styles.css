@@ -355,6 +355,12 @@ button:hover .roll-text span:after {
   transition: transform 0.6s cubic-bezier(0.34, 5.56, 0.64, 1);
 }
 
+.CtaButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .CtaButton.-fill {
   background: #000000;
   color: #ffffff;

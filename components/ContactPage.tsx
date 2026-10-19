@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, MessageCircle } from 'lucide-react';
 import { EMAIL, whatsappLink } from '../lib/contact';
+import { MagneticCta } from './MagneticCta';
 
 interface ContactPageProps {
   onBack?: () => void;
@@ -122,12 +123,13 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
 
           <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-wider text-black/60">
             <span>Contato Direto</span>
-            <button
+            <MagneticCta
               onClick={onBack}
-              className="px-4 py-2 rounded-full border border-black/15 text-black hover:bg-black hover:text-white transition-all text-xs font-sans font-medium cursor-pointer"
+              variant="outline"
+              className="!px-4 !py-2 !text-xs font-sans font-medium cursor-pointer"
             >
               Voltar ao Site
-            </button>
+            </MagneticCta>
           </div>
         </div>
       </header>
@@ -151,22 +153,23 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
             <p className="text-black/70 text-lg leading-relaxed mb-8">
               Obrigado, <strong className="text-black font-semibold">{name}</strong>. Abri o WhatsApp com a sua mensagem pronta. É só tocar em enviar por lá. Se ele não abriu, use o botão abaixo.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <MagneticCta
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-black text-white hover:bg-black/85 font-medium transition-colors"
+                variant="fill"
+                className="!px-8 !py-4 font-medium text-base cursor-pointer"
               >
-                <MessageCircle size={18} />
-                <span>Conversar agora no WhatsApp</span>
-              </a>
-              <button
+                Conversar agora no WhatsApp
+              </MagneticCta>
+              <MagneticCta
                 onClick={onBack}
-                className="px-8 py-4 rounded-full border border-black/20 text-black hover:bg-black/5 font-medium transition-colors cursor-pointer"
+                variant="outline"
+                className="!px-8 !py-4 font-medium text-base cursor-pointer"
               >
                 Voltar à Página Inicial
-              </button>
+              </MagneticCta>
             </div>
           </motion.div>
         ) : (
@@ -303,13 +306,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
 
               {/* Submit Button */}
               <div className="pt-6 space-y-3">
-                <button
+                <MagneticCta
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-10 py-4 rounded-full border border-black text-black hover:bg-black hover:text-white font-medium text-base transition-all duration-200 disabled:opacity-50 cursor-pointer"
+                  variant="fill"
+                  className="!px-10 !py-4 !text-base font-medium cursor-pointer"
                 >
                   {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
-                </button>
+                </MagneticCta>
                 <p className="text-[13px] text-black/60">
                   Vou usar essas informações só para responder ao seu contato. Saiba mais na <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline hover:text-black">Política de Privacidade</a>.
                 </p>

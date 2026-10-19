@@ -4,7 +4,6 @@ import './gorin-styles.css';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FluidCursor } from './FluidCursor';
 import { ElasticDivider } from './ElasticDivider';
 import { projectsData, CaseStudy } from '../data/projects';
 import { articlesData } from '../data/articles';
@@ -28,84 +27,7 @@ interface GorinSiteProps {
   onOpenBlog?: () => void;
 }
 
-// Cuberto Magnetic CTA Button with spring physics, liquid ripple fill, and text roll-over
-const MagneticCta: React.FC<{
-  href?: string;
-  onClick?: (e: React.MouseEvent) => void;
-  children: string;
-  variant?: 'fill' | 'outline' | 'inverse';
-  className?: string;
-  target?: string;
-  rel?: string;
-  dataCursorIcon?: string;
-}> = ({ href, onClick, children, variant = 'fill', className = '', target, rel, dataCursorIcon }) => {
-  const ref = useRef<any>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 260, damping: 20 });
-  const springY = useSpring(y, { stiffness: 260, damping: 20 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const relX = e.clientX - (rect.left + rect.width / 2);
-    const relY = e.clientY - (rect.top + rect.height / 2);
-    x.set(relX * 0.24);
-    y.set(relY * 0.24);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  const variantClass = variant === 'fill' ? '-fill' : variant === 'inverse' ? '-fill -inverse' : '-outline';
-
-  if (href) {
-    return (
-      <motion.a
-        ref={ref}
-        href={href}
-        onClick={onClick}
-        target={target}
-        rel={rel}
-        data-cursor-icon={dataCursorIcon}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ x: springX, y: springY }}
-        className={`CtaButton ${variantClass} ${className}`}
-      >
-        <span className="ripple">
-          <span></span>
-        </span>
-        <span className="title">
-          <span data-text={children}>{children}</span>
-        </span>
-      </motion.a>
-    );
-  }
-
-  return (
-    <motion.button
-      ref={ref}
-      onClick={onClick}
-      data-cursor-icon={dataCursorIcon}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-      className={`CtaButton ${variantClass} ${className}`}
-    >
-      <span className="ripple">
-        <span></span>
-      </span>
-      <span className="title">
-        <span data-text={children}>{children}</span>
-      </span>
-    </motion.button>
-  );
-};
+import { MagneticCta } from './MagneticCta';
 
 interface ServiceItemData {
   number: string;
@@ -895,9 +817,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     <div className="relative min-h-screen bg-white text-black selection:bg-black selection:text-white">
       {/* Page Loader Curtain */}
       <div ref={loaderRef} className="Loader" aria-hidden="true" />
-
-      {/* Velocity Skew Magnetic Cursor */}
-      <FluidCursor />
 
       {/* Floating WhatsApp Action Pill with spring effect */}
       <motion.a

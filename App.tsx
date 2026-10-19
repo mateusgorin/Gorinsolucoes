@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GorinSite } from './components/GorinSite';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Seo } from './components/Seo';
+import { FluidCursor } from './components/FluidCursor';
 
 const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
 const BriefingPage = lazy(() => import('./components/BriefingPage').then(m => ({ default: m.BriefingPage })));
@@ -121,6 +122,7 @@ const App: React.FC = () => {
     <>
       <ScrollToTop />
       <Seo />
+      <FluidCursor />
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route
