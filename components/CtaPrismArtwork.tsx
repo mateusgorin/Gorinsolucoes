@@ -15,6 +15,14 @@ export const CtaPrismArtwork: React.FC<CtaPrismArtworkProps> = ({
       className={`pointer-events-none select-none absolute inset-0 w-full h-full overflow-hidden flex items-start justify-center ${className}`}
       style={{ zIndex: 0 }}
     >
+      {/* Soft Top Fade-in Gradient to eliminate any harsh dividing line with the section above */}
+      <div
+        className="absolute top-0 left-0 right-0 h-48 md:h-72 pointer-events-none z-10"
+        style={{
+          background: 'linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.92) 25%, rgba(0, 0, 0, 0.5) 60%, transparent 100%)',
+        }}
+      />
+
       {/* Luminous Top Radial Glow Originating from the Peak */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
@@ -282,15 +290,6 @@ export const CtaPrismArtwork: React.FC<CtaPrismArtworkProps> = ({
           strokeLinecap="round"
         />
 
-        {/* ==============================================================
-            APEX GLOWING POINT (Touches y=0 line exactly)
-           ============================================================== */}
-        {/* Glow halo */}
-        <circle cx="800" cy="0" r="16" fill="#00D4FF" fillOpacity="0.45" filter="url(#apexGlow)" />
-        {/* Cyan core */}
-        <circle cx="800" cy="0" r="8" fill="#00D4FF" fillOpacity="0.8" />
-        {/* White sharp point */}
-        <circle cx="800" cy="0" r="3.5" fill="#ffffff" />
       </svg>
     </div>
   );

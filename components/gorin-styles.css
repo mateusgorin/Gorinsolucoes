@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Righteous&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Caveat:wght@600;700&family=Oswald:wght@600;700&family=Space+Grotesk:wght@600;700&family=Abril+Fatface&display=swap');
 
 /* Global Font Definition */
 :root {
@@ -250,6 +251,42 @@ h1, h2, h3, h4 {
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .Navbar .nav-pill { background-color: rgba(255, 255, 255, 0.95); }
   .Navbar.-dark .nav-pill, .Navbar .nav-pill.-dark { background-color: rgba(11, 10, 15, 0.95); }
+}
+
+/* ==========================================================================
+   DESKTOP NAVBAR — Fixed Flush at Top, Same Background as Site, Glass on Scroll
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .Navbar {
+    padding: 0;
+    background-color: transparent;
+    border-bottom: none !important;
+  }
+
+  .Navbar .nav-pill {
+    background-color: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 1.25rem 0 !important;
+  }
+
+  /* When scrolled on Desktop: pure seamless glassmorphism header without dividing line */
+  .Navbar.-scrolled {
+    background-color: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  .Navbar.-scrolled.-dark {
+    background-color: rgba(11, 10, 15, 0.82);
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
 }
 
 /* Roll-over text animation */
@@ -542,11 +579,18 @@ button:hover .roll-text span:after {
    BRANDS LOGOREEL (#brands) - Always Visible, Zero Blank Glitches
    ========================================================================== */
 .LogoreelSection {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-top: 5rem;
+  padding-bottom: calc(5rem + var(--cu) * 5);
   background-color: #ffffff;
   position: relative;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .LogoreelSection {
+    padding-top: 7rem;
+    padding-bottom: calc(7rem + var(--cu) * 6);
+  }
 }
 
 .brands-grid {
@@ -555,13 +599,30 @@ button:hover .roll-text span:after {
 }
 
 .brand-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 1 !important;
+  cursor: pointer;
 }
 
 .brand-item-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0.85 !important;
+}
+
+.brand-item:hover .brand-item-inner {
+  transform: scale(1.06);
   opacity: 1 !important;
-  background-color: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* ==========================================================================
@@ -1201,31 +1262,45 @@ button:hover .roll-text span:after {
    SERVIÇOS — réplica das medidas do Cuberto
    --cu = "1rem" do Cuberto (fluido: 2.66667vw mobile, 0.625vw >=768px, 10px >=1600px)
    ========================================================================== */
-.FeatureSection {
+#about,
+.FeatureSection,
+.LogoreelSection {
   --cu: 2.66667vw;
+}
+.FeatureSection {
   padding-top: calc(var(--cu) * 6);
   padding-bottom: calc(var(--cu) * 5);
   background: #ffffff;
 }
 @media (min-width: 768px) {
-  .FeatureSection {
+  #about,
+  .FeatureSection,
+  .LogoreelSection {
     --cu: 0.625vw;
+  }
+  .FeatureSection {
     padding-top: calc(var(--cu) * 7);
     padding-bottom: calc(var(--cu) * 6);
   }
 }
 @media (min-width: 1600px) {
-  .FeatureSection {
+  #about,
+  .FeatureSection,
+  .LogoreelSection {
     --cu: 10px;
   }
 }
 
-.FeatureSection .cuberto-container {
+#about .cuberto-container,
+.FeatureSection .cuberto-container,
+.LogoreelSection .cuberto-container {
   padding-left: calc(var(--cu) * 1.5);
   padding-right: calc(var(--cu) * 1.5);
 }
 @media (min-width: 768px) {
-  .FeatureSection .cuberto-container {
+  #about .cuberto-container,
+  .FeatureSection .cuberto-container,
+  .LogoreelSection .cuberto-container {
     padding-left: calc(var(--cu) * 24);
     padding-right: calc(var(--cu) * 24);
   }

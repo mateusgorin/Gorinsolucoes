@@ -200,6 +200,115 @@ const ServiceCardItem: React.FC<{
   );
 };
 
+const renderBrandMark = (slug: string, name: string) => {
+  switch (slug) {
+    case 'brito-oliveira':
+      return (
+        <div className="flex items-center gap-2.5">
+          <svg className="w-5 h-5 text-black shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" />
+            <line x1="12" y1="22" x2="12" y2="15.5" />
+            <line x1="22" y1="8.5" x2="12" y2="15.5" />
+            <line x1="2" y1="8.5" x2="12" y2="15.5" />
+          </svg>
+          <span style={{ fontFamily: "'Cinzel', serif" }} className="font-bold text-base md:text-lg tracking-[0.14em] uppercase text-black">
+            Brito Oliveira
+          </span>
+        </div>
+      );
+    case 'amorim-ergonomia':
+      return (
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded-full border-2 border-black flex items-center justify-center shrink-0">
+            <div className="w-2 h-2 rounded-full bg-black" />
+          </div>
+          <div className="flex flex-col text-left">
+            <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="font-extrabold text-base md:text-lg tracking-tight leading-none text-black">
+              AMORIM
+            </span>
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/60 mt-0.5">
+              ERGONOMIA
+            </span>
+          </div>
+        </div>
+      );
+    case 'brinca-movel':
+      return (
+        <div className="flex items-center gap-2">
+          <svg className="w-5 h-5 text-black shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6.4-4.8-6.4 4.8 2.4-7.2-6-4.8h7.6z" />
+          </svg>
+          <span style={{ fontFamily: "'Righteous', cursive" }} className="text-lg md:text-xl text-black tracking-wide">
+            Brinca Móvel
+          </span>
+        </div>
+      );
+    case 'pc-gastronomia':
+      return (
+        <div className="flex items-baseline gap-2">
+          <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-2xl md:text-3xl font-bold tracking-normal text-black leading-none">
+            P<span className="italic font-normal font-serif text-black/70">&amp;</span>C
+          </span>
+          <span className="text-[10px] md:text-[11px] font-mono tracking-[0.2em] uppercase text-black/70">
+            GASTRONOMIA
+          </span>
+        </div>
+      );
+    case 'maos-de-leide':
+      return (
+        <div className="flex items-center gap-2">
+          <svg className="w-5 h-5 text-black shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 3a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9a9 9 0 0 1-9-9 9 9 0 0 1 9-9z" />
+            <path d="M12 7v5l3 3" />
+          </svg>
+          <span style={{ fontFamily: "'Caveat', cursive" }} className="text-2xl md:text-3xl font-bold text-black tracking-normal">
+            Mãos de Leide
+          </span>
+        </div>
+      );
+    case 'logistico-controle-estoque':
+      return (
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] bg-black text-white px-1.5 py-0.5 font-bold rounded">▶▶</span>
+          <span style={{ fontFamily: "'Oswald', sans-serif" }} className="font-bold text-lg md:text-xl tracking-wider uppercase text-black">
+            LOGÍSTICO
+          </span>
+        </div>
+      );
+    case 'sgb-gestao-brigada':
+      return (
+        <div className="flex items-center gap-2.5">
+          <svg className="w-5 h-5 text-black shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <div className="flex flex-col text-left">
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="font-extrabold text-base md:text-lg tracking-tight leading-none text-black">
+              SGB
+            </span>
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.18em] text-black/60 mt-0.5">
+              BRIGADA &amp; GESTÃO
+            </span>
+          </div>
+        </div>
+      );
+    case 'marmitaria-ventura':
+      return (
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col text-left">
+            <span style={{ fontFamily: "'Abril Fatface', serif" }} className="text-xl md:text-2xl text-black leading-none">
+              Ventura
+            </span>
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/60 mt-0.5">
+              MARMITARIA
+            </span>
+          </div>
+        </div>
+      );
+    default:
+      return <span className="font-bold text-base tracking-wider text-black uppercase">{name}</span>;
+  }
+};
+
 export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBriefingProp, onOpenContact: onOpenContactProp, onOpenBlog: onOpenBlogProp }) => {
   const navigate = useNavigate();
   const onOpenContact = onOpenContactProp || (() => navigate('/contato'));
@@ -1115,7 +1224,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            ========================================================================== */}
         <section className="pt-16 pb-10 md:py-28 bg-white relative" id="about">
           <div className="cuberto-container">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               
               {/* Founder Editorial Portrait Card */}
                <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
@@ -1255,28 +1364,24 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            4. CLIENT BRANDS REEL (#brands)
            ========================================================================== */}
-        <section className="LogoreelSection bg-white py-20 md:py-28 relative z-10" id="brands">
+        <section className="LogoreelSection bg-white relative z-10" id="brands">
           <div className="cuberto-container">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-center text-xs md:text-sm font-mono uppercase tracking-widest text-black font-bold mb-10 md:mb-14 select-none">
-                Empresas e marcas desenvolvidas pela Gorin Soluções
-              </h2>
+            <h2 className="text-center text-xs md:text-sm font-mono uppercase tracking-widest text-black font-bold mb-12 md:mb-16 select-none">
+              Empresas e marcas desenvolvidas pela Gorin Soluções
+            </h2>
 
-              <div className="brands-grid grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
-                {clientBrands.map((brand, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => handleBrandClick(brand.slug)}
-                    className="brand-item cursor-pointer h-full"
-                  >
-                    <div className="brand-item-inner h-full min-h-[75px] md:min-h-[90px] py-4 px-3 rounded-2xl bg-black/[0.05] border border-black/15 flex flex-col items-center justify-center text-center">
-                      <span className="font-normal text-xs md:text-sm tracking-wider text-black uppercase select-none">
-                        {brand.name}
-                      </span>
-                    </div>
+            <div className="brands-grid grid grid-cols-2 md:grid-cols-4 gap-y-12 md:gap-y-16 gap-x-6 md:gap-x-12 items-center justify-items-center">
+              {clientBrands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => handleBrandClick(brand.slug)}
+                  className="brand-item cursor-pointer w-full py-2 flex items-center justify-center select-none"
+                >
+                  <div className="brand-item-inner flex items-center justify-center">
+                    {renderBrandMark(brand.slug, brand.name)}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
