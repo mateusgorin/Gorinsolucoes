@@ -1141,7 +1141,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            2. FOUNDER & STUDIO EDITORIAL SPREAD (MATEUS GORIN & PHILOSOPHY)
            ========================================================================== */}
-        <section className="pt-16 pb-10 md:py-28 bg-white relative" id="about">
+        <section className="pt-10 pb-4 md:py-28 bg-white relative" id="about">
           <div className="cuberto-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               
@@ -1244,7 +1244,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="mb-8 md:mb-16"
+              className="mb-4 md:mb-16"
             >
               <TextRevealHeading
                 as="h2"

@@ -1274,8 +1274,8 @@ button:hover .roll-text span:after {
   --cu: 2.66667vw;
 }
 .FeatureSection {
-  padding-top: calc(var(--cu) * 6);
-  padding-bottom: calc(var(--cu) * 5);
+  padding-top: calc(var(--cu) * 2.5);
+  padding-bottom: calc(var(--cu) * 4);
   background: #ffffff;
 }
 @media (min-width: 768px) {
@@ -1285,8 +1285,8 @@ button:hover .roll-text span:after {
     --cu: 0.625vw;
   }
   .FeatureSection {
-    padding-top: calc(var(--cu) * 7);
-    padding-bottom: calc(var(--cu) * 6);
+    padding-top: calc(var(--cu) * 3);
+    padding-bottom: calc(var(--cu) * 5);
   }
 }
 @media (min-width: 1600px) {
@@ -1317,6 +1317,11 @@ button:hover .roll-text span:after {
   flex-direction: column;
   gap: var(--cu);
 }
+@media (min-width: 768px) {
+  .services-items {
+    gap: calc(var(--cu) * 2);
+  }
+}
 
 .service-card {
   position: relative;
@@ -1332,7 +1337,10 @@ button:hover .roll-text span:after {
 }
 @media (min-width: 768px) {
   .service-card {
-    padding: calc(var(--cu) * 6);
+    padding: calc(var(--cu) * 3.5) calc(var(--cu) * 5);
+  }
+  .service-card[data-open="true"] {
+    padding: calc(var(--cu) * 4.5) calc(var(--cu) * 5);
   }
 }
 .service-card[data-open="true"] {
@@ -1435,7 +1443,7 @@ button:hover .roll-text span:after {
 }
 @media (min-width: 768px) {
   .service-card .service-card-collapse {
-    grid-template-rows: 1fr;
+    grid-template-rows: 0fr;
   }
 }
 .service-card[data-open="true"] .service-card-collapse {
@@ -1496,7 +1504,7 @@ button:hover .roll-text span:after {
 .service-card .service-card-action {
   position: relative;
   z-index: 2;
-  margin: calc(var(--cu) * 2.4) 0 calc(var(--cu) * 7);
+  margin: calc(var(--cu) * 2) 0 calc(var(--cu) * 1);
 }
 @media (min-width: 768px) {
   .service-card .service-card-action {
