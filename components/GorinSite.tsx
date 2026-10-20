@@ -818,19 +818,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
       {/* Page Loader Curtain */}
       <div ref={loaderRef} className="Loader" aria-hidden="true" />
 
-      {/* Floating WhatsApp Action Pill with spring effect */}
-      <motion.a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-cursor-icon="arrow-up-right"
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
-        className="fixed bottom-6 right-6 z-[400] flex items-center gap-3 bg-black text-white px-5 py-3.5 rounded-full shadow-2xl border border-white/20"
-      >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#00D4FF] animate-pulse"></span>
-        <span className="font-semibold text-sm tracking-wide">Falar no WhatsApp</span>
-      </motion.a>
 
       {/* Floating Pill Header */}
       <header ref={navbarRef} className={`Navbar ${isScrolled ? '-scrolled -fixed' : ''} ${isNavVisible || isMenuOpen ? '-visible' : ''} ${isDarkBg ? '-dark' : ''} ${isMenuOpen ? '-menu-open' : ''}`}>
