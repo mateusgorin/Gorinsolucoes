@@ -1155,7 +1155,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       <ImageReveal 
                         src="/images/mateus-gorin.webp"
                         alt="Mateus Gorin - Fundador e Desenvolvedor Web" 
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                     </div>
                   </div>
