@@ -16,7 +16,7 @@ import { CtaPrismArtwork } from './CtaPrismArtwork';
 
 import { StatCounter } from './StatCounter';
 import { ImageReveal } from './ImageReveal';
-import { Instagram, MessageCircle, ArrowUpRight, X, Clock, Calendar, MapPin, ExternalLink, Award, ThumbsUp, Code2, Layers } from 'lucide-react';
+import { Instagram, MessageCircle, ArrowUpRight, X, Clock, Calendar, MapPin, ExternalLink, Award, ThumbsUp, Code2, Layers, Play } from 'lucide-react';
 import { WHATSAPP_DISPLAY, INSTAGRAM_URL, INSTAGRAM_HANDLE, whatsappLink } from '../lib/contact';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -892,7 +892,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -8 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] top-[20px] z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] top-[10px] z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
                 style={{
                   paddingLeft: '20px',
                   paddingRight: '20px',
@@ -938,7 +938,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="text-[16px] opacity-60 font-medium mt-[44px]">
+                  <div className={`text-[16px] font-medium mt-[44px] ${isDarkBg ? 'text-white' : 'text-black'}`}>
                     Menu
                   </div>
                   <div
@@ -1037,7 +1037,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             <div className="PreviewSection mt-8 md:mt-12">
               <div
                 ref={videoShowreelRef}
-                className="preview-main max-w-5xl mx-auto overflow-hidden rounded-[20px] md:rounded-[36px]"
+                onClick={() => setIsShowreelOpen(true)}
+                className="preview-main max-w-5xl mx-auto overflow-hidden rounded-[20px] md:rounded-[36px] cursor-pointer group relative"
+                data-cursor-icon="play"
+                aria-label="Clique para assistir ao vídeo completo"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsShowreelOpen(true);
+                  }
+                }}
               >
                 <video
                   ref={videoMediaRef}
@@ -1053,8 +1064,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   muted
                   playsInline
                   preload="metadata"
-                  className="w-full h-full object-cover block will-change-transform"
-                  aria-label="Vídeo de demonstração Gorin Soluções"
                 />
               </div>
             </div>
@@ -1867,9 +1876,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* ==========================================================================
            10. FOOTER
            ========================================================================== */}
-        <footer className="FooterBar bg-black text-white pt-20 pb-28 md:pb-32 border-t border-white/10">
+        <footer className="FooterBar bg-black text-white pt-16 md:pt-20 pb-8 md:pb-12 border-t border-white/10">
           <div className="gorin-container">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 mb-12 md:mb-16">
               
               {/* Left Column: Contact List */}
               <div className="md:col-span-7 flex flex-col justify-start">
@@ -2014,17 +2023,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   aria-label="WhatsApp da Gorin Soluções"
                 >
                   <MessageCircle className="w-4 h-4" />
-                </a>
-
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="RoundButton"
-                  data-cursor-stick
-                  aria-label="GitHub"
-                >
-                  <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
             </div>
