@@ -234,7 +234,7 @@ h1, h2, h3, h4 {
 }
 
 /* Mobile contracted margins on scroll & at-rest styling */
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .Navbar.-fixed:not(.-visible) {
     transform: translateY(0) !important;
   }
@@ -247,11 +247,9 @@ h1, h2, h3, h4 {
   .Navbar.-scrolled .nav-pill {
     border: none !important;
   }
-}
 
-@media (max-width: 767px) {
   .Navbar:not(.-scrolled) .nav-pill:not(.-dark) {
-    background-color: #ffffff;
+    background-color: transparent;
     border: 1px solid rgba(0, 0, 0, 0.12);
     box-shadow: none;
     -webkit-backdrop-filter: none;
@@ -279,7 +277,7 @@ h1, h2, h3, h4 {
 /* ==========================================================================
    DESKTOP NAVBAR — Fixed Flush at Top, Same Background as Site, Glass on Scroll
    ========================================================================== */
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .Navbar {
     padding: 0;
     background-color: transparent;
@@ -1277,7 +1275,7 @@ button:hover .roll-text span:after {
   border: none !important;
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
 }
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .Navbar.-menu-open .nav-pill { opacity: 0; pointer-events: none; }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

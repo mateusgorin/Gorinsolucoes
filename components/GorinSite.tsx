@@ -838,7 +838,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </a>
 
             {/* Desktop Navigation */}
-            <nav ref={navLinksRef} className="hidden lg:flex items-center gap-6 lg:gap-8">
+            <nav ref={navLinksRef} className="hidden md:flex items-center gap-6 lg:gap-8">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -853,7 +853,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
             {/* Header Actions */}
             <div ref={headerActionRef} className="flex items-center gap-3">
-              <div className="hidden lg:block">
+              <div className="hidden md:block">
                 <MagneticCta
                   onClick={(e) => {
                     e.preventDefault();
@@ -869,7 +869,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`lg:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 ${isDarkBg ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}
+                className={`md:hidden w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300 ${isDarkBg ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}
                 aria-label="Abrir menu"
               >
                 <div className="w-4 flex flex-col gap-1">
@@ -892,7 +892,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -8 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className={`lg:hidden absolute left-[0.75rem] right-[0.75rem] top-[20px] z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                className={`md:hidden absolute left-[0.75rem] right-[0.75rem] top-[20px] z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
                 style={{
                   paddingLeft: '20px',
                   paddingRight: '20px',
