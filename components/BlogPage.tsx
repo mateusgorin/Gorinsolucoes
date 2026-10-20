@@ -64,7 +64,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
 
         <div className="flex items-center gap-3">
           <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
-            Insights &amp; Artigos
+            Blog
           </span>
           <MagneticCta
             onClick={onBack}
@@ -133,10 +133,10 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
             <div className="bg-[#0B0B0C] text-white p-8 md:p-12 rounded-[2rem] mb-16 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="space-y-2 text-center md:text-left">
                 <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
-                  Pronto para elevar o padrão digital da sua empresa?
+                  Quer um site assim para o seu negócio?
                 </h3>
                 <p className="text-white/70 text-sm md:text-base max-w-lg">
-                  Vamos conversar no WhatsApp sobre prazos, escopo e estimativa de investimento para o seu novo projeto.
+                  Me chame no WhatsApp e conversamos sobre prazo, o que você precisa e quanto custa.
                 </p>
               </div>
               <MagneticCta
@@ -146,7 +146,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
                 variant="inverse"
                 className="!py-4 !px-8 !text-sm whitespace-nowrap cursor-pointer shrink-0"
               >
-                Falar com a Gorin
+                Falar com o Mateus
               </MagneticCta>
             </div>
 
@@ -170,18 +170,18 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
           </motion.article>
         </main>
       ) : (
-        /* ARTICLES DIRECTORY LIST (CUBERTO 2-COLUMN DESIGN PATTERN) */
-        <main className="cuberto-container pt-8 md:pt-12">
+        /* ARTICLES DIRECTORY LIST (GORIN 2-COLUMN DESIGN PATTERN) */
+        <main className="gorin-container pt-8 md:pt-12">
           {/* Headline */}
           <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
             <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
-              Insights &amp; Artigos · Gorin Soluções
+              Blog · Gorin Soluções
             </span>
             <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-4">
-              Blog &amp; Conhecimento
+              Blog
             </h1>
             <p className="text-black/70 text-base md:text-xl leading-relaxed">
-              Tendências de engenharia, inteligência artificial e estratégias de alta performance para marcas que lideram seus mercados.
+              Textos curtos, em linguagem simples, sobre site, Google e atendimento pelo WhatsApp.
             </p>
           </div>
 
@@ -202,7 +202,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
             ))}
           </div>
 
-          {/* Articles Grid (2 Columns on Desktop, Cuberto Layout) */}
+          {/* Articles Grid (2 Columns on Desktop, Gorin Layout) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 md:gap-y-20">
             {filteredArticles.map((article) => (
               <motion.article

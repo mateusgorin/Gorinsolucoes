@@ -388,7 +388,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     };
   }, []);
 
-  // Scroll-driven accordion using ScrollTrigger scrub (Cuberto model)
+  // Scroll-driven accordion using ScrollTrigger scrub (Gorin model)
   useEffect(() => {
     const main = document.querySelector<HTMLElement>('.services-main');
     const items = document.querySelector<HTMLElement>('.services-items');
@@ -669,41 +669,41 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
   const servicesList = [
     {
       number: "01",
-      category: "Performance & SEO",
-      title: "Páginas Leves com Foco em Conversão",
-      tagline: "Carregamento rápido para reter a atenção de quem visita",
-      desc: "Crio sites leves com código próprio e sem plugins pesados. A estrutura é pensada para velocidade desde o início, facilitando o acesso do usuário e ajudando o posicionamento nas buscas.",
+      category: "Velocidade",
+      title: "Um site leve, que abre rápido no celular",
+      tagline: "Quem espera demais fecha a página.",
+      desc: "Faço sites leves, com código próprio e sem plugins pesados. Penso na velocidade desde o começo, para o seu cliente abrir a página sem esperar e o Google entender melhor o seu site.",
       deliverables: [
-        "Código limpo focado em velocidade",
-        "Otimização para carregamento rápido",
-        "Arquitetura de conversão direta",
-        "SEO técnico on-page completo"
+        "Código limpo e leve",
+        "Imagens e fontes otimizadas",
+        "Caminho curto até o WhatsApp",
+        "SEO técnico básico"
       ],
       image: "/images/showcase-feature-1.webp",
     },
     {
       number: "02",
-      category: "Estratégia Visual & UX/UI",
-      title: "Design de Experiência que Conduz à Venda",
-      tagline: "Estética refinada e hierarquia visual projetadas para gerar ação",
-      desc: "Cada elemento, contraste e espaçamento tem um objetivo claro. Crio identidades digitais com tipografia cuidada e fluxos intuitivos, ajudando o visitante a encontrar respostas rápidas e avançar no contato.",
+      category: "Design",
+      title: "Design pensado para o seu cliente",
+      tagline: "Bonito, mas principalmente claro.",
+      desc: "Cuido de cada detalhe para o visitante entender rápido o que você faz e saber qual é o próximo passo. Escolho tipografia, cores e espaçamento de acordo com a sua marca, sem usar modelos prontos.",
       deliverables: [
-        "Direção de arte sob medida (sem templates)",
-        "Design responsivo para todos os dispositivos",
-        "Mapeamento de jornada do usuário",
-        "Microinterações e navegação fluida"
+        "Design sob medida, sem templates",
+        "Funciona bem em celular, tablet e computador",
+        "Navegação simples e intuitiva",
+        "Animações leves, sem exagero"
       ],
       image: "/images/showcase-feature-2.webp",
     },
     {
       number: "03",
-      category: "Inteligência Comercial",
-      title: "Automação e Atendimento Direto",
-      tagline: "Seu website trabalhando ativamente mesmo fora do expediente",
-      desc: "Conecto sua presença digital a formulários práticos com validação imediata e canais diretos, ajudando para que cada pessoa interessada consiga falar com você rapidamente.",
+      category: "Atendimento",
+      title: "Atendimento direto, sem complicação",
+      tagline: "O site recebe o contato, mesmo quando você não está.",
+      desc: "Ligo o seu site ao WhatsApp e a formulários simples, para quem se interessa conseguir falar com você em poucos toques.",
       deliverables: [
         "Encaminhamento prático para WhatsApp",
-        "Formulários interativos com feedback instantâneo",
+        "Formulários simples, com aviso de envio",
         "Integração com ferramentas de atendimento",
         "Rastreamento de conversões e eventos"
       ],
@@ -711,41 +711,41 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     },
     {
       number: "04",
-      category: "Presença Orgânica",
-      title: "Visibilidade e Posicionamento no Google",
-      tagline: "Sua empresa encontrada exatamente por quem está pronto para contratar",
-      desc: "Estruturo cada página seguindo boas práticas de indexação orgânica, com marcação de dados Schema.org e integração ao ecossistema local do Google, atraindo contatos qualificados.",
+      category: "Google",
+      title: "Para o Google entender o seu site",
+      tagline: "Quem procura o que você faz, encontra você.",
+      desc: "Organizo cada página seguindo as boas práticas de SEO e marco os dados do seu negócio (Schema.org) para o Google entender quem você é e onde atende.",
       deliverables: [
         "Marcação estruturada Schema.org",
         "Integração com Google Meu Negócio e Maps",
-        "Sitemap dinâmico e robots.txt otimizado",
-        "Estrutura semântica para mecanismos de busca"
+        "Sitemap e robots.txt configurados",
+        "Código organizado para o Google ler"
       ],
       image: "/images/mascot-trimmed.webp",
     },
     {
       number: "05",
-      category: "Engenharia Autoral",
-      title: "Tecnologia Moderna em React e TypeScript",
-      tagline: "Infraestrutura moderna e estável para a presença da sua marca",
-      desc: "Construo sobre stack moderna (React, TypeScript, Vite e Tailwind CSS), sem depender de plataformas pesadas ou plugins desatualizados. Seu site fica seguro, estável e pronto para crescer.",
+      category: "Código sob medida",
+      title: "Feito em React e TypeScript",
+      tagline: "Um site estável e fácil de crescer.",
+      desc: "Construo com React, TypeScript, Vite e Tailwind CSS, sem WordPress e sem plugins que ficam desatualizados. O site fica seguro, estável e pronto para crescer quando o seu negócio precisar.",
       deliverables: [
-        "Código autoral e documentado",
+        "Código limpo e organizado",
         "Certificado SSL e navegação segura",
         "Carregamento sob demanda (lazy loading)",
-        "Hospedagem moderna em CDN de alta disponibilidade"
+        "Hospedagem em nuvem estável, com CDN"
       ],
       image: "/images/sgb.webp",
     },
     {
       number: "06",
-      category: "Canais Comerciais",
-      title: "Contato Direto sem Fricção ou Intermediários",
-      tagline: "O caminho mais curto entre o interesse do cliente e a conversa",
-      desc: "Organizo pontos de contato ao longo de toda a navegação para que o visitante inicie uma conversa com você em um toque, facilitando o início de novos negócios.",
+      category: "Contato",
+      title: "Contato direto, sem intermediários",
+      tagline: "Do interesse à conversa em um toque.",
+      desc: "Coloco pontos de contato em todo o site para o visitante chamar você no WhatsApp em um toque, sem passar por formulários longos.",
       deliverables: [
-        "Gatilhos de WhatsApp contextuais por serviço",
-        "Chamadas para ação visíveis e balanceadas",
+        "Botões de WhatsApp com mensagem pronta por serviço",
+        "Botões de contato bem visíveis",
         "Integração com Instagram e redes sociais",
         "Acompanhamento e suporte próximo"
       ],
@@ -802,7 +802,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     },
     {
       q: "Como funciona a hospedagem e a manutenção após o lançamento?",
-      a: "Ajudo na configuração do seu domínio próprio (.com.br) e conecto seu site a uma hospedagem em nuvem estável, com certificado de segurança SSL. Você recebe uma página pronta que não exige manutenção complicada no dia a dia."
+      a: "Ajudo você a configurar o domínio próprio (.com.br) e conecto o site a uma hospedagem em nuvem estável, com certificado de segurança SSL. Depois da publicação continuo à disposição pelo WhatsApp para dúvidas e pequenos ajustes. Se você precisar de manutenção contínua ou de mudanças maiores, combinamos isso na proposta."
     },
     {
       q: "Como eu inicio o projeto e quais são as formas de pagamento?",
@@ -834,7 +834,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
       {/* Floating Pill Header */}
       <header ref={navbarRef} className={`Navbar ${isScrolled ? '-scrolled -fixed' : ''} ${isNavVisible || isMenuOpen ? '-visible' : ''} ${isDarkBg ? '-dark' : ''} ${isMenuOpen ? '-menu-open' : ''}`}>
-        <div className="cuberto-container">
+        <div className="gorin-container">
           <div className={`nav-pill ${isDarkBg ? '-dark' : ''}`}>
             {/* Logo */}
             <a ref={logoRef} href="#" className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
@@ -905,7 +905,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -8 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className={`lg:hidden absolute left-[0.75rem] right-[0.75rem] ${isScrolled ? 'top-[0.75rem]' : 'top-[1.25rem]'} z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
+                className={`lg:hidden absolute left-[0.75rem] right-[0.75rem] top-[20px] z-[200] overflow-hidden rounded-[28px] nav-glass-menu will-change-transform ${isDarkBg ? '-dark text-white' : 'text-black'}`}
                 style={{
                   paddingLeft: '20px',
                   paddingRight: '20px',
@@ -1025,7 +1025,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           {/* MeshPanel positioned behind to give subtle depth with 0.6 intensity */}
           <MeshPanel intensity={0.6} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
 
-          <div className="cuberto-container relative z-10">
+          <div className="gorin-container relative z-10">
             {/* Monumental Editorial Headline with Text Reveal */}
             <TextRevealHeading
               as="h1"
@@ -1043,7 +1043,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="hero-lead"
             >
-              Uno direção de arte refinada, estrutura de conversão e engenharia em React para transformar empresas em referências no mercado digital.
+              Crio sites e sistemas web sob medida para empresas que querem ser encontradas, passar confiança e receber mais contatos pelo WhatsApp.
             </motion.p>
 
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
@@ -1142,7 +1142,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            2. FOUNDER & STUDIO EDITORIAL SPREAD (MATEUS GORIN & PHILOSOPHY)
            ========================================================================== */}
         <section className="pt-10 pb-4 md:py-28 bg-white relative" id="about">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               
               {/* Founder Editorial Portrait Card */}
@@ -1214,18 +1214,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       lineHeight: 1.15,
                     }}
                     lines={[
-                      "Crio sites de alta conversão,",
-                      "não apenas páginas."
+                      "Sou o Mateus, e faço",
+                      "sites que trazem contato."
                     ]}
                   />
                 </motion.div>
 
                 <div className="space-y-3.5 text-black/75 text-base md:text-[1.05rem] leading-relaxed">
                   <p>
-                    A <strong className="text-black font-semibold">Gorin Soluções</strong> desenvolve sites modernos, rápidos e personalizados para empresas que buscam destaque no mercado e mais vendas.
+                    Sou desenvolvedor em Brasília e atendo empresas de todo o Brasil. Faço sites e sistemas web sob medida pela <strong className="text-black font-semibold">Gorin Soluções</strong>, e você fala direto comigo, do primeiro contato até a publicação.
                   </p>
                   <p>
-                    Com atendimento em todo o Brasil, uno design exclusivo e alta tecnologia. Cada projeto é criado do zero com um objetivo claro: transmitir autoridade, carregar instantaneamente e transformar visitantes em clientes reais.
+                    Meus clientes são clínicas, restaurantes, consultorias e outros negócios que precisam de um site claro, rápido no celular e com um caminho curto até o WhatsApp. Cada projeto é feito do zero, sem WordPress e sem plugins pesados. Respondo em até 24 horas.
                   </p>
                 </div>
               </div>
@@ -1235,10 +1235,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         </section>
 
         {/* ==========================================================================
-           3. SERVICES (CUBERTO INTERACTIVE ACCORDION & CHAPTERS)
+           3. SERVICES (GORIN INTERACTIVE ACCORDION & CHAPTERS)
            ========================================================================== */}
         <section className="FeatureSection" id="services">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1284,7 +1284,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            4. CLIENT BRANDS REEL (#brands)
            ========================================================================== */}
         <section className="LogoreelSection bg-white relative z-10" id="brands">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <h2 className="text-center text-xs md:text-sm font-mono uppercase tracking-widest text-black font-bold mb-12 md:mb-16 select-none">
               Empresas e marcas desenvolvidas pela Gorin Soluções
             </h2>
@@ -1306,10 +1306,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         </section>
 
         {/* ==========================================================================
-           5. SELECTED WORK (CUBERTO ASYMMETRIC PORTFOLIO WITH MODAL)
+           5. SELECTED WORK (GORIN ASYMMETRIC PORTFOLIO WITH MODAL)
            ========================================================================== */}
         <section className="WorkSection bg-black text-white py-20 md:py-32 rounded-t-[2.5rem] md:rounded-t-[5rem] relative overflow-hidden" id="projects">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <div className="mb-14 md:mb-20">
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
@@ -1517,7 +1517,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            6. TESTIMONIALS (FANNED DECK WITH AUTHENTIC CLIENT REVIEWS)
            ========================================================================== */}
         <section className="py-20 md:py-28 bg-white relative z-10 rounded-t-[2.5rem] md:rounded-t-[5rem] -mt-10 md:-mt-16" id="testimonials">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1576,7 +1576,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            7. WHY GORIN & ELASTIC RUBBER-BAND DIVIDER (#why)
            ========================================================================== */}
         <section className="py-20 md:py-28 bg-white" id="why">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             {/* The interactive rubber-band line */}
             <div className="mb-14">
               <ElasticDivider />
@@ -1594,18 +1594,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               </div>
               <div className="md:col-span-8 lg:col-span-9">
                 <p className="text-xl md:text-3xl font-medium tracking-tight text-black leading-snug">
-                  Não entrego apenas páginas na internet. Crio ferramentas comerciais que continuam gerando contatos e oportunidades para o seu negócio.
+                  Não entrego só uma página na internet. Faço um site pensado para o seu cliente encontrar você e chamar no WhatsApp.
                 </p>
               </div>
             </div>
 
             {/* Bento Grid (12 Columns) */}
-            <div className="cuberto-tiles-grid grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+            <div className="gorin-tiles-grid grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
               {/* Tile 1: 10+ Projetos (span 4, cyan) */}
               <div className="MetricTile -bg-cyan lg:col-span-4">
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Projetos Realizados
+                    Experiência
                   </span>
                   <Award size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
@@ -1641,7 +1641,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               <div className="MetricTile -bg-cyan lg:col-span-4">
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Base Operacional
+                    Onde estou
                   </span>
                   <MapPin size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
@@ -1650,7 +1650,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     BSB
                   </div>
                   <div className="text-sm font-semibold uppercase tracking-wider text-black/80">
-                    Brasília - DF / Atendimento Brasil
+                    Brasília, DF · Atendo todo o Brasil
                   </div>
                 </div>
               </div>
@@ -1659,7 +1659,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               <div className="MetricTile -bg-grey lg:col-span-6">
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-xs font-mono uppercase tracking-widest text-black/60">
-                    Engenharia Autoral
+                    Código sob medida
                   </span>
                   <Code2 size={22} strokeWidth={1.5} className="text-black/70" />
                 </div>
@@ -1668,7 +1668,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     Código feito do zero
                   </h3>
                   <p className="text-sm md:text-base text-black/70 leading-relaxed">
-                    Sem depender de construtores pesados do WordPress. Desenvolvimento em React 19 + TypeScript para máxima velocidade, segurança e SEO.
+                    Sem WordPress e sem plugins pesados. Uso React e TypeScript para o site ficar leve, seguro e fácil de o Google entender.
                   </p>
                 </div>
               </div>
@@ -1683,10 +1683,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-black mb-2">
-                    Estratégia, Design e Desenvolvimento Integrados
+                    Do primeiro contato à publicação
                   </h3>
                   <p className="text-sm md:text-base text-black/70 leading-relaxed">
-                    Acompanhamento de ponta a ponta: da arquitetura comercial e design de interface ao código autoral e otimização de conversão.
+                    Você fala direto comigo em todas as etapas: conversa inicial, design, desenvolvimento e publicação.
                   </p>
                 </div>
               </div>
@@ -1698,7 +1698,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            8. BLOG INSIGHTS & FAQ SECTION (INSIDE BLACK BACKGROUND)
            ========================================================================== */}
         <section className="FaqSection bg-black text-white py-20 md:py-32 rounded-t-[2.5rem] md:rounded-t-[5rem] relative" id="insights">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             {/* Blog Insights Subsection */}
             <div className="mb-24 md:mb-36">
               <motion.div
@@ -1712,7 +1712,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   as="h2"
                   className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white"
                   lines={[
-                    "Insights"
+                    "Blog"
                   ]}
                 />
 
@@ -1721,7 +1721,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   variant="outline"
                   className="!text-white !border-white/30 hover:!border-white hover:!bg-white hover:!text-black transition-all cursor-pointer !py-3.5 !px-8 !text-sm sm:!text-base font-normal shrink-0"
                 >
-                  Visite o Blog
+                  Ler o blog
                 </MagneticCta>
               </motion.div>
 
@@ -1827,10 +1827,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            9. CONTACT & INTERACTIVE INQUIRY ESTIMATOR (ZERO AI SLOP)
            ========================================================================== */}
         <section className="bg-black text-white py-24 md:py-32 relative overflow-hidden" id="contact">
-          {/* 3D Isometric Diamond Prism Sculpture (Cuberto style, Gorin brand colors) */}
+          {/* 3D Isometric Diamond Prism Sculpture (Gorin style, Gorin brand colors) */}
           <CtaPrismArtwork />
 
-          <div className="cuberto-container relative z-10">
+          <div className="gorin-container relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1869,7 +1869,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     variant="inverse"
                     className="!py-4 !px-8 !text-base cursor-pointer font-medium"
                   >
-                    Falar com o Gorin
+                    Falar com o Mateus
                   </MagneticCta>
                 </div>
               </div>
@@ -1881,7 +1881,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            10. FOOTER
            ========================================================================== */}
         <footer className="FooterBar bg-black text-white pt-20 pb-28 md:pb-32 border-t border-white/10">
-          <div className="cuberto-container">
+          <div className="gorin-container">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 mb-16">
               
               {/* Left Column: Contact List */}
@@ -1940,7 +1940,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       >
                         <MapPin size={16} strokeWidth={1.5} style={{ color: 'var(--accent-cyan)', stroke: 'var(--accent-cyan)' }} />
                       </div>
-                      <span>Brasília - Distrito Federal · Atendimento Nacional</span>
+                      <span>Brasília, DF · Atendo todo o Brasil</span>
                     </div>
 
                     <div className="flex items-center gap-3 py-2.5 text-white/80">
@@ -2003,7 +2003,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade
                 </Link>
-                <span>2026, Gorin Soluções</span>
+                <span>© 2026 Gorin Soluções</span>
               </div>
 
               <div className="flex items-center gap-3">

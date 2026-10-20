@@ -12,170 +12,170 @@ export interface Article {
 export const articlesData: Article[] = [
   {
     id: 'ai-code-acceleration',
-    title: 'Como a Inteligência Artificial Acelera a Velocidade de Escrita de Código e Criação de Sites',
+    title: 'Como uso IA para entregar sites mais rápido',
     category: 'Inteligência Artificial',
     date: '15/10/2026',
-    readTime: '4 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434337/Captura_de_tela_2026-10-19_152447_qwqsu5.webp',
-    excerpt: 'Descubra como modelos avançados de IA e assistentes de engenharia transformaram o fluxo de desenvolvimento web, reduzindo o tempo de criação de código limpo em React e TypeScript.',
+    excerpt: 'Uso inteligência artificial no meu dia a dia para acelerar o desenvolvimento sem perder a qualidade.',
     content: [
-      'A inteligência artificial deixou de ser uma promessa futurista para se tornar a ferramenta mais poderosa no dia a dia de desenvolvedores de alto nível. Na Gorin Soluções, utilizamos inteligência artificial de ponta integrada ao nosso fluxo de engenharia para multiplicar a velocidade de escrita de códigos.',
-      'Antigamente, criar estruturas complexas em React, configurar rotas, gerenciar estados reativos e escrever testes rigorosos demandava dias de tarefas repetitivas (boilerplate). Hoje, a IA auxilia na geração imediata de componentes modulares, validação de tipos TypeScript e otimização semântica.',
-      'Isso não significa apenas entregar sites mais rápido — significa elevar o rigor técnico. Com a IA cuidando da base repetitiva, o desenvolvedor foca 100% na direção de arte, na experiência do usuário (UX) e na arquitetura de conversão comercial. O resultado para o cliente é um site autoral, robusto e entregue em tempo recorde sem sacrificar nenhuma linha de qualidade.'
+      'Uso ferramentas de inteligência artificial para adiantar a parte repetitiva do código. Isso me dá tempo para focar no que realmente importa no seu projeto.',
+      'Eu mesmo decido a estrutura, o visual e as partes importantes do site. Depois que a ferramenta gera a base do código, eu reviso cada detalhe antes de publicar.',
+      'Para você, essa combinação traz um site pronto mais rápido, sem abrir mão do cuidado do trabalho feito à mão.'
     ]
   },
   {
     id: 'react-vs-wordpress',
-    title: 'Websites em React vs. WordPress: Por que Empresas de Sucesso Estão Migrando',
+    title: 'Site em código próprio ou WordPress: qual escolher?',
     category: 'Engenharia Web',
     date: '10/10/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434381/Gemini_Generated_Image_228kid228kid228k_xhvthq.webp',
-    excerpt: 'Entenda os gargalos de performance, segurança e manutenção das plataformas tradicionais e por que código autoral em React e TypeScript garante autoridade digital superior.',
+    excerpt: 'O WordPress atende muitos casos, mas o código próprio deixa o site institucional leve e simples.',
     content: [
-      'O mercado digital mudou. Plataformas de arrastar e soltar e construtores baseados em WordPress dependem de dezenas de plugins de terceiros que tornam o site lento, vulnerável a invasões e difícil de posicionar no Google.',
-      'Quando desenvolvemos em React, Vite e TypeScript, cada byte de código é controlado. Não há excesso de scripts desnecessários. O carregamento ocorre em frações de segundo.',
-      'Empresas que buscam transmitir credibilidade e fechar negócios no ambiente digital não podem se dar ao luxo de ter um site que cai ou demora a abrir no celular do cliente. O código autoral é o padrão ouro da engenharia moderna.'
+      'O WordPress serve muito bem para vários projetos e permite que você altere textos sozinho. O problema aparece quando você instala vários plugins que deixam tudo pesado e pedem atualizações constantes.',
+      'Quando crio um site institucional em código próprio, ele fica leve e rápido. Por não usar plugins pesados, a estrutura continua simples e tranquila de manter ao longo do tempo.',
+      'A escolha depende das suas necessidades. A única diferença é que, no código próprio, qualquer alteração futura passa por mim, enquanto no WordPress você mesmo consegue mexer.'
     ]
   },
   {
     id: 'seo-performance-conversion',
-    title: 'O Impacto do SEO Técnico e Carregamento Sub-Segundo na Taxa de Conversão',
+    title: 'Por que a velocidade do site importa',
     category: 'Performance',
     date: '05/10/2026',
-    readTime: '6 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434390/Gemini_Generated_Image_90katb90katb90ka_in6y87.webp',
-    excerpt: 'Como cada milissegundo economizado no carregamento do seu site se traduz diretamente em mais leads qualificados e maior faturamento para o seu negócio.',
+    excerpt: 'Páginas rápidas evitam que os visitantes desistam do acesso antes de conhecer a sua empresa.',
     content: [
-      'Estudos de comportamento do consumidor mostram que cada segundo de atraso no carregamento de uma página reduz drasticamente as taxas de conversão. Usuários no celular abandonam sites lentos antes mesmo de verem a primeira dobra.',
-      'O SEO técnico vai muito além de palavras-chave: envolve marcação estruturada Schema.org, imagens otimizadas em WebP, fontes locais e ausência de bloqueadores de renderização.',
-      'Ao unir alta performance técnica a uma jornada de usuário sem fricção, sua empresa se posiciona como líder de mercado e atrai clientes que já chegam prontos para comprar.'
+      'Quem acessa um site pelo celular costuma ter pouca paciência. Se a página demora para abrir, a pessoa fecha o navegador e busca outra opção.',
+      'A velocidade ajuda o seu cliente e também o Google. O buscador prefere indicar sites que abrem sem travar e carregam o conteúdo de forma direta.',
+      'No meu trabalho, cuido disso usando imagens leves, fontes otimizadas e apenas o código necessário. Isso garante uma navegação fluida em qualquer aparelho.'
     ]
   },
   {
     id: 'mobile-first-whatsapp-conversion',
-    title: 'Design Mobile-First e Botão de WhatsApp: Como Estruturar Páginas que Fecham Negócios no Celular',
+    title: 'Um site pensado para o celular, com WhatsApp à mão',
     category: 'Conversão & Vendas',
     date: '28/09/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434400/Gemini_Generated_Image_jix1zajix1zajix1_r4yuyj.webp',
-    excerpt: 'Mais de 80% do tráfego qualificado de empresas de serviços vem de smartphones. Descubra a anatomia de uma página projetada para transformar scrolls em conversas imediatas no WhatsApp.',
+    excerpt: 'Facilitar o contato pelo celular é o caminho mais simples para receber mensagens de clientes.',
     content: [
-      'No cenário digital atual, o smartphone não é apenas um dispositivo secundário — é o ponto de contato principal entre seu cliente e seu negócio. Sites concebidos exclusivamente para computadores que apenas encolhem no celular frustram o usuário com botões minúsculos, textos ilegíveis e menus labirínticos.',
-      'Na Gorin Soluções, projetamos sob a filosofia Mobile-First real: a hierarquia visual é desenhada considerando o alcance do polegar do usuário (Thumb Zone). Os pontos de contato decisivos, como o botão magnético de WhatsApp e formulários de orçamento instantâneos, ficam posicionados estrategicamente em posições de descanso e acesso imediato.',
-      'Além disso, eliminamos etapas burocráticas no funil de vendas. Em vez de obrigar o cliente em potencial a preencher longos formulários estáticos, conduzimos a jornada para uma mensagem pré-formatada e personalizada no WhatsApp. Essa abordagem reduz a taxa de desistência em até 40% e acelera o ciclo de fechamento comercial.'
+      'A maioria das pessoas que procura os seus serviços está usando o celular. Por isso, eu crio a página pensando primeiro na tela pequena.',
+      'Coloco botões grandes e visíveis, posicionados ao alcance do seu polegar. Assim, quem se interessa pelo seu trabalho não precisa procurar onde clicar.',
+      'Também preparo mensagens prontas para o WhatsApp. Com menos etapas entre a visita e a conversa, fica mais fácil para o cliente falar direto com você.'
     ]
   },
   {
     id: 'design-editorial-autoridade-marca',
-    title: 'Design Editorial e Microinterações: Por que Sites Minimalistas Transmitem Mais Autoridade',
+    title: 'Design limpo passa mais confiança',
     category: 'Design & UX',
     date: '22/09/2026',
-    readTime: '6 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434454/Captura_de_tela_2026-10-19_152709_esjn54.webp',
-    excerpt: 'A psicologia visual por trás de marcas de alto valor: como tipografia monumental, contrastes elegantes e animações fluidas diferenciam empresas comuns de líderes de mercado.',
+    excerpt: 'Um visual organizado ajuda o visitante a entender a sua proposta e a confiar na sua empresa.',
     content: [
-      'Existe um abismo visual entre um site com aspecto amador — poluído por banners piscantes, cores desarmônicas e poluição visual — e uma experiência digital de alto padrão. Grandes referências mundiais compreendem que o design refinado é o atalho mais rápido para estabelecer percepção de autoridade e cobrar valores premium.',
-      'O design editorial na web resgata o rigor da tipografia clássica e a combina com a modernidade das microinterações: textos com revelação suave ao rolar a página, cursores interativos, botões magnéticos que reagem ao toque e transições de tela sem cortes abruptos. Cada detalhe comunica subconscientemente ao cliente que sua empresa opera no mais alto nível de exigência.',
-      'Quando um potencial cliente acessa um site construído sob esses preceitos, a decisão de contratação torna-se muito mais natural. Um design sofisticado não é apenas estética; é um ativo comercial que posiciona seu negócio muito acima da média dos concorrentes.'
+      'Um site cheio de elementos piscando e informações espalhadas costuma afastar quem entra. A poluição visual gera dúvida e faz o visitante sair rápido.',
+      'Eu prefiro um visual limpo e bem organizado. Escolho letras fáceis de ler, mantenho espaços vazios para a tela respirar e organizo os títulos em ordem clara.',
+      'Uso apenas animações leves e discretas. Esse cuidado no acabamento mostra profissionalismo e ajuda a passar a confiança necessária para o cliente conversar com você.'
     ]
   },
   {
     id: 'core-web-vitals-google-ranking',
-    title: 'Core Web Vitals e Rank no Google: O Guia Prático para Estar no Topo das Buscas',
+    title: 'Core Web Vitals: o que o Google mede no seu site',
     category: 'Performance',
     date: '14/09/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434486/Gemini_Generated_Image_bllhxlbllhxlbllh_ddscfn.webp',
-    excerpt: 'Descubra como o Google avalia LCP, INP e CLS para ranquear sua empresa acima dos concorrentes e por que arquitetura de código limpo vence qualquer atalho de SEO.',
+    excerpt: 'Entenda como o Google analisa a velocidade e o comportamento da sua página de forma simples.',
     content: [
-      'O algoritmo do Google avalia muito mais do que apenas palavras-chave: a experiência técnica do usuário tornou-se critério eliminatório. Os Core Web Vitals medem velocidade de carregamento (LCP), interatividade instantânea (INP) e estabilidade visual (CLS).',
-      'A maioria dos sites corporativos convencionais falha nesses testes devido a excesso de scripts de terceiros, imagens pesadas sem formatos modernos e atrasos na renderização do servidor. Isso faz com que o Google rebaixe a página nos resultados de pesquisa em favor de sites mais rápidos.',
-      'Na engenharia da Gorin Soluções, otimizamos rigorosamente cada camada da aplicação: compressão em WebP de última geração, minificação de pacotes JavaScript, pré-carregamento de fontes e ausência de bloqueadores de renderização. O resultado são pontuações próximas de 100 no Google PageSpeed, garantindo vantagem competitiva duradoura.'
+      'Essas siglas do Google avaliam pontos simples da navegação. O carregamento do conteúdo principal, a rapidez com que a página responde ao clique e se os elementos mudam de lugar sozinhos.',
+      'No meu processo, cuido disso usando imagens leves, fontes preparadas e pouco código. Isso evita que a página trave ou fique pulando na tela durante a leitura.',
+      'Eu não prometo notas específicas, mas você mesmo pode testar o seu site na ferramenta oficial do PageSpeed Insights para acompanhar a evolução.'
     ]
   },
   {
     id: 'seguranca-estabilidade-cloud',
-    title: 'Segurança e Zero Quedas: Como a Arquitetura Moderna na Nuvem Protege Seu Negócio',
+    title: 'Menos plugins, menos pontos fracos no seu site',
     category: 'Engenharia Web',
     date: '05/09/2026',
-    readTime: '4 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792434535/Captura_de_tela_2026-10-19_152835_kw9tgy.webp',
-    excerpt: 'A vulnerabilidade oculta de bancos de dados expostos e plugins desatualizados versus a robustez de sites compilados e distribuídos em redes globais de borda.',
+    excerpt: 'Uma estrutura simples e sem acúmulo de componentes reduz os riscos de falhas na sua página.',
     content: [
-      'Um dos maiores prejuízos para qualquer empresa é ver seu site fora do ar em meio a uma campanha de anúncios ou ter dados comprometidos por falhas em plugins de terceiros. Plataformas tradicionais com bancos de dados expostos na web pública são alvos frequentes de ataques automatizados.',
-      'A arquitetura moderna que adotamos na Gorin Soluções separa o front-end estático das regras de negócios na nuvem. Os arquivos do site são distribuídos geograficamente em centenas de servidores de borda (Edge CDNs globais com proteção DDoS ativa e certificados SSL automáticos de ponta).',
-      'Sem um banco de dados diretamente exposto e sem plugins desatualizados, a superfície de ataque é praticamente nula. Sua página suporta picos massivos de tráfego simultâneo sem oscilações, mantendo seu negócio 100% operacional todos os dias do ano.'
+      'Plugins desatualizados são uma porta de entrada comum para problemas de segurança na internet. Quanto mais ferramentas externas você acumula, mais pontos fracos o site pode ter.',
+      'Para proteger o seu endereço, eu crio a página sem banco de dados exposto. Além disso, uso navegação segura por protocolo HTTPS e redes de distribuição de conteúdo.',
+      'Sendo muito honesto, nenhum site na internet é totalmente invulnerável. No entanto, uma estrutura enxuta reduz bastante as chances de tentativas de ataque.'
     ]
   },
   {
     id: 'ia-atendimento-automacao-comercial',
-    title: 'Inteligência Artificial no Atendimento: Integrando Agentes ao Fluxo de Vendas',
+    title: 'IA no atendimento: quando faz sentido',
     category: 'Inteligência Artificial',
     date: '26/08/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435141/Picsart_26-10-19_15-37-46-215_ivrlbo.webp',
-    excerpt: 'Como empresas modernas estão automatizando a triagem de leads e o pré-atendimento com inteligência artificial generativa sem perder o toque humano e o fechamento no WhatsApp.',
+    excerpt: 'Entenda como a inteligência artificial pode ajudar no primeiro contato sem substituir o atendimento humano.',
     content: [
-      'A velocidade na resposta ao cliente é um dos fatores mais determinantes para fechar uma venda. Responder um lead nos primeiros minutos aumenta drasticamente as chances de conversão. No entanto, manter uma equipe humana disponível 24 horas por dia é inviável para a maioria das empresas.',
-      'É aqui que entra a automação inteligente. Desenvolvemos soluções em que assistentes de inteligência artificial treinados com os serviços e dúvidas frequentes da sua empresa respondem instantaneamente aos visitantes do site, coletam informações preliminares e qualificam o interesse daquele contato.',
-      'O fechamento final continua acontecendo no canal de preferência do cliente — geralmente o WhatsApp —, mas o cliente já chega pré-atendido, com escopo direcionado e pronto para a conversa comercial. Isso multiplica a produtividade da sua empresa e garante que nenhuma oportunidade seja perdida por demora.'
+      'Responder rápido a quem procura o seu serviço ajuda muito no primeiro contato. A inteligência artificial pode fazer essa triagem inicial das dúvidas mais frequentes da sua empresa.',
+      'Mas nem todo negócio precisa dessa ferramenta. No final das contas, quem fecha a venda de verdade continua sendo você ou sua equipe em uma conversa no WhatsApp.',
+      'Se você quiser avaliar se a automação vale a pena para a sua rotina, é só me chamar para conversarmos sem compromisso.'
     ]
   },
   {
     id: 'copywriting-estrategico-sites-profissionais',
-    title: 'Copywriting Estratégico para Sites: A Ciência dos Textos que Convertem Visitantes em Clientes',
+    title: 'Texto de site: como escrever para quem tem pressa',
     category: 'Conversão & Vendas',
     date: '18/08/2026',
-    readTime: '4 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435759/Screenshot_20261019_154907_Google_se2v2c.webp',
-    excerpt: 'Por que slogans genéricos e parágrafos prolixos afastam clientes: aprenda as técnicas de escrita persuasiva e objetiva aplicadas em websites de alta performance.',
+    excerpt: 'Aprenda a organizar as informações da sua página para apresentar o seu trabalho de forma direta.',
     content: [
-      'Muitas empresas investem em tráfego pago e design, mas pecam no elemento mais decisivo para a conversão: o texto. Frases genéricas como "qualidade e excelência" não explicam o problema real que sua empresa resolve nem por que o cliente deve escolher você.',
-      'O copywriting moderno para websites obedece à regra da clareza absoluta: a primeira dobra da página deve responder em menos de 3 segundos o que você faz, para quem faz e qual o próximo passo que o visitante deve tomar. Frases concisas, blocos de leitura escaneáveis e títulos diretos mantêm o leitor conectado.',
-      'Na Gorin Soluções, estruturamos os textos dos nossos projetos unindo psicologia de consumo e objetividade técnica. Destacamos propostas de valor claras, quebramos objeções frequentes antes mesmo do cliente perguntar e criamos chamadas para ação (CTAs) que despertam a vontade real de iniciar uma conversa comercial.'
+      'As pessoas leem rápido na internet e querem entender o assunto sem enrolação. A primeira tela do seu site deve dizer o que você faz, para quem faz e qual é o próximo passo.',
+      'Recomendo evitar frases genéricas como qualidade e excelência, que não dizem quase nada na prática. É melhor explicar exatamente o problema que você resolve para o seu cliente.',
+      'Eu organizo os textos do site usando frases curtas, títulos diretos e pequenos blocos de leitura. Dessa forma, o visitante encontra o que precisa sem perder tempo.'
     ]
   },
   {
     id: 'serverless-cloud-infrastructure',
-    title: 'Infraestrutura Serverless na Nuvem: Escalabilidade Automática com Custo Zero em Ociosidade',
+    title: 'Hospedagem moderna: pagar só pelo que o site usa',
     category: 'Engenharia Web',
     date: '10/08/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435467/1792435312805_mrwjjq.webp',
-    excerpt: 'Como a computação serverless e funções sob demanda permitem que aplicações web suportem milhões de acessos sem gerenciar servidores dedicados caros.',
+    excerpt: 'Conheça a diferença entre hospedagem tradicional e em nuvem para escolher a melhor opção para o seu site.',
     content: [
-      'O modelo tradicional de hospedagem com servidores dedicados sempre ligados obriga empresas a pagarem por recursos computacionais mesmo quando o tráfego está baixo. A arquitetura Serverless revolucionou essa dinâmica.',
-      'Com funções serverless executadas em milissegundos nos servidores de borda mais próximos do usuário, a aplicação escala instantaneamente de zero a milhares de requisições por segundo. Quando não há tráfego, o consumo de recursos é nulo.',
-      'Para negócios digitais, isso significa máxima estabilidade nos momentos de campanhas e lançamentos, acompanhada de eficiência orçamentária impecável.'
+      'Na hospedagem tradicional, você paga um valor fixo por um servidor que fica ligado direto, mesmo sem visitas. Na hospedagem em nuvem com rede de distribuição, a estrutura responde sob demanda.',
+      'Para um site institucional, esse modelo moderno costuma sair bastante barato e oferece ótima estabilidade no dia a dia.',
+      'Eu configuro esse tipo de hospedagem para que você tenha uma página rápida e estável, pagando um valor justo pela infraestrutura que o seu projeto realmente consome.'
     ]
   },
   {
     id: 'cro-ab-testing-conversao',
-    title: 'Testes A/B e Otimização da Taxa de Conversão (CRO): A Ciência das Decisões Baseadas em Dados',
+    title: 'Testes A/B: melhorar o site com dados',
     category: 'Conversão & Vendas',
     date: '02/08/2026',
-    readTime: '6 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435725/Screenshot_20261019_154808_Google_wwxqaa.webp',
-    excerpt: 'Como testar variações de títulos, botões de ação e propostas de valor para multiplicar o faturamento do seu site sem gastar um centavo a mais em anúncios.',
+    excerpt: 'Descubra como pequenos ajustes no texto e na estrutura ajudam os visitantes a entender melhor a sua oferta.',
     content: [
-      'Muitas empresas tentam aumentar vendas apenas investindo mais dinheiro em anúncios, ignorando o vazamento no próprio site. A Otimização da Taxa de Conversão (CRO) foca em extrair o máximo valor dos visitantes que já chegam até você.',
-      'Por meio de testes A/B controlados, apresentamos hipóteses visuais e textuais para parcelas de usuários em tempo real. Analisamos onde o cliente clica, onde ele hesita e quais chamadas geram mais conversas no WhatsApp.',
-      'Pequenas melhorias de 1% a 2% na taxa de conversão podem representar dezenas ou centenas de milhares de reais a mais no faturamento anual da sua empresa.'
+      'O teste comparativo funciona assim: criamos duas versões de uma mesma página mudando um título ou botão para ver qual opção desperta mais interesse dos visitantes.',
+      'Essa estratégia vale muito a pena para sites com volume grande de acessos. Em sites menores, o melhor caminho no começo é deixar a mensagem principal simples e direta.',
+      'Sem prometer ganhos milagrosos, o importante é acompanhar como as pessoas navegam na sua página e fazer ajustes constantes para tirar dúvidas antes do contato no WhatsApp.'
     ]
   },
   {
     id: 'acessibilidade-web-inclusiva',
-    title: 'Acessibilidade Web (WCAG): Como Criar Interfaces Universais que Vendem para Todos os Públicos',
+    title: 'Acessibilidade: um site que todo mundo consegue usar',
     category: 'Design & UX',
     date: '25/07/2026',
-    readTime: '5 min de leitura',
+    readTime: '3 min de leitura',
     image: 'https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto/v1792435607/Screenshot_20261019_154622_Google_kpqeyh.webp',
-    excerpt: 'Por que contraste adequado, navegação por teclado e semântica acessível não são apenas conformidade legal, mas uma vantagem competitiva de mercado.',
+    excerpt: 'Criar páginas acessíveis garante uma boa experiência de leitura e navegação para qualquer pessoa.',
     content: [
-      'Acessibilidade digital não é um detalhe secundário. Milhões de pessoas navegam com leitores de tela, contrastes aumentados ou exclusivamente por teclado. Um site inacessível bloqueia potenciais compradores e expõe a marca a riscos regulatórios.',
-      'Seguindo as diretrizes internacionais da WCAG (Web Content Accessibility Guidelines), construímos interfaces com contraste calibrado, foco visível e marcação semântica impecável.',
-      'Além de acolher todos os usuários com dignidade, os algoritmos de busca do Google priorizam sites com acessibilidade validada, impulsionando o posicionamento orgânico da sua empresa.'
+      'Acessibilidade web significa criar uma página que qualquer pessoa consiga navegar com facilidade. Isso inclui um bom contraste de cores para leitura e suporte a teclado.',
+      'Também coloco texto alternativo descritivo em cada imagem. Esse recurso permite que leitores de tela expliquem para pessoas com deficiência visual o que está na foto.',
+      'Esses cuidados ajudam todo mundo, inclusive quem acessa em uma tela pequena sob luz do sol. Um site bem construído atende qualquer visitante de forma agradável.'
     ]
   }
 ];

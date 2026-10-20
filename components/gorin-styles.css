@@ -11,7 +11,7 @@
 /* Global Font Definition */
 :root {
   --font-gorin: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-cuberto: var(--font-gorin);
+  --font-gorin: var(--font-gorin);
   --color-primary: #000000;
   --color-accent: #00d4ff;
   --color-bg: #ffffff;
@@ -71,7 +71,7 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   CUSTOM CURSOR (Cuberto Exclusion Blob with Velocity Skew)
+   CUSTOM CURSOR (Gorin Exclusion Blob with Velocity Skew)
    ========================================================================== */
 .Cursor {
   position: fixed;
@@ -169,7 +169,7 @@ h1, h2, h3, h4 {
    CONTAINER & LAYOUT
    ========================================================================== */
 .gorin-container,
-.cuberto-container,
+.gorin-container,
 .Container.container {
   width: 100%;
   max-width: 1600px;
@@ -181,18 +181,18 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 768px) {
   .gorin-container,
-  .cuberto-container,
+  .gorin-container,
   .Container.container {
     padding-left: clamp(2.5rem, 7.5vw, 7.5rem);
     padding-right: clamp(2.5rem, 7.5vw, 7.5rem);
   }
 }
 .Container.container.-size-lg,
-.cuberto-container.-size-lg {
+.gorin-container.-size-lg {
   max-width: 1600px;
 }
 @media (min-width: 768px) {
-  .cuberto-container.-size-lg {
+  .gorin-container.-size-lg {
     padding-left: clamp(3rem, 12vw, 15rem);
     padding-right: clamp(3rem, 12vw, 15rem);
   }
@@ -223,18 +223,41 @@ h1, h2, h3, h4 {
   background-color: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(12px) saturate(300%);
   backdrop-filter: blur(12px) saturate(300%);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 9999px;
   padding: 0.5rem 1rem 0.5rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, margin 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Mobile contracted margins on scroll */
+/* Mobile contracted margins on scroll & at-rest styling */
+@media (max-width: 1023px) {
+  .Navbar.-fixed:not(.-visible) {
+    transform: translateY(0) !important;
+  }
+
+  .Navbar {
+    padding-top: 20px;
+  }
+
+  /* No border when in movement on mobile */
+  .Navbar.-scrolled .nav-pill {
+    border: none !important;
+  }
+}
+
 @media (max-width: 767px) {
+  .Navbar:not(.-scrolled) .nav-pill:not(.-dark) {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .Navbar.-scrolled .nav-pill {
     margin-left: 2rem;
     margin-right: 2rem;
@@ -245,7 +268,7 @@ h1, h2, h3, h4 {
 .Navbar .nav-pill.-dark {
   background-color: rgba(11, 10, 15, 0.72);
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -329,7 +352,7 @@ button:hover .roll-text span:after {
    CTA BUTTON WITH LIQUID RIPPLE EFFECT
    ========================================================================== */
 /* ==========================================================================
-   CTA BUTTON WITH LIQUID RIPPLE EFFECT & CUBERTO SQUISH
+   CTA BUTTON WITH LIQUID RIPPLE EFFECT & GORIN SQUISH
    ========================================================================== */
 .CtaButton {
   position: relative;
@@ -632,7 +655,7 @@ button:hover .roll-text span:after {
 }
 
 /* ==========================================================================
-   SELECTED WORK GRID (WorkSection) & CUBERTO COUNTER-SCALE EFFECT
+   SELECTED WORK GRID (WorkSection) & GORIN COUNTER-SCALE EFFECT
    ========================================================================== */
 .WorkSection {
   background: #000000;
@@ -689,7 +712,7 @@ button:hover .roll-text span:after {
 }
 
 /* ==========================================================================
-   TESTIMONIALS (Exact Cuberto Fanned Stack -> 3+2 Grid on Hover/View)
+   TESTIMONIALS (Exact Gorin Fanned Stack -> 3+2 Grid on Hover/View)
    ========================================================================== */
 .TestimonialsDeck {
   display: flex;
@@ -824,16 +847,16 @@ button:hover .roll-text span:after {
 }
 
 /* ==========================================================================
-   BENTO GRID DE MÉTRICAS E DIFERENCIAIS (#why / .cuberto-tiles-grid)
+   BENTO GRID DE MÉTRICAS E DIFERENCIAIS (#why / .gorin-tiles-grid)
    ========================================================================== */
-.cuberto-tiles-grid {
+.gorin-tiles-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
 @media (max-width: 1023px) {
-  .cuberto-tiles-grid {
+  .gorin-tiles-grid {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -1055,7 +1078,7 @@ button:hover .roll-text span:after {
   display: none;
 }
 .PortfolioFilterBtn {
-  font-family: var(--font-cuberto);
+  font-family: var(--font-gorin);
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0.6rem 1.25rem;
@@ -1083,7 +1106,7 @@ button:hover .roll-text span:after {
    INQUIRY INTERACTIVE CHIPS (Contact Form)
    ========================================================================== */
 .InquiryChip {
-  font-family: var(--font-cuberto);
+  font-family: var(--font-gorin);
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0.65rem 1.15rem;
@@ -1140,7 +1163,7 @@ button:hover .roll-text span:after {
   background: rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 9999px;
-  font-family: var(--font-cuberto);
+  font-family: var(--font-gorin);
   font-size: 0.75rem;
   color: #374151;
 }
@@ -1246,13 +1269,13 @@ button:hover .roll-text span:after {
   background-color: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: none !important;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
 }
 .nav-glass-menu.-dark {
   background-color: rgba(11, 10, 15, 0.68);
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border: none !important;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
 }
 @media (max-width: 1023px) {
   .Navbar.-menu-open .nav-pill { opacity: 0; pointer-events: none; }
@@ -1265,8 +1288,8 @@ button:hover .roll-text span:after {
 }
 
 /* ==========================================================================
-   SERVIÇOS — réplica das medidas do Cuberto
-   --cu = "1rem" do Cuberto (fluido: 2.66667vw mobile, 0.625vw >=768px, 10px >=1600px)
+   SERVIÇOS — réplica das medidas do Gorin
+   --cu = "1rem" do Gorin (fluido: 2.66667vw mobile, 0.625vw >=768px, 10px >=1600px)
    ========================================================================== */
 #about,
 .FeatureSection,
@@ -1297,16 +1320,16 @@ button:hover .roll-text span:after {
   }
 }
 
-#about .cuberto-container,
-.FeatureSection .cuberto-container,
-.LogoreelSection .cuberto-container {
+#about .gorin-container,
+.FeatureSection .gorin-container,
+.LogoreelSection .gorin-container {
   padding-left: calc(var(--cu) * 1.5);
   padding-right: calc(var(--cu) * 1.5);
 }
 @media (min-width: 768px) {
-  #about .cuberto-container,
-  .FeatureSection .cuberto-container,
-  .LogoreelSection .cuberto-container {
+  #about .gorin-container,
+  .FeatureSection .gorin-container,
+  .LogoreelSection .gorin-container {
     padding-left: calc(var(--cu) * 24);
     padding-right: calc(var(--cu) * 24);
   }
@@ -1470,7 +1493,7 @@ button:hover .roll-text span:after {
   opacity: 1;
 }
 
-/* Transições do Cuberto: só no mobile (no desktop quem anima é o GSAP, sem CSS transition por cima) */
+/* Transições do Gorin: só no mobile (no desktop quem anima é o GSAP, sem CSS transition por cima) */
 @media (max-width: 767px) {
   .service-card .service-card-collapse {
     transition: grid-template-rows 1.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1512,7 +1535,7 @@ button:hover .roll-text span:after {
   }
 }
 
-/* Botão "MoreButton" — idêntico ao do Cuberto */
+/* Botão "MoreButton" — idêntico ao do Gorin */
 .MoreButton {
   position: relative;
   z-index: 2;

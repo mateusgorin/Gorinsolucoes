@@ -39,7 +39,7 @@ export const projectsData: CaseStudy[] = [
     results: [
       "Facilidade na busca por roteiros ecológicos no DF",
       "Navegação otimizada para smartphones em trilhas",
-      "Alta retenção e engajamento dos usuários"
+      "Informações do guia reunidas em um só lugar"
     ],
     stack: ["React", "TypeScript", "Tailwind CSS", "Vite"],
     year: "2025"
@@ -61,13 +61,13 @@ export const projectsData: CaseStudy[] = [
     isFeatured: true,
     metrics: "Carregamento Rápido · Contato Direto",
     problem: "A empresa precisava de um site leve e colorido, com abertura rápida no celular dos pais durante a busca por eventos, sem perder a interatividade visual.",
-    solution: "Desenvolvimento de plataforma interativa em React 19 com fotos otimizadas, navegação dinâmica dos pacotes e conexão direta com WhatsApp.",
+    solution: "Desenvolvimento de plataforma interativa em React com fotos otimizadas, navegação dinâmica dos pacotes e conexão direta com WhatsApp.",
     results: [
       "Carregamento ágil no celular mesmo com várias fotos dos eventos",
       "Aumento expressivo no envio de pedidos de orçamento pelo WhatsApp",
       "Posicionamento consolidado no mercado de eventos infantis no DF"
     ],
-    stack: ["React 19", "TypeScript", "Tailwind CSS", "GSAP", "WhatsApp API"],
+    stack: ["React", "TypeScript", "Tailwind CSS", "GSAP", "WhatsApp API"],
     year: "2025"
   },
   {
@@ -119,7 +119,7 @@ export const projectsData: CaseStudy[] = [
       "Credibilidade técnica reforçada para propostas de grande porte",
       "Indexação nos mecanismos de busca com marcação Schema.org"
     ],
-    stack: ["React 19", "TypeScript", "Tailwind CSS", "SEO Semântico", "Schema.org"],
+    stack: ["React", "TypeScript", "Tailwind CSS", "SEO Semântico", "Schema.org"],
     year: "2025"
   },
   {
@@ -223,7 +223,7 @@ export const projectsData: CaseStudy[] = [
       "Geração prática de relatórios para vistorias e auditorias",
       "Acompanhamento organizado da equipe em campo"
     ],
-    stack: ["React 19", "TypeScript", "Controle RBAC", "Exportação PDF", "Cloud Storage"],
+    stack: ["React", "TypeScript", "Controle RBAC", "Exportação PDF", "Cloud Storage"],
     year: "2025"
   },
   {
