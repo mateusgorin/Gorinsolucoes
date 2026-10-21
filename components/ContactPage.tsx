@@ -18,6 +18,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
   const [projectDetails, setProjectDetails] = useState('');
   const [selectedBudget, setSelectedBudget] = useState<string>('');
   const [website, setWebsite] = useState(''); // Honeypot
+  const [emailError, setEmailError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -59,9 +60,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
     // Simple email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
-      alert('Por favor, insira um e-mail válido.');
+      setEmailError('Por favor, insira um e-mail válido.');
       return;
     }
+    setEmailError('');
 
     const interestsText = selectedInterests.length > 0 ? selectedInterests.join(', ') : 'Não especificado';
     const budgetText = selectedBudget || 'A definir';
@@ -255,12 +257,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
                       autoComplete="email"
                       inputMode="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (emailError) setEmailError('');
+                      }}
                       placeholder="E-mail"
-                      className="w-full py-4 text-lg md:text-xl text-black placeholder:text-black/45 bg-transparent border-b border-black/20 focus:border-black outline-none transition-colors"
+                      className={`w-full py-4 text-lg md:text-xl text-black placeholder:text-black/45 bg-transparent border-b ${
+                        emailError ? 'border-red-500' : 'border-black/20 focus:border-black'
+                      } outline-none transition-colors`}
                     />
                     <span className="absolute right-0 top-5 text-red-500 font-bold" aria-hidden="true">*</span>
                   </div>
+                  {emailError && (
+                    <p role="alert" className="text-xs text-red-500 font-mono mt-2">
+                      {emailError}
+                    </p>
+                  )}
                 </div>
 
                 <div>

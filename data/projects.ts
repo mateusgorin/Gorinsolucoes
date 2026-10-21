@@ -25,11 +25,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "ECOTURISMO // GUIA & TRILHAS",
     desc: "Portal interativo com o guia completo de cachoeiras, trilhas e ecoturismo no Distrito Federal e entorno.",
-    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
     gallery: [
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
       "/images/showcase-feature-2.webp",
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg"
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg"
     ],
     link: "https://cachoeirasdf.vercel.app/",
     isFeatured: true,
@@ -51,11 +51,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "INTERATIVO // ALTA VELOCIDADE",
     desc: "Site para uma empresa de brincadeiras e eventos infantis. Leve, colorido e com pedido de orçamento direto no WhatsApp.",
-    image: "/images/brincamovel.jpg",
+    image: "/images/brincamovel.webp",
     gallery: [
-      "/images/brincamovel.jpg",
+      "/images/brincamovel.webp",
       "/images/showcase-feature-3.webp",
-      "/images/brincamovel.jpg"
+      "/images/brincamovel.webp"
     ],
     link: "https://www.brincamoveloficial.com.br",
     isFeatured: true,
@@ -77,11 +77,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "SAÚDE & BEM-ESTAR // CONVERSÃO",
     desc: "Site de uma clínica de massagem e bem-estar. Explica cada tratamento com calma e leva ao agendamento pelo WhatsApp.",
-    image: "/images/maosdeleide.jpg",
+    image: "/images/maosdeleide.webp",
     gallery: [
-      "/images/maosdeleide.jpg",
+      "/images/maosdeleide.webp",
       "/images/showcase-feature-2.webp",
-      "/images/maosdeleide.jpg"
+      "/images/maosdeleide.webp"
     ],
     link: "https://www.maosdeleide.com.br",
     isFeatured: true,
@@ -106,7 +106,7 @@ export const projectsData: CaseStudy[] = [
     image: "/images/amorimergonomia.webp",
     gallery: [
       "/images/amorimergonomia.webp",
-      "/images/amorimergonomia.jpg",
+      "/images/amorimergonomia.webp",
       "/images/showcase-feature-2.webp"
     ],
     link: "https://www.amorimergonomia.com.br",
@@ -129,11 +129,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "ASSESSORIA CORPORATIVA // B2B",
     desc: "Site de uma assessoria contábil. Visual sóbrio, informação clara e contato direto com os sócios.",
-    image: "/images/britooliveira.jpg",
+    image: "/images/britooliveira.webp",
     gallery: [
-      "/images/britooliveira.jpg",
+      "/images/britooliveira.webp",
       "/images/amorimergonomia.webp",
-      "/images/britooliveira.jpg"
+      "/images/britooliveira.webp"
     ],
     link: "https://www.britooliveira.com.br/",
     isFeatured: true,
@@ -210,7 +210,7 @@ export const projectsData: CaseStudy[] = [
     image: "/images/sgb.webp",
     gallery: [
       "/images/sgb.webp",
-      "/images/logistico.jpg",
+      "/images/logistico.webp",
       "/images/showcase-feature-2.webp"
     ],
     link: "internal",
@@ -233,9 +233,9 @@ export const projectsData: CaseStudy[] = [
     category: "Sistema Web",
     tag: "GESTÃO DE ESTOQUE // EM NUVEM",
     desc: "Sistema web de controle de estoque: entradas, saídas e níveis mínimos em um só lugar.",
-    image: "/images/logistico.jpg",
+    image: "/images/logistico.webp",
     gallery: [
-      "/images/logistico.jpg",
+      "/images/logistico.webp",
       "/images/sgb.webp",
       "/images/showcase-feature-1.webp"
     ],

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, Calendar, MessageCircle, ArrowUpRight } from 'lucide-react';
-import { articlesData, Article } from '../data/articles';
+import { ArrowLeft, Clock, Calendar } from 'lucide-react';
+import { articlesData } from '../data/articles';
 import { MagneticCta } from './MagneticCta';
 
 interface BlogPageProps {
@@ -10,8 +11,13 @@ interface BlogPageProps {
 }
 
 export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
+  const { slug } = useParams<{ slug?: string }>();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
-  const [activeArticle, setActiveArticle] = useState<Article | null>(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
 
   const categories = [
     'Todos',
@@ -26,58 +32,42 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
     ? articlesData
     : articlesData.filter(a => a.category === selectedCategory);
 
-  const handleOpenArticle = (article: Article) => {
-    setActiveArticle(article);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // If a slug is in the route, look up the article
+  if (slug) {
+    const activeArticle = articlesData.find(a => a.slug === slug);
+    if (!activeArticle) {
+      return <Navigate to="/blog" replace />;
+    }
 
-  const handleBackToList = () => {
-    setActiveArticle(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white pt-20 pb-28">
-      {/* Top Navbar */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5 px-6 h-20 flex items-center justify-between">
-        {activeArticle ? (
-          <button
-            onClick={handleBackToList}
-            className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
+    return (
+      <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white pt-20 pb-28">
+        {/* Top Navbar */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5 px-6 h-20 flex items-center justify-between">
+          <Link
+            to="/blog"
+            className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer no-underline"
           >
             <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
               <ArrowLeft size={16} />
             </div>
             <span>Voltar ao Blog</span>
-          </button>
-        ) : (
-          <button
-            onClick={onBack}
-            className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
-          >
-            <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
-              <ArrowLeft size={16} />
-            </div>
-            <span className="font-bold tracking-tighter uppercase text-base">GORIN<span className="text-[#00D4FF]">.</span></span>
-          </button>
-        )}
+          </Link>
 
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
-            Blog
-          </span>
-          <MagneticCta
-            onClick={onBack}
-            variant="outline"
-            className="!px-4 !py-2 !text-xs font-sans font-medium cursor-pointer"
-          >
-            Voltar ao Início
-          </MagneticCta>
-        </div>
-      </header>
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
+              Blog
+            </span>
+            <MagneticCta
+              onClick={onBack}
+              variant="outline"
+              className="!px-4 !py-2 !text-xs font-sans font-medium cursor-pointer"
+            >
+              Voltar ao Início
+            </MagneticCta>
+          </div>
+        </header>
 
-      {/* ARTICLE INLINE READER VIEW (NO POPUP / INLINE FULL PAGE) */}
-      {activeArticle ? (
+        {/* ARTICLE INLINE READER VIEW */}
         <main className="max-w-4xl mx-auto px-6 pt-10">
           <motion.article
             initial={{ opacity: 0, y: 16 }}
@@ -111,11 +101,15 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
               {activeArticle.excerpt}
             </p>
 
-            {/* 3D Hero Artwork Cover */}
+            {/* 3D Hero Artwork Cover with explicit width and height */}
             <div className="w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden aspect-[16/10] bg-slate-100 mb-12 shadow-sm">
               <img
                 src={activeArticle.image}
                 alt={activeArticle.title}
+                width={900}
+                height={562}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -152,13 +146,13 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
 
             {/* Back Button & Related Articles Footer */}
             <div className="pt-8 border-t border-black/10 flex items-center justify-between">
-              <button
-                onClick={handleBackToList}
-                className="group flex items-center gap-2 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
+              <Link
+                to="/blog"
+                className="group flex items-center gap-2 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer no-underline"
               >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                 <span>Voltar a todos os artigos</span>
-              </button>
+              </Link>
 
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -169,57 +163,94 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
             </div>
           </motion.article>
         </main>
-      ) : (
-        /* ARTICLES DIRECTORY LIST (GORIN 2-COLUMN DESIGN PATTERN) */
-        <main className="gorin-container pt-8 md:pt-12">
-          {/* Headline */}
-          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
-            <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
-              Blog · Gorin Soluções
-            </span>
-            <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-4">
-              Blog
-            </h1>
-            <p className="text-black/70 text-base md:text-xl leading-relaxed">
-              Textos curtos, em linguagem simples, sobre site, Google e atendimento pelo WhatsApp.
-            </p>
-          </div>
+      </div>
+    );
+  }
 
-          {/* Category Filter Pills */}
-          <div className="flex items-center justify-center gap-2 md:gap-3 overflow-x-auto pb-4 mb-14 scrollbar-none">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2.5 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
-                  selectedCategory === cat
-                    ? 'bg-black text-white shadow-md'
-                    : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+  // ARTICLES DIRECTORY LIST (GORIN 2-COLUMN DESIGN PATTERN)
+  return (
+    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white pt-20 pb-28">
+      {/* Top Navbar */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/5 px-6 h-20 flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="group flex items-center gap-2.5 text-sm font-semibold text-black hover:text-[#00D4FF] transition-colors cursor-pointer"
+        >
+          <div className="w-8 h-8 rounded-full border border-black/15 flex items-center justify-center group-hover:-translate-x-0.5 transition-transform">
+            <ArrowLeft size={16} />
           </div>
+          <span className="font-bold tracking-tighter uppercase text-base">GORIN<span className="text-[#00D4FF]">.</span></span>
+        </button>
 
-          {/* Articles Grid (2 Columns on Desktop, Gorin Layout) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 md:gap-y-20">
-            {filteredArticles.map((article) => (
-              <motion.article
-                key={article.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45 }}
-                onClick={() => handleOpenArticle(article)}
-                className="group cursor-pointer flex flex-col select-none"
-                data-cursor-text="Ler"
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
+            Blog
+          </span>
+          <MagneticCta
+            onClick={onBack}
+            variant="outline"
+            className="!px-4 !py-2 !text-xs font-sans font-medium cursor-pointer"
+          >
+            Voltar ao Início
+          </MagneticCta>
+        </div>
+      </header>
+
+      <main className="gorin-container pt-8 md:pt-12">
+        {/* Headline */}
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+          <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
+            Blog · Gorin Soluções
+          </span>
+          <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-4">
+            Blog
+          </h1>
+          <p className="text-black/70 text-base md:text-xl leading-relaxed">
+            Textos curtos, em linguagem simples, sobre site, Google e atendimento pelo WhatsApp.
+          </p>
+        </div>
+
+        {/* Category Filter Pills */}
+        <div className="flex items-center justify-center gap-2 md:gap-3 overflow-x-auto pb-4 mb-14 scrollbar-none">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-5 py-2.5 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                selectedCategory === cat
+                  ? 'bg-black text-white shadow-md'
+                  : 'bg-black/[0.04] text-black/70 hover:bg-black/[0.08] hover:text-black'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Articles Grid (2 Columns on Desktop, Gorin Layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 md:gap-y-20">
+          {filteredArticles.map((article) => (
+            <motion.article
+              key={article.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="group flex flex-col select-none"
+              data-cursor-text="Ler"
+            >
+              <Link
+                to={`/blog/${article.slug}`}
+                className="no-underline text-inherit block group"
               >
-                {/* 3D Artwork Cover Card (Rounded corners, no outer container borders) */}
+                {/* 3D Artwork Cover Card with explicit width and height */}
                 <div className="relative aspect-[16/10] w-full rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-slate-100 shadow-sm transition-transform duration-500 group-hover:scale-[1.02]">
                   <img
                     src={article.image}
                     alt={article.title}
+                    width={900}
+                    height={562}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
@@ -240,11 +271,11 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
                 <span className="text-sm font-mono text-black/50">
                   {article.date}
                 </span>
-              </motion.article>
-            ))}
-          </div>
-        </main>
-      )}
+              </Link>
+            </motion.article>
+          ))}
+        </div>
+      </main>
     </div>
   );
 };

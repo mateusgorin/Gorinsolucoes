@@ -4,10 +4,100 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/images/mascot-trimmed.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
     <title>Gorin Soluções | Criação de Sites e Sistemas Web em Brasília</title>
     <meta name="description" content="Criação de sites profissionais, landing pages e sistemas web em Brasília. Fale direto com o Mateus e peça seu orçamento." />
+    <link rel="canonical" href="https://www.gorinsolucoes.com.br/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Gorin Soluções" />
+    <meta property="og:title" content="Gorin Soluções | Criação de Sites e Sistemas Web em Brasília" />
+    <meta property="og:description" content="Criação de sites profissionais, landing pages e sistemas web em Brasília. Fale direto com o Mateus e peça seu orçamento." />
+    <meta property="og:url" content="https://www.gorinsolucoes.com.br/" />
+    <meta property="og:image" content="https://www.gorinsolucoes.com.br/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gorin Soluções | Criação de Sites e Sistemas Web em Brasília" />
+    <meta name="twitter:description" content="Criação de sites profissionais, landing pages e sistemas web em Brasília. Fale direto com o Mateus e peça seu orçamento." />
+    <meta name="twitter:image" content="https://www.gorinsolucoes.com.br/og-image.jpg" />
+
+    <!-- Performance Preconnects -->
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+
+    <!-- Typography: Single Google Fonts request for Inter + Subsets with &text= for Client Logos + Fontshare General Sans -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@700&family=Cinzel:wght@700&family=Cormorant+Garamond:wght@700&family=Oswald:wght@700&family=Plus+Jakarta+Sans:wght@800&family=Righteous&family=Space+Grotesk:wght@700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZacdeilnorstuv%20%26%C3%8D%C3%93%C3%83%C3%B3%C3%A3&display=swap" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://www.gorinsolucoes.com.br/#organization",
+          "name": "Gorin Soluções",
+          "url": "https://www.gorinsolucoes.com.br",
+          "telephone": "+5561981290099",
+          "email": "mateusmirandaamaral@gmail.com",
+          "image": "https://www.gorinsolucoes.com.br/og-image.jpg",
+          "areaServed": "Brasília DF",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Brasília",
+            "addressRegion": "DF",
+            "addressCountry": "BR"
+          },
+          "sameAs": [
+            "https://www.instagram.com/mateusgorin"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.gorinsolucoes.com.br/#website",
+          "url": "https://www.gorinsolucoes.com.br",
+          "name": "Gorin Soluções",
+          "publisher": {
+            "@id": "https://www.gorinsolucoes.com.br/#organization"
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://www.gorinsolucoes.com.br/#author",
+          "name": "Mateus Miranda Amaral",
+          "jobTitle": "Desenvolvedor Web",
+          "worksFor": {
+            "@id": "https://www.gorinsolucoes.com.br/#organization"
+          },
+          "sameAs": [
+            "https://www.instagram.com/mateusgorin"
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
+  <body class="bg-white text-black antialiased">
+    <noscript>
+      <div style="padding: 2rem; font-family: sans-serif; max-width: 800px; margin: 0 auto; color: #000;">
+        <h1>Gorin Soluções | Criação de Sites e Sistemas Web em Brasília</h1>
+        <p>Criação de sites profissionais, landing pages e sistemas web sob medida em Brasília-DF. Fale direto com o Mateus, desenvolvedor responsável, do primeiro contato à publicação.</p>
+        <nav style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="/contato" style="color: #0E7490; font-weight: bold;">Contato</a>
+          <a href="/blog" style="color: #0E7490; font-weight: bold;">Blog</a>
+          <a href="https://wa.me/5561981290099" style="color: #0E7490; font-weight: bold;">Falar no WhatsApp (+55 61 98129-0099)</a>
+        </nav>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -8,10 +8,11 @@ import { ScrollToTop } from './components/ScrollToTop';
 import { Seo } from './components/Seo';
 import { FluidCursor } from './components/FluidCursor';
 
-import { ContactPage } from './components/ContactPage';
-import { BriefingPage } from './components/BriefingPage';
-import { PrivacyPage } from './components/PrivacyPage';
-import { BlogPage } from './components/BlogPage';
+const ContactPage = lazy(() => import('./components/ContactPage').then(m => ({ default: m.ContactPage })));
+const BriefingPage = lazy(() => import('./components/BriefingPage').then(m => ({ default: m.BriefingPage })));
+const PrivacyPage = lazy(() => import('./components/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
+const BlogPage = lazy(() => import('./components/BlogPage').then(m => ({ default: m.BlogPage })));
+const NotFoundPage = lazy(() => import('./components/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { whatsappLink } from './lib/contact';
 
@@ -139,7 +140,8 @@ const App: React.FC = () => {
           <Route path="/briefing" element={<BriefingWrapper />} />
           <Route path="/politica-de-privacidade" element={<PrivacyPage onBack={() => navigate('/')} />} />
           <Route path="/blog" element={<BlogPage onBack={() => navigate('/')} whatsappUrl={whatsappUrl} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/blog/:slug" element={<BlogPage onBack={() => navigate('/blog')} whatsappUrl={whatsappUrl} />} />
+          <Route path="*" element={<NotFoundPage onHome={() => navigate('/')} />} />
         </Routes>
       </Suspense>
     </>

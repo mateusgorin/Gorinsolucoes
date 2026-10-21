@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 export interface ImageRevealProps {
   src: string;
   alt: string;
+  width?: number | string;
+  height?: number | string;
   className?: string;
   containerClassName?: string;
   loading?: 'lazy' | 'eager';
@@ -14,6 +16,8 @@ export interface ImageRevealProps {
 export const ImageReveal: React.FC<ImageRevealProps> = ({
   src,
   alt,
+  width,
+  height,
   className = 'w-full h-full object-cover',
   containerClassName = '',
   loading = 'lazy',
@@ -25,6 +29,8 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
       <motion.img
         src={src}
         alt={alt}
+        width={width}
+        height={height}
         loading={loading}
         decoding={decoding}
         initial={{ scale: 1.22, opacity: 0 }}

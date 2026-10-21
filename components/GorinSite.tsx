@@ -249,11 +249,24 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
   );
   const [openStates, setOpenStates] = useState<boolean[]>([true, false, false, false, false, false]);
 
+  const [isHeroVideoVisible, setIsHeroVideoVisible] = useState(false);
+
   useEffect(() => {
-    const mql = window.matchMedia('(max-width: 767px)');
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
+    const el = videoShowreelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsHeroVideoVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
   
 
@@ -829,7 +842,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 ref={logoImgRef}
                 src="/images/mascot-trimmed.webp"
                 alt="Logotipo Gorin Soluções"
+                width={24}
+                height={24}
                 loading="eager"
+                decoding="async"
                 className="w-[22px] h-[22px] md:w-[24px] md:h-[24px] object-contain transition-transform duration-300 group-hover:scale-110"
               />
               <span className={`font-bold text-xl md:text-[1.38rem] tracking-tighter uppercase transition-colors duration-300 ${isDarkBg ? 'text-white' : 'text-black'}`}>
@@ -915,7 +931,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     <img
                       src="/images/mascot-trimmed.webp"
                       alt="Logotipo Gorin Soluções"
-                      loading="eager"
+                      width={22}
+                      height={22}
+                      loading="lazy"
+                      decoding="async"
                       className="w-[22px] h-[22px] object-contain transition-transform duration-300 group-hover:scale-110"
                     />
                     <span className={`font-bold text-xl tracking-tighter uppercase transition-colors duration-300 ${isDarkBg ? 'text-white' : 'text-black'}`}>
@@ -1058,7 +1077,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       e.currentTarget.pause();
                     }
                   }}
-                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4"
+                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.jpg"
+                  src={isHeroVideoVisible ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4" : undefined}
                   autoPlay
                   loop
                   muted
@@ -1118,6 +1138,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   autoPlay
                   controls
                   playsInline
+                  preload={isShowreelOpen ? "auto" : "none"}
                   className="w-full h-full object-contain"
                 />
                 <button
@@ -1155,6 +1176,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       <ImageReveal 
                         src="/images/mateus-gorin.webp"
                         alt="Mateus Gorin - Fundador e Desenvolvedor Web" 
+                        width={208}
+                        height={208}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-top"
                       />
                     </div>
@@ -1342,6 +1367,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       <img
                         src={p.image}
                         alt={`Imagem em destaque do projeto ${p.title}`}
+                        width={800}
+                        height={550}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover block"
@@ -1377,6 +1404,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       <img
                         src={p.image}
                         alt={`Imagem em destaque do projeto ${p.title}`}
+                        width={800}
+                        height={550}
                         loading="lazy"
                         decoding="async"
                         className="w-full h-full object-cover block"
@@ -1432,6 +1461,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   <img
                     src={selectedProject.image}
                     alt={`Imagem detalhada do projeto ${selectedProject.title}`}
+                    width={1200}
+                    height={675}
+                    loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover"
                   />
@@ -1736,7 +1768,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       <img
                         src={article.image}
                         alt={article.title}
+                        width={900}
+                        height={562}
                         loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md text-white text-[11px] font-mono px-3 py-1 rounded-full uppercase tracking-wider border border-white/10">
