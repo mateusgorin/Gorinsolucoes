@@ -1,9 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { LazyMotion, domAnimation } from 'framer-motion';
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LazyMotion } from 'framer-motion';
+import { loadGsap, runAfterFirstPaint } from './lib/gsap-loader';
 import { GorinSite } from './components/GorinSite';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Seo } from './components/Seo';
@@ -16,8 +14,6 @@ const BlogPage = lazy(() => import('./components/BlogPage').then(m => ({ default
 const NotFoundPage = lazy(() => import('./components/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 import { whatsappLink } from './lib/contact';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const BriefingWrapper: React.FC = () => {
   const navigate = useNavigate();
@@ -51,36 +47,49 @@ const App: React.FC = () => {
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    if (isTouch || prefersReducedMotion) {
+      (window as any).__lenis = null;
+      return;
+    }
+
+    let cancelled = false;
     let cleanupLenis: (() => void) | null = null;
 
-    if (!isTouch && !prefersReducedMotion) {
-      const lenis = new Lenis({
-        duration: 1.0,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        syncTouch: false,
-      });
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const [{ gsap, ScrollTrigger }, { default: Lenis }] = await Promise.all([
+          loadGsap(),
+          import('lenis')
+        ]);
+        if (cancelled) return;
 
-      lenis.on('scroll', ScrollTrigger.update);
+        const lenis = new Lenis({
+          duration: 1.0,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          syncTouch: false,
+        });
 
-      // Desktop: use GSAP ticker with lagSmoothing(0) instead of a separate requestAnimationFrame
-      gsap.ticker.lagSmoothing(0);
-      const updateLenis = (time: number) => {
-        lenis.raf(time * 1000);
-      };
-      gsap.ticker.add(updateLenis);
+        lenis.on('scroll', ScrollTrigger.update);
 
-      // Provide global access for anchor links
-      (window as any).__lenis = lenis;
+        gsap.ticker.lagSmoothing(0);
+        const updateLenis = (time: number) => {
+          lenis.raf(time * 1000);
+        };
+        gsap.ticker.add(updateLenis);
 
-      cleanupLenis = () => {
-        gsap.ticker.remove(updateLenis);
-        lenis.destroy();
-        (window as any).__lenis = null;
-      };
-    } else {
-      (window as any).__lenis = null;
-    }
+        (window as any).__lenis = lenis;
+
+        cleanupLenis = () => {
+          gsap.ticker.remove(updateLenis);
+          lenis.destroy();
+          (window as any).__lenis = null;
+        };
+      } catch (err) {
+        console.error('Failed to load Lenis or GSAP', err);
+      }
+    });
 
     // Anchor scrolling support for both cases (with and without Lenis)
     const handleAnchorClick = (e: MouseEvent) => {
@@ -111,6 +120,8 @@ const App: React.FC = () => {
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
+      cancelled = true;
+      cancelSchedule();
       document.removeEventListener('click', handleAnchorClick);
       if (cleanupLenis) {
         cleanupLenis();
@@ -194,7 +205,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 export const AppWrapper: React.FC = () => (
   <ErrorBoundary>
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={() => import('./lib/motion-features').then(mod => mod.default)} strict>
       <App />
     </LazyMotion>
   </ErrorBoundary>

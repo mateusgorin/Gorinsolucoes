@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { m } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { loadGsap } from '../../lib/gsap-loader';
 
 interface SectionHeadingProps {
   title: string | string[];
@@ -41,29 +38,38 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
     const el = headingRef.current;
     if (!el) return;
 
-    const ctx = gsap.context(() => {
-      const lineSpans = el.querySelectorAll('.section-title-line');
-      if (lineSpans.length > 0) {
-        gsap.fromTo(
-          lineSpans,
-          { yPercent: 100, opacity: 0 },
-          {
-            yPercent: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            stagger: lineSpans.length > 1 ? 0.08 : 0,
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 80%',
-              once: true,
-            },
-          }
-        );
-      }
-    }, el);
+    let cancelled = false;
+    let ctx: any = null;
 
-    return () => ctx.revert();
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
+      ctx = gsap.context(() => {
+        const lineSpans = el.querySelectorAll('.section-title-line');
+        if (lineSpans.length > 0) {
+          gsap.fromTo(
+            lineSpans,
+            { yPercent: 100, opacity: 0 },
+            {
+              yPercent: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              stagger: lineSpans.length > 1 ? 0.08 : 0,
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 80%',
+                once: true,
+              },
+            }
+          );
+        }
+      }, el);
+    }).catch(() => {});
+
+    return () => {
+      cancelled = true;
+      if (ctx) ctx.revert();
+    };
   }, [title]);
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
+import { loadGsap, runAfterFirstPaint } from '../lib/gsap-loader';
 
 export const FluidCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -15,20 +15,29 @@ export const FluidCursor: React.FC = () => {
   const velRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Enable only on desktop pointer fine environments
-    if (!window.matchMedia('(pointer: fine)').matches) return;
+    // Enable only on desktop pointer fine environments without reduced motion
+    if (!window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const el = cursorRef.current;
     const innerEl = innerRef.current;
     if (!el || !innerEl) return;
 
-    // Fast quickSetters for high performance 60/120fps rendering
-    const setX = gsap.quickSetter(el, 'x', 'px');
-    const setY = gsap.quickSetter(el, 'y', 'px');
-    const setRotation = gsap.quickSetter(el, 'rotation', 'deg');
-    const setScaleX = gsap.quickSetter(el, 'scaleX');
-    const setScaleY = gsap.quickSetter(el, 'scaleY');
-    const setInnerRotation = gsap.quickSetter(innerEl, 'rotation', 'deg');
+    let cancelled = false;
+    let cleanup: (() => void) | null = null;
+
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const { gsap } = await loadGsap();
+        if (cancelled) return;
+
+        // Fast quickSetters for high performance 60/120fps rendering
+        const setX = gsap.quickSetter(el, 'x', 'px');
+        const setY = gsap.quickSetter(el, 'y', 'px');
+        const setRotation = gsap.quickSetter(el, 'rotation', 'deg');
+        const setScaleX = gsap.quickSetter(el, 'scaleX');
+        const setScaleY = gsap.quickSetter(el, 'scaleY');
+        const setInnerRotation = gsap.quickSetter(innerEl, 'rotation', 'deg');
 
     let isVisible = false;
 
@@ -140,15 +149,32 @@ export const FluidCursor: React.FC = () => {
       setInnerRotation(-angle);
     };
 
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
+    document.documentElement.addEventListener('mouseenter', handleMouseEnter);
     gsap.ticker.add(updateTicker);
 
-    return () => {
+    cleanup = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
       document.documentElement.removeEventListener('mouseenter', handleMouseEnter);
       gsap.ticker.remove(updateTicker);
+    };
+  } catch (err) {
+    console.error('Failed to initialize fluid cursor', err);
+  }
+});
+
+    return () => {
+      cancelled = true;
+      cancelSchedule();
+      if (cleanup) {
+        cleanup();
+      }
     };
   }, []);
 

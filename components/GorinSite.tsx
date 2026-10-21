@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './gorin-styles.css';
 import { m, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { loadGsap, runAfterFirstPaint } from '../lib/gsap-loader';
 import { ElasticDivider } from './ElasticDivider';
 import { projectsData, CaseStudy } from '../data/projects';
 import { articlesData } from '../data/articles';
@@ -18,8 +17,6 @@ import { StatCounter } from './StatCounter';
 import { ImageReveal } from './ImageReveal';
 import { Instagram, MessageCircle, ArrowUpRight, X, Clock, Calendar, MapPin, ExternalLink, Award, ThumbsUp, Code2, Layers, Play } from 'lucide-react';
 import { WHATSAPP_DISPLAY, INSTAGRAM_URL, INSTAGRAM_HANDLE, whatsappLink } from '../lib/contact';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface GorinSiteProps {
   onOpenBriefing?: () => void;
@@ -288,53 +285,93 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     const loader = loaderRef.current;
     if (!loader) return;
 
-    const ctx = gsap.context(() => {
-      gsap.to(loader, {
-        yPercent: -100,
-        duration: 0.85,
-        ease: 'expo.inOut',
-        delay: 0.1,
-      });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      loader.style.display = 'none';
+      return;
+    }
+
+    let cancelled = false;
+    let ctx: any = null;
+
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const { gsap } = await loadGsap();
+        if (cancelled) return;
+
+        ctx = gsap.context(() => {
+          gsap.to(loader, {
+            yPercent: -100,
+            duration: 0.85,
+            ease: 'expo.inOut',
+            delay: 0.1,
+          });
+        });
+      } catch (err) {
+        console.error('Failed to animate loader', err);
+        if (loader) loader.style.display = 'none';
+      }
     });
 
     return () => {
-      ctx.revert();
+      cancelled = true;
+      cancelSchedule();
+      if (ctx) ctx.revert();
     };
   }, []);
 
   // Exact entrance animation for Navbar matching original B2sJen script:
   // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const logo = logoRef.current;
-      const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
-      const action = headerActionRef.current;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
-      const tl = gsap.timeline({ delay: 0.15 });
+    let cancelled = false;
+    let ctx: any = null;
 
-      if (logo) {
-        tl.fromTo(
-          logo,
-          { scale: 0, opacity: 0, transformOrigin: 'center center' },
-          { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
-          0
-        );
-      }
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const { gsap } = await loadGsap();
+        if (cancelled) return;
 
-      if (nav.length || action) {
-        const elementsToAnimate = [...nav, action].filter(Boolean);
-        gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
-        tl.fromTo(
-          elementsToAnimate,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
-          0.1
-        );
+        ctx = gsap.context(() => {
+          const logo = logoRef.current;
+          const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
+          const action = headerActionRef.current;
+
+          const tl = gsap.timeline({ delay: 0.15 });
+
+          if (logo) {
+            tl.fromTo(
+              logo,
+              { scale: 0, opacity: 0, transformOrigin: 'center center' },
+              { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
+              0
+            );
+          }
+
+          if (nav.length || action) {
+            const elementsToAnimate = [...nav, action].filter(Boolean);
+            gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
+            tl.fromTo(
+              elementsToAnimate,
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
+              0.1
+            );
+          }
+        });
+      } catch (err) {
+        console.error('Failed to animate navbar', err);
       }
     });
 
     return () => {
-      ctx.revert();
+      cancelled = true;
+      cancelSchedule();
+      if (ctx) ctx.revert();
     };
   }, []);
 
@@ -345,6 +382,12 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     const container = videoShowreelRef.current;
     const video = videoMediaRef.current;
     if (!container || !video) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      container.style.clipPath = 'none';
+      container.style.transform = 'none';
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -360,154 +403,189 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
     observer.observe(video);
 
-    const ctx = gsap.context(() => {
-      // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        gsap.set(container, { clipPath: 'none', scale: 1 });
-      } else {
-        gsap.set(container, { willChange: 'clip-path, transform' });
-        gsap.fromTo(
-          container,
-          {
-            clipPath: 'inset(6% 12% round 2rem)',
-            scale: 0.88,
-          },
-          {
-            clipPath: 'inset(0% 0% round 2rem)',
-            scale: 1,
-            ease: 'expo.out',
-            duration: 1.2,
-            delay: 0,
-          }
-        );
-      }
+    let cancelled = false;
+    let ctx: any = null;
 
-      // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
-      gsap.set(video, { scale: 1.12 });
-      ScrollTrigger.create({
-        trigger: container,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        animation: gsap.fromTo(video, { y: '-10%' }, { y: '10%', ease: 'none' }),
-      });
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const { gsap, ScrollTrigger } = await loadGsap();
+        if (cancelled) return;
+
+        ctx = gsap.context(() => {
+          // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
+          gsap.set(container, { willChange: 'clip-path, transform' });
+          gsap.fromTo(
+            container,
+            {
+              clipPath: 'inset(6% 12% round 2rem)',
+              scale: 0.88,
+            },
+            {
+              clipPath: 'inset(0% 0% round 2rem)',
+              scale: 1,
+              ease: 'expo.out',
+              duration: 1.2,
+              delay: 0,
+            }
+          );
+
+          // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
+          gsap.set(video, { scale: 1.12 });
+          ScrollTrigger.create({
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+            animation: gsap.fromTo(video, { y: '-10%' }, { y: '10%', ease: 'none' }),
+          });
+        });
+      } catch (err) {
+        console.error('Failed to animate hero video', err);
+        container.style.clipPath = 'none';
+        container.style.transform = 'none';
+      }
     });
 
     return () => {
+      cancelled = true;
+      cancelSchedule();
       observer.disconnect();
-      ctx.revert();
+      if (ctx) ctx.revert();
     };
   }, []);
 
   // Scroll-driven accordion using ScrollTrigger scrub (Gorin model)
   useEffect(() => {
-    const main = document.querySelector<HTMLElement>('.services-main');
-    const items = document.querySelector<HTMLElement>('.services-items');
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
-    if (!main || !items || !cards.length) return;
-    const mm = gsap.matchMedia();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
-    mm.add("(min-width: 768px)", () => {
-      const offsets: { top: number; bottom: number }[] = [];
-      const tls: gsap.core.Timeline[] = [];
-      const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
+    let cancelled = false;
+    let mm: any = null;
 
-      const computeLayout = () => {
-        // Expand all collapses to measure the "full" height
-        cards.forEach((card) => {
-          const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
-          if (collapse) collapse.style.gridTemplateRows = '1fr';
-        });
+    const cancelSchedule = runAfterFirstPaint(async () => {
+      if (cancelled) return;
+      try {
+        const { gsap, ScrollTrigger } = await loadGsap();
+        if (cancelled) return;
 
-        const r = items.getBoundingClientRect();
-        cards.forEach((card, i) => {
-          const b = card.getBoundingClientRect();
-          offsets[i] = {
-            top: b.top - r.top,
-            bottom: b.bottom - r.top
+        const main = document.querySelector<HTMLElement>('.services-main');
+        const items = document.querySelector<HTMLElement>('.services-items');
+        const cards = Array.from(document.querySelectorAll<HTMLElement>('article.service-card'));
+        if (!main || !items || !cards.length) return;
+
+        mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+          const offsets: { top: number; bottom: number }[] = [];
+          const tls: any[] = [];
+          const luz = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#ffffff';
+
+          const computeLayout = () => {
+            // Expand all collapses to measure the "full" height
+            cards.forEach((card) => {
+              const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+              if (collapse) collapse.style.gridTemplateRows = '1fr';
+            });
+
+            const r = items.getBoundingClientRect();
+            cards.forEach((card, i) => {
+              const b = card.getBoundingClientRect();
+              offsets[i] = {
+                top: b.top - r.top,
+                bottom: b.bottom - r.top
+              };
+            });
+            
+            main.style.height = r.height + 'px';
+          };
+
+          const measure = () => {
+            const progressoSalvo = tls.map(tl => tl.progress());
+            tls.forEach(tl => tl.revert({ kill: false }));
+            computeLayout();
+            tls.forEach((tl, i) => {
+              const prog = progressoSalvo[i] ?? 0;
+              tl.render(tl.duration() * prog, true, true);
+            });
+          };
+
+          ScrollTrigger.addEventListener('refreshInit', measure);
+          computeLayout();
+
+          cards.forEach((card, i) => {
+            // Card 01 is always open
+            if (i === 0) return;
+
+            const title = card.querySelector<HTMLElement>('.service-title');
+            const number = card.querySelector<HTMLElement>('.service-number');
+            const fill = card.querySelector<HTMLElement>('.service-fill');
+            const mesh = card.querySelector<HTMLElement>('.service-mesh');
+            const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+            const content = card.querySelector<HTMLElement>('.service-card-content');
+
+            if (!title || !number || !fill || !mesh || !collapse || !content) return;
+
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: main,
+                start: () => `top+=${offsets[i]?.top ?? 0} center+=20%`,
+                end: () => `top+=${offsets[i]?.bottom ?? 0} center+=30%`,
+                scrub: 1
+              }
+            });
+
+            tl.fromTo(title, { color: '#000000' }, { color: luz, duration: 1 }, 0)
+              .fromTo(number, { color: '#000000', opacity: 0.7 }, { color: luz, opacity: 0.8, duration: 1 }, 0)
+              .fromTo(fill, { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
+              .fromTo(mesh, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'none' }, 0)
+              .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
+              .fromTo(content, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.4);
+
+            tls.push(tl);
+          });
+
+          const handleTransitionEnd = (e: TransitionEvent) => {
+            if (e.target === e.currentTarget && e.propertyName === 'grid-template-rows') {
+              requestAnimationFrame(() => {
+                ScrollTrigger.refresh();
+              });
+            }
+          };
+
+          cards.forEach(card => {
+            const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+            collapse?.addEventListener('transitionend', handleTransitionEnd as any);
+          });
+
+          return () => {
+            ScrollTrigger.removeEventListener('refreshInit', measure);
+            main.style.removeProperty('height');
+            cards.forEach(card => {
+               const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
+               const animEls = card.querySelectorAll('.service-title, .service-number, .service-fill, .service-mesh, .service-card-collapse, .service-card-content');
+               gsap.set(animEls, { clearProps: "all" });
+               if (collapse) {
+                 collapse.style.removeProperty('grid-template-rows');
+                 collapse.removeEventListener('transitionend', handleTransitionEnd as any);
+               }
+            });
           };
         });
-        
-        main.style.height = r.height + 'px';
-      };
 
-      const measure = () => {
-        const progressoSalvo = tls.map(tl => tl.progress());
-        tls.forEach(tl => tl.revert({ kill: false }));
-        computeLayout();
-        tls.forEach((tl, i) => {
-          const prog = progressoSalvo[i] ?? 0;
-          tl.render(tl.duration() * prog, true, true);
-        });
-      };
-
-      ScrollTrigger.addEventListener('refreshInit', measure);
-      computeLayout();
-
-      cards.forEach((card, i) => {
-        // Card 01 is always open
-        if (i === 0) return;
-
-        const title = card.querySelector<HTMLElement>('.service-title');
-        const number = card.querySelector<HTMLElement>('.service-number');
-        const fill = card.querySelector<HTMLElement>('.service-fill');
-        const mesh = card.querySelector<HTMLElement>('.service-mesh');
-        const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
-        const content = card.querySelector<HTMLElement>('.service-card-content');
-
-        if (!title || !number || !fill || !mesh || !collapse || !content) return;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: main,
-            start: () => `top+=${offsets[i]?.top ?? 0} center+=20%`,
-            end: () => `top+=${offsets[i]?.bottom ?? 0} center+=30%`,
-            scrub: 1
-          }
-        });
-
-        tl.fromTo(title, { color: '#000000' }, { color: luz, duration: 1 }, 0)
-          .fromTo(number, { color: '#000000', opacity: 0.7 }, { color: luz, opacity: 0.8, duration: 1 }, 0)
-          .fromTo(fill, { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
-          .fromTo(mesh, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'none' }, 0)
-          .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
-          .fromTo(content, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.4);
-
-        tls.push(tl);
-      });
-
-      const handleTransitionEnd = (e: TransitionEvent) => {
-        if (e.target === e.currentTarget && e.propertyName === 'grid-template-rows') {
-          requestAnimationFrame(() => {
-            ScrollTrigger.refresh();
-          });
-        }
-      };
-
-      cards.forEach(card => {
-        const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
-        collapse?.addEventListener('transitionend', handleTransitionEnd as any);
-      });
-
-      return () => {
-        ScrollTrigger.removeEventListener('refreshInit', measure);
-        main.style.removeProperty('height');
-        cards.forEach(card => {
-           const collapse = card.querySelector<HTMLElement>('.service-card-collapse');
-           const animEls = card.querySelectorAll('.service-title, .service-number, .service-fill, .service-mesh, .service-card-collapse, .service-card-content');
-           gsap.set(animEls, { clearProps: "all" });
-           if (collapse) {
-             collapse.style.removeProperty('grid-template-rows');
-             collapse.removeEventListener('transitionend', handleTransitionEnd as any);
-           }
-        });
-      };
+        document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      } catch (err) {
+        console.error('Failed to initialize services accordion', err);
+      }
     });
 
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
-
     return () => {
-      mm.revert();
+      cancelled = true;
+      cancelSchedule();
+      if (mm) {
+        mm.revert();
+      }
     };
   }, []);
 

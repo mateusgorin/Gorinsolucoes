@@ -16,12 +16,26 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    modulePreload: {
+      resolveDependencies: (_filename, deps) => {
+        return deps.filter(dep => !dep.includes('motion-features') && !dep.includes('vendor-gsap') && !dep.includes('vendor-lenis'));
+      },
+    },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-gsap': ['gsap', 'lenis'],
+        manualChunks: (id) => {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/react-router-dom/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/gsap/')) {
+            return 'vendor-gsap';
+          }
+          if (id.includes('node_modules/lenis/')) {
+            return 'vendor-lenis';
+          }
+          if (id.includes('lib/motion-features')) {
+            return 'motion-features';
+          }
         },
       },
     },

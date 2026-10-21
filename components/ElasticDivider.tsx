@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import gsap from 'gsap';
+import { loadGsap } from '../lib/gsap-loader';
 
 interface ElasticDividerProps {
   className?: string;
@@ -20,6 +20,15 @@ export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }
     const el = containerRef.current;
     const path = pathRef.current;
     if (!el || !path) return;
+
+    let gsapInstance: any = null;
+    let isCancelled = false;
+
+    loadGsap().then(({ gsap }) => {
+      if (!isCancelled) {
+        gsapInstance = gsap;
+      }
+    }).catch(() => {});
 
     const updatePath = () => {
       const width = el.offsetWidth || 1200;
@@ -63,14 +72,19 @@ export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }
       if (!isGrabbedRef.current) return;
       isGrabbedRef.current = false;
 
-      gsap.to(pointRef.current, {
-        y: 100,
-        duration: 1.5,
-        ease: 'elastic.out(1, 0.1)',
-        onUpdate: () => {
-          path.setAttribute('d', getPathD(pointRef.current.x, pointRef.current.y, currentWidth));
-        },
-      });
+      if (gsapInstance) {
+        gsapInstance.to(pointRef.current, {
+          y: 100,
+          duration: 1.5,
+          ease: 'elastic.out(1, 0.1)',
+          onUpdate: () => {
+            path.setAttribute('d', getPathD(pointRef.current.x, pointRef.current.y, currentWidth));
+          },
+        });
+      } else {
+        pointRef.current.y = 100;
+        updatePath();
+      }
     };
 
     const handlePointerLeave = () => {
@@ -91,10 +105,13 @@ export const ElasticDivider: React.FC<ElasticDividerProps> = ({ className = '' }
     el.addEventListener('pointerleave', handlePointerLeave);
 
     return () => {
+      isCancelled = true;
       window.removeEventListener('resize', handleResize);
       el.removeEventListener('pointermove', handlePointerMove);
       el.removeEventListener('pointerleave', handlePointerLeave);
-      gsap.killTweensOf(pointRef.current);
+      if (gsapInstance) {
+        gsapInstance.killTweensOf(pointRef.current);
+      }
     };
   }, []);
 
