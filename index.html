@@ -27,15 +27,34 @@
     <meta name="twitter:image" content="https://www.gorinsolucoes.com.br/og-image.jpg" />
 
     <!-- Performance Preconnects -->
-    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 
-    <!-- Typography: Single Google Fonts request for Inter + Subsets with &text= for Client Logos + Fontshare General Sans -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@700&family=Cinzel:wght@700&family=Cormorant+Garamond:wght@700&family=Oswald:wght@700&family=Plus+Jakarta+Sans:wght@800&family=Righteous&family=Space+Grotesk:wght@700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZacdeilnorstuv%20%26%C3%8D%C3%93%C3%83%C3%B3%C3%A3&display=swap" />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" />
+    <!-- Preload Hero Video Poster (LCP) -->
+    <link rel="preload" as="image" fetchpriority="high" href="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_900/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg" />
+
+    <!-- Typography: Client Logos subset and General Sans (non-render-blocking) -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@700&family=Cinzel:wght@700&family=Cormorant+Garamond:wght@700&family=Oswald:wght@700&family=Plus+Jakarta+Sans:wght@800&family=Righteous&family=Space+Grotesk:wght@700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZacdeilnorstuv%20%26%C3%8D%C3%93%C3%83%C3%B3%C3%A3&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@700&family=Cinzel:wght@700&family=Cormorant+Garamond:wght@700&family=Oswald:wght@700&family=Plus+Jakarta+Sans:wght@800&family=Righteous&family=Space+Grotesk:wght@700&text=ABCDEFGHIJKLMNOPQRSTUVWXYZacdeilnorstuv%20%26%C3%8D%C3%93%C3%83%C3%B3%C3%A3&display=swap" />
+    </noscript>
+
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" />
+    </noscript>
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">

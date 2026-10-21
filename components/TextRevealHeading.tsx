@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export interface TextRevealHeadingProps {
   as?: 'h1' | 'h2' | 'h3' | 'span' | 'div';
@@ -33,7 +33,7 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
     <Tag className={className} style={style}>
       {displayLines.map((lineText, index) => (
         <span key={index} className="reveal-line block overflow-hidden py-[0.08em] pb-[0.22em] -mb-[0.22em]">
-          <motion.span
+          <m.span
             className="reveal-line-inner block"
             initial={{ y: '100%', opacity: 0 }}
             whileInView={{ y: '0%', opacity: 1 }}
@@ -45,7 +45,7 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
             }}
           >
             {lineText}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </Tag>

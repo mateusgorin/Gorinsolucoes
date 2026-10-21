@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -69,7 +69,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   return (
     <div className={`mb-16 md:mb-20 ${align === 'center' ? 'text-center' : 'text-left'} ${className}`}>
       {/* Overline in JetBrains Mono */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -82,7 +82,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       >
         <span className="w-2 h-2 bg-[#00D4FF]" />
         <span>{subtitle}</span>
-      </motion.div>
+      </m.div>
       
       {/* Giant structural headline in Archivo with line-by-line reveal via GSAP */}
       <h2 
@@ -100,7 +100,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         ))}
       </h2>
 
-      <motion.div 
+      <m.div 
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}

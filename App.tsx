@@ -1,5 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { LazyMotion, domAnimation } from 'framer-motion';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -193,7 +194,9 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 export const AppWrapper: React.FC = () => (
   <ErrorBoundary>
-    <App />
+    <LazyMotion features={domAnimation} strict>
+      <App />
+    </LazyMotion>
   </ErrorBoundary>
 );
 

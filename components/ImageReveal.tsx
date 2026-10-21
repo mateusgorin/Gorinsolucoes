@@ -1,11 +1,13 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export interface ImageRevealProps {
   src: string;
   alt: string;
   width?: number | string;
   height?: number | string;
+  srcSet?: string;
+  sizes?: string;
   className?: string;
   containerClassName?: string;
   loading?: 'lazy' | 'eager';
@@ -18,6 +20,8 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
   alt,
   width,
   height,
+  srcSet,
+  sizes,
   className = 'w-full h-full object-cover',
   containerClassName = '',
   loading = 'lazy',
@@ -26,11 +30,13 @@ export const ImageReveal: React.FC<ImageRevealProps> = ({
 }) => {
   return (
     <div className={`relative overflow-hidden w-full h-full ${containerClassName}`}>
-      <motion.img
+      <m.img
         src={src}
         alt={alt}
         width={width}
         height={height}
+        srcSet={srcSet}
+        sizes={sizes}
         loading={loading}
         decoding={decoding}
         initial={{ scale: 1.22, opacity: 0 }}

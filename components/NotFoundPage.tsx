@@ -33,7 +33,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onHome }) => {
           <span className="font-bold tracking-tighter uppercase text-base">GORIN<span className="text-[#00D4FF]">.</span></span>
         </button>
 
-        <span className="text-xs font-mono uppercase tracking-widest text-black/50">
+        <span className="text-xs font-mono uppercase tracking-widest text-black/70">
           Erro 404
         </span>
       </header>

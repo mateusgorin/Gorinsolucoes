@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link, Navigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import { articlesData } from '../data/articles';
 import { MagneticCta } from './MagneticCta';
@@ -54,7 +54,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
           </Link>
 
           <div className="flex items-center gap-3">
-            <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
+            <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/70">
               Blog
             </span>
             <MagneticCta
@@ -69,7 +69,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
 
         {/* ARTICLE INLINE READER VIEW */}
         <main className="max-w-4xl mx-auto px-6 pt-10">
-          <motion.article
+          <m.article
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -156,12 +156,12 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
 
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="text-xs font-mono uppercase text-black/50 hover:text-black transition-colors cursor-pointer"
+                className="text-xs font-mono uppercase text-black/70 hover:text-black transition-colors cursor-pointer"
               >
                 ↑ Topo da página
               </button>
             </div>
-          </motion.article>
+          </m.article>
         </main>
       </div>
     );
@@ -183,7 +183,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
         </button>
 
         <div className="flex items-center gap-3">
-          <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/50">
+          <span className="hidden sm:inline text-xs font-mono uppercase tracking-widest text-black/70">
             Blog
           </span>
           <MagneticCta
@@ -199,7 +199,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
       <main className="gorin-container pt-8 md:pt-12">
         {/* Headline */}
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
-          <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/50">
+          <span className="block mb-3 text-xs md:text-sm font-mono uppercase tracking-widest text-black/70">
             Blog · Gorin Soluções
           </span>
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-4">
@@ -230,7 +230,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
         {/* Articles Grid (2 Columns on Desktop, Gorin Layout) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-16 md:gap-y-20">
           {filteredArticles.map((article) => (
-            <motion.article
+            <m.article
               key={article.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -268,11 +268,11 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, whatsappUrl }) => {
                 </h2>
 
                 {/* Date */}
-                <span className="text-sm font-mono text-black/50">
+                <span className="text-sm font-mono text-black/70">
                   {article.date}
                 </span>
               </Link>
-            </motion.article>
+            </m.article>
           ))}
         </div>
       </main>

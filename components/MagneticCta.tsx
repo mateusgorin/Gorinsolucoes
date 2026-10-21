@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { m, useMotionValue, useSpring } from 'framer-motion';
 
 export interface MagneticCtaProps {
   href?: string;
@@ -52,7 +52,7 @@ export const MagneticCta: React.FC<MagneticCtaProps> = ({
 
   if (href) {
     return (
-      <motion.a
+      <m.a
         ref={ref}
         href={href}
         onClick={onClick}
@@ -70,12 +70,12 @@ export const MagneticCta: React.FC<MagneticCtaProps> = ({
         <span className="title">
           <span data-text={children}>{children}</span>
         </span>
-      </motion.a>
+      </m.a>
     );
   }
 
   return (
-    <motion.button
+    <m.button
       ref={ref}
       type={type}
       disabled={disabled}
@@ -92,6 +92,6 @@ export const MagneticCta: React.FC<MagneticCtaProps> = ({
       <span className="title">
         <span data-text={children}>{children}</span>
       </span>
-    </motion.button>
+    </m.button>
   );
 };

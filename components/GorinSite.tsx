@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './gorin-styles.css';
-import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ElasticDivider } from './ElasticDivider';
@@ -148,7 +148,7 @@ const renderBrandMark = (slug: string, name: string) => {
             <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }} className="font-extrabold text-base md:text-lg tracking-tight leading-none text-black">
               AMORIM
             </span>
-            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/60 mt-0.5">
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/75 mt-0.5">
               ERGONOMIA
             </span>
           </div>
@@ -169,9 +169,9 @@ const renderBrandMark = (slug: string, name: string) => {
       return (
         <div className="flex items-baseline gap-2">
           <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-2xl md:text-3xl font-bold tracking-normal text-black leading-none">
-            P<span className="italic font-normal font-serif text-black/70">&amp;</span>C
+            P<span className="italic font-normal font-serif text-black/75">&amp;</span>C
           </span>
-          <span className="text-[10px] md:text-[11px] font-mono tracking-[0.2em] uppercase text-black/70">
+          <span className="text-[10px] md:text-[11px] font-mono tracking-[0.2em] uppercase text-black/75">
             GASTRONOMIA
           </span>
         </div>
@@ -207,7 +207,7 @@ const renderBrandMark = (slug: string, name: string) => {
             <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="font-extrabold text-base md:text-lg tracking-tight leading-none text-black">
               SGB
             </span>
-            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.18em] text-black/60 mt-0.5">
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.18em] text-black/75 mt-0.5">
               BRIGADA &amp; GESTÃO
             </span>
           </div>
@@ -220,7 +220,7 @@ const renderBrandMark = (slug: string, name: string) => {
             <span style={{ fontFamily: "'Abril Fatface', serif" }} className="text-xl md:text-2xl text-black leading-none">
               Ventura
             </span>
-            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/60 mt-0.5">
+            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.22em] text-black/75 mt-0.5">
               MARMITARIA
             </span>
           </div>
@@ -305,10 +305,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
   // Exact entrance animation for Navbar matching original B2sJen script:
   // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
   useEffect(() => {
-    if (logoImgRef.current) {
-      logoImgRef.current.setAttribute('fetchpriority', 'high');
-    }
-
     const ctx = gsap.context(() => {
       const logo = logoRef.current;
       const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
@@ -366,23 +362,25 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
     const ctx = gsap.context(() => {
       // 1. Entrance animation (clip-path unclip & scale expand with expo.out)
-      gsap.set(container, { willChange: 'clip-path, transform' });
-      gsap.fromTo(
-        container,
-        {
-          clipPath: 'inset(6% 12% round 2rem)',
-          scale: 0.88,
-          opacity: 0,
-        },
-        {
-          clipPath: 'inset(0% 0% round 2rem)',
-          scale: 1,
-          opacity: 1,
-          ease: 'expo.out',
-          duration: 2.5,
-          delay: 0.2,
-        }
-      );
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.set(container, { clipPath: 'none', scale: 1 });
+      } else {
+        gsap.set(container, { willChange: 'clip-path, transform' });
+        gsap.fromTo(
+          container,
+          {
+            clipPath: 'inset(6% 12% round 2rem)',
+            scale: 0.88,
+          },
+          {
+            clipPath: 'inset(0% 0% round 2rem)',
+            scale: 1,
+            ease: 'expo.out',
+            duration: 1.2,
+            delay: 0,
+          }
+        );
+      }
 
       // 2. Parallax scrub (video y -10% -> 10% inside overflow container)
       gsap.set(video, { scale: 1.12 });
@@ -469,7 +467,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         });
 
         tl.fromTo(title, { color: '#000000' }, { color: luz, duration: 1 }, 0)
-          .fromTo(number, { color: '#000000', opacity: 0.2 }, { color: luz, opacity: 0.5, duration: 1 }, 0)
+          .fromTo(number, { color: '#000000', opacity: 0.7 }, { color: luz, opacity: 0.8, duration: 1 }, 0)
           .fromTo(fill, { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
           .fromTo(mesh, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'none' }, 0)
           .fromTo(collapse, { gridTemplateRows: '0fr' }, { gridTemplateRows: '1fr', duration: 1, ease: 'none' }, 0)
@@ -900,7 +898,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           {/* Mobile Menu Expanded Card */}
           <AnimatePresence>
             {isMenuOpen && (
-              <motion.div
+              <m.div
                 role="dialog"
                 aria-modal="true"
                 aria-label="Menu"
@@ -952,7 +950,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 </div>
 
                 {/* Menu Label & Divider */}
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
@@ -966,13 +964,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       backgroundColor: isDarkBg ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.08)'
                     }}
                   />
-                </motion.div>
+                </m.div>
 
                 {/* Navigation Links with Immediate Smooth Entrance */}
                 <nav className="mt-[24px] flex flex-col gap-[10px]">
                   {navItems.map((item, idx) => (
                     <div key={item.label} className="overflow-hidden">
-                      <motion.a
+                      <m.a
                         href={item.href}
                         onClick={(e) => handleNavClick(e, item.href)}
                         initial={{ y: "80%", opacity: 0 }}
@@ -981,13 +979,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                         className={`block text-[2.25rem] leading-[1.1] tracking-[-0.03em] font-medium no-underline transition-colors ${isDarkBg ? 'text-white hover:text-[#00D4FF]' : 'text-black hover:text-[#0E7490]'}`}
                       >
                         {item.label}
-                      </motion.a>
+                      </m.a>
                     </div>
                   ))}
                 </nav>
 
                 {/* Contact Pill CTA Button */}
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
@@ -1006,8 +1004,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   >
                     Iniciar Projeto
                   </button>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>
@@ -1043,14 +1041,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             />
 
             {/* Editorial Lead */}
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="hero-lead"
             >
               Crio sites e sistemas web sob medida para empresas que querem ser encontradas, passar confiança e receber mais contatos pelo WhatsApp.
-            </motion.p>
+            </m.p>
 
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
             <div className="PreviewSection mt-8 md:mt-12">
@@ -1077,7 +1075,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       e.currentTarget.pause();
                     }
                   }}
-                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg"
+                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_900/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg"
                   src={isHeroVideoVisible ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4" : undefined}
                   autoPlay
                   loop
@@ -1089,7 +1087,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </div>
 
             {/* Magnetic Action Buttons */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -1113,14 +1111,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               >
                 Conhecer projetos entregues
               </MagneticCta>
-            </motion.div>
+            </m.div>
           </div>
         </section>
 
         {/* Fullscreen Showreel Modal with Audio */}
         <AnimatePresence>
           {isShowreelOpen && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1149,7 +1147,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   <X size={20} />
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -1162,9 +1160,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           <div className="gorin-container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
               
-              {/* Founder Editorial Portrait Card */}
+               {/* Founder Editorial Portrait Card */}
                <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -1186,9 +1184,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   </div>
 
                   <div className="mt-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-                    <h3 className="text-xl md:text-2xl font-bold tracking-tight text-black uppercase">
+                    <p className="text-xl md:text-2xl font-bold tracking-tight text-black uppercase">
                       MATEUS GORIN
-                    </h3>
+                    </p>
                     <p className="text-xs font-mono uppercase tracking-widest text-black/60 mt-1">
                       Fundador &amp; Desenvolvedor Web
                     </p>
@@ -1215,12 +1213,12 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       </a>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
 
               {/* Editorial Text & Manifesto */}
               <div className="lg:col-span-8 pt-4 lg:pt-0">
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
@@ -1239,7 +1237,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                       "sites que trazem contato."
                     ]}
                   />
-                </motion.div>
+                </m.div>
 
                 <div className="space-y-3.5 text-black/75 text-base md:text-[1.05rem] leading-relaxed">
                   <p>
@@ -1260,7 +1258,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            ========================================================================== */}
         <section className="FeatureSection" id="services">
           <div className="gorin-container">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -1274,7 +1272,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   "Soluções Digitais Especializadas"
                 ]}
               />
-            </motion.div>
+            </m.div>
 
             <div className="services-main" style={{ position: 'relative' }}>
               <div className="services-items flex flex-col">
@@ -1332,7 +1330,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         <section className="WorkSection bg-black text-white py-20 md:py-32 rounded-t-[2.5rem] md:rounded-t-[5rem] relative overflow-hidden" id="projects">
           <div className="gorin-container">
             <div className="mb-14 md:mb-20">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -1345,7 +1343,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     "Trabalhos Recentes"
                   ]}
                 />
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Two-Column Staggered Portfolio Grid */}
@@ -1353,7 +1351,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               {/* Left Column */}
               <div className="flex flex-col gap-12 md:gap-20">
                 {col1Projects.map((p, idx) => (
-                  <motion.div
+                  <m.div
                     key={idx}
                     initial={{ opacity: 0, y: 36 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1376,21 +1374,21 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     </div>
 
                     <div className="mt-4 flex flex-col gap-1">
-                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/50">
+                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/70">
                         {p.category}
                       </span>
                       <h3 className="text-xl md:text-2xl font-semibold text-white tracking-tight group-hover:text-[#00D4FF] transition-colors">
                         {p.title}
                       </h3>
                     </div>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
 
               {/* Right Column (Offset) */}
               <div className="flex flex-col gap-12 md:gap-20 md:mt-36">
                 {col2Projects.map((p, idx) => (
-                  <motion.div
+                  <m.div
                     key={idx}
                     initial={{ opacity: 0, y: 36 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1413,14 +1411,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     </div>
 
                     <div className="mt-4 flex flex-col gap-1">
-                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/50">
+                      <span className="text-[0.75rem] font-mono uppercase tracking-widest text-white/70">
                         {p.category}
                       </span>
                       <h3 className="text-xl md:text-2xl font-semibold text-white tracking-tight group-hover:text-[#00D4FF] transition-colors">
                         {p.title}
                       </h3>
                     </div>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -1442,14 +1440,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         {/* Project Quick View Modal Drawer */}
         <AnimatePresence>
           {selectedProject && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
               className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-8 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              <motion.div
+              <m.div
                 initial={{ scale: 0.95, y: 15 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.95, y: 15 }}
@@ -1537,8 +1535,8 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     </button>
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           )}
         </AnimatePresence>
 
@@ -1547,7 +1545,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
            ========================================================================== */}
         <section className="py-20 md:py-28 bg-white relative z-10 rounded-t-[2.5rem] md:rounded-t-[5rem] -mt-10 md:-mt-16" id="testimonials">
           <div className="gorin-container">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -1562,7 +1560,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   "Quem Já Contratou"
                 ]}
               />
-            </motion.div>
+            </m.div>
 
             <div className="TestimonialsDeck">
               {testimonials.map((item, idx) => (
@@ -1579,7 +1577,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   </span>
 
                   <div className="relative z-10">
-                    <span className="text-xs font-mono text-black/50 uppercase tracking-widest block mb-3">
+                    <span className="text-xs font-mono text-black/70 uppercase tracking-widest block mb-3">
                       {item.highlight}
                     </span>
                     <p className="text-black/85 text-sm md:text-base leading-relaxed mb-6 font-medium">
@@ -1588,10 +1586,10 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   </div>
 
                   <div className="relative z-10 border-t border-black/10 pt-4 mt-auto">
-                    <h4 className="font-bold text-base text-black uppercase tracking-tight">
+                    <h3 className="font-bold text-base text-black uppercase tracking-tight">
                       {item.name}
-                    </h4>
-                    <p className="text-xs font-mono text-black/60 uppercase mt-0.5">
+                    </h3>
+                    <p className="text-xs font-mono text-black/70 uppercase mt-0.5">
                       {item.role}
                     </p>
                   </div>
@@ -1730,7 +1728,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           <div className="gorin-container">
             {/* Blog Insights Subsection */}
             <div className="mb-24 md:mb-36">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -1752,18 +1750,18 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 >
                   Ler o blog
                 </MagneticCta>
-              </motion.div>
+              </m.div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12">
                 {articlesData.slice(0, 3).map((article) => (
-                  <motion.article
+                  <m.article
                     key={article.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.1 }}
                     transition={{ duration: 0.5 }}
                     onClick={onOpenBlog}
-                    className="group cursor-pointer flex flex-col bg-[#111111] rounded-3xl overflow-hidden border border-white/10 hover:border-[#00D4FF]/40 hover:shadow-2xl transition-all duration-500"
+                    className="group cursor-pointer flex flex-col bg-[#111113] rounded-3xl overflow-hidden border border-white/10 hover:border-[#00D4FF]/40 hover:shadow-2xl transition-all duration-500"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-white/5">
                       <img
@@ -1782,7 +1780,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
                     <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
                       <div>
-                        <div className="flex items-center gap-3 text-xs font-mono text-white/50 mb-3">
+                        <div className="flex items-center gap-3 text-xs font-mono text-white/70 mb-3">
                           <span className="flex items-center gap-1">
                             <Calendar size={12} />
                             {article.date}
@@ -1803,14 +1801,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                         </p>
                       </div>
                     </div>
-                  </motion.article>
+                  </m.article>
                 ))}
               </div>
             </div>
 
             {/* FAQ Subsection */}
             <div id="faq">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -1824,7 +1822,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     "Dúvidas Comuns"
                   ]}
                 />
-              </motion.div>
+              </m.div>
 
               <div className="max-w-4xl mx-auto">
                 {faqs.map((faq, idx) => (
@@ -1863,7 +1861,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
           <CtaPrismArtwork />
 
           <div className="gorin-container relative z-10">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -1882,7 +1880,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                   "Notável Juntos?"
                 ]}
               />
-            </motion.div>
+            </m.div>
 
             <div className="max-w-3xl mx-auto text-center">
               <div className="space-y-8">
@@ -2030,7 +2028,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </div>
 
             {/* Bottom Row */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/50">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/70">
               <div className="flex items-center gap-6">
                 <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">
                   Política de Privacidade

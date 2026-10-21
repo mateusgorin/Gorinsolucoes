@@ -25,11 +25,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "ECOTURISMO // GUIA & TRILHAS",
     desc: "Portal interativo com o guia completo de cachoeiras, trilhas e ecoturismo no Distrito Federal e entorno.",
-    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
     gallery: [
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg",
       "/images/showcase-feature-2.webp",
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_1200/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg"
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792155765/Screenshot_2026-10-16-10-02-28-014_com.android.chrome-edit_jsfaoa.jpg"
     ],
     link: "https://cachoeirasdf.vercel.app/",
     isFeatured: true,

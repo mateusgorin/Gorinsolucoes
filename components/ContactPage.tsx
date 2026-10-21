@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, MessageCircle } from 'lucide-react';
 import { EMAIL, whatsappLink } from '../lib/contact';
 import { MagneticCta } from './MagneticCta';
@@ -139,7 +139,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
       {/* Main Content Area */}
       <main className="max-w-4xl mx-auto px-6 pt-36 pb-28">
         {isSubmitted ? (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             className="py-16 text-center max-w-xl mx-auto"
@@ -173,7 +173,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack: onBackProp }) 
                 Voltar à Página Inicial
               </MagneticCta>
             </div>
-          </motion.div>
+          </m.div>
         ) : (
           <div>
             {/* Monumental Headline */}

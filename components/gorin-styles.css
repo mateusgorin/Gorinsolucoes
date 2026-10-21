@@ -520,6 +520,15 @@ button:hover .roll-text span:after {
   position: relative;
   cursor: default;
   box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.22);
+  clip-path: inset(6% 12% round 2rem);
+  transform: scale(0.88);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-main {
+    clip-path: none;
+    transform: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -1442,7 +1451,7 @@ button:hover .roll-text span:after {
   font-weight: 400;
   line-height: 110%;
   color: #000000;
-  opacity: 0.2;
+  opacity: 0.7;
   user-select: none;
   flex-shrink: 0;
 }
@@ -1455,7 +1464,7 @@ button:hover .roll-text span:after {
 }
 .service-card[data-open="true"] .service-number {
   color: #ffffff;
-  opacity: 0.5;
+  opacity: 0.75;
 }
 
 /* Acordeão */
@@ -1614,7 +1623,7 @@ button:hover .roll-text span:after {
   .service-card .service-card-collapse { grid-template-rows: 1fr !important; }
   .service-card .service-fill { opacity: 1 !important; }
   .service-card .service-title { color: #ffffff !important; }
-  .service-card .service-number { color: #ffffff !important; opacity: 0.5 !important; }
+  .service-card .service-number { color: #ffffff !important; opacity: 0.75 !important; }
   .service-card .service-card-content { opacity: 1 !important; }
   .service-card .service-mesh { opacity: 1 !important; }
 }
