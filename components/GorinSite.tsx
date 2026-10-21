@@ -1447,17 +1447,26 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+              className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-8 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
               <motion.div
-                initial={{ scale: 0.95, y: 20 }}
+                initial={{ scale: 0.95, y: 15 }}
                 animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.95, y: 20 }}
+                exit={{ scale: 0.95, y: 15 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative bg-[#111113] border border-white/15 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl text-white max-h-[90vh] overflow-y-auto"
+                className="relative bg-[#111113] border border-white/15 rounded-2xl md:rounded-3xl max-w-sm sm:max-w-2xl md:max-w-4xl w-full overflow-hidden shadow-2xl text-white md:flex md:flex-row items-stretch my-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
-                {/* Image Header */}
-                <div className="relative aspect-video w-full overflow-hidden bg-black">
+                {/* Close Button */}
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-3 right-3 z-20 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer border border-white/15"
+                  aria-label="Fechar"
+                >
+                  <X size={16} />
+                </button>
+
+                {/* Left Side: Image Showcase */}
+                <div className="relative w-full md:w-[46%] lg:w-[48%] h-40 sm:h-48 md:h-auto min-h-[160px] md:min-h-[340px] shrink-0 overflow-hidden bg-black flex items-center justify-center">
                   <img
                     src={selectedProject.image}
                     alt={`Imagem detalhada do projeto ${selectedProject.title}`}
@@ -1467,70 +1476,62 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     decoding="async"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111113] via-transparent to-transparent"></div>
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-colors cursor-pointer"
-                    aria-label="Fechar"
-                  >
-                    <X size={18} />
-                  </button>
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/60 via-transparent to-transparent pointer-events-none" />
                 </div>
 
-                {/* Content */}
-                <div className="p-6 md:p-10 space-y-6">
-                  <div>
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#00D4FF] uppercase tracking-wider mb-2">
+                {/* Right Side: Content */}
+                <div className="p-4 sm:p-5 md:p-7 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
+                  <div className="space-y-1.5 md:space-y-2 pr-8 md:pr-6">
+                    <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono text-[#00D4FF] uppercase tracking-wider">
                       <span>{selectedProject.category}</span>
                       <span>·</span>
                       <span>Projeto Entregue</span>
                     </div>
-                    <h3 className="text-3xl md:text-4xl font-bold tracking-tight">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
                       {selectedProject.title}
                     </h3>
+                    <p className="text-white/80 text-xs sm:text-sm md:text-base leading-relaxed">
+                      {selectedProject.desc}
+                    </p>
                   </div>
 
-                  <p className="text-white/80 text-base md:text-lg leading-relaxed">
-                    {selectedProject.desc}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-4 border-t border-b border-white/10 py-6 text-sm">
+                  <div className="grid grid-cols-2 gap-3 border-t border-b border-white/10 py-2.5 sm:py-3 text-xs sm:text-sm">
                     <div>
-                      <span className="text-xs font-mono text-white/40 block mb-1">TECNOLOGIA</span>
+                      <span className="text-[10px] sm:text-xs font-mono text-white/40 block mb-0.5">TECNOLOGIA</span>
                       <span className="text-white font-medium">{selectedProject.stack?.join(" · ") || "React + TypeScript"}</span>
                     </div>
                     <div>
-                      <span className="text-xs font-mono text-white/40 block mb-1">FOCO DO PROJETO</span>
+                      <span className="text-[10px] sm:text-xs font-mono text-white/40 block mb-0.5">FOCO DO PROJETO</span>
                       <span className="text-white font-medium">{selectedProject.metrics || "Conversão & Performance"}</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <div className="flex flex-wrap items-center gap-3 pt-1">
                     {selectedProject.link && selectedProject.link !== '#' && selectedProject.link !== 'internal' ? (
                       <a
                         href={selectedProject.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="CtaButton -fill -inverse !py-3.5 !px-7 !text-sm flex items-center gap-2"
+                        className="CtaButton -fill -inverse !py-2.5 sm:!py-3 !px-5 sm:!px-6 !text-xs sm:!text-sm flex items-center gap-2"
                       >
                         <span>Acessar Website Oficial</span>
-                        <ExternalLink size={16} />
+                        <ExternalLink size={15} />
                       </a>
                     ) : (
                       <a
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="CtaButton -fill -inverse !py-3.5 !px-7 !text-sm flex items-center gap-2"
+                        className="CtaButton -fill -inverse !py-2.5 sm:!py-3 !px-5 sm:!px-6 !text-xs sm:!text-sm flex items-center gap-2"
                       >
                         <span>Solicitar Demonstração</span>
-                        <ArrowUpRight size={16} />
+                        <ArrowUpRight size={15} />
                       </a>
                     )}
 
                     <button
                       onClick={() => setSelectedProject(null)}
-                      className="text-xs font-mono text-white/60 hover:text-white transition-colors"
+                      className="text-xs font-mono text-white/60 hover:text-white transition-colors cursor-pointer py-1"
                     >
                       Fechar visualização
                     </button>
