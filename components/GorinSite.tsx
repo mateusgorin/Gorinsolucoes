@@ -1495,11 +1495,11 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
 
                   <div className="grid grid-cols-2 gap-3 border-t border-b border-white/10 py-2.5 sm:py-3 text-xs sm:text-sm">
                     <div>
-                      <span className="text-[10px] sm:text-xs font-mono text-white/40 block mb-0.5">TECNOLOGIA</span>
+                      <span className="text-[10px] sm:text-xs font-mono text-white/70 block mb-0.5">TECNOLOGIA</span>
                       <span className="text-white font-medium">{selectedProject.stack?.join(" · ") || "React + TypeScript"}</span>
                     </div>
                     <div>
-                      <span className="text-[10px] sm:text-xs font-mono text-white/40 block mb-0.5">FOCO DO PROJETO</span>
+                      <span className="text-[10px] sm:text-xs font-mono text-white/70 block mb-0.5">FOCO DO PROJETO</span>
                       <span className="text-white font-medium">{selectedProject.metrics || "Conversão & Performance"}</span>
                     </div>
                   </div>
