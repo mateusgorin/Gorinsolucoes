@@ -32,8 +32,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 
-    <!-- Preload Hero Video Poster (LCP) -->
-    <link rel="preload" as="image" fetchpriority="high" href="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_900/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg" />
+    <!-- Preload Hero Video Poster (Responsive LCP) -->
+    <link rel="preload" as="image" fetchpriority="high" media="(max-width: 767px)" href="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto:eco,w_640/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg" />
+    <link rel="preload" as="image" fetchpriority="high" media="(min-width: 768px)" href="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg" />
 
     <!-- Typography: Client Logos subset and General Sans (non-render-blocking) -->
     <link

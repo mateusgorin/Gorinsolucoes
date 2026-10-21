@@ -466,6 +466,102 @@ button:hover .roll-text span:after {
 }
 
 /* ==========================================================================
+   CRITICAL PATH ENTRANCE ANIMATIONS (CSS Keyframes for zero-JS First Paint)
+   ========================================================================== */
+@keyframes eagerReveal {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.eager-reveal-line {
+  animation: eagerReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes heroLeadFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-lead-animate {
+  animation: heroLeadFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+  will-change: transform, opacity;
+}
+
+@keyframes heroCtaFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-cta-animate {
+  animation: heroCtaFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+  will-change: transform, opacity;
+}
+
+@keyframes navLogoEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.nav-logo-animate {
+  animation: navLogoEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+@keyframes navItemEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-item-animate {
+  animation: navItemEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(0.15s + var(--item-idx, 0) * 0.08s) both;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eager-reveal-line,
+  .hero-lead-animate,
+  .hero-cta-animate,
+  .nav-logo-animate,
+  .nav-item-animate {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
    TOPHEAD / HERO SECTION & SHOWREEL PREVIEW
    ========================================================================== */
 .TopheadSection {

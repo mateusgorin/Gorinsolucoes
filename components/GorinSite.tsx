@@ -249,6 +249,46 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
   const [isHeroVideoVisible, setIsHeroVideoVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 767px)');
+    const update = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
+
+  const [canLoadHeroVideo, setCanLoadHeroVideo] = useState(false);
+  const [isWindowLoaded, setIsWindowLoaded] = useState(() => 
+    typeof document !== 'undefined' ? document.readyState === 'complete' : false
+  );
+
+  useEffect(() => {
+    if (isWindowLoaded) return;
+    const handleLoad = () => setIsWindowLoaded(true);
+    window.addEventListener('load', handleLoad, { once: true });
+    return () => window.removeEventListener('load', handleLoad);
+  }, [isWindowLoaded]);
+
+  useEffect(() => {
+    if (!isWindowLoaded || !isHeroVideoVisible || canLoadHeroVideo) return;
+    const cancelSchedule = runAfterFirstPaint(() => {
+      setCanLoadHeroVideo(true);
+    });
+    return () => {
+      cancelSchedule();
+    };
+  }, [isWindowLoaded, isHeroVideoVisible, canLoadHeroVideo]);
+
+  const heroPosterUrl = isMobile
+    ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto:eco,w_640/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg"
+    : "https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg";
+
+  const heroVideoSrc = canLoadHeroVideo
+    ? isMobile
+      ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto,w_720/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4"
+      : "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4"
+    : undefined;
+
+  useEffect(() => {
     const el = videoShowreelRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
@@ -265,18 +305,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-  
-
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const videoShowreelRef = useRef<HTMLDivElement>(null);
   const videoMediaRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLAnchorElement>(null);
   const logoImgRef = useRef<HTMLImageElement>(null);
-  const navLinksRef = useRef<HTMLElement>(null);
-  const headerActionRef = useRef<HTMLDivElement>(null);
 
   const whatsappUrl = whatsappLink("Olá, Mateus! Gostaria de conversar sobre um projeto digital com a Gorin Soluções.");
 
@@ -310,61 +345,6 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
       } catch (err) {
         console.error('Failed to animate loader', err);
         if (loader) loader.style.display = 'none';
-      }
-    });
-
-    return () => {
-      cancelled = true;
-      cancelSchedule();
-      if (ctx) ctx.revert();
-    };
-  }, []);
-
-  // Exact entrance animation for Navbar matching original B2sJen script:
-  // logo scale: 0 -> 1, nav/action y: 20 -> 0, opacity: 0 -> 1, duration: 0.8, stagger: 0.1
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    let cancelled = false;
-    let ctx: any = null;
-
-    const cancelSchedule = runAfterFirstPaint(async () => {
-      if (cancelled) return;
-      try {
-        const { gsap } = await loadGsap();
-        if (cancelled) return;
-
-        ctx = gsap.context(() => {
-          const logo = logoRef.current;
-          const nav = navLinksRef.current ? Array.from(navLinksRef.current.children) : [];
-          const action = headerActionRef.current;
-
-          const tl = gsap.timeline({ delay: 0.15 });
-
-          if (logo) {
-            tl.fromTo(
-              logo,
-              { scale: 0, opacity: 0, transformOrigin: 'center center' },
-              { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' },
-              0
-            );
-          }
-
-          if (nav.length || action) {
-            const elementsToAnimate = [...nav, action].filter(Boolean);
-            gsap.set(elementsToAnimate, { willChange: 'transform, opacity' });
-            tl.fromTo(
-              elementsToAnimate,
-              { y: 20, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out', clearProps: 'all' },
-              0.1
-            );
-          }
-        });
-      } catch (err) {
-        console.error('Failed to animate navbar', err);
       }
     });
 
@@ -913,7 +893,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
         <div className="gorin-container">
           <div className={`nav-pill ${isDarkBg ? '-dark' : ''}`}>
             {/* Logo */}
-            <a ref={logoRef} href="#" className={`flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
+            <a href="#" className={`nav-logo-animate flex items-center gap-2.5 no-underline transition-colors duration-300 group ${isDarkBg ? 'text-white' : 'text-black'}`}>
               <img
                 ref={logoImgRef}
                 src="/images/mascot-trimmed.webp"
@@ -930,13 +910,14 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </a>
 
             {/* Desktop Navigation */}
-            <nav ref={navLinksRef} className="hidden md:flex items-center gap-6 lg:gap-8">
-              {navItems.map((item) => (
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+              {navItems.map((item, idx) => (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`roll-text text-sm font-medium transition-colors duration-300 no-underline py-1 ${isDarkBg ? 'text-white/80 hover:text-white' : 'text-black/75 hover:text-black'}`}
+                  style={{ '--item-idx': idx } as React.CSSProperties}
+                  className={`nav-item-animate roll-text text-sm font-medium transition-colors duration-300 no-underline py-1 ${isDarkBg ? 'text-white/80 hover:text-white' : 'text-black/75 hover:text-black'}`}
                 >
                   <span data-text={item.label}>{item.label}</span>
                 </a>
@@ -944,8 +925,11 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </nav>
 
             {/* Header Actions */}
-            <div ref={headerActionRef} className="flex items-center gap-3">
-              <div className="hidden md:block">
+            <div className="flex items-center gap-3">
+              <div
+                className="hidden md:block nav-item-animate"
+                style={{ '--item-idx': navItems.length } as React.CSSProperties}
+              >
                 <MagneticCta
                   onClick={(e) => {
                     e.preventDefault();
@@ -1111,6 +1095,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             {/* Monumental Editorial Headline with Text Reveal */}
             <TextRevealHeading
               as="h1"
+              eager
               className="hero-headline"
               lines={[
                 "Desenvolvo sites e",
@@ -1119,14 +1104,9 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             />
 
             {/* Editorial Lead */}
-            <m.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="hero-lead"
-            >
+            <p className="hero-lead hero-lead-animate">
               Crio sites e sistemas web sob medida para empresas que querem ser encontradas, passar confiança e receber mais contatos pelo WhatsApp.
-            </m.p>
+            </p>
 
             {/* Hero Featured Video (Showcase with parallax and smooth clip reveal) */}
             <div className="PreviewSection mt-8 md:mt-12">
@@ -1151,10 +1131,12 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                     e.currentTarget.playbackRate = 10 / 12.5;
                     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                       e.currentTarget.pause();
+                    } else {
+                      e.currentTarget.play().catch(() => {});
                     }
                   }}
-                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_900/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg"
-                  src={isHeroVideoVisible ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4" : undefined}
+                  poster={heroPosterUrl}
+                  src={heroVideoSrc}
                   autoPlay
                   loop
                   muted
@@ -1165,12 +1147,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
             </div>
 
             {/* Magnetic Action Buttons */}
-            <m.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-center gap-3.5 md:gap-4 w-full px-4 md:px-0"
-            >
+            <div className="hero-cta-animate mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-center gap-3.5 md:gap-4 w-full px-4 md:px-0">
               <MagneticCta
                 onClick={(e) => {
                   e.preventDefault();
@@ -1189,7 +1166,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               >
                 Conhecer projetos entregues
               </MagneticCta>
-            </m.div>
+            </div>
           </div>
         </section>
 

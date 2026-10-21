@@ -7,6 +7,7 @@ export interface TextRevealHeadingProps {
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  eager?: boolean;
 }
 
 export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
@@ -15,6 +16,7 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
   children,
   className = '',
   style,
+  eager = false,
 }) => {
   const displayLines = useMemo(() => {
     if (lines && lines.length > 0) return lines;
@@ -33,19 +35,30 @@ export const TextRevealHeading: React.FC<TextRevealHeadingProps> = ({
     <Tag className={className} style={style}>
       {displayLines.map((lineText, index) => (
         <span key={index} className="reveal-line block overflow-hidden py-[0.08em] pb-[0.22em] -mb-[0.22em]">
-          <m.span
-            className="reveal-line-inner block"
-            initial={{ y: '100%', opacity: 0 }}
-            whileInView={{ y: '0%', opacity: 1 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{
-              duration: 0.8,
-              delay: index * 0.08,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {lineText}
-          </m.span>
+          {eager ? (
+            <span
+              className="reveal-line-inner block eager-reveal-line"
+              style={{
+                animationDelay: `${index * 0.08}s`,
+              }}
+            >
+              {lineText}
+            </span>
+          ) : (
+            <m.span
+              className="reveal-line-inner block"
+              initial={{ y: '100%', opacity: 0 }}
+              whileInView={{ y: '0%', opacity: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.08,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {lineText}
+            </m.span>
+          )}
         </span>
       ))}
     </Tag>
