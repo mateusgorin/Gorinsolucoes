@@ -514,12 +514,18 @@ button:hover .roll-text span:after {
 
 .preview-main {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   border-radius: 1.5rem;
   overflow: hidden;
   position: relative;
   cursor: default;
   box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.22);
+}
+
+@media (min-width: 768px) {
+  .preview-main {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 @media (min-width: 1024px) {

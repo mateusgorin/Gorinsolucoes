@@ -1072,13 +1072,13 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
                 <video
                   ref={videoMediaRef}
                   onLoadedMetadata={(e) => {
-                    e.currentTarget.playbackRate = 0.52;
+                    e.currentTarget.playbackRate = 10 / 12.5;
                     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                       e.currentTarget.pause();
                     }
                   }}
-                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.jpg"
-                  src={isHeroVideoVisible ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4" : undefined}
+                  poster="https://res.cloudinary.com/dw5b0vlbz/video/upload/so_0,f_auto,q_auto,w_1200/v1/Brand_video_with_text_display_20261020235431_vkfady.jpg"
+                  src={isHeroVideoVisible ? "https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4" : undefined}
                   autoPlay
                   loop
                   muted
@@ -1134,7 +1134,7 @@ export const GorinSite: React.FC<GorinSiteProps> = ({ onOpenBriefing: onOpenBrie
               >
                 <video
                   ref={modalVideoRef}
-                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/GORIN_SOLU%C3%87%C3%95ES_digital_ad_video_20261001005806_lpre24.mp4"
+                  src="https://res.cloudinary.com/dw5b0vlbz/video/upload/f_auto,q_auto/v1/Brand_video_with_text_display_20261020235431_vkfady.mp4"
                   autoPlay
                   controls
                   playsInline
