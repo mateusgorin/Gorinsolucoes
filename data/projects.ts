@@ -77,11 +77,11 @@ export const projectsData: CaseStudy[] = [
     category: "Site Institucional",
     tag: "SAÚDE & BEM-ESTAR // CONVERSÃO",
     desc: "Site de uma clínica de massagem e bem-estar. Explica cada tratamento com calma e leva ao agendamento pelo WhatsApp.",
-    image: "/images/maosdeleide.webp",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
     gallery: [
-      "/images/maosdeleide.webp",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
       "/images/showcase-feature-2.webp",
-      "/images/maosdeleide.webp"
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp"
     ],
     link: "https://www.maosdeleide.com.br",
     isFeatured: true,
