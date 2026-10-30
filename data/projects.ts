@@ -19,6 +19,58 @@ export interface CaseStudy {
 
 export const projectsData: CaseStudy[] = [
   {
+    slug: "ingrid-oliveira",
+    title: "INGRID OLIVEIRA",
+    client: "Ingrid Oliveira Criminologia",
+    category: "Site Institucional",
+    tag: "CRIMINOLOGIA // CONSULTORIA & PERÍCIA",
+    desc: "Site institucional para a perita e criminóloga Ingrid Oliveira. Elegante, direto e focado em autoridade e agendamento de pareceres.",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1793383681/Captura_de_tela_2026-10-30_150554_yngo0h.webp",
+    gallery: [
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1793383681/Captura_de_tela_2026-10-30_150554_yngo0h.webp",
+      "/images/showcase-feature-2.webp",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1793383681/Captura_de_tela_2026-10-30_150554_yngo0h.webp"
+    ],
+    link: "https://ingrideoliveiracriminologa.vercel.app/",
+    isFeatured: true,
+    metrics: "Presença Digital · Agendamento Direto",
+    problem: "A profissional necessitava de uma presença digital sofisticada e clara para apresentar seus serviços periciais e criminológicos com autoridade.",
+    solution: "Desenvolvimento de site institucional moderno e responsivo em React e TypeScript, com organização semântica das áreas de atuação e agendamento via WhatsApp.",
+    results: [
+      "Apresentação de alta autoridade para serviços de perícia e criminologia",
+      "Navegação leve e totalmente adaptada a dispositivos móveis",
+      "Contato direto e simplificado para solicitação de pareceres"
+    ],
+    stack: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    year: "2025"
+  },
+  {
+    slug: "maos-de-leide",
+    title: "MÃOS DE LEIDE",
+    client: "Clínica Mãos de Leide",
+    category: "Site Institucional",
+    tag: "SAÚDE & BEM-ESTAR // CONVERSÃO",
+    desc: "Site de uma clínica de massagem e bem-estar. Explica cada tratamento com calma e leva ao agendamento pelo WhatsApp.",
+    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
+    gallery: [
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
+      "/images/showcase-feature-2.webp",
+      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp"
+    ],
+    link: "https://www.maosdeleide.com.br",
+    isFeatured: true,
+    metrics: "Agendamentos Ágeis · Design Acolhedor",
+    problem: "Apresentação dos tratamentos de forma estática e dispersa em redes sociais, sem um canal que explicasse as terapias com autoridade e conduzisse ao agendamento.",
+    solution: "Criação de um site refinado com paleta cromática equilibrada, detalhamento de cada especialidade terapêutica e botão de agendamento prioritário.",
+    results: [
+      "Pacientes chegam ao WhatsApp já sabendo como funciona o tratamento e valores",
+      "Aumento constante na ocupação da agenda semanal",
+      "Autoridade visual condizente com a excelência do atendimento"
+    ],
+    stack: ["React", "TypeScript", "Tailwind CSS", "WhatsApp Integration"],
+    year: "2025"
+  },
+  {
     slug: "cachoeiras-df",
     title: "CACHOEIRAS DF",
     client: "Cachoeiras DF Oficial",
@@ -68,32 +120,6 @@ export const projectsData: CaseStudy[] = [
       "Posicionamento consolidado no mercado de eventos infantis no DF"
     ],
     stack: ["React", "TypeScript", "Tailwind CSS", "GSAP", "WhatsApp API"],
-    year: "2025"
-  },
-  {
-    slug: "maos-de-leide",
-    title: "MÃOS DE LEIDE",
-    client: "Clínica Mãos de Leide",
-    category: "Site Institucional",
-    tag: "SAÚDE & BEM-ESTAR // CONVERSÃO",
-    desc: "Site de uma clínica de massagem e bem-estar. Explica cada tratamento com calma e leva ao agendamento pelo WhatsApp.",
-    image: "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
-    gallery: [
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp",
-      "/images/showcase-feature-2.webp",
-      "https://res.cloudinary.com/dw5b0vlbz/image/upload/f_auto,q_auto,w_800/v1792848899/Captura_de_tela_2026-10-24_103403_ypwyh7.webp"
-    ],
-    link: "https://www.maosdeleide.com.br",
-    isFeatured: true,
-    metrics: "Agendamentos Ágeis · Design Acolhedor",
-    problem: "Apresentação dos tratamentos de forma estática e dispersa em redes sociais, sem um canal que explicasse as terapias com autoridade e conduzisse ao agendamento.",
-    solution: "Criação de um site refinado com paleta cromática equilibrada, detalhamento de cada especialidade terapêutica e botão de agendamento prioritário.",
-    results: [
-      "Pacientes chegam ao WhatsApp já sabendo como funciona o tratamento e valores",
-      "Aumento constante na ocupação da agenda semanal",
-      "Autoridade visual condizente com a excelência do atendimento"
-    ],
-    stack: ["React", "TypeScript", "Tailwind CSS", "WhatsApp Integration"],
     year: "2025"
   },
   {
